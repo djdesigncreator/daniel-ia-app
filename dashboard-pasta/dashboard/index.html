@@ -398,11 +398,21 @@
   .imagem-remove:hover{background:var(--error);}
 
   /* ---- Modal "Domínio" ---- */
-  #dominio-f-dominio{
+  #dominio-f-dominio, #dominio-f-cf-token{
     width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:10px;
     padding:12px;font-size:14px;font-family:inherit;background:var(--card-alt);color:var(--text);
   }
   .dominio-erro-msg{color:var(--error);font-size:12px;margin-top:10px;}
+  .dominio-cf-separador{
+    display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--text-dim);font-size:12px;
+    text-transform:uppercase;letter-spacing:.04em;
+  }
+  .dominio-cf-separador::before, .dominio-cf-separador::after{
+    content:'';flex:1;height:1px;background:var(--border);
+  }
+  .dominio-cf-bloco #dominio-f-cf-token{margin-bottom:10px;}
+  .dominio-cf-ajuda{font-size:11.5px;color:var(--text-dim);line-height:1.5;margin:0 0 12px 0;}
+  .dominio-cf-ajuda a{color:var(--accent-2);}
   .dominio-aviso-msg{color:var(--warning);font-size:12px;margin-top:10px;line-height:1.5;}
   .dominio-cname-box{
     margin-top:14px;background:var(--card-alt);border:1px solid var(--border);border-radius:10px;
@@ -554,6 +564,15 @@
       <div class="editar-acoes">
         <button class="btn-novo" id="btn-dominio-configurar" style="flex:1;justify-content:center;">Configurar</button>
         <button class="btn-sair" id="btn-dominio-cancelar-form">Cancelar</button>
+      </div>
+
+      <div class="dominio-cf-separador"><span>ou</span></div>
+
+      <div class="dominio-cf-bloco">
+        <p class="sub" style="margin-bottom:10px;">Já geres este domínio na Cloudflare? Liga-o automaticamente, sem teres de criar nada à mão.</p>
+        <input type="text" id="dominio-f-cf-token" placeholder="Token de API da Cloudflare">
+        <p class="dominio-cf-ajuda">Cria um token em <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener">dash.cloudflare.com/profile/api-tokens</a>, modelo "Edit zone DNS", limitado só a esta zona. Não guardamos este token.</p>
+        <button class="btn-novo" id="btn-dominio-cf-auto" style="width:100%;justify-content:center;">Ligar automaticamente via Cloudflare</button>
       </div>
     </div>
 
@@ -1144,6 +1163,8 @@ var elDominioPendenteAviso = document.getElementById('dominio-pendente-aviso');
 var elDominioActivoLink = document.getElementById('dominio-activo-link');
 var btnDominioConfigurar = document.getElementById('btn-dominio-configurar');
 var btnDominioVerificar = document.getElementById('btn-dominio-verificar');
+var elDominioCfToken = document.getElementById('dominio-f-cf-token');
+var btnDominioCfAuto = document.getElementById('btn-dominio-cf-auto');
 
 var dominioSiteIdActual = '';
 
@@ -1166,6 +1187,9 @@ function abrirModalDominio(siteId, dominio, estado, hostname){
   btnDominioConfigurar.textContent = 'Configurar';
   btnDominioVerificar.disabled = false;
   btnDominioVerificar.textContent = 'Verificar';
+  elDominioCfToken.value = '';
+  btnDominioCfAuto.disabled = false;
+  btnDominioCfAuto.textContent = 'Ligar automaticamente via Cloudflare';
 
   if (estado === 'Activo' && dominio) {
     elDominioActivoLink.href = 'https://' + dominio;
@@ -1231,6 +1255,68 @@ btnDominioConfigurar.addEventListener('click', function(){
     .catch(function(){
       btnDominioConfigurar.disabled = false;
       btnDominioConfigurar.textContent = 'Configurar';
+      elDominioErro.textContent = 'Não foi possível ligar ao servidor.';
+      elDominioErro.style.display = 'block';
+    });
+});
+
+// Caminho automático: a pessoa já tem o domínio na Cloudflare e cola um
+// token em vez de ir lá criar o CNAME à mão. Pode já vir "Activo" logo
+// (quando o DNS fica disponível de imediato) ou cair na vista "pendente"
+// igual à manual, se ainda precisar de propagar.
+btnDominioCfAuto.addEventListener('click', function(){
+  var dominio = elDominioInput.value.trim();
+  var token = elDominioCfToken.value.trim();
+  elDominioErro.style.display = 'none';
+
+  if (!dominio) {
+    elDominioErro.textContent = 'Escreve primeiro o domínio, em cima.';
+    elDominioErro.style.display = 'block';
+    return;
+  }
+  if (!token) {
+    elDominioErro.textContent = 'Cola o token da Cloudflare.';
+    elDominioErro.style.display = 'block';
+    return;
+  }
+
+  btnDominioCfAuto.disabled = true;
+  btnDominioCfAuto.textContent = 'A ligar...';
+  btnDominioConfigurar.disabled = true;
+
+  fetch(CONTAINER_URL + '/dominio-cloudflare-auto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: dominioSiteIdActual, dominio: dominio, cloudflare_token: token })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      btnDominioCfAuto.disabled = false;
+      btnDominioCfAuto.textContent = 'Ligar automaticamente via Cloudflare';
+      btnDominioConfigurar.disabled = false;
+      elDominioCfToken.value = '';
+
+      if (r.status === 'success' && r.response) {
+        if (r.response.activo) {
+          elDominioActivoLink.href = 'https://' + r.response.dominio;
+          elDominioActivoLink.textContent = r.response.dominio;
+          mostrarVistaDominio('activo');
+          carregarSites();
+        } else {
+          elDominioPendenteNome.textContent = r.response.dominio;
+          elDominioPendenteCname.textContent = r.response.cname_valor;
+          elDominioPendenteAviso.textContent = r.response.mensagem || 'Ainda não está pronto. Tenta "Verificar" daqui a pouco.';
+          elDominioPendenteAviso.style.display = 'block';
+          mostrarVistaDominio('pendente');
+        }
+      } else {
+        elDominioErro.textContent = r.message || 'Não foi possível ligar automaticamente.';
+        elDominioErro.style.display = 'block';
+      }
+    })
+    .catch(function(){
+      btnDominioCfAuto.disabled = false;
+      btnDominioCfAuto.textContent = 'Ligar automaticamente via Cloudflare';
+      btnDominioConfigurar.disabled = false;
       elDominioErro.textContent = 'Não foi possível ligar ao servidor.';
       elDominioErro.style.display = 'block';
     });
