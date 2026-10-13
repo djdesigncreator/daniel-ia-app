@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --warning:#F5A623;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .topbar{
+    position:sticky;top:0;z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(135deg, rgba(168,85,247,0.16), rgba(99,102,241,0.16)), var(--glass-bg);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 20px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:17px;height:17px;}
+  .brand .wordmark{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .top-actions{display:flex;align-items:center;gap:10px;}
+  .theme-toggle{
+    width:36px;height:36px;border-radius:10px;background:var(--glass-bg);
+    border:1px solid var(--glass-border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:17px;height:17px;}
+  .btn-sair{
+    background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);
+    border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .btn-sair:hover{color:var(--text);border-color:var(--accent-2);}
+
+  .main{max-width:860px;margin:0 auto;padding:40px 24px 80px 24px;}
+
+  .btn-voltar{
+    background:transparent;border:none;color:var(--text-dim);font-size:13px;font-weight:600;
+    cursor:pointer;padding:0;margin-bottom:18px;display:flex;align-items:center;gap:6px;
+  }
+  .btn-voltar:hover{color:var(--text);}
+  .btn-voltar svg{width:15px;height:15px;}
+
+  .pagina-titulo h1{font-size:22px;margin:0 0 4px 0;font-weight:700;}
+  .pagina-titulo p{margin:0 0 28px 0;color:var(--text-dim);font-size:14px;}
+
+  .estado-pagina{color:var(--text-dim);font-size:13px;padding:20px 0;}
+  .estado-pagina.erro{color:var(--error);}
+
+  /* ---- Medidor de espaço ---- */
+  .card-espaco{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;
+    padding:18px 22px;margin-bottom:24px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  .espaco-linha{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:12px;color:var(--text-dim);margin-bottom:8px;
+  }
+  .espaco-linha strong{color:var(--text);font-weight:600;}
+  .barra-progresso{width:100%;height:7px;border-radius:4px;background:var(--border);overflow:hidden;}
+  .barra-progresso-interior{
+    height:100%;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    transition:width .25s ease;width:0%;
+  }
+  .barra-progresso-interior.cheio{background:linear-gradient(135deg,var(--error),#FF8A5C);}
+
+  .card-form{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;
+    padding:22px;margin-bottom:28px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  .card-form h2{font-size:15px;margin:0 0 16px 0;font-weight:700;}
+  .campo{margin-bottom:14px;}
+  .campo label{display:block;font-size:12px;color:var(--text-dim);margin-bottom:6px;font-weight:600;}
+  .campo input[type="text"], .campo textarea{
+    width:100%;background:var(--card-alt);border:1px solid var(--border);border-radius:10px;
+    padding:10px 12px;font-size:14px;color:var(--text);font-family:inherit;
+  }
+  .campo textarea{resize:vertical;min-height:64px;}
+
+  .btn-principal{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;border:none;
+    border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .btn-principal:hover{opacity:.92;}
+  .btn-principal:disabled{opacity:.5;cursor:default;}
+
+  .btn-secundario{
+    background:transparent;border:1px solid var(--border);color:var(--text);border-radius:10px;
+    padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .btn-secundario:hover{border-color:var(--accent-2);}
+
+  .msg-form{font-size:12px;margin-top:10px;}
+  .msg-form.erro{color:var(--error);}
+  .msg-form.sucesso{color:var(--success);}
+
+  .lista-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .lista-header h2{font-size:16px;margin:0;font-weight:700;}
+  .lista-vazia{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;
+    padding:36px 24px;text-align:center;color:var(--text-dim);font-size:13px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+
+  /* ---- Grelha de álbuns ---- */
+  .grelha-albuns{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:16px;
+  }
+  .album-card{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+    overflow:hidden;
+    cursor:pointer;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .album-card:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent-2);
+  }
+  .album-capa{
+    width:100%;
+    aspect-ratio:4/3;
+    background:var(--card-alt);
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-dim);
+    font-size:12px;
+  }
+  .album-info{padding:14px 16px;}
+  .album-titulo{
+    font-size:14px;font-weight:700;margin-bottom:3px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .album-meta{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:8px;}
+  .pill-inactivo{
+    font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--border);
+    color:var(--text-dim);white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+  <div class="top-actions">
+    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <button class="btn-sair" id="btn-sair">Sair</button>
+  </div>
+</div>
+
+<div class="main">
+  <button class="btn-voltar" id="btn-voltar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Voltar ao dashboard
+  </button>
+
+  <div class="pagina-titulo">
+    <h1>Gerir galeria</h1>
+    <p id="subtitulo">A carregar...</p>
+  </div>
+
+  <div id="estado-erro" class="estado-pagina erro" style="display:none"></div>
+
+  <div id="conteudo" style="display:none">
+
+    <div class="card-espaco">
+      <div class="espaco-linha">
+        <span id="espaco-texto">A calcular espaço usado...</span>
+      </div>
+      <div class="barra-progresso"><div class="barra-progresso-interior" id="espaco-barra"></div></div>
+    </div>
+
+    <div class="card-form">
+      <h2>Novo álbum</h2>
+      <div class="campo">
+        <label>Título</label>
+        <input type="text" id="novo-titulo" maxlength="100" placeholder="Ex: Casamento Ana & Jorge">
+      </div>
+      <div class="campo">
+        <label>Descrição</label>
+        <textarea id="novo-descricao" maxlength="300" placeholder="Descrição curta (opcional)"></textarea>
+      </div>
+      <button class="btn-principal" id="btn-adicionar">Criar álbum</button>
+      <div class="msg-form" id="msg-novo"></div>
+    </div>
+
+    <div class="lista-header">
+      <h2>Os teus álbuns</h2>
+    </div>
+    <div class="estado-pagina" id="lista-loading">A carregar os álbuns...</div>
+    <div class="lista-vazia" id="lista-vazia" style="display:none">Ainda não tens nenhum álbum. Cria o primeiro acima.</div>
+    <div class="grelha-albuns" id="grelha"></div>
+
+  </div>
+</div>
+
+<script>
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
+  no login.html. O OWNER vem do localStorage, guardado pelo login.
+*/
+var OWNER = localStorage.getItem('daniel_owner');
+if (!OWNER) {
+  window.location.href = 'index.html';
+}
+
+/*
+  O SITE_ID agora vem a sério do URL (?site=...), porque esta página já
+  não vive numa iframe isolada do Bubble - é uma página normal, aberta
+  por navegação real a partir do dashboard.
+*/
+var SITE_ID = new URLSearchParams(window.location.search).get('site') || '';
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Navegação: já vive aqui ao lado do dashboard.html, navega a sério ----
+document.getElementById('btn-sair').addEventListener('click', function(){
+  localStorage.removeItem('daniel_owner');
+  localStorage.removeItem('daniel_token');
+  window.location.href = 'index.html';
+});
+document.getElementById('btn-voltar').addEventListener('click', function(){
+  window.location.href = 'dashboard.html';
+});
+
+// ---- Elementos da página ----
+var elSubtitulo = document.getElementById('subtitulo');
+var elErro = document.getElementById('estado-erro');
+var elConteudo = document.getElementById('conteudo');
+var elLoading = document.getElementById('lista-loading');
+var elVazio = document.getElementById('lista-vazia');
+var elGrelha = document.getElementById('grelha');
+
+function mostrarErroPagina(msg){
+  elSubtitulo.textContent = '';
+  elErro.textContent = msg;
+  elErro.style.display = 'block';
+  elConteudo.style.display = 'none';
+}
+
+if (!SITE_ID) {
+  mostrarErroPagina('Falta indicar o projecto. Volta ao dashboard e clica em "Gerir galeria" num dos teus projectos de galeria.');
+} else {
+  elSubtitulo.textContent = 'Cria álbuns e dentro de cada um adiciona as fotos e vídeos do trabalho.';
+  elConteudo.style.display = 'block';
+  carregarLista();
+}
+
+// ---- Criar álbum ----
+var elMsgNovo = document.getElementById('msg-novo');
+var btnAdicionar = document.getElementById('btn-adicionar');
+
+btnAdicionar.addEventListener('click', function(){
+  var titulo = document.getElementById('novo-titulo').value.trim();
+  var descricao = document.getElementById('novo-descricao').value.trim();
+
+  elMsgNovo.className = 'msg-form';
+  elMsgNovo.textContent = '';
+
+  if (!titulo) {
+    elMsgNovo.className = 'msg-form erro';
+    elMsgNovo.textContent = 'Escreve o título do álbum.';
+    return;
+  }
+
+  btnAdicionar.disabled = true;
+  btnAdicionar.textContent = 'A criar...';
+
+  fetch(CONTAINER_URL + '/galeria-album-criar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      owner: OWNER,
+      site_id: SITE_ID,
+      titulo: titulo,
+      descricao: descricao
+    })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      btnAdicionar.disabled = false;
+      btnAdicionar.textContent = 'Criar álbum';
+      if (r.status === 'success') {
+        elMsgNovo.className = 'msg-form sucesso';
+        elMsgNovo.textContent = 'Álbum criado.';
+        document.getElementById('novo-titulo').value = '';
+        document.getElementById('novo-descricao').value = '';
+        carregarLista();
+      } else {
+        elMsgNovo.className = 'msg-form erro';
+        elMsgNovo.textContent = r.message || 'Não foi possível criar o álbum.';
+      }
+    })
+    .catch(function(){
+      btnAdicionar.disabled = false;
+      btnAdicionar.textContent = 'Criar álbum';
+      elMsgNovo.className = 'msg-form erro';
+      elMsgNovo.textContent = 'Não foi possível ligar ao servidor.';
+    });
+});
+
+// ---- Carregar e mostrar os álbuns ----
+function carregarLista(){
+  elLoading.style.display = 'block';
+  elVazio.style.display = 'none';
+  elGrelha.innerHTML = '';
+
+  fetch(CONTAINER_URL + '/galeria-meus-albuns', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: SITE_ID })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      elLoading.style.display = 'none';
+      if (r.status === 'success') {
+        renderGrelha(r.response.albuns);
+        renderEspaco(r.response.espaco);
+      } else {
+        mostrarErroPagina(r.message || 'Não foi possível carregar os álbuns.');
+      }
+    })
+    .catch(function(){
+      elLoading.style.display = 'none';
+      mostrarErroPagina('Não foi possível ligar ao servidor.');
+    });
+}
+
+// ---- Medidor de espaço (conta toda, não só esta galeria) ----
+function formatarBytes(bytes){
+  if (!bytes || bytes <= 0) return '0 MB';
+  var gb = bytes / (1024 * 1024 * 1024);
+  if (gb >= 1) return gb.toFixed(1).replace('.0', '') + ' GB';
+  var mb = bytes / (1024 * 1024);
+  return mb.toFixed(mb >= 10 ? 0 : 1) + ' MB';
+}
+function renderEspaco(espaco){
+  if (!espaco) return;
+  var usado = espaco.usado_bytes || 0;
+  var limite = espaco.limite_bytes || 0;
+  var percentagem = limite > 0 ? Math.min(100, (usado / limite) * 100) : 0;
+  document.getElementById('espaco-texto').innerHTML =
+    '<strong>' + formatarBytes(usado) + '</strong> usados de ' + formatarBytes(limite) + ' do teu plano';
+  var barra = document.getElementById('espaco-barra');
+  barra.style.width = percentagem + '%';
+  barra.className = 'barra-progresso-interior' + (percentagem >= 90 ? ' cheio' : '');
+}
+
+function renderGrelha(albuns){
+  if (!albuns || albuns.length === 0) {
+    elVazio.style.display = 'block';
+    elGrelha.innerHTML = '';
+    return;
+  }
+  elVazio.style.display = 'none';
+
+  elGrelha.innerHTML = albuns.map(function(a){
+    return '' +
+      '<div class="album-card" data-id="' + a.id + '">' +
+        '<div class="album-capa">Sem ficheiros</div>' +
+        '<div class="album-info">' +
+          '<div class="album-titulo">' + escaparHtml(a.titulo) + '</div>' +
+          '<div class="album-meta">' +
+            '<span>' + a.total_media + (a.total_media === 1 ? ' ficheiro' : ' ficheiros') + '</span>' +
+            (a.activo ? '' : '<span class="pill-inactivo">Inactivo</span>') +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  var cartoes = elGrelha.querySelectorAll('.album-card');
+  cartoes.forEach(function(cartao){
+    cartao.addEventListener('click', function(){
+      var albumId = cartao.getAttribute('data-id');
+      window.location.href = 'galeria-album.html?album=' + albumId;
+    });
+  });
+}
+
+function escaparHtml(texto){
+  var div = document.createElement('div');
+  div.textContent = texto == null ? '' : String(texto);
+  return div.innerHTML;
+}
+</script>
+
+</body>
+</html>

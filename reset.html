@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .theme-toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:18px;height:18px;}
+  .wrap{
+    width:100%;
+    max-width:420px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+    justify-content:center;
+  }
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 24px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:20px;height:20px;}
+  .brand .wordmark{
+    font-size:21px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:18px;
+    padding:32px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] .card{
+    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  }
+  h1{
+    font-size:20px;
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  p.sub{
+    margin:0 0 24px 0;
+    color:var(--text-dim);
+    font-size:14px;
+    line-height:1.5;
+  }
+  label{
+    display:block;
+    font-size:13px;
+    color:var(--text-dim);
+    margin:16px 0 6px 0;
+  }
+  label:first-of-type{margin-top:0;}
+  input{
+    width:100%;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input::placeholder{color:var(--text-dim);}
+  input:focus{
+    border-color:var(--accent-2);
+  }
+  .btn{
+    width:100%;
+    margin-top:22px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:13px 14px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:opacity .15s,transform .05s;
+  }
+  .btn:hover{opacity:.92;}
+  .btn:active{transform:scale(.99);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .btn.secondary{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    margin-top:18px;
+  }
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    display:none;
+  }
+  .msg.show{display:block;}
+  .msg.error{background:rgba(255,92,122,0.1);color:var(--error);border:1px solid rgba(255,92,122,0.25);}
+  .msg.success{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.25);}
+  .view{display:none;}
+  .view.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+  <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+</div>
+
+<div class="wrap">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+
+  <div class="card">
+
+    <!-- FORMULÁRIO DE PASSWORD NOVA -->
+    <div class="view active" id="view-form">
+      <h1>Nova password</h1>
+      <p class="sub">Escreve a tua password nova. Deve ter pelo menos 6 caracteres.</p>
+
+      <label for="rp-pass1">Password nova</label>
+      <input type="password" id="rp-pass1" placeholder="••••••••" autocomplete="new-password">
+
+      <label for="rp-pass2">Confirmar password</label>
+      <input type="password" id="rp-pass2" placeholder="••••••••" autocomplete="new-password">
+
+      <button class="btn" id="btn-guardar">Guardar password</button>
+
+      <div class="msg" id="msg-form"></div>
+    </div>
+
+    <!-- LINK INVÁLIDO OU EXPIRADO -->
+    <div class="view" id="view-invalid">
+      <h1>Link inválido</h1>
+      <p class="sub">Este link de recuperação é inválido ou já expirou. Pede um novo na página de login, em "Esqueci a password".</p>
+      <button class="btn secondary" id="btn-invalid-login">Voltar ao login</button>
+    </div>
+
+    <!-- SUCESSO -->
+    <div class="view" id="view-done">
+      <h1>Password alterada</h1>
+      <p class="sub">A tua password foi actualizada. Clica no botão abaixo para voltares ao login.</p>
+      <button class="btn secondary" id="btn-done-login">Ir agora</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/*
+  LIGAÇÃO DIRECTA AOS BACKEND WORKFLOWS DO BUBBLE (sem Toolbox)
+  ----------------------------------------------------------------
+  Já aponta para a versão live, pelo domínio próprio.
+*/
+var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.msg').forEach(function(m){ m.classList.remove('show','error','success'); m.textContent=''; });
+}
+
+function showMessage(viewId, texto, tipo){
+  var view = document.getElementById(viewId);
+  var msg = view.querySelector('.msg');
+  msg.textContent = texto;
+  msg.classList.remove('error','success');
+  msg.classList.add('show', tipo);
+}
+
+function setLoading(btn, loading){
+  btn.disabled = loading;
+  if (!btn.dataset.original) btn.dataset.original = btn.textContent;
+  btn.textContent = loading ? 'A processar...' : btn.dataset.original;
+}
+
+function chamarWorkflow(nome, dados){
+  return fetch(API_ROOT + nome, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(dados)
+  }).then(function(res){
+    return res.json().then(function(json){
+      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
+    });
+  });
+}
+
+function getParam(nome){
+  var url = new URL(window.location.href);
+  return url.searchParams.get(nome);
+}
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Token do link do email ----
+// O Bubble acrescenta "?reset_pw=TOKEN" ao URL desta página quando
+// manda o email de recuperação, porque foi essa a página escolhida
+// em Settings > General > "App password reset page".
+var token = getParam('reset_pw');
+
+if (!token) {
+  showView('view-invalid');
+}
+
+// PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - já não vive numa iframe,
+// por isso navega a sério para o login aqui ao lado.
+document.getElementById('btn-invalid-login').addEventListener('click', function(){
+  window.location.href = 'index.html';
+});
+document.getElementById('btn-done-login').addEventListener('click', function(){
+  window.location.href = 'index.html';
+});
+
+// ---- Guardar password nova ----
+document.getElementById('btn-guardar').addEventListener('click', function(){
+  var btn = this;
+  var pass1 = document.getElementById('rp-pass1').value;
+  var pass2 = document.getElementById('rp-pass2').value;
+
+  if (!pass1 || !pass2) {
+    showMessage('view-form', 'Preenche os dois campos.', 'error');
+    return;
+  }
+  if (pass1.length < 6) {
+    showMessage('view-form', 'A password deve ter pelo menos 6 caracteres.', 'error');
+    return;
+  }
+  if (pass1 !== pass2) {
+    showMessage('view-form', 'As passwords não coincidem.', 'error');
+    return;
+  }
+
+  setLoading(btn, true);
+  chamarWorkflow('reset-password', { token: token, newpass: pass1 })
+    .then(function(r){
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        showView('view-done');
+      } else {
+        showMessage('view-form', r.message || 'Não foi possível alterar a password. O link pode ter expirado.', 'error');
+      }
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-form', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+</script>
+
+</body>
+</html>

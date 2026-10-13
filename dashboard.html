@@ -820,7 +820,7 @@ function renderSites(sites){
   botoesProdutos.forEach(function(btn){
     btn.addEventListener('click', function(){
       var siteId = btn.getAttribute('data-site-id');
-      irPara('/produtos?site=' + siteId);
+      window.location.href = 'produtos.html?site=' + siteId;
     });
   });
 
@@ -830,7 +830,7 @@ function renderSites(sites){
   botoesPortfolio.forEach(function(btn){
     btn.addEventListener('click', function(){
       var siteId = btn.getAttribute('data-site-id');
-      irPara('/portfolio?site=' + siteId);
+      window.location.href = 'portfolio.html?site=' + siteId;
     });
   });
 
@@ -840,7 +840,7 @@ function renderSites(sites){
   botoesBlog.forEach(function(btn){
     btn.addEventListener('click', function(){
       var siteId = btn.getAttribute('data-site-id');
-      irPara('/blog?site=' + siteId);
+      window.location.href = 'blog.html?site=' + siteId;
     });
   });
 
@@ -850,7 +850,7 @@ function renderSites(sites){
   botoesGaleria.forEach(function(btn){
     btn.addEventListener('click', function(){
       var siteId = btn.getAttribute('data-site-id');
-      irPara('/galeria?site=' + siteId);
+      window.location.href = 'galeria.html?site=' + siteId;
     });
   });
 

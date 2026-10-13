@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --warning:#F5A623;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .topbar{
+    position:sticky;top:0;z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(135deg, rgba(168,85,247,0.16), rgba(99,102,241,0.16)), var(--glass-bg);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 20px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:17px;height:17px;}
+  .brand .wordmark{
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .theme-toggle{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:17px;height:17px;}
+  .btn-sair{
+    background:transparent;
+    border:1px solid var(--glass-border);
+    color:var(--text-dim);
+    border-radius:10px;
+    padding:9px 16px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn-sair:hover{color:var(--text);border-color:var(--accent-2);}
+
+  .main{
+    max-width:760px;
+    margin:0 auto;
+    padding:40px 24px 80px 24px;
+  }
+
+  .btn-voltar{
+    background:transparent;
+    border:none;
+    color:var(--text-dim);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    padding:0;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .btn-voltar:hover{color:var(--text);}
+  .btn-voltar svg{width:15px;height:15px;}
+
+  .pagina-titulo h1{
+    font-size:22px;
+    margin:0 0 4px 0;
+    font-weight:700;
+  }
+  .pagina-titulo p{
+    margin:0 0 28px 0;
+    color:var(--text-dim);
+    font-size:14px;
+  }
+
+  .estado-pagina{
+    color:var(--text-dim);
+    font-size:13px;
+    padding:20px 0;
+  }
+  .estado-pagina.erro{color:var(--error);}
+
+  /* ---- Formulário de novo trabalho ---- */
+  .card-form{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:28px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  .card-form h2{
+    font-size:15px;
+    margin:0 0 16px 0;
+    font-weight:700;
+  }
+  .campo{
+    margin-bottom:14px;
+  }
+  .campo label{
+    display:block;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:6px;
+    font-weight:600;
+  }
+  .campo input[type="text"],
+  .campo textarea{
+    width:100%;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:14px;
+    color:var(--text);
+    font-family:inherit;
+  }
+  .campo textarea{
+    resize:vertical;
+    min-height:64px;
+  }
+
+  /* ---- Upload de imagem ---- */
+  .upload-imagem{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .upload-preview{
+    width:72px;
+    height:72px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card-alt);
+    background-size:cover;
+    background-position:center;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-dim);
+    font-size:10px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .upload-botao{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .upload-botao:hover{border-color:var(--accent-2);}
+  .upload-input{display:none;}
+  .upload-aviso{
+    font-size:11px;
+    color:var(--text-dim);
+    margin-top:6px;
+  }
+
+  .btn-principal{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn-principal:hover{opacity:.92;}
+  .btn-principal:disabled{opacity:.5;cursor:default;}
+
+  .btn-secundario{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:10px;
+    padding:11px 18px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn-secundario:hover{border-color:var(--accent-2);}
+
+  .msg-form{
+    font-size:12px;
+    margin-top:10px;
+  }
+  .msg-form.erro{color:var(--error);}
+  .msg-form.sucesso{color:var(--success);}
+
+  /* ---- Lista de trabalhos ---- */
+  .lista-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .lista-header h2{
+    font-size:16px;
+    margin:0;
+    font-weight:700;
+  }
+  .lista-vazia{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:14px;
+    padding:36px 24px;
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  .lista{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .item{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:12px;
+    padding:16px 18px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  .item-linha{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .item-thumb{
+    width:56px;
+    height:56px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card-alt);
+    background-size:cover;
+    background-position:center;
+    flex-shrink:0;
+  }
+  .item-info{
+    min-width:0;
+    flex:1;
+  }
+  .item-titulo{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:3px;
+  }
+  .item-descricao{
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .item-acoes{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+  }
+  .pill-inactivo{
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .btn-icone{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:8px;
+    padding:7px 12px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn-icone:hover{border-color:var(--accent-2);}
+
+  .toggle{
+    position:relative;
+    width:38px;
+    height:22px;
+    flex-shrink:0;
+  }
+  .toggle input{
+    opacity:0;
+    width:0;
+    height:0;
+  }
+  .toggle-slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:22px;
+    transition:.2s;
+  }
+  .toggle-slider:before{
+    position:absolute;
+    content:"";
+    height:16px;width:16px;
+    left:2px;top:2px;
+    background:var(--text-dim);
+    border-radius:50%;
+    transition:.2s;
+  }
+  .toggle input:checked + .toggle-slider{
+    background:rgba(34,197,94,0.18);
+    border-color:rgba(34,197,94,0.4);
+  }
+  .toggle input:checked + .toggle-slider:before{
+    transform:translateX(16px);
+    background:var(--success);
+  }
+
+  /* ---- Edição inline ---- */
+  .item-edicao{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+    display:none;
+  }
+  .item-edicao.aberto{
+    display:block;
+  }
+  .edicao-botoes{
+    display:flex;
+    gap:10px;
+    margin-top:4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+  <div class="top-actions">
+    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <button class="btn-sair" id="btn-sair">Sair</button>
+  </div>
+</div>
+
+<div class="main">
+  <button class="btn-voltar" id="btn-voltar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Voltar ao dashboard
+  </button>
+
+  <div class="pagina-titulo">
+    <h1>Gerir portefólio</h1>
+    <p id="subtitulo">A carregar...</p>
+  </div>
+
+  <div id="estado-erro" class="estado-pagina erro" style="display:none"></div>
+
+  <div id="conteudo" style="display:none">
+
+    <div class="card-form">
+      <h2>Adicionar trabalho</h2>
+      <div class="campo">
+        <label>Título</label>
+        <input type="text" id="novo-titulo" maxlength="100" placeholder="Ex: Identidade visual - Café Aroma">
+      </div>
+      <div class="campo">
+        <label>Descrição</label>
+        <textarea id="novo-descricao" maxlength="300" placeholder="Descrição curta (opcional)"></textarea>
+      </div>
+      <div class="campo">
+        <label>Link do projecto (opcional)</label>
+        <input type="text" id="novo-link" placeholder="https://...">
+      </div>
+      <div class="campo">
+        <label>Imagem do trabalho</label>
+        <div class="upload-imagem">
+          <div class="upload-preview" id="novo-preview">Sem imagem</div>
+          <button type="button" class="upload-botao" id="novo-upload-botao">Carregar imagem</button>
+          <input type="file" accept="image/*" class="upload-input" id="novo-upload-input">
+        </div>
+        <div class="upload-aviso">JPG, PNG ou WEBP, até 5 MB.</div>
+      </div>
+      <button class="btn-principal" id="btn-adicionar">Adicionar trabalho</button>
+      <div class="msg-form" id="msg-novo"></div>
+    </div>
+
+    <div class="lista-header">
+      <h2>Os teus trabalhos</h2>
+    </div>
+    <div class="estado-pagina" id="lista-loading">A carregar os trabalhos...</div>
+    <div class="lista-vazia" id="lista-vazia" style="display:none">Ainda não tens nenhum trabalho. Adiciona o primeiro acima.</div>
+    <div class="lista" id="lista"></div>
+
+  </div>
+</div>
+
+<script>
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+var TAMANHO_MAX_IMAGEM = 5 * 1024 * 1024; // 5 MB
+
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
+  no login.html. O OWNER vem do localStorage, guardado pelo login.
+*/
+var OWNER = localStorage.getItem('daniel_owner');
+if (!OWNER) {
+  window.location.href = 'index.html';
+}
+
+/*
+  O SITE_ID agora vem a sério do URL (?site=...), porque esta página já
+  não vive numa iframe isolada do Bubble - é uma página normal, aberta
+  por navegação real a partir do dashboard.
+*/
+var SITE_ID = new URLSearchParams(window.location.search).get('site') || '';
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Navegação: já vive aqui ao lado do dashboard.html, navega a sério ----
+document.getElementById('btn-sair').addEventListener('click', function(){
+  localStorage.removeItem('daniel_owner');
+  localStorage.removeItem('daniel_token');
+  window.location.href = 'index.html';
+});
+document.getElementById('btn-voltar').addEventListener('click', function(){
+  window.location.href = 'dashboard.html';
+});
+
+// ---- Elementos da página ----
+var elSubtitulo = document.getElementById('subtitulo');
+var elErro = document.getElementById('estado-erro');
+var elConteudo = document.getElementById('conteudo');
+var elLoading = document.getElementById('lista-loading');
+var elVazio = document.getElementById('lista-vazia');
+var elLista = document.getElementById('lista');
+
+function mostrarErroPagina(msg){
+  elSubtitulo.textContent = '';
+  elErro.textContent = msg;
+  elErro.style.display = 'block';
+  elConteudo.style.display = 'none';
+}
+
+if (!SITE_ID) {
+  mostrarErroPagina('Falta indicar o projecto. Volta ao dashboard e clica em "Gerir portefólio" num dos teus projectos de portefólio.');
+} else {
+  elSubtitulo.textContent = 'Adiciona, edita e activa ou desactiva os trabalhos mostrados neste portefólio.';
+  elConteudo.style.display = 'block';
+  carregarLista();
+}
+
+// ---- Upload de imagem (ficheiro -> base64) - formulário de novo trabalho ----
+var novoImagemDataUrl = '';
+var novoUploadInput = document.getElementById('novo-upload-input');
+var novoPreview = document.getElementById('novo-preview');
+document.getElementById('novo-upload-botao').addEventListener('click', function(){
+  novoUploadInput.click();
+});
+novoUploadInput.addEventListener('change', function(){
+  var ficheiro = novoUploadInput.files[0];
+  var elMsgNovo = document.getElementById('msg-novo');
+  if (!ficheiro) return;
+  if (ficheiro.size > TAMANHO_MAX_IMAGEM) {
+    elMsgNovo.className = 'msg-form erro';
+    elMsgNovo.textContent = 'Essa imagem é maior do que 5 MB. Escolhe um ficheiro mais pequeno.';
+    novoUploadInput.value = '';
+    return;
+  }
+  var leitor = new FileReader();
+  leitor.onload = function(e){
+    novoImagemDataUrl = e.target.result;
+    novoPreview.style.backgroundImage = 'url(' + novoImagemDataUrl + ')';
+    novoPreview.textContent = '';
+  };
+  leitor.readAsDataURL(ficheiro);
+});
+
+// ---- Adicionar trabalho ----
+var elMsgNovo = document.getElementById('msg-novo');
+var btnAdicionar = document.getElementById('btn-adicionar');
+
+btnAdicionar.addEventListener('click', function(){
+  var titulo = document.getElementById('novo-titulo').value.trim();
+  var descricao = document.getElementById('novo-descricao').value.trim();
+  var link = document.getElementById('novo-link').value.trim();
+
+  elMsgNovo.className = 'msg-form';
+  elMsgNovo.textContent = '';
+
+  if (!titulo) {
+    elMsgNovo.className = 'msg-form erro';
+    elMsgNovo.textContent = 'Escreve o título do trabalho.';
+    return;
+  }
+
+  btnAdicionar.disabled = true;
+  btnAdicionar.textContent = 'A adicionar...';
+
+  fetch(CONTAINER_URL + '/portfolio-trabalho-criar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      owner: OWNER,
+      site_id: SITE_ID,
+      titulo: titulo,
+      descricao: descricao,
+      link: link,
+      imagem_data_url: novoImagemDataUrl
+    })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      btnAdicionar.disabled = false;
+      btnAdicionar.textContent = 'Adicionar trabalho';
+      if (r.status === 'success') {
+        elMsgNovo.className = 'msg-form sucesso';
+        elMsgNovo.textContent = 'Trabalho adicionado.';
+        document.getElementById('novo-titulo').value = '';
+        document.getElementById('novo-descricao').value = '';
+        document.getElementById('novo-link').value = '';
+        novoImagemDataUrl = '';
+        novoUploadInput.value = '';
+        novoPreview.style.backgroundImage = '';
+        novoPreview.textContent = 'Sem imagem';
+        carregarLista();
+      } else {
+        elMsgNovo.className = 'msg-form erro';
+        elMsgNovo.textContent = r.message || 'Não foi possível adicionar o trabalho.';
+      }
+    })
+    .catch(function(){
+      btnAdicionar.disabled = false;
+      btnAdicionar.textContent = 'Adicionar trabalho';
+      elMsgNovo.className = 'msg-form erro';
+      elMsgNovo.textContent = 'Não foi possível ligar ao servidor.';
+    });
+});
+
+// ---- Carregar e mostrar os trabalhos ----
+function carregarLista(){
+  elLoading.style.display = 'block';
+  elVazio.style.display = 'none';
+  elLista.innerHTML = '';
+
+  fetch(CONTAINER_URL + '/portfolio-meus-trabalhos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: SITE_ID })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      elLoading.style.display = 'none';
+      if (r.status === 'success') {
+        renderLista(r.response.trabalhos);
+      } else {
+        mostrarErroPagina(r.message || 'Não foi possível carregar os trabalhos.');
+      }
+    })
+    .catch(function(){
+      elLoading.style.display = 'none';
+      mostrarErroPagina('Não foi possível ligar ao servidor.');
+    });
+}
+
+function renderLista(trabalhos){
+  if (!trabalhos || trabalhos.length === 0) {
+    elVazio.style.display = 'block';
+    elLista.innerHTML = '';
+    return;
+  }
+  elVazio.style.display = 'none';
+
+  elLista.innerHTML = trabalhos.map(function(t){
+    var idSeguro = 't-' + t.id;
+    var thumbStyle = t.imagem ? ' style="background-image:url(\'' + escaparAtributo(t.imagem) + '\')"' : '';
+    return '' +
+      '<div class="item" data-id="' + t.id + '">' +
+        '<div class="item-linha">' +
+          '<div class="item-thumb"' + thumbStyle + '></div>' +
+          '<div class="item-info">' +
+            '<div class="item-titulo">' + escaparHtml(t.titulo) + (t.activo ? '' : ' <span class="pill-inactivo">Inactivo</span>') + '</div>' +
+            '<div class="item-descricao">' + escaparHtml(t.descricao || '') + '</div>' +
+          '</div>' +
+          '<div class="item-acoes">' +
+            '<label class="toggle" title="Activo / Inactivo">' +
+              '<input type="checkbox" class="chk-activo" ' + (t.activo ? 'checked' : '') + '>' +
+              '<span class="toggle-slider"></span>' +
+            '</label>' +
+            '<button class="btn-icone btn-editar">Editar</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="item-edicao" id="edicao-' + idSeguro + '">' +
+          '<div class="campo">' +
+            '<label>Título</label>' +
+            '<input type="text" class="ed-titulo" value="' + escaparAtributo(t.titulo) + '" maxlength="100">' +
+          '</div>' +
+          '<div class="campo">' +
+            '<label>Descrição</label>' +
+            '<textarea class="ed-descricao" maxlength="300">' + escaparHtml(t.descricao || '') + '</textarea>' +
+          '</div>' +
+          '<div class="campo">' +
+            '<label>Link do projecto</label>' +
+            '<input type="text" class="ed-link" value="' + escaparAtributo(t.link || '') + '">' +
+          '</div>' +
+          '<div class="campo">' +
+            '<label>Imagem (deixa em branco para manter a actual)</label>' +
+            '<div class="upload-imagem">' +
+              '<div class="upload-preview ed-preview"' + thumbStyle + '>' + (t.imagem ? '' : 'Sem imagem') + '</div>' +
+              '<button type="button" class="upload-botao ed-upload-botao">Trocar imagem</button>' +
+              '<input type="file" accept="image/*" class="upload-input ed-upload-input">' +
+            '</div>' +
+          '</div>' +
+          '<div class="edicao-botoes">' +
+            '<button class="btn-principal btn-guardar">Guardar</button>' +
+            '<button class="btn-secundario btn-cancelar">Cancelar</button>' +
+          '</div>' +
+          '<div class="msg-form"></div>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  // ---- Ligar os eventos de cada trabalho ----
+  var itens = elLista.querySelectorAll('.item');
+  itens.forEach(function(item){
+    var trabalhoId = item.getAttribute('data-id');
+    var edImagemDataUrl = '';
+
+    // Activar / desactivar
+    var chk = item.querySelector('.chk-activo');
+    chk.addEventListener('change', function(){
+      var novoEstado = chk.checked;
+      chk.disabled = true;
+      fetch(CONTAINER_URL + '/portfolio-trabalho-editar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ owner: OWNER, trabalho_id: trabalhoId, activo: novoEstado })
+      }).then(function(r){ return r.json(); })
+        .then(function(r){
+          chk.disabled = false;
+          if (r.status !== 'success') {
+            chk.checked = !novoEstado;
+            alert(r.message || 'Não foi possível actualizar o trabalho.');
+          } else {
+            carregarLista();
+          }
+        })
+        .catch(function(){
+          chk.disabled = false;
+          chk.checked = !novoEstado;
+          alert('Não foi possível ligar ao servidor.');
+        });
+    });
+
+    // Abrir edição
+    var btnEditar = item.querySelector('.btn-editar');
+    var painelEdicao = item.querySelector('.item-edicao');
+    btnEditar.addEventListener('click', function(){
+      painelEdicao.classList.toggle('aberto');
+    });
+
+    // Cancelar edição
+    item.querySelector('.btn-cancelar').addEventListener('click', function(){
+      painelEdicao.classList.remove('aberto');
+    });
+
+    // Trocar imagem na edição
+    var edUploadInput = painelEdicao.querySelector('.ed-upload-input');
+    var edPreview = painelEdicao.querySelector('.ed-preview');
+    painelEdicao.querySelector('.ed-upload-botao').addEventListener('click', function(){
+      edUploadInput.click();
+    });
+    edUploadInput.addEventListener('change', function(){
+      var ficheiro = edUploadInput.files[0];
+      var msgEdicao = painelEdicao.querySelector('.msg-form');
+      if (!ficheiro) return;
+      if (ficheiro.size > TAMANHO_MAX_IMAGEM) {
+        msgEdicao.className = 'msg-form erro';
+        msgEdicao.textContent = 'Essa imagem é maior do que 5 MB. Escolhe um ficheiro mais pequeno.';
+        edUploadInput.value = '';
+        return;
+      }
+      var leitor = new FileReader();
+      leitor.onload = function(e){
+        edImagemDataUrl = e.target.result;
+        edPreview.style.backgroundImage = 'url(' + edImagemDataUrl + ')';
+        edPreview.textContent = '';
+      };
+      leitor.readAsDataURL(ficheiro);
+    });
+
+    // Guardar edição
+    var btnGuardar = item.querySelector('.btn-guardar');
+    var msgEdicao = painelEdicao.querySelector('.msg-form');
+    btnGuardar.addEventListener('click', function(){
+      var titulo = painelEdicao.querySelector('.ed-titulo').value.trim();
+      var descricao = painelEdicao.querySelector('.ed-descricao').value.trim();
+      var link = painelEdicao.querySelector('.ed-link').value.trim();
+
+      msgEdicao.className = 'msg-form';
+      msgEdicao.textContent = '';
+
+      if (!titulo) {
+        msgEdicao.className = 'msg-form erro';
+        msgEdicao.textContent = 'Escreve o título do trabalho.';
+        return;
+      }
+
+      btnGuardar.disabled = true;
+      btnGuardar.textContent = 'A guardar...';
+
+      var corpo = {
+        owner: OWNER,
+        trabalho_id: trabalhoId,
+        titulo: titulo,
+        descricao: descricao,
+        link: link
+      };
+      if (edImagemDataUrl) {
+        corpo.imagem_data_url = edImagemDataUrl;
+      }
+
+      fetch(CONTAINER_URL + '/portfolio-trabalho-editar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(corpo)
+      }).then(function(r){ return r.json(); })
+        .then(function(r){
+          btnGuardar.disabled = false;
+          btnGuardar.textContent = 'Guardar';
+          if (r.status === 'success') {
+            carregarLista();
+          } else {
+            msgEdicao.className = 'msg-form erro';
+            msgEdicao.textContent = r.message || 'Não foi possível guardar.';
+          }
+        })
+        .catch(function(){
+          btnGuardar.disabled = false;
+          btnGuardar.textContent = 'Guardar';
+          msgEdicao.className = 'msg-form erro';
+          msgEdicao.textContent = 'Não foi possível ligar ao servidor.';
+        });
+    });
+  });
+}
+
+function escaparHtml(texto){
+  var div = document.createElement('div');
+  div.textContent = texto == null ? '' : String(texto);
+  return div.innerHTML;
+}
+function escaparAtributo(texto){
+  return escaparHtml(texto).replace(/"/g, '&quot;');
+}
+</script>
+
+</body>
+</html>
