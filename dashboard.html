@@ -696,8 +696,9 @@ document.getElementById('btn-novo-projecto-vazio').addEventListener('click', fun
 });
 
 // ---- Ir para a página de planos ----
+// Já migrada (13/10/2026) - vive aqui ao lado, não no Bubble.
 document.getElementById('btn-ver-planos').addEventListener('click', function(){
-  irPara('/planos');
+  window.location.href = 'planos.html';
 });
 
 // ---- Carregar dados da conta ----

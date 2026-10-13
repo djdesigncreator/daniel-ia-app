@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --warning:#F5A623;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .topbar{
+    position:sticky;top:0;z-index:500;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(135deg, rgba(168,85,247,0.16), rgba(99,102,241,0.16)), var(--glass-bg);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 20px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .logo-mark svg{width:17px;height:17px;}
+  .brand .wordmark{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .top-actions{display:flex;align-items:center;gap:12px;}
+  .theme-toggle{
+    width:36px;height:36px;border-radius:10px;
+    background:var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:17px;height:17px;}
+  .btn-sair,.btn-voltar{
+    background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);
+    font-size:13px;font-weight:600;padding:9px 16px;border-radius:10px;cursor:pointer;
+  }
+  .btn-sair:hover,.btn-voltar:hover{color:var(--text);border-color:var(--accent-2);}
+
+  .main{max-width:980px;margin:0 auto;padding:40px 24px 80px;}
+  .main h1{font-size:26px;margin:0 0 6px 0;}
+  .main p.sub{font-size:14.5px;color:var(--text-dim);margin:0 0 32px 0;}
+
+  .plano-actual{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    padding:18px 22px;margin-bottom:36px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  }
+  .plano-actual .rotulo{font-size:12px;color:var(--text-dim);margin-bottom:4px;}
+  .plano-actual .nome{font-size:18px;font-weight:700;}
+
+  .planos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .plano-card{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:24px 20px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    display:flex;flex-direction:column;position:relative;
+  }
+  .plano-card.actual{border-color:var(--accent-2);}
+  .plano-card.popular{border-color:var(--accent-2);box-shadow:0 14px 34px var(--accent-glow);}
+  .plano-selo{
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;font-size:10.5px;font-weight:700;
+    padding:4px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .plano-nome{font-size:14.5px;font-weight:700;color:var(--text-dim);margin-bottom:6px;}
+  .plano-preco{font-size:26px;font-weight:800;margin-bottom:2px;}
+  .plano-preco .periodo{font-size:12px;font-weight:500;color:var(--text-dim);}
+  .plano-lista{list-style:none;margin:16px 0 22px 0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .plano-lista li{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.4;color:var(--text);}
+  .plano-lista svg{width:15px;height:15px;color:var(--accent-2);flex-shrink:0;margin-top:1px;}
+  .btn-plano{
+    width:100%;text-align:center;background:var(--card-alt);border:1px solid var(--border);color:var(--text);
+    font-size:13.5px;font-weight:700;padding:11px;border-radius:10px;cursor:pointer;transition:border-color .15s;
+  }
+  .btn-plano:hover{border-color:var(--accent-2);}
+  .btn-plano.principal{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;border:none;
+    box-shadow:0 8px 22px var(--accent-glow);
+  }
+  .btn-plano:disabled{opacity:.55;cursor:default;}
+
+  .msg-pagina{font-size:13.5px;margin-top:18px;}
+  .msg-pagina.erro{color:var(--error);}
+  .msg-pagina.ok{color:var(--success);}
+
+  /* ---- Modal de pagamento ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
+    padding:26px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] .modal{
+    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  }
+  .modal h3{margin:0 0 4px 0;font-size:17px;}
+  .modal p.sub{margin:0 0 20px 0;color:var(--text-dim);font-size:13px;}
+  .campo{margin-bottom:16px;}
+  .campo label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--text-dim);}
+  .campo input{
+    width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:10px;
+    padding:11px 12px;font-size:14px;font-family:inherit;background:var(--card-alt);color:var(--text);
+  }
+  .metodos{display:flex;gap:8px;flex-wrap:wrap;}
+  .metodo-tile{
+    flex:1;min-width:100px;text-align:center;border:1px solid var(--border);border-radius:10px;
+    padding:12px 8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s;
+    background:var(--card-alt);
+  }
+  .metodo-tile.seleccionado{border-color:var(--accent-2);background:rgba(124,58,237,0.1);color:var(--text);}
+  .erro-modal{color:var(--error);font-size:12.5px;margin-top:10px;min-height:16px;}
+  .acoes-modal{display:flex;gap:10px;margin-top:18px;}
+  .btn-fechar{
+    background:transparent;border:1px solid var(--border);color:var(--text);
+    font-size:13.5px;font-weight:600;padding:12px 18px;border-radius:10px;cursor:pointer;
+  }
+
+  .estado-pagamento{text-align:center;padding:20px 0;}
+  .spinner-grande{
+    width:34px;height:34px;border-radius:50%;border:3px solid var(--border);
+    border-top-color:var(--accent-2);animation:girar .8s linear infinite;margin:0 auto 16px auto;
+  }
+  @keyframes girar{to{transform:rotate(360deg);}}
+  .estado-pagamento p{font-size:14px;color:var(--text);margin:0;line-height:1.5;}
+
+  @media (max-width:900px){
+    .planos-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:600px){
+    .planos-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+  <div class="top-actions">
+    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <button class="btn-voltar" id="btn-voltar">Dashboard</button>
+    <button class="btn-sair" id="btn-sair">Sair</button>
+  </div>
+</div>
+
+<div class="main">
+  <h1>Planos</h1>
+  <p class="sub">Escolhe o plano que melhor serve o teu negócio. Podes mudar quando quiseres.</p>
+
+  <div class="plano-actual">
+    <div>
+      <div class="rotulo">O teu plano actual</div>
+      <div class="nome" id="plano-actual-nome">A carregar...</div>
+    </div>
+  </div>
+
+  <div class="planos-grid" id="planos-grid">
+    <p style="color:var(--text-dim);font-size:13.5px;">A carregar planos...</p>
+  </div>
+
+  <div class="msg-pagina" id="msg-pagina"></div>
+</div>
+
+<!-- MODAL DE PAGAMENTO -->
+<div class="overlay" id="overlay-pagar" style="display:none">
+  <div class="modal">
+
+    <div id="vista-form">
+      <h3>Mudar para <span id="pagar-nome-plano"></span></h3>
+      <p class="sub">Valor: <strong id="pagar-valor"></strong> MZN/mês</p>
+
+      <div class="campo" id="campo-telefone" style="display:none">
+        <label>Telefone (M-Pesa / e-Mola)</label>
+        <input type="text" id="pagar-telefone" maxlength="20" placeholder="84xxxxxxx">
+      </div>
+
+      <div class="campo">
+        <label>Método de pagamento</label>
+        <div class="metodos">
+          <div class="metodo-tile" data-metodo="mpesa">M-Pesa</div>
+          <div class="metodo-tile" data-metodo="emola">e-Mola</div>
+          <div class="metodo-tile" data-metodo="cartao">Cartão</div>
+        </div>
+      </div>
+
+      <div class="erro-modal" id="pagar-erro"></div>
+
+      <div class="acoes-modal">
+        <button class="btn-plano principal" id="btn-pagar" style="flex:1;">Pagar</button>
+        <button class="btn-fechar" id="btn-cancelar-pagar">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="vista-espera" style="display:none">
+      <div class="estado-pagamento">
+        <div class="spinner-grande"></div>
+        <p id="espera-texto">Confirma o pagamento no teu telemóvel...</p>
+      </div>
+    </div>
+
+    <div id="vista-sucesso" style="display:none">
+      <div class="estado-pagamento">
+        <p><strong>Pagamento confirmado!</strong><br>O teu plano já está actualizado.</p>
+        <div class="acoes-modal">
+          <button class="btn-plano principal" id="btn-fechar-sucesso" style="flex:1;">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
+  no login.html. O OWNER vem do que o login.html guardou no localStorage
+  deste browser depois de entrar. Se não houver nada guardado, a pessoa
+  não está autenticada - manda-a de volta para o login.
+*/
+var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+var OWNER = localStorage.getItem('daniel_owner');
+if (!OWNER) {
+  window.location.href = 'index.html';
+}
+
+function chamarWorkflow(nome, dados){
+  return fetch(API_ROOT + nome, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(dados || {})
+  }).then(function(res){
+    return res.json().then(function(json){
+      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
+    });
+  });
+}
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Navegação: já vive aqui ao lado do dashboard.html, navega a sério ----
+document.getElementById('btn-voltar').addEventListener('click', function(){
+  window.location.href = 'dashboard.html';
+});
+document.getElementById('btn-sair').addEventListener('click', function(){
+  localStorage.removeItem('daniel_owner');
+  localStorage.removeItem('daniel_token');
+  window.location.href = 'index.html';
+});
+
+function escaparHtml(t){
+  var d = document.createElement('div');
+  d.textContent = (t == null ? '' : String(t));
+  return d.innerHTML;
+}
+
+function mostrarMsgPagina(texto, tipo){
+  var el = document.getElementById('msg-pagina');
+  el.textContent = texto;
+  el.className = 'msg-pagina' + (tipo ? ' ' + tipo : '');
+}
+
+// ---- Carregar o plano actual ----
+// Antes chamava o backend workflow "account" do Bubble, que lia o Current
+// User - mas já não há sessão do Bubble (ver nota no topo). Passa a
+// chamar a rota /account do próprio container, igual ao dashboard.html,
+// com o OWNER explícito.
+var nomePlanoActual = '';
+function carregarPlanoActual(){
+  fetch(CONTAINER_URL + '/account', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status === 'success' && r.response) {
+      nomePlanoActual = r.response.plano || '';
+      document.getElementById('plano-actual-nome').textContent = nomePlanoActual || '—';
+      carregarPlanos();
+    } else {
+      document.getElementById('plano-actual-nome').textContent = '—';
+      carregarPlanos();
+    }
+  }).catch(function(){
+    document.getElementById('plano-actual-nome').textContent = '—';
+    carregarPlanos();
+  });
+}
+
+// ---- Carregar a lista de planos do container ----
+var planosCache = [];
+function carregarPlanos(){
+  fetch(CONTAINER_URL + '/planos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      var grelha = document.getElementById('planos-grid');
+      if (r.status !== 'success' || !r.response || !r.response.planos) {
+        grelha.innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível carregar os planos.</p>';
+        return;
+      }
+      planosCache = r.response.planos;
+      renderPlanos();
+    })
+    .catch(function(){
+      document.getElementById('planos-grid').innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível ligar ao servidor.</p>';
+    });
+}
+
+function renderPlanos(){
+  var grelha = document.getElementById('planos-grid');
+  grelha.innerHTML = planosCache.map(function(p){
+    var ehActual = nomePlanoActual && p.nome === nomePlanoActual;
+    var ehPopular = p.nome === 'Pro';
+    var classes = 'plano-card' + (ehActual ? ' actual' : '') + (ehPopular && !ehActual ? ' popular' : '');
+    var selo = ehActual ? '<div class="plano-selo">Plano actual</div>' : (ehPopular ? '<div class="plano-selo">Mais popular</div>' : '');
+
+    var lista = ''
+      + '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + p.sites_limit + ' site' + (p.sites_limit === 1 ? '' : 's') + '</li>'
+      + '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + Number(p.tokens_incluidos).toLocaleString('pt-PT') + ' tokens de IA/mês</li>';
+    if (p.permite_dominio) {
+      lista += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Domínio próprio</li>';
+    }
+    if (p.max_colaboradores > 0) {
+      lista += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + p.max_colaboradores + ' colaborador' + (p.max_colaboradores === 1 ? '' : 'es') + '</li>';
+    }
+
+    var preco = p.preco_mzn > 0
+      ? '<div class="plano-preco">' + Number(p.preco_mzn).toLocaleString('pt-PT') + ' MZN <span class="periodo">/mês</span></div>'
+      : '<div class="plano-preco">0 MZN</div>';
+
+    var botao = ehActual
+      ? '<button class="btn-plano" disabled>Plano actual</button>'
+      : '<button class="btn-plano' + (ehPopular ? ' principal' : '') + '" data-plano-id="' + p.id + '" data-plano-nome="' + escaparHtml(p.nome) + '" data-plano-preco="' + p.preco_mzn + '">Mudar para ' + escaparHtml(p.nome) + '</button>';
+
+    return ''
+      + '<div class="' + classes + '">'
+      + selo
+      + '<div class="plano-nome">' + escaparHtml(p.nome) + '</div>'
+      + preco
+      + '<ul class="plano-lista">' + lista + '</ul>'
+      + botao
+      + '</div>';
+  }).join('');
+
+  grelha.querySelectorAll('.btn-plano[data-plano-id]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      abrirMudancaPlano(btn.getAttribute('data-plano-id'), btn.getAttribute('data-plano-nome'), Number(btn.getAttribute('data-plano-preco')));
+    });
+  });
+}
+
+// ======================================================
+// Mudar de plano - grátis aplica-se logo, pago abre o modal de pagamento
+// ======================================================
+var elOverlay = document.getElementById('overlay-pagar');
+var elVistaForm = document.getElementById('vista-form');
+var elVistaEspera = document.getElementById('vista-espera');
+var elVistaSucesso = document.getElementById('vista-sucesso');
+var elCampoTelefone = document.getElementById('campo-telefone');
+var elTelefone = document.getElementById('pagar-telefone');
+var elPagarErro = document.getElementById('pagar-erro');
+var btnPagar = document.getElementById('btn-pagar');
+
+var planoEscolhidoId = '';
+var metodoSeleccionado = '';
+var assinaturaActualId = '';
+var esperaTimer = null;
+var tentativasEspera = 0;
+
+function mostrarVistaModal(nome){
+  elVistaForm.style.display = (nome === 'form') ? '' : 'none';
+  elVistaEspera.style.display = (nome === 'espera') ? '' : 'none';
+  elVistaSucesso.style.display = (nome === 'sucesso') ? '' : 'none';
+}
+
+function abrirMudancaPlano(planoId, nomePlano, precoMzn){
+  mostrarMsgPagina('', '');
+
+  if (precoMzn <= 0) {
+    if (!confirm('Mudar para o plano ' + nomePlano + '?')) return;
+    fetch(CONTAINER_URL + '/assinatura-iniciar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ owner: OWNER, plano_id: planoId })
+    }).then(function(r){ return r.json(); })
+      .then(function(r){
+        if (r.status === 'success') {
+          mostrarMsgPagina('Plano actualizado para ' + nomePlano + '.', 'ok');
+          carregarPlanoActual();
+        } else {
+          mostrarMsgPagina(r.message || 'Não foi possível mudar de plano.', 'erro');
+        }
+      })
+      .catch(function(){
+        mostrarMsgPagina('Não foi possível ligar ao servidor.', 'erro');
+      });
+    return;
+  }
+
+  planoEscolhidoId = planoId;
+  metodoSeleccionado = '';
+  elTelefone.value = '';
+  elPagarErro.textContent = '';
+  document.getElementById('pagar-nome-plano').textContent = nomePlano;
+  document.getElementById('pagar-valor').textContent = precoMzn.toLocaleString('pt-PT');
+  elCampoTelefone.style.display = 'none';
+  document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
+  btnPagar.disabled = false;
+  btnPagar.textContent = 'Pagar';
+  mostrarVistaModal('form');
+  elOverlay.style.display = 'flex';
+}
+
+document.querySelectorAll('.metodo-tile').forEach(function(tile){
+  tile.addEventListener('click', function(){
+    document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
+    tile.classList.add('seleccionado');
+    metodoSeleccionado = tile.getAttribute('data-metodo');
+    elCampoTelefone.style.display = (metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') ? '' : 'none';
+  });
+});
+
+document.getElementById('btn-cancelar-pagar').addEventListener('click', function(){
+  elOverlay.style.display = 'none';
+  pararEspera();
+});
+document.getElementById('btn-fechar-sucesso').addEventListener('click', function(){
+  elOverlay.style.display = 'none';
+  pararEspera();
+  carregarPlanoActual();
+});
+
+btnPagar.addEventListener('click', function(){
+  elPagarErro.textContent = '';
+
+  if (!metodoSeleccionado) {
+    elPagarErro.textContent = 'Escolhe um método de pagamento.';
+    return;
+  }
+  var telefone = elTelefone.value.trim();
+  if ((metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') && !telefone) {
+    elPagarErro.textContent = 'Escreve o teu número de telefone.';
+    return;
+  }
+
+  btnPagar.disabled = true;
+  btnPagar.textContent = 'A processar...';
+
+  fetch(CONTAINER_URL + '/assinatura-iniciar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, plano_id: planoEscolhidoId })
+  }).then(function(r){ return r.json(); })
+    .then(function(rIniciar){
+      if (rIniciar.status !== 'success') {
+        throw new Error(rIniciar.message || 'Não foi possível iniciar a mudança de plano.');
+      }
+      if (rIniciar.response.gratis) {
+        // Por segurança (ex: o plano passou a ser grátis entretanto) -
+        // já está aplicado, não há nada mais a pagar.
+        mostrarVistaModal('sucesso');
+        return null;
+      }
+      assinaturaActualId = rIniciar.response.assinatura_id;
+      var corpo = { assinatura_id: assinaturaActualId, metodo: metodoSeleccionado };
+      if (telefone) corpo.telefone = telefone;
+      return fetch(CONTAINER_URL + '/assinatura-pagar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(corpo)
+      }).then(function(r){ return r.json(); });
+    })
+    .then(function(rPagar){
+      if (!rPagar) return; // já tratado no caminho "grátis" acima
+      if (rPagar.status !== 'success') {
+        throw new Error(rPagar.message || 'Não foi possível iniciar o pagamento.');
+      }
+      if (rPagar.response.tipo === 'cartao') {
+        // Sai desta página para a MozPayment - volta depois pelo
+        // return_url (/assinatura-obrigado, tratado pelo próprio
+        // container) directamente para o dashboard.
+        window.location.href = rPagar.response.checkout_url;
+        return;
+      }
+      // M-Pesa / e-Mola: fica aqui a aguardar a confirmação no telemóvel.
+      mostrarVistaModal('espera');
+      iniciarEsperaPagamento();
+    })
+    .catch(function(erro){
+      btnPagar.disabled = false;
+      btnPagar.textContent = 'Pagar';
+      elPagarErro.textContent = erro.message || 'Algo correu mal. Tenta novamente.';
+    });
+});
+
+function iniciarEsperaPagamento(){
+  tentativasEspera = 0;
+  document.getElementById('espera-texto').textContent = 'Confirma o pagamento no teu telemóvel...';
+  verificarEsperaPagamento();
+}
+
+function pararEspera(){
+  if (esperaTimer) clearTimeout(esperaTimer);
+  esperaTimer = null;
+}
+
+function verificarEsperaPagamento(){
+  fetch(CONTAINER_URL + '/assinatura-estado', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ assinatura_id: assinaturaActualId })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      if (r.status === 'success' && r.response.estado === 'Pago') {
+        mostrarVistaModal('sucesso');
+        return;
+      }
+      tentativasEspera++;
+      if (tentativasEspera >= 20) {
+        document.getElementById('espera-texto').textContent = 'Ainda a confirmar. Se já pagaste, aguarda mais um pouco e verifica o teu plano novamente.';
+        return;
+      }
+      esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
+    })
+    .catch(function(){
+      tentativasEspera++;
+      if (tentativasEspera >= 20) {
+        document.getElementById('espera-texto').textContent = 'Não foi possível confirmar. Verifica a tua ligação.';
+        return;
+      }
+      esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
+    });
+}
+
+carregarPlanoActual();
+</script>
+
+</body>
+</html>
