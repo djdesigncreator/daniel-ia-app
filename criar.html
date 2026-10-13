@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .topbar{
+    position:sticky;top:0;z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 28px;
+    border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(135deg, rgba(168,85,247,0.16), rgba(99,102,241,0.16)), var(--glass-bg);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 20px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:17px;height:17px;}
+  .brand .wordmark{
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .theme-toggle{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:17px;height:17px;}
+  .btn-dashboard{
+    background:transparent;
+    border:1px solid var(--glass-border);
+    color:var(--text-dim);
+    border-radius:10px;
+    padding:9px 16px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn-dashboard:hover{color:var(--text);border-color:var(--accent-2);}
+  .main{
+    max-width:640px;
+    margin:0 auto;
+    padding:40px 24px 80px 24px;
+  }
+  .heading h1{
+    font-size:24px;
+    margin:0 0 4px 0;
+    font-weight:700;
+  }
+  .heading p{
+    margin:0 0 28px 0;
+    color:var(--text-dim);
+    font-size:14px;
+  }
+  .card{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:16px;
+    padding:28px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] .card{
+    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  }
+  label{
+    display:block;
+    font-size:13px;
+    color:var(--text-dim);
+    margin:18px 0 6px 0;
+    font-weight:600;
+  }
+  label:first-of-type{margin-top:0;}
+  .hint{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:6px;
+    line-height:1.5;
+  }
+  input[type="text"],
+  textarea,
+  select{
+    width:100%;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input[type="text"]::placeholder,
+  textarea::placeholder{color:var(--text-dim);}
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus{
+    border-color:var(--accent-2);
+  }
+  textarea{
+    resize:vertical;
+    min-height:110px;
+    line-height:1.5;
+  }
+  select{
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239699B0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    background-size:16px;
+    padding-right:40px;
+    cursor:pointer;
+  }
+  select.placeholder-active{color:var(--text-dim);}
+  .char-count{
+    font-size:11px;
+    color:var(--text-dim);
+    text-align:right;
+    margin-top:4px;
+  }
+  .logo-drop{
+    border:1.5px dashed var(--border);
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s;
+  }
+  .logo-drop:hover{border-color:var(--accent-2);}
+  .logo-drop svg{width:22px;height:22px;color:var(--text-dim);margin-bottom:6px;}
+  .logo-drop .label-main{font-size:13px;color:var(--text);font-weight:600;}
+  .logo-drop .label-sub{font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .logo-preview{
+    display:none;
+    align-items:center;
+    gap:12px;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:10px 12px;
+  }
+  .logo-preview.show{display:flex;}
+  .logo-preview img{
+    width:48px;height:48px;border-radius:9px;object-fit:cover;flex-shrink:0;background:var(--border);
+  }
+  .logo-preview .nome-ficheiro{
+    flex:1;
+    font-size:13px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .logo-remove{
+    background:transparent;
+    border:none;
+    color:var(--text-dim);
+    cursor:pointer;
+    font-size:18px;
+    line-height:1;
+    padding:4px 8px;
+    flex-shrink:0;
+  }
+  .logo-remove:hover{color:var(--error);}
+  .imagens-drop{
+    border:1.5px dashed var(--border);
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s;
+  }
+  .imagens-drop:hover{border-color:var(--accent-2);}
+  .imagens-drop svg{width:22px;height:22px;color:var(--text-dim);margin-bottom:6px;}
+  .imagens-drop .label-main{font-size:13px;color:var(--text);font-weight:600;}
+  .imagens-drop .label-sub{font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .imagens-drop.disabled{opacity:.5;cursor:not-allowed;}
+  .imagens-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin-top:10px;
+  }
+  .imagem-item{position:relative;border-radius:9px;overflow:hidden;background:var(--card-alt);border:1px solid var(--border);}
+  .imagem-item img{width:100%;height:64px;object-fit:cover;display:block;}
+  .imagem-remove{
+    position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;
+    background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:1;
+    display:flex;align-items:center;justify-content:center;padding:0;
+  }
+  .imagem-remove:hover{background:var(--error);}
+  .btn{
+    width:100%;
+    margin-top:26px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:14px 14px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:opacity .15s,transform .05s;
+  }
+  .btn:hover{opacity:.92;}
+  .btn:active{transform:scale(.99);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .btn.secondary{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+  .btn-row{
+    display:flex;
+    gap:10px;
+    margin-top:26px;
+  }
+  .btn-row .btn{margin-top:0;}
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    display:none;
+    line-height:1.5;
+  }
+  .msg.show{display:block;}
+  .msg.error{background:rgba(255,92,122,0.1);color:var(--error);border:1px solid rgba(255,92,122,0.25);}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---- Vista: a gerar ---- */
+  .progress-card{
+    text-align:center;
+    padding:48px 28px;
+  }
+  .spinner{
+    width:44px;height:44px;
+    margin:0 auto 22px auto;
+    border-radius:50%;
+    border:3px solid var(--border);
+    border-top-color:var(--accent-2);
+    animation:girar 0.8s linear infinite;
+  }
+  @keyframes girar{to{transform:rotate(360deg);}}
+  .progress-card h2{
+    font-size:17px;
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  .progress-card p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:13px;
+    max-width:320px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+  .progress-card .tempo{
+    margin-top:18px;
+    font-size:12px;
+    color:var(--text-dim);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---- Vista: pronto ---- */
+  .result-icon{
+    width:52px;height:52px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px auto;
+  }
+  .result-icon.ok{background:rgba(34,197,94,0.12);}
+  .result-icon.erro{background:rgba(255,92,122,0.12);}
+  .result-icon svg{width:26px;height:26px;}
+  .result-card{
+    text-align:center;
+    padding:44px 28px;
+  }
+  .result-card h2{
+    font-size:18px;
+    margin:0 0 8px 0;
+    font-weight:700;
+  }
+  .result-card p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:13px;
+    line-height:1.6;
+  }
+  .link-site{
+    display:inline-block;
+    margin-top:18px;
+    font-size:13px;
+    color:var(--accent-2);
+    word-break:break-all;
+    text-decoration:none;
+  }
+  .link-site:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+  <div class="top-actions">
+    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <button class="btn-dashboard" id="btn-dashboard-top">Dashboard</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="heading">
+    <h1>Criar projecto novo</h1>
+    <p>Descreve o que queres e a nossa IA gera o teu site completo em menos de um minuto.</p>
+  </div>
+
+  <!-- FORMULÁRIO -->
+  <div class="view active" id="view-form">
+    <div class="card">
+
+      <label for="f-nome">Nome do negócio</label>
+      <input type="text" id="f-nome" placeholder="Ex: Loja Teste" maxlength="80">
+
+      <label for="f-tipo">Tipo de projecto</label>
+      <select id="f-tipo" class="placeholder-active">
+        <option value="" disabled selected>Escolhe o tipo de projecto</option>
+        <option value="E-commerce">E-commerce</option>
+        <option value="Checkout">Checkout</option>
+        <option value="Landing Page">Landing Page</option>
+        <option value="Portefólio">Portefólio</option>
+        <option value="Blog">Blog</option>
+        <option value="Galeria">Galeria</option>
+      </select>
+
+      <label for="f-prompt">Descreve o que queres</label>
+      <textarea id="f-prompt" placeholder="Ex: Uma padaria artesanal em Maputo, com secção de produtos, sobre nós e contacto. Tom acolhedor, cores quentes." maxlength="900"></textarea>
+      <div class="char-count"><span id="f-prompt-count">0</span>/900</div>
+
+      <label>Logótipo (opcional)</label>
+      <div class="logo-drop" id="logo-drop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <div class="label-main">Clica para carregar um logótipo</div>
+        <div class="label-sub">PNG ou JPG, até 3 MB</div>
+      </div>
+      <input type="file" id="f-logo" accept="image/*" style="display:none">
+      <div class="logo-preview" id="logo-preview">
+        <img id="logo-preview-img" src="" alt="">
+        <div class="nome-ficheiro" id="logo-preview-nome"></div>
+        <button class="logo-remove" id="logo-remove" title="Remover">&times;</button>
+      </div>
+
+      <label style="margin-top:18px;">Imagens para usar no site (opcional)</label>
+      <div class="imagens-drop" id="imagens-drop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <div class="label-main">Clica para anexar imagens</div>
+        <div class="label-sub">PNG ou JPG, até 3 MB cada, até 5 imagens</div>
+      </div>
+      <input type="file" id="f-imagens" accept="image/*" multiple style="display:none">
+      <div class="imagens-grid" id="imagens-grid"></div>
+
+      <button class="btn" id="btn-gerar">Gerar o meu site</button>
+
+      <div class="msg" id="msg-form"></div>
+    </div>
+  </div>
+
+  <!-- A GERAR -->
+  <div class="view" id="view-progress">
+    <div class="card progress-card">
+      <div class="spinner"></div>
+      <h2>A gerar o teu site...</h2>
+      <p>A nossa IA está a escrever o código, com base no que descreveste. Isto costuma demorar entre 20 a 60 segundos — não feches esta página.</p>
+      <div class="tempo" id="progress-tempo">0s</div>
+    </div>
+  </div>
+
+  <!-- PRONTO -->
+  <div class="view" id="view-pronto">
+    <div class="card result-card">
+      <div class="result-icon ok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2>O teu site está pronto!</h2>
+      <p>Já podes abrir e ver o resultado.</p>
+      <a href="#" target="_blank" class="link-site" id="link-site"></a>
+      <div class="btn-row">
+        <button class="btn secondary" id="btn-outro">Criar outro</button>
+        <button class="btn" id="btn-ver-site">Ver o site</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERRO -->
+  <div class="view" id="view-erro">
+    <div class="card result-card">
+      <div class="result-icon erro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF5C7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <h2>Não foi possível gerar o site</h2>
+      <p id="erro-texto">Algo correu mal durante a geração. Podes tentar novamente.</p>
+      <div class="btn-row">
+        <button class="btn secondary" id="btn-dashboard-erro">Dashboard</button>
+        <button class="btn" id="btn-tentar-outra-vez">Tentar novamente</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
+  no login.html. O OWNER vem do que o login.html guardou no localStorage
+  deste browser depois de entrar. Se não houver nada guardado, a pessoa
+  não está autenticada - manda-a de volta para o login.
+*/
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+var OWNER = localStorage.getItem('daniel_owner');
+if (!OWNER) {
+  window.location.href = 'index.html';
+}
+
+var logoDataUrl = '';
+var siteIdActual = '';
+var pollTimer = null;
+var tempoTimer = null;
+var segundosDecorridos = 0;
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+}
+
+function showMessage(texto){
+  var msg = document.getElementById('msg-form');
+  msg.textContent = texto;
+  msg.classList.add('show','error');
+}
+
+function hideMessage(){
+  var msg = document.getElementById('msg-form');
+  msg.classList.remove('show','error');
+  msg.textContent = '';
+}
+
+function setLoading(btn, loading, textoOriginal, textoLoading){
+  btn.disabled = loading;
+  btn.textContent = loading ? textoLoading : textoOriginal;
+}
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+/*
+  Navegação para o dashboard
+  ------------------------------
+  Antes isto corria dentro de uma iframe isolada do Bubble, que só
+  deixava abrir aba nova (window.open). Agora esta página vive no mesmo
+  sítio que o dashboard.html (GitHub Pages), por isso navega a sério,
+  no mesmo separador, como um site normal.
+*/
+function irPara(pagina){
+  window.location.href = pagina;
+}
+
+document.getElementById('btn-dashboard-top').addEventListener('click', function(){
+  irPara('dashboard.html');
+});
+document.getElementById('btn-dashboard-erro').addEventListener('click', function(){
+  irPara('dashboard.html');
+});
+
+// ---- Contador de caracteres do prompt ----
+var campoPrompt = document.getElementById('f-prompt');
+campoPrompt.addEventListener('input', function(){
+  document.getElementById('f-prompt-count').textContent = campoPrompt.value.length;
+});
+
+// ---- Select: estilo diferente quando ainda está no placeholder ----
+var campoTipo = document.getElementById('f-tipo');
+campoTipo.addEventListener('change', function(){
+  campoTipo.classList.toggle('placeholder-active', campoTipo.value === '');
+});
+
+// ---- Logótipo ----
+var logoDrop = document.getElementById('logo-drop');
+var inputLogo = document.getElementById('f-logo');
+var logoPreview = document.getElementById('logo-preview');
+var logoPreviewImg = document.getElementById('logo-preview-img');
+var logoPreviewNome = document.getElementById('logo-preview-nome');
+
+logoDrop.addEventListener('click', function(){
+  inputLogo.click();
+});
+
+inputLogo.addEventListener('change', function(){
+  var ficheiro = inputLogo.files[0];
+  if (!ficheiro) return;
+
+  if (ficheiro.size > 3 * 1024 * 1024) {
+    showMessage('O logótipo é demasiado grande. O limite é 3 MB.');
+    inputLogo.value = '';
+    return;
+  }
+  hideMessage();
+
+  var leitor = new FileReader();
+  leitor.onload = function(e){
+    logoDataUrl = e.target.result;
+    logoPreviewImg.src = logoDataUrl;
+    logoPreviewNome.textContent = ficheiro.name;
+    logoPreview.classList.add('show');
+    logoDrop.style.display = 'none';
+  };
+  leitor.readAsDataURL(ficheiro);
+});
+
+document.getElementById('logo-remove').addEventListener('click', function(){
+  logoDataUrl = '';
+  inputLogo.value = '';
+  logoPreview.classList.remove('show');
+  logoDrop.style.display = '';
+});
+
+// ---- Imagens para usar no site ----
+var MAX_IMAGENS = 5;
+var imagensDataUrls = []; // array de { dataUrl, nome }
+var imagensDrop = document.getElementById('imagens-drop');
+var inputImagens = document.getElementById('f-imagens');
+var imagensGrid = document.getElementById('imagens-grid');
+
+imagensDrop.addEventListener('click', function(){
+  if (imagensDataUrls.length >= MAX_IMAGENS) return;
+  inputImagens.click();
+});
+
+inputImagens.addEventListener('change', function(){
+  var ficheiros = Array.prototype.slice.call(inputImagens.files || []);
+  inputImagens.value = '';
+  if (!ficheiros.length) return;
+
+  ficheiros.forEach(function(ficheiro){
+    if (imagensDataUrls.length >= MAX_IMAGENS) {
+      showMessage('Só podes anexar até ' + MAX_IMAGENS + ' imagens.');
+      return;
+    }
+    if (ficheiro.size > 3 * 1024 * 1024) {
+      showMessage('A imagem "' + ficheiro.name + '" é demasiado grande. O limite é 3 MB.');
+      return;
+    }
+    var leitor = new FileReader();
+    leitor.onload = function(e){
+      imagensDataUrls.push({ dataUrl: e.target.result, nome: ficheiro.name });
+      renderImagensGrid();
+    };
+    leitor.readAsDataURL(ficheiro);
+  });
+});
+
+function renderImagensGrid(){
+  imagensGrid.innerHTML = imagensDataUrls.map(function(img, i){
+    return '<div class="imagem-item">'
+      + '<img src="' + img.dataUrl + '" alt="' + img.nome.replace(/"/g, '&quot;') + '">'
+      + '<button type="button" class="imagem-remove" data-i="' + i + '" title="Remover">&times;</button>'
+      + '</div>';
+  }).join('');
+
+  imagensGrid.querySelectorAll('.imagem-remove').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      imagensDataUrls.splice(parseInt(btn.getAttribute('data-i'), 10), 1);
+      renderImagensGrid();
+    });
+  });
+
+  imagensDrop.classList.toggle('disabled', imagensDataUrls.length >= MAX_IMAGENS);
+}
+
+// ---- Submeter o formulário ----
+var btnGerar = document.getElementById('btn-gerar');
+
+btnGerar.addEventListener('click', function(){
+  hideMessage();
+
+  var nome = document.getElementById('f-nome').value.trim();
+  var tipo = document.getElementById('f-tipo').value;
+  var prompt = document.getElementById('f-prompt').value.trim();
+
+  if (!nome) {
+    showMessage('Escreve o nome do negócio.');
+    return;
+  }
+  if (!tipo) {
+    showMessage('Escolhe o tipo de projecto.');
+    return;
+  }
+  if (prompt.length < 15) {
+    showMessage('Descreve um pouco melhor o que queres (pelo menos 15 caracteres).');
+    return;
+  }
+
+  setLoading(btnGerar, true, 'Gerar o meu site', 'A iniciar...');
+
+  var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt };
+  if (logoDataUrl) corpo.logo_data_url = logoDataUrl;
+  if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
+
+  fetch(CONTAINER_URL + '/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(corpo)
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      if (r.status === 'success' && r.response && r.response.site_id) {
+        siteIdActual = r.response.site_id;
+        iniciarEspera();
+      } else {
+        setLoading(btnGerar, false, 'Gerar o meu site', '');
+        showMessage(r.message || 'Não foi possível iniciar a geração. Tenta novamente.');
+      }
+    })
+    .catch(function(){
+      setLoading(btnGerar, false, 'Gerar o meu site', '');
+      showMessage('Não foi possível ligar ao servidor. Verifica a tua ligação e tenta novamente.');
+    });
+});
+
+// ---- Vista de progresso: contagem de tempo + polling ----
+function iniciarEspera(){
+  showView('view-progress');
+  segundosDecorridos = 0;
+  document.getElementById('progress-tempo').textContent = '0s';
+
+  tempoTimer = setInterval(function(){
+    segundosDecorridos++;
+    document.getElementById('progress-tempo').textContent = segundosDecorridos + 's';
+  }, 1000);
+
+  pollTimer = setInterval(verificarEstado, 4000);
+  verificarEstado();
+}
+
+function pararEspera(){
+  if (pollTimer) clearInterval(pollTimer);
+  if (tempoTimer) clearInterval(tempoTimer);
+  pollTimer = null;
+  tempoTimer = null;
+}
+
+function verificarEstado(){
+  fetch(CONTAINER_URL + '/generate-status', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ site_id: siteIdActual })
+  }).then(function(r){ return r.json(); })
+    .then(function(r){
+      if (r.status !== 'success' || !r.response) return;
+
+      if (r.response.estado === 'Pronto') {
+        pararEspera();
+        var link = document.getElementById('link-site');
+        link.href = r.response.cdn_url;
+        link.textContent = r.response.cdn_url;
+        document.getElementById('btn-ver-site').onclick = function(){
+          window.open(r.response.cdn_url, '_blank');
+        };
+        showView('view-pronto');
+      } else if (r.response.estado === 'Erro') {
+        pararEspera();
+        showView('view-erro');
+      }
+      // se ainda for "A gerar", não fazemos nada - o próximo poll tenta outra vez
+    })
+    .catch(function(){
+      // falha de rede isolada durante o polling - tenta outra vez no próximo ciclo
+    });
+}
+
+// ---- Botões das vistas finais ----
+document.getElementById('btn-outro').addEventListener('click', function(){
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-prompt').value = '';
+  document.getElementById('f-prompt-count').textContent = '0';
+  campoTipo.value = '';
+  campoTipo.classList.add('placeholder-active');
+  logoDataUrl = '';
+  inputLogo.value = '';
+  logoPreview.classList.remove('show');
+  logoDrop.style.display = '';
+  imagensDataUrls = [];
+  inputImagens.value = '';
+  renderImagensGrid();
+  hideMessage();
+  setLoading(btnGerar, false, 'Gerar o meu site', '');
+  showView('view-form');
+});
+
+document.getElementById('btn-tentar-outra-vez').addEventListener('click', function(){
+  setLoading(btnGerar, false, 'Gerar o meu site', '');
+  showView('view-form');
+});
+</script>
+
+</body>
+</html>

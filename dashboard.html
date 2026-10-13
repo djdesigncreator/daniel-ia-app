@@ -687,11 +687,12 @@ document.getElementById('btn-sair').addEventListener('click', function(){
 });
 
 // ---- Ir para a página de criar projecto ----
+// Já migrada (13/10/2026) - vive aqui ao lado, não no Bubble.
 document.getElementById('btn-novo-projecto').addEventListener('click', function(){
-  irPara('/criar');
+  window.location.href = 'criar.html';
 });
 document.getElementById('btn-novo-projecto-vazio').addEventListener('click', function(){
-  irPara('/criar');
+  window.location.href = 'criar.html';
 });
 
 // ---- Ir para a página de planos ----
