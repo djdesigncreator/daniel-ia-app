@@ -383,7 +383,7 @@ window.addEventListener('pageshow', function(evento){
 // Se já houver uma conta guardada neste browser, não faz sentido mostrar
 // o ecrã de login outra vez - segue direito para o dashboard.
 if (localStorage.getItem('daniel_owner')) {
-  window.location.href = 'dashboard.html';
+  window.location.href = '/dashboard/';
 }
 
 // Guarda a conta neste browser e segue a sério para o dashboard (já não
@@ -395,7 +395,7 @@ function entrarNoDashboard(ownerId, token){
   }
   localStorage.setItem('daniel_owner', ownerId);
   if (token) localStorage.setItem('daniel_token', token);
-  window.location.href = 'dashboard.html';
+  window.location.href = '/dashboard/';
   return true;
 }
 
