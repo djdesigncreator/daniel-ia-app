@@ -594,8 +594,9 @@ document.getElementById('btn-confirmar').addEventListener('click', function(){
       setLoading(btn, false);
       if (r.status === 'success') {
         // Já sabemos o id da conta desde o registo (ownerAtual) - não
-        // precisa de vir do Bubble outra vez.
-        entrarNoDashboard(ownerAtual, null);
+        // precisa de vir do Bubble outra vez. O token de sessão vem agora
+        // na resposta do /verify-code (14/10/2026 - autenticação a sério).
+        entrarNoDashboard(ownerAtual, r.token);
       } else {
         showMessage('view-confirmar', r.message || 'Código incorrecto.', 'error');
       }
