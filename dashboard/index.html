@@ -659,9 +659,21 @@
   errado, sem os projectos certos. Isto obriga a um recarregamento a sério
   sempre que o browser tentar restaurar em vez de carregar de novo.
 */
+// 14/10/2026: esta protecção estava a causar um loop infinito de reloads
+// no telemóvel (provavelmente por causa do service worker do Progressier -
+// algumas combinações de browser/PWA marcam "persisted: true" em TODAS as
+// páginas seguintes, não só nas restauradas a sério). Agora só recarrega
+// UMA VEZ por separador aberto (sessionStorage sobrevive ao reload, mas
+// limpa-se sozinha quando o separador fecha) - continua a corrigir o
+// problema original sem poder voltar a disparar-se a si próprio sem parar.
 window.addEventListener('pageshow', function(evento){
   if (evento.persisted) {
-    window.location.reload();
+    var jaRecarregou = false;
+    try { jaRecarregou = sessionStorage.getItem('dia_bfcache_recarregado'); } catch (e) {}
+    if (!jaRecarregou) {
+      try { sessionStorage.setItem('dia_bfcache_recarregado', '1'); } catch (e) {}
+      window.location.reload();
+    }
   }
 });
 

@@ -19,7 +19,6 @@
     --accent-glow:rgba(124,58,237,0.35);
     --error:#FF5C7A;
     --success:#22C55E;
-    --warning:#F5A623;
     --glass-bg:rgba(20,20,31,0.55);
     --glass-border:rgba(255,255,255,0.08);
   }
@@ -43,11 +42,16 @@
     background:transparent;
     color:var(--text);
     min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
     position:relative;
     overflow-x:hidden;
     transition:color .2s;
   }
-  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta (sem
+     variação horizontal nenhuma - ver nota na landing page) ---- */
   .bg-base{
     position:fixed;inset:0;z-index:-2;
     background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
@@ -65,48 +69,12 @@
     mask-image:linear-gradient(180deg, black 0%, transparent 78%);
   }
   :root[data-theme="light"] .bg-grid{opacity:.35;}
-  .topbar{
-    position:sticky;top:0;z-index:500;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:16px 28px;
-    border-bottom:1px solid var(--glass-border);
-    background:linear-gradient(135deg, rgba(168,85,247,0.16), rgba(99,102,241,0.16)), var(--glass-bg);
-    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  }
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .logo-mark{
-    width:30px;height:30px;border-radius:8px;
-    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-    box-shadow:0 0 20px var(--accent-glow);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-  .logo-mark svg{width:17px;height:17px;}
-  .brand .wordmark{
-    font-size:18px;
-    font-weight:700;
-    letter-spacing:-0.02em;
-  }
-  .brand .wordmark .ia{
-    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .top-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
   .theme-toggle{
-    width:36px;
-    height:36px;
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:38px;
+    height:38px;
     border-radius:10px;
     background:var(--glass-bg);
     border:1px solid var(--glass-border);
@@ -118,309 +86,151 @@
     color:var(--text-dim);
   }
   .theme-toggle:hover{color:var(--text);}
-  .theme-toggle svg{width:17px;height:17px;}
-  .btn-sair{
-    background:transparent;
-    border:1px solid var(--glass-border);
-    color:var(--text-dim);
-    border-radius:10px;
-    padding:9px 16px;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
+  .theme-toggle svg{width:18px;height:18px;}
+  .wrap{
+    width:100%;
+    max-width:420px;
   }
-  .btn-sair:hover{color:var(--text);border-color:var(--accent-2);}
-  .main{
-    max-width:960px;
-    margin:0 auto;
-    padding:40px 24px 80px 24px;
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+    justify-content:center;
   }
-  .welcome h1{
-    font-size:24px;
-    margin:0 0 4px 0;
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 24px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:20px;height:20px;}
+  .brand .wordmark{
+    font-size:21px;
     font-weight:700;
+    letter-spacing:-0.02em;
   }
-  .welcome p{
-    margin:0 0 32px 0;
-    color:var(--text-dim);
-    font-size:14px;
-  }
-  .cards{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:16px;
-    margin-bottom:32px;
-  }
-  @media (max-width:640px){
-    .cards{grid-template-columns:1fr;}
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
   }
   .card{
     background:var(--glass-bg);
     border:1px solid var(--glass-border);
-    border-radius:14px;
-    padding:20px 22px;
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-radius:18px;
+    padding:32px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
   }
-  .card .label{
-    font-size:12px;
+  :root[data-theme="light"] .card{
+    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  }
+  h1{
+    font-size:20px;
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  p.sub{
+    margin:0 0 24px 0;
     color:var(--text-dim);
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    margin-bottom:8px;
+    font-size:14px;
+    line-height:1.5;
   }
-  .card .value{
+  label{
+    display:block;
+    font-size:13px;
+    color:var(--text-dim);
+    margin:16px 0 6px 0;
+  }
+  label:first-of-type{margin-top:0;}
+  input{
+    width:100%;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input::placeholder{color:var(--text-dim);}
+  input:focus{
+    border-color:var(--accent-2);
+  }
+  input.code-input{
+    font-family:'Courier New',Courier,monospace;
     font-size:22px;
     font-weight:700;
+    letter-spacing:6px;
+    text-align:center;
+    text-transform:uppercase;
   }
-  .bar-track{
+  .btn{
     width:100%;
-    height:6px;
-    background:var(--card-alt);
-    border-radius:4px;
-    margin-top:12px;
-    overflow:hidden;
-  }
-  .bar-fill{
-    height:100%;
-    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-    border-radius:4px;
-    width:0%;
-    transition:width .4s;
-  }
-  .bar-caption{
-    font-size:12px;
-    color:var(--text-dim);
-    margin-top:6px;
-  }
-  .card-link{
-    display:inline-block;
-    margin-top:10px;
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--accent-2);
-    cursor:pointer;
-    background:none;
-    border:none;
-    padding:0;
-    font-family:inherit;
-  }
-  .card-link:hover{text-decoration:underline;}
-
-  /* ---- Secção "Os teus sites" ---- */
-  .sites-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:14px;
-  }
-  .sites-header h2{
-    font-size:16px;
-    margin:0;
-    font-weight:700;
-  }
-  .btn-novo{
+    margin-top:22px;
     background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
     color:#fff;
     border:none;
     border-radius:10px;
-    padding:10px 16px;
-    font-size:13px;
+    padding:13px 14px;
+    font-size:14px;
     font-weight:600;
     cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:6px;
+    transition:opacity .15s,transform .05s;
   }
-  .btn-novo:hover{opacity:.92;}
-  .btn-novo svg{width:15px;height:15px;}
-
-  .sites-empty{
-    background:var(--glass-bg);
-    border:1px solid var(--glass-border);
-    border-radius:14px;
-    padding:48px 24px;
-    text-align:center;
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  }
-  .sites-empty h3{
-    font-size:15px;
-    margin:0 0 6px 0;
-    font-weight:700;
-  }
-  .sites-empty p{
-    margin:0 0 20px 0;
-    color:var(--text-dim);
-    font-size:13px;
-    max-width:360px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .sites-loading{
-    color:var(--text-dim);
-    font-size:13px;
-    padding:20px 0;
-  }
-
-  .sites-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .site-item{
-    background:var(--glass-bg);
-    border:1px solid var(--glass-border);
-    border-radius:12px;
-    padding:16px 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    flex-wrap:wrap;
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  }
-  .site-item .site-info{
-    min-width:0;
-  }
-  .site-item .site-nome{
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:4px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .site-meta{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex-wrap:wrap;
-  }
-  .pill{
-    font-size:11px;
-    padding:3px 9px;
-    border-radius:20px;
-    border:1px solid var(--border);
-    color:var(--text-dim);
-    white-space:nowrap;
-  }
-  .pill.estado-pronto{background:rgba(34,197,94,0.12);color:var(--success);border-color:rgba(34,197,94,0.25);}
-  .pill.estado-erro{background:rgba(255,92,122,0.12);color:var(--error);border-color:rgba(255,92,122,0.25);}
-  .pill.estado-gerando{background:rgba(245,166,35,0.12);color:var(--warning);border-color:rgba(245,166,35,0.25);}
-  .site-data{
-    font-size:12px;
-    color:var(--text-dim);
-  }
-  .site-actions{
-    flex-shrink:0;
-  }
-  .btn-ver{
+  .btn:hover{opacity:.92;}
+  .btn:active{transform:scale(.99);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .btn.secondary{
     background:transparent;
     border:1px solid var(--border);
     color:var(--text);
-    border-radius:8px;
-    padding:8px 14px;
-    font-size:12px;
-    font-weight:600;
-    cursor:pointer;
-    text-decoration:none;
-    display:inline-block;
   }
-  .btn-ver:hover{border-color:var(--accent-2);}
-  .a-gerar-texto{
-    font-size:12px;
-    color:var(--text-dim);
+  .links{
     display:flex;
-    align-items:center;
-    gap:6px;
+    justify-content:space-between;
+    margin-top:18px;
+    font-size:13px;
   }
-  .mini-spinner{
-    width:12px;height:12px;
-    border-radius:50%;
-    border:2px solid var(--border);
-    border-top-color:var(--warning);
-    animation:girar .8s linear infinite;
+  .links a{
+    color:var(--text-dim);
+    text-decoration:none;
+    cursor:pointer;
   }
-  @keyframes girar{to{transform:rotate(360deg);}}
-
-  /* ---- Modal "Editar" ---- */
-  .dia-overlay-editar{
-    position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
-    display:flex;align-items:center;justify-content:center;padding:20px;
+  .links a:hover{color:var(--accent-2);}
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    display:none;
   }
-  .dia-modal-editar{
-    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
-    padding:26px;max-width:440px;width:100%;max-height:88vh;overflow-y:auto;
-    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  .msg.show{display:block;}
+  .msg.error{background:rgba(255,92,122,0.1);color:var(--error);border:1px solid rgba(255,92,122,0.25);}
+  .msg.success{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.25);}
+  .view{display:none;}
+  .view.active{display:block;}
+  .resend-hint{
+    margin-top:14px;
+    font-size:13px;
+    color:var(--text-dim);
+    text-align:center;
   }
-  :root[data-theme="light"] .dia-modal-editar{
-    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  .resend-hint a{
+    color:var(--accent-2);
+    text-decoration:none;
+    cursor:pointer;
   }
-  .dia-modal-editar h3{margin:0 0 6px 0;font-size:17px;}
-  .dia-modal-editar p.sub{margin:0 0 16px 0;color:var(--text-dim);font-size:13px;}
-  #editar-prompt{
-    width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:10px;
-    padding:12px;font-size:14px;font-family:inherit;background:var(--card-alt);
-    color:var(--text);resize:vertical;min-height:90px;
+  .resend-hint a.disabled{
+    color:var(--text-dim);
+    cursor:default;
+    pointer-events:none;
   }
-  .editar-contagem{font-size:11px;color:var(--text-dim);margin-top:6px;text-align:right;}
-  .editar-erro-msg{color:var(--error);font-size:12px;margin-top:10px;}
-  .editar-acoes{display:flex;gap:10px;margin-top:18px;}
-  .editar-progresso{text-align:center;padding:10px 0;}
-  .editar-progresso p{font-size:14px;color:var(--text);margin:0;line-height:1.5;}
-  .editar-spinner-grande{
-    width:34px;height:34px;border-radius:50%;border:3px solid var(--border);
-    border-top-color:var(--accent-2);animation:girar .8s linear infinite;margin:0 auto 16px auto;
-  }
-
-  /* ---- Imagens anexadas (modal "Editar") ---- */
-  .editar-imagens-label{font-size:13px;font-weight:600;color:var(--text);margin:16px 0 8px 0;display:block;}
-  .imagens-drop{
-    border:1.5px dashed var(--border);border-radius:12px;padding:16px;
-    text-align:center;cursor:pointer;transition:border-color .15s;
-  }
-  .imagens-drop:hover{border-color:var(--accent-2);}
-  .imagens-drop svg{width:20px;height:20px;color:var(--text-dim);margin-bottom:4px;}
-  .imagens-drop .label-main{font-size:13px;color:var(--text);font-weight:600;}
-  .imagens-drop .label-sub{font-size:11px;color:var(--text-dim);margin-top:2px;}
-  .imagens-drop.disabled{opacity:.5;cursor:not-allowed;}
-  .imagens-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin-top:10px;
-  }
-  .imagem-item{position:relative;border-radius:9px;overflow:hidden;background:var(--card-alt);border:1px solid var(--border);}
-  .imagem-item img{width:100%;height:64px;object-fit:cover;display:block;}
-  .imagem-remove{
-    position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;
-    background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:1;
-    display:flex;align-items:center;justify-content:center;padding:0;
-  }
-  .imagem-remove:hover{background:var(--error);}
-
-  /* ---- Modal "Domínio" ---- */
-  #dominio-f-dominio{
-    width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:10px;
-    padding:12px;font-size:14px;font-family:inherit;background:var(--card-alt);color:var(--text);
-  }
-  .dominio-erro-msg{color:var(--error);font-size:12px;margin-top:10px;}
-  .dominio-aviso-msg{color:var(--warning);font-size:12px;margin-top:10px;line-height:1.5;}
-  .dominio-cname-box{
-    margin-top:14px;background:var(--card-alt);border:1px solid var(--border);border-radius:10px;
-    padding:14px;
-  }
-  .dominio-cname-linha{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px;}
-  .dominio-cname-linha:last-child{margin-bottom:0;}
-  .dominio-cname-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;}
-  .dominio-cname-valor{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);word-break:break-all;}
-  .dominio-btn-copiar{
-    background:none;border:1px solid var(--border);border-radius:7px;color:var(--text-dim);
-    font-size:11px;padding:4px 9px;cursor:pointer;white-space:nowrap;
-  }
-  .dominio-btn-copiar:hover{color:var(--text);border-color:var(--accent-2);}
-  .dominio-activo-badge{
-    display:inline-flex;align-items:center;gap:6px;color:var(--success);font-size:14px;font-weight:600;
-  }
-  .dominio-activo-link{color:var(--accent-2);word-break:break-all;}
+  .resend-hint a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -428,7 +238,12 @@
 <div class="bg-base"></div>
 <div class="bg-grid"></div>
 
-<div class="topbar">
+<div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+  <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+</div>
+
+<div class="wrap">
   <div class="brand">
     <div class="logo-mark">
       <svg viewBox="0 0 24 24" fill="none">
@@ -438,204 +253,192 @@
     </div>
     <div class="wordmark">Daniel<span class="ia"> IA</span></div>
   </div>
-  <div class="top-actions">
-    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
-      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-    </div>
-    <button class="btn-sair" id="btn-sair">Sair</button>
-  </div>
-</div>
 
-<div class="main">
-  <div class="welcome">
-    <h1 id="welcome-title">Bem-vindo</h1>
-    <p id="welcome-sub">A carregar a tua conta...</p>
-  </div>
+  <div class="card">
 
-  <div class="cards">
-    <div class="card">
-      <div class="label">Plano actual</div>
-      <div class="value" id="card-plano">—</div>
-      <button class="card-link" id="btn-ver-planos">Mudar de plano →</button>
-    </div>
-    <div class="card">
-      <div class="label">Tokens de IA usados este mês</div>
-      <div class="value" id="card-tokens">—</div>
-      <div class="bar-track"><div class="bar-fill" id="bar-tokens"></div></div>
-      <div class="bar-caption" id="caption-tokens"></div>
-    </div>
-  </div>
+    <!-- LOGIN -->
+    <div class="view active" id="view-login">
+      <h1>Entrar</h1>
+      <p class="sub">Acede à tua conta para continuar a criar.</p>
 
-  <div class="sites-header">
-    <h2>Os teus sites</h2>
-    <button class="btn-novo" id="btn-novo-projecto">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Criar projecto
-    </button>
-  </div>
+      <label for="li-email">Email</label>
+      <input type="email" id="li-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
 
-  <div class="sites-loading" id="sites-loading">A carregar os teus projectos...</div>
+      <label for="li-pass">Password</label>
+      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
 
-  <div class="sites-empty" id="sites-empty" style="display:none">
-    <h3>Ainda não criaste nenhum projecto</h3>
-    <p>Escreve um prompt e a nossa IA gera o teu e-commerce, checkout, landing page, portefólio ou blog em menos de um minuto.</p>
-    <button class="btn-novo" id="btn-novo-projecto-vazio" style="margin:0 auto;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Criar o primeiro projecto
-    </button>
-  </div>
+      <button class="btn" id="btn-login">Entrar</button>
 
-  <div class="sites-list" id="sites-list"></div>
-</div>
+      <div class="msg" id="msg-login"></div>
 
-<div class="dia-overlay-editar" id="overlay-editar" style="display:none">
-  <div class="dia-modal-editar">
-
-    <div id="editar-vista-form">
-      <h3>Editar <span id="editar-nome-site"></span></h3>
-      <p class="sub">Descreve a alteração que queres. A IA aplica só isso, mantendo o resto do site igual.</p>
-      <textarea id="editar-prompt" maxlength="500" placeholder="Ex: muda a cor do botão principal para verde, e troca o título do topo para &quot;Bem-vindos à nossa loja&quot;"></textarea>
-      <div class="editar-contagem"><span id="editar-prompt-count">0</span>/500</div>
-
-      <label class="editar-imagens-label">Imagens para anexar (opcional)</label>
-      <div class="imagens-drop" id="editar-imagens-drop">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-        <div class="label-main">Clica para anexar imagens</div>
-        <div class="label-sub">PNG ou JPG, até 3 MB cada, até 5 imagens</div>
-      </div>
-      <input type="file" id="editar-f-imagens" accept="image/*" multiple style="display:none">
-      <div class="imagens-grid" id="editar-imagens-grid"></div>
-
-      <div class="editar-erro-msg" id="editar-erro" style="display:none"></div>
-      <div class="editar-acoes">
-        <button class="btn-novo" id="btn-editar-aplicar" style="flex:1;justify-content:center;">Aplicar alteração</button>
-        <button class="btn-sair" id="btn-editar-cancelar">Cancelar</button>
+      <div class="links">
+        <a id="go-forgot">Esqueci a password</a>
+        <a id="go-signup">Criar conta</a>
       </div>
     </div>
 
-    <div id="editar-vista-progresso" style="display:none">
-      <div class="editar-progresso">
-        <div class="editar-spinner-grande"></div>
-        <p>A aplicar a alteração... <span id="editar-progresso-tempo">0s</span><br>Isto pode demorar um minuto.</p>
+    <!-- SIGNUP -->
+    <div class="view" id="view-signup">
+      <h1>Criar conta</h1>
+      <p class="sub">Do prompt ao lucro — começa agora.</p>
+
+      <label for="su-nome">Nome</label>
+      <input type="text" id="su-nome" placeholder="O teu nome" autocomplete="name">
+
+      <label for="su-email">Email</label>
+      <input type="email" id="su-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
+
+      <label for="su-pass">Password</label>
+      <input type="password" id="su-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+
+      <button class="btn" id="btn-signup">Criar conta</button>
+
+      <div class="msg" id="msg-signup"></div>
+
+      <div class="links">
+        <a id="go-login-1">Já tenho conta</a>
+        <span></span>
       </div>
     </div>
 
-    <div id="editar-vista-sucesso" style="display:none">
-      <div class="editar-progresso">
-        <p><strong>Alteração aplicada.</strong><br>O teu site já está actualizado.</p>
-        <div class="editar-acoes">
-          <button class="btn-novo" id="btn-editar-fechar-sucesso" style="flex:1;justify-content:center;">Fechar</button>
-        </div>
+    <!-- CONFIRMAR EMAIL (código) -->
+    <div class="view" id="view-confirmar">
+      <h1>Confirma o teu email</h1>
+      <p class="sub" id="confirmar-sub">Enviámos um código de 8 caracteres para o teu email. Escreve-o abaixo para activares a conta.</p>
+
+      <label for="cf-codigo">Código</label>
+      <input type="text" id="cf-codigo" class="code-input" placeholder="________" maxlength="8" autocomplete="one-time-code">
+
+      <button class="btn" id="btn-confirmar">Confirmar</button>
+
+      <div class="msg" id="msg-confirmar"></div>
+
+      <div class="resend-hint">
+        Não recebeste? <a id="go-reenviar">Reenviar código</a>
       </div>
     </div>
 
-    <div id="editar-vista-falha" style="display:none">
-      <div class="editar-progresso">
-        <p><strong>Não foi possível aplicar esta alteração.</strong><br>O site anterior continua no ar, sem alterações.</p>
-        <div class="editar-acoes">
-          <button class="btn-novo" id="btn-editar-tentar-outra-vez" style="flex:1;justify-content:center;">Tentar outra vez</button>
-          <button class="btn-sair" id="btn-editar-fechar-falha">Fechar</button>
-        </div>
+    <!-- RECUPERAR PASSWORD -->
+    <div class="view" id="view-forgot">
+      <h1>Recuperar password</h1>
+      <p class="sub">Escreve o teu email e enviamos-te um link para definires uma password nova.</p>
+
+      <label for="fg-email">Email</label>
+      <input type="email" id="fg-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
+
+      <button class="btn" id="btn-forgot">Enviar link</button>
+
+      <div class="msg" id="msg-forgot"></div>
+
+      <div class="links">
+        <a id="go-login-2">Voltar ao login</a>
+        <span></span>
       </div>
     </div>
 
-  </div>
-</div>
-
-<div class="dia-overlay-editar" id="overlay-dominio" style="display:none">
-  <div class="dia-modal-editar">
-
-    <div id="dominio-vista-form">
-      <h3>Domínio personalizado</h3>
-      <p class="sub">Liga o teu próprio domínio a este site (disponível nos planos Starter, Pro e Business).</p>
-      <input type="text" id="dominio-f-dominio" placeholder="Ex: lojamaputo.co.mz">
-      <div class="dominio-erro-msg" id="dominio-erro" style="display:none"></div>
-      <div class="editar-acoes">
-        <button class="btn-novo" id="btn-dominio-configurar" style="flex:1;justify-content:center;">Configurar</button>
-        <button class="btn-sair" id="btn-dominio-cancelar-form">Cancelar</button>
-      </div>
+    <!-- CONFIRMAÇÃO DE ENVIO -->
+    <div class="view" id="view-sent">
+      <h1>Email enviado</h1>
+      <p class="sub">Verifica a tua caixa de entrada (e o spam) para continuares.</p>
+      <button class="btn secondary" id="btn-sent-back">Voltar ao login</button>
     </div>
 
-    <div id="dominio-vista-pendente" style="display:none">
-      <h3>Falta ligar o DNS</h3>
-      <p class="sub">O domínio <strong id="dominio-pendente-nome"></strong> já está preparado do nosso lado. Agora, no sítio onde geriste esse domínio (ex: a plataforma onde o compraste), cria um registo CNAME como este:</p>
-      <div class="dominio-cname-box">
-        <div class="dominio-cname-linha">
-          <span class="dominio-cname-label">Nome / Host</span>
-          <span class="dominio-cname-valor">@ (ou www)</span>
-        </div>
-        <div class="dominio-cname-linha">
-          <span class="dominio-cname-label">Valor / Aponta para</span>
-          <span class="dominio-cname-valor" id="dominio-pendente-cname"></span>
-          <button type="button" class="dominio-btn-copiar" id="btn-dominio-copiar">Copiar</button>
-        </div>
-      </div>
-      <div class="dominio-erro-msg" id="dominio-pendente-erro" style="display:none"></div>
-      <div class="dominio-aviso-msg" id="dominio-pendente-aviso" style="display:none"></div>
-      <div class="editar-acoes">
-        <button class="btn-novo" id="btn-dominio-verificar" style="flex:1;justify-content:center;">Verificar</button>
-        <button class="btn-sair" id="btn-dominio-cancelar-pendente">Fechar</button>
-      </div>
-    </div>
-
-    <div id="dominio-vista-activo" style="display:none">
-      <h3>Domínio ligado</h3>
-      <div class="editar-progresso">
-        <p class="dominio-activo-badge">✓ Activo</p>
-        <p style="margin-top:10px;">O teu site já abre em:<br><a class="dominio-activo-link" id="dominio-activo-link" href="#" target="_blank" rel="noopener"></a></p>
-        <div class="editar-acoes">
-          <button class="btn-novo" id="btn-dominio-fechar-activo" style="flex:1;justify-content:center;">Fechar</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="dia-overlay-editar" id="overlay-contacto" style="display:none">
-  <div class="dia-modal-editar">
-    <h3>Email de contacto</h3>
-    <p class="sub">Para onde devem ir as mensagens que as pessoas enviarem pelo formulário de contacto deste site. Se deixares em branco, vão para o email da tua conta.</p>
-    <input type="text" id="contacto-f-email" placeholder="Ex: geral@lojamaputo.co.mz">
-    <div class="dominio-erro-msg" id="contacto-erro" style="display:none"></div>
-    <div class="editar-acoes">
-      <button class="btn-novo" id="btn-contacto-guardar" style="flex:1;justify-content:center;">Guardar</button>
-      <button class="btn-sair" id="btn-contacto-cancelar">Cancelar</button>
-    </div>
   </div>
 </div>
 
 <script>
 /*
-  Protecção contra página "velha" guardada pelo browser (bfcache) -
-  confirmado a 13/10/2026: depois de um logout seguido de login, o browser
-  pode restaurar esta página tal como ficou guardada da ÚLTIMA vez que
-  esteve aberta neste separador, em vez de a pedir de novo ao Bubble. Como
-  o OWNER abaixo é escrito pelo Bubble no momento em que a página é gerada,
-  uma página "restaurada" fica presa com o OWNER da conta anterior - plano
-  errado, sem os projectos certos. Isto obriga a um recarregamento a sério
-  sempre que o browser tentar restaurar em vez de carregar de novo.
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026)
+  ----------------------------------------------------------------
+  Esta página já não vive dentro de um elemento HTML do Bubble - está
+  hospedada a sério (GitHub Pages). Isso resolve de vez o problema do
+  "window.open em aba nova a cada clique": agora dá para navegar a sério
+  com window.location.href, sem a iframe isolada do Bubble a bloquear.
+
+  Como já não há sessão/cookie do Bubble partilhada com esta página (é
+  outro endereço), guardamos nós próprios o id da conta (e o token, se
+  vier) no localStorage do browser depois do login/registo. As páginas
+  seguintes (dashboard, etc.) lêem dali, em vez de pedirem ao Bubble
+  "Current User's unique id" - é por isso, já agora, que o bug do
+  logout/login a mostrar a conta errada desaparece: deixa de haver
+  "Current User" nenhum a recalcular.
 */
+var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+
+// Endereço do container daniel-ia-proxy - usado só para o código de
+// confirmação do email (/signup-code e /verify-code), que não passam
+// pelo Bubble.
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+
+// Guarda o unique id do utilizador recém-criado, para sabermos a quem
+// pertence o código enquanto a pessoa está no ecrã de confirmação.
+var ownerAtual = null;
+
+// Protecção contra página "velha" guardada pelo browser (bfcache) - ver
+// explicação completa no dashboard.html. 14/10/2026: limitada a UMA vez
+// por separador (sessionStorage) porque estava a causar loop infinito de
+// reloads no telemóvel - ver nota completa no dashboard.
 window.addEventListener('pageshow', function(evento){
   if (evento.persisted) {
-    window.location.reload();
+    var jaRecarregou = false;
+    try { jaRecarregou = sessionStorage.getItem('dia_bfcache_recarregado'); } catch (e) {}
+    if (!jaRecarregou) {
+      try { sessionStorage.setItem('dia_bfcache_recarregado', '1'); } catch (e) {}
+      window.location.reload();
+    }
   }
 });
 
-var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
-var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+// Se já houver uma conta guardada neste browser, não faz sentido mostrar
+// o ecrã de login outra vez - segue direito para o dashboard.
+if (localStorage.getItem('daniel_owner')) {
+  window.location.href = '/dashboard/';
+}
 
-/*
-  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
-  no login.html. Já não há "Current User" nenhum a ler aqui: o OWNER vem
-  do que o login.html guardou no localStorage deste browser depois de
-  entrar. Se não houver nada guardado, a pessoa não está autenticada -
-  manda-a de volta para o login.
-*/
-var OWNER = localStorage.getItem('daniel_owner');
-if (!OWNER) {
-  window.location.href = '/';
+// Guarda a conta neste browser e segue a sério para o dashboard (já não
+// precisa de ser aba nova - esta página já não está presa numa iframe).
+function entrarNoDashboard(ownerId, token){
+  if (!ownerId) {
+    console.warn('Login/confirmação não devolveu um id de utilizador reconhecível. Resposta completa fica no aviso acima desta linha, no Console.');
+    return false;
+  }
+  localStorage.setItem('daniel_owner', ownerId);
+  if (token) localStorage.setItem('daniel_token', token);
+  window.location.href = '/dashboard/';
+  return true;
+}
+
+// O Bubble costuma devolver o id da conta em "user_id" quando o workflow
+// tem uma action "Log the user in" exposta como API pública - mas por
+// segurança vamos também à procura de nomes parecidos, caso o teu Bubble
+// devolva outro.
+function extrairOwnerDaResposta(resposta){
+  if (!resposta) return null;
+  return resposta.user_id || resposta.owner || resposta.user || resposta.id || null;
+}
+
+// Contagem decrescente do botão "Reenviar código".
+var reenviarSegundosRestantes = 0;
+var reenviarIntervalo = null;
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.msg').forEach(function(m){ m.classList.remove('show','error','success'); m.textContent=''; });
+}
+
+function showMessage(viewId, texto, tipo){
+  var view = document.getElementById(viewId);
+  var msg = view.querySelector('.msg');
+  msg.textContent = texto;
+  msg.classList.remove('error','success');
+  msg.classList.add('show', tipo);
+}
+
+function setLoading(btn, loading){
+  btn.disabled = loading;
+  if (!btn.dataset.original) btn.dataset.original = btn.textContent;
+  btn.textContent = loading ? 'A processar...' : btn.dataset.original;
 }
 
 function chamarWorkflow(nome, dados){
@@ -643,11 +446,22 @@ function chamarWorkflow(nome, dados){
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'same-origin',
-    body: JSON.stringify(dados || {})
+    body: JSON.stringify(dados)
   }).then(function(res){
     return res.json().then(function(json){
       return { ok: res.ok, status: json.status, message: json.message, response: json.response };
     });
+  });
+}
+
+// Chama uma rota do container daniel-ia-proxy (não passa pelo Bubble).
+function chamarContainer(caminho, dados){
+  return fetch(CONTAINER_URL + caminho, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+  }).then(function(res){
+    return res.json();
   });
 }
 
@@ -669,682 +483,201 @@ themeToggle.addEventListener('click', function(){
   }
 });
 
-// ---- Sair ----
-// Já não existe sessão do Bubble para fechar - a "sessão" é só o que
-// está guardado neste browser. Sair é apagar isso e voltar a sério ao
-// login (window.location.href, não window.open).
-document.getElementById('btn-sair').addEventListener('click', function(){
-  localStorage.removeItem('daniel_owner');
-  localStorage.removeItem('daniel_token');
-  window.location.href = '/';
-});
+// ---- Navegação entre vistas ----
+document.getElementById('go-signup').addEventListener('click', function(){ showView('view-signup'); });
+document.getElementById('go-login-1').addEventListener('click', function(){ showView('view-login'); });
+document.getElementById('go-login-2').addEventListener('click', function(){ showView('view-login'); });
+document.getElementById('go-forgot').addEventListener('click', function(){ showView('view-forgot'); });
+document.getElementById('btn-sent-back').addEventListener('click', function(){ showView('view-login'); });
 
-// ---- Ir para a página de criar projecto ----
-// Já migrada (13/10/2026) - vive aqui ao lado, não no Bubble.
-document.getElementById('btn-novo-projecto').addEventListener('click', function(){
-  window.location.href = '/criar/';
-});
-document.getElementById('btn-novo-projecto-vazio').addEventListener('click', function(){
-  window.location.href = '/criar/';
-});
-
-// ---- Ir para a página de planos ----
-// Já migrada (13/10/2026) - vive aqui ao lado, não no Bubble.
-document.getElementById('btn-ver-planos').addEventListener('click', function(){
-  window.location.href = '/planos/';
-});
-
-// ---- Carregar dados da conta ----
-// Antes chamava o backend workflow "account" do Bubble, que lia o Current
-// User - mas esta página corre dentro de uma iframe isolada, e a sessão
-// do Bubble nem sempre fica disponível aí, mesmo com o login a funcionar
-// (confirmado a 12/10/2026: ficava sempre em "Não foi possível carregar
-// os dados da conta"). Agora chama a rota /account do próprio container,
-// que recebe o OWNER directamente - igual ao /meus-sites, que sempre
-// funcionou bem por não depender de sessão nenhuma.
-fetch(CONTAINER_URL + '/account', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ owner: OWNER })
-}).then(function(res){ return res.json(); }).then(function(r){
-  if (r.status === 'success' && r.response) {
-    var d = r.response;
-    document.getElementById('welcome-title').textContent = 'Bem-vindo, ' + (d.nome || '');
-    document.getElementById('welcome-sub').textContent = 'Aqui está o estado da tua conta.';
-    document.getElementById('card-plano').textContent = d.plano || '—';
-
-    var usados = Number(d.tokens_usados || 0);
-    var incluidos = Number(d.tokens_incluidos || 0);
-    document.getElementById('card-tokens').textContent = usados.toLocaleString('pt-PT');
-
-    if (incluidos > 0) {
-      var pct = Math.min(100, Math.round((usados / incluidos) * 100));
-      document.getElementById('bar-tokens').style.width = pct + '%';
-      document.getElementById('caption-tokens').textContent = usados.toLocaleString('pt-PT') + ' de ' + incluidos.toLocaleString('pt-PT') + ' incluídos (' + pct + '%)';
-    } else {
-      document.getElementById('caption-tokens').textContent = '';
-    }
-  } else {
-    document.getElementById('welcome-title').textContent = 'Bem-vindo';
-    document.getElementById('welcome-sub').textContent = 'Não foi possível carregar os dados da conta.';
-  }
-}).catch(function(){
-  document.getElementById('welcome-title').textContent = 'Bem-vindo';
-  document.getElementById('welcome-sub').textContent = 'Não foi possível ligar ao servidor.';
-});
-
-// ---- Carregar e mostrar os sites ----
-var elLoading = document.getElementById('sites-loading');
-var elEmpty = document.getElementById('sites-empty');
-var elLista = document.getElementById('sites-list');
-var pollSitesTimer = null;
-
-function formatarData(iso){
-  if (!iso) return '';
-  var d = new Date(iso);
-  if (isNaN(d.getTime())) return '';
-  return d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' });
-}
-
-function pillEstado(estado){
-  if (estado === 'Pronto') return '<span class="pill estado-pronto">Pronto</span>';
-  if (estado === 'Erro') return '<span class="pill estado-erro">Erro</span>';
-  return '<span class="pill estado-gerando">A gerar</span>';
-}
-
-function acaoSite(site){
-  if (site.estado === 'Pronto' && site.cdn_url) {
-    var html = '<a class="btn-ver" href="' + site.cdn_url + '" target="_blank" rel="noopener">Ver site</a>';
-    var textoBtnDominio = (site.dominio_estado === 'Activo') ? 'Domínio ✓' : 'Domínio';
-    html = '<button class="btn-ver btn-dominio-site" data-site-id="' + site.id + '" data-dominio="' + (site.dominio || '').replace(/"/g, '&quot;') + '" data-dominio-estado="' + (site.dominio_estado || '').replace(/"/g, '&quot;') + '" data-dominio-hostname="' + (site.dominio_hostname || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnDominio + '</button>' + html;
-    var textoBtnContacto = site.email_contacto ? 'Contacto ✓' : 'Contacto';
-    html = '<button class="btn-ver btn-contacto-site" data-site-id="' + site.id + '" data-email-contacto="' + (site.email_contacto || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnContacto + '</button>' + html;
-    html = '<button class="btn-ver btn-editar-site" data-site-id="' + site.id + '" data-nome="' + (site.nome || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">Editar</button>' + html;
-    // Só os projectos de E-commerce ou Checkout têm produtos para gerir.
-    if (site.tipo === 'E-commerce' || site.tipo === 'Checkout') {
-      html = '<button class="btn-ver btn-gerir-produtos" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir produtos</button>' + html;
-    }
-    // Só os projectos de Portefólio têm trabalhos para gerir.
-    if (site.tipo === 'Portefólio') {
-      html = '<button class="btn-ver btn-gerir-portfolio" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir portefólio</button>' + html;
-    }
-    // Só os projectos de Blog têm artigos para gerir.
-    if (site.tipo === 'Blog') {
-      html = '<button class="btn-ver btn-gerir-blog" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir blog</button>' + html;
-    }
-    // Só os projectos de Galeria têm álbuns para gerir.
-    if (site.tipo === 'Galeria') {
-      html = '<button class="btn-ver btn-gerir-galeria" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir galeria</button>' + html;
-    }
-    return html;
-  }
-  if (site.estado === 'Erro') {
-    return '<span class="a-gerar-texto">Tenta criar de novo</span>';
-  }
-  return '<span class="a-gerar-texto"><span class="mini-spinner"></span> A gerar...</span>';
-}
-
-function renderSites(sites){
-  elLoading.style.display = 'none';
-
-  if (!sites || sites.length === 0) {
-    elEmpty.style.display = 'block';
-    elLista.innerHTML = '';
+// ---- LOGIN ----
+document.getElementById('btn-login').addEventListener('click', function(){
+  var btn = this;
+  var email = document.getElementById('li-email').value.trim();
+  var pass = document.getElementById('li-pass').value;
+  if (!email || !pass) {
+    showMessage('view-login', 'Preenche o email e a password.', 'error');
     return;
   }
-
-  elEmpty.style.display = 'none';
-  elLista.innerHTML = sites.map(function(site){
-    return '' +
-      '<div class="site-item">' +
-        '<div class="site-info">' +
-          '<div class="site-nome">' + (site.nome || 'Sem nome') + '</div>' +
-          '<div class="site-meta">' +
-            pillEstado(site.estado) +
-            '<span class="pill">' + (site.tipo || '') + '</span>' +
-            '<span class="site-data">' + formatarData(site.criado) + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="site-actions">' + acaoSite(site) + '</div>' +
-      '</div>';
-  }).join('');
-
-  // Ligar o botão "Gerir produtos" de cada e-commerce/checkout - abre a
-  // página de produtos numa aba nova, já com o projecto na URL.
-  var botoesProdutos = elLista.querySelectorAll('.btn-gerir-produtos');
-  botoesProdutos.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var siteId = btn.getAttribute('data-site-id');
-      window.location.href = '/produtos/?site=' + siteId;
-    });
-  });
-
-  // Ligar o botão "Gerir portefólio" de cada projecto de portefólio - abre
-  // a página de trabalhos numa aba nova, já com o projecto na URL.
-  var botoesPortfolio = elLista.querySelectorAll('.btn-gerir-portfolio');
-  botoesPortfolio.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var siteId = btn.getAttribute('data-site-id');
-      window.location.href = '/portfolio/?site=' + siteId;
-    });
-  });
-
-  // Ligar o botão "Gerir blog" de cada projecto de blog - abre a página de
-  // artigos numa aba nova, já com o projecto na URL.
-  var botoesBlog = elLista.querySelectorAll('.btn-gerir-blog');
-  botoesBlog.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var siteId = btn.getAttribute('data-site-id');
-      window.location.href = '/blog/?site=' + siteId;
-    });
-  });
-
-  // Ligar o botão "Gerir galeria" de cada projecto de galeria - abre a
-  // página de álbuns numa aba nova, já com o projecto na URL.
-  var botoesGaleria = elLista.querySelectorAll('.btn-gerir-galeria');
-  botoesGaleria.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var siteId = btn.getAttribute('data-site-id');
-      window.location.href = '/galeria/?site=' + siteId;
-    });
-  });
-
-  // Ligar o botão "Editar" de cada site pronto - abre o modal de edição
-  // nesta própria página (não precisa de aba nova, é só um formulário).
-  var botoesEditar = elLista.querySelectorAll('.btn-editar-site');
-  botoesEditar.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      abrirModalEditar(btn.getAttribute('data-site-id'), btn.getAttribute('data-nome'));
-    });
-  });
-
-  // Ligar o botão "Domínio" de cada site pronto - abre o modal de domínio
-  // personalizado, já na vista certa conforme o estado actual guardado.
-  var botoesDominio = elLista.querySelectorAll('.btn-dominio-site');
-  botoesDominio.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      abrirModalDominio(
-        btn.getAttribute('data-site-id'),
-        btn.getAttribute('data-dominio'),
-        btn.getAttribute('data-dominio-estado'),
-        btn.getAttribute('data-dominio-hostname')
-      );
-    });
-  });
-
-  // Ligar o botão "Contacto" de cada site pronto - abre o modal onde o
-  // dono escolhe para que email quer receber as mensagens do formulário
-  // de contacto desse projecto (se deixar em branco, usa o email da conta).
-  var botoesContacto = elLista.querySelectorAll('.btn-contacto-site');
-  botoesContacto.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      abrirModalContacto(
-        btn.getAttribute('data-site-id'),
-        btn.getAttribute('data-email-contacto')
-      );
-    });
-  });
-
-  // Se algum site ainda estiver "A gerar", voltamos a verificar daqui
-  // a 8 segundos, para a lista se actualizar sozinha quando ficar pronto.
-  var aindaAGerar = sites.some(function(s){ return s.estado !== 'Pronto' && s.estado !== 'Erro'; });
-  if (aindaAGerar && !pollSitesTimer) {
-    pollSitesTimer = setTimeout(function(){
-      pollSitesTimer = null;
-      carregarSites();
-    }, 8000);
-  }
-}
-
-function carregarSites(){
-  fetch(CONTAINER_URL + '/meus-sites', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER })
-  }).then(function(r){ return r.json(); })
+  setLoading(btn, true);
+  chamarWorkflow('login', { email: email, pass: pass })
     .then(function(r){
-      if (r.status === 'success' && r.response) {
-        renderSites(r.response.sites);
-      } else {
-        elLoading.textContent = 'Não foi possível carregar os teus projectos.';
-      }
-    })
-    .catch(function(){
-      elLoading.textContent = 'Não foi possível ligar ao servidor.';
-    });
-}
-
-carregarSites();
-
-// ======================================================
-// Modal "Editar" - aplica uma alteração a um site já gerado
-// ======================================================
-var elOverlayEditar = document.getElementById('overlay-editar');
-var elVistaForm = document.getElementById('editar-vista-form');
-var elVistaProgresso = document.getElementById('editar-vista-progresso');
-var elVistaSucesso = document.getElementById('editar-vista-sucesso');
-var elVistaFalha = document.getElementById('editar-vista-falha');
-var elEditarNomeSite = document.getElementById('editar-nome-site');
-var elEditarPrompt = document.getElementById('editar-prompt');
-var elEditarPromptCount = document.getElementById('editar-prompt-count');
-var elEditarErro = document.getElementById('editar-erro');
-var btnEditarAplicar = document.getElementById('btn-editar-aplicar');
-
-var editarSiteIdActual = '';
-var editarTempoTimer = null;
-var editarPollTimer = null;
-var editarSegundos = 0;
-
-// ---- Imagens anexadas ao pedido de edição ----
-var EDITAR_MAX_IMAGENS = 5;
-var editarImagensDataUrls = []; // array de { dataUrl, nome }
-var elEditarImagensDrop = document.getElementById('editar-imagens-drop');
-var elEditarInputImagens = document.getElementById('editar-f-imagens');
-var elEditarImagensGrid = document.getElementById('editar-imagens-grid');
-
-elEditarImagensDrop.addEventListener('click', function(){
-  if (editarImagensDataUrls.length >= EDITAR_MAX_IMAGENS) return;
-  elEditarInputImagens.click();
-});
-
-elEditarInputImagens.addEventListener('change', function(){
-  var ficheiros = Array.prototype.slice.call(elEditarInputImagens.files || []);
-  elEditarInputImagens.value = '';
-  if (!ficheiros.length) return;
-
-  ficheiros.forEach(function(ficheiro){
-    if (editarImagensDataUrls.length >= EDITAR_MAX_IMAGENS) {
-      elEditarErro.textContent = 'Só podes anexar até ' + EDITAR_MAX_IMAGENS + ' imagens.';
-      elEditarErro.style.display = 'block';
-      return;
-    }
-    if (ficheiro.size > 3 * 1024 * 1024) {
-      elEditarErro.textContent = 'A imagem "' + ficheiro.name + '" é demasiado grande. O limite é 3 MB.';
-      elEditarErro.style.display = 'block';
-      return;
-    }
-    var leitor = new FileReader();
-    leitor.onload = function(e){
-      editarImagensDataUrls.push({ dataUrl: e.target.result, nome: ficheiro.name });
-      renderEditarImagensGrid();
-    };
-    leitor.readAsDataURL(ficheiro);
-  });
-});
-
-function renderEditarImagensGrid(){
-  elEditarImagensGrid.innerHTML = editarImagensDataUrls.map(function(img, i){
-    return '<div class="imagem-item">'
-      + '<img src="' + img.dataUrl + '" alt="' + img.nome.replace(/"/g, '&quot;') + '">'
-      + '<button type="button" class="imagem-remove" data-i="' + i + '" title="Remover">&times;</button>'
-      + '</div>';
-  }).join('');
-
-  elEditarImagensGrid.querySelectorAll('.imagem-remove').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      editarImagensDataUrls.splice(parseInt(btn.getAttribute('data-i'), 10), 1);
-      renderEditarImagensGrid();
-    });
-  });
-
-  elEditarImagensDrop.classList.toggle('disabled', editarImagensDataUrls.length >= EDITAR_MAX_IMAGENS);
-}
-
-elEditarPrompt.addEventListener('input', function(){
-  elEditarPromptCount.textContent = elEditarPrompt.value.length;
-});
-
-function mostrarVistaEditar(nomeVista){
-  elVistaForm.style.display = (nomeVista === 'form') ? '' : 'none';
-  elVistaProgresso.style.display = (nomeVista === 'progresso') ? '' : 'none';
-  elVistaSucesso.style.display = (nomeVista === 'sucesso') ? '' : 'none';
-  elVistaFalha.style.display = (nomeVista === 'falha') ? '' : 'none';
-}
-
-function abrirModalEditar(siteId, nome){
-  editarSiteIdActual = siteId;
-  elEditarNomeSite.textContent = nome ? ('"' + nome + '"') : '';
-  elEditarPrompt.value = '';
-  elEditarPromptCount.textContent = '0';
-  elEditarErro.style.display = 'none';
-  elEditarErro.textContent = '';
-  editarImagensDataUrls = [];
-  renderEditarImagensGrid();
-  btnEditarAplicar.disabled = false;
-  btnEditarAplicar.textContent = 'Aplicar alteração';
-  mostrarVistaEditar('form');
-  elOverlayEditar.style.display = 'flex';
-}
-
-function fecharModalEditar(){
-  elOverlayEditar.style.display = 'none';
-  pararPollEditar();
-}
-
-document.getElementById('btn-editar-cancelar').addEventListener('click', fecharModalEditar);
-document.getElementById('btn-editar-fechar-sucesso').addEventListener('click', function(){
-  fecharModalEditar();
-  carregarSites();
-});
-document.getElementById('btn-editar-fechar-falha').addEventListener('click', function(){
-  fecharModalEditar();
-  carregarSites();
-});
-document.getElementById('btn-editar-tentar-outra-vez').addEventListener('click', function(){
-  elEditarErro.style.display = 'none';
-  btnEditarAplicar.disabled = false;
-  btnEditarAplicar.textContent = 'Aplicar alteração';
-  mostrarVistaEditar('form');
-});
-
-btnEditarAplicar.addEventListener('click', function(){
-  var prompt = elEditarPrompt.value.trim();
-  elEditarErro.style.display = 'none';
-
-  if (prompt.length < 10) {
-    elEditarErro.textContent = 'Descreve a alteração com um pouco mais de detalhe (pelo menos 10 caracteres).';
-    elEditarErro.style.display = 'block';
-    return;
-  }
-
-  btnEditarAplicar.disabled = true;
-  btnEditarAplicar.textContent = 'A iniciar...';
-
-  var corpoEditar = { owner: OWNER, site_id: editarSiteIdActual, prompt: prompt };
-  if (editarImagensDataUrls.length) {
-    corpoEditar.imagens_data_url = editarImagensDataUrls.map(function(img){ return img.dataUrl; });
-  }
-
-  fetch(CONTAINER_URL + '/editar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(corpoEditar)
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
-      if (r.status === 'success' && r.response && r.response.generation_id) {
-        carregarSites(); // a lista principal já mostra o pill "A gerar" neste site
-        iniciarEsperaEditar(r.response.generation_id);
-      } else {
-        btnEditarAplicar.disabled = false;
-        btnEditarAplicar.textContent = 'Aplicar alteração';
-        elEditarErro.textContent = r.message || 'Não foi possível iniciar a alteração. Tenta novamente.';
-        elEditarErro.style.display = 'block';
-      }
-    })
-    .catch(function(){
-      btnEditarAplicar.disabled = false;
-      btnEditarAplicar.textContent = 'Aplicar alteração';
-      elEditarErro.textContent = 'Não foi possível ligar ao servidor.';
-      elEditarErro.style.display = 'block';
-    });
-});
-
-function iniciarEsperaEditar(generationId){
-  mostrarVistaEditar('progresso');
-  editarSegundos = 0;
-  document.getElementById('editar-progresso-tempo').textContent = '0s';
-
-  editarTempoTimer = setInterval(function(){
-    editarSegundos++;
-    document.getElementById('editar-progresso-tempo').textContent = editarSegundos + 's';
-  }, 1000);
-
-  editarPollTimer = setInterval(function(){ verificarEstadoEditar(generationId); }, 4000);
-  verificarEstadoEditar(generationId);
-}
-
-function pararPollEditar(){
-  if (editarPollTimer) clearInterval(editarPollTimer);
-  if (editarTempoTimer) clearInterval(editarTempoTimer);
-  editarPollTimer = null;
-  editarTempoTimer = null;
-}
-
-function verificarEstadoEditar(generationId){
-  fetch(CONTAINER_URL + '/generate-status', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ site_id: editarSiteIdActual, generation_id: generationId })
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
-      if (r.status !== 'success' || !r.response) return;
-      // Numa edição o Site volta sempre a "Pronto", mesmo que a IA tenha
-      // falhado (o site antigo continua válido) - por isso o que decide
-      // sucesso ou falha aqui é o geracao_estado desta tentativa em
-      // concreto, não o estado do Site.
-      if (r.response.geracao_estado === 'Pronto') {
-        pararPollEditar();
-        mostrarVistaEditar('sucesso');
-        carregarSites();
-      } else if (r.response.geracao_estado === 'Erro') {
-        pararPollEditar();
-        mostrarVistaEditar('falha');
-        carregarSites();
-      }
-      // se ainda for "A gerar", não fazemos nada - o próximo poll tenta outra vez
-    })
-    .catch(function(){
-      // falha de rede isolada durante o polling - tenta outra vez no próximo ciclo
-    });
-}
-
-// ======================================================
-// Modal "Domínio" - liga um domínio personalizado a um site
-// ======================================================
-var elOverlayDominio = document.getElementById('overlay-dominio');
-var elDominioVistaForm = document.getElementById('dominio-vista-form');
-var elDominioVistaPendente = document.getElementById('dominio-vista-pendente');
-var elDominioVistaActivo = document.getElementById('dominio-vista-activo');
-var elDominioInput = document.getElementById('dominio-f-dominio');
-var elDominioErro = document.getElementById('dominio-erro');
-var elDominioPendenteNome = document.getElementById('dominio-pendente-nome');
-var elDominioPendenteCname = document.getElementById('dominio-pendente-cname');
-var elDominioPendenteErro = document.getElementById('dominio-pendente-erro');
-var elDominioPendenteAviso = document.getElementById('dominio-pendente-aviso');
-var elDominioActivoLink = document.getElementById('dominio-activo-link');
-var btnDominioConfigurar = document.getElementById('btn-dominio-configurar');
-var btnDominioVerificar = document.getElementById('btn-dominio-verificar');
-
-var dominioSiteIdActual = '';
-
-function mostrarVistaDominio(nomeVista){
-  elDominioVistaForm.style.display = (nomeVista === 'form') ? '' : 'none';
-  elDominioVistaPendente.style.display = (nomeVista === 'pendente') ? '' : 'none';
-  elDominioVistaActivo.style.display = (nomeVista === 'activo') ? '' : 'none';
-}
-
-// Abre o modal já na vista certa, conforme o estado guardado no Site
-// (vindo de /meus-sites) - evita uma chamada extra só para saber onde
-// a pessoa ficou da última vez.
-function abrirModalDominio(siteId, dominio, estado, hostname){
-  dominioSiteIdActual = siteId;
-  elDominioErro.style.display = 'none';
-  elDominioErro.textContent = '';
-  elDominioPendenteErro.style.display = 'none';
-  elDominioPendenteAviso.style.display = 'none';
-  btnDominioConfigurar.disabled = false;
-  btnDominioConfigurar.textContent = 'Configurar';
-  btnDominioVerificar.disabled = false;
-  btnDominioVerificar.textContent = 'Verificar';
-
-  if (estado === 'Activo' && dominio) {
-    elDominioActivoLink.href = 'https://' + dominio;
-    elDominioActivoLink.textContent = dominio;
-    mostrarVistaDominio('activo');
-  } else if (dominio && hostname) {
-    elDominioPendenteNome.textContent = dominio;
-    elDominioPendenteCname.textContent = hostname;
-    mostrarVistaDominio('pendente');
-  } else {
-    elDominioInput.value = '';
-    mostrarVistaDominio('form');
-  }
-
-  elOverlayDominio.style.display = 'flex';
-}
-
-function fecharModalDominio(){
-  elOverlayDominio.style.display = 'none';
-}
-
-document.getElementById('btn-dominio-cancelar-form').addEventListener('click', fecharModalDominio);
-document.getElementById('btn-dominio-cancelar-pendente').addEventListener('click', function(){
-  fecharModalDominio();
-  carregarSites();
-});
-document.getElementById('btn-dominio-fechar-activo').addEventListener('click', function(){
-  fecharModalDominio();
-  carregarSites();
-});
-
-btnDominioConfigurar.addEventListener('click', function(){
-  var dominio = elDominioInput.value.trim();
-  elDominioErro.style.display = 'none';
-
-  if (!dominio) {
-    elDominioErro.textContent = 'Escreve o domínio.';
-    elDominioErro.style.display = 'block';
-    return;
-  }
-
-  btnDominioConfigurar.disabled = true;
-  btnDominioConfigurar.textContent = 'A configurar...';
-
-  fetch(CONTAINER_URL + '/dominio-configurar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER, site_id: dominioSiteIdActual, dominio: dominio })
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
-      btnDominioConfigurar.disabled = false;
-      btnDominioConfigurar.textContent = 'Configurar';
-
-      if (r.status === 'success' && r.response) {
-        elDominioPendenteNome.textContent = r.response.dominio;
-        elDominioPendenteCname.textContent = r.response.cname_valor;
-        mostrarVistaDominio('pendente');
-      } else {
-        elDominioErro.textContent = r.message || 'Não foi possível configurar o domínio.';
-        elDominioErro.style.display = 'block';
-      }
-    })
-    .catch(function(){
-      btnDominioConfigurar.disabled = false;
-      btnDominioConfigurar.textContent = 'Configurar';
-      elDominioErro.textContent = 'Não foi possível ligar ao servidor.';
-      elDominioErro.style.display = 'block';
-    });
-});
-
-btnDominioVerificar.addEventListener('click', function(){
-  elDominioPendenteErro.style.display = 'none';
-  elDominioPendenteAviso.style.display = 'none';
-  btnDominioVerificar.disabled = true;
-  btnDominioVerificar.textContent = 'A verificar...';
-
-  fetch(CONTAINER_URL + '/dominio-verificar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER, site_id: dominioSiteIdActual })
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
-      btnDominioVerificar.disabled = false;
-      btnDominioVerificar.textContent = 'Verificar';
-
-      if (r.status === 'success' && r.response) {
-        if (r.response.activo) {
-          var dominioActivo = elDominioPendenteNome.textContent;
-          elDominioActivoLink.href = 'https://' + dominioActivo;
-          elDominioActivoLink.textContent = dominioActivo;
-          mostrarVistaDominio('activo');
-          carregarSites();
-        } else {
-          elDominioPendenteAviso.textContent = r.response.mensagem || 'Ainda não está pronto. Tenta outra vez daqui a pouco.';
-          elDominioPendenteAviso.style.display = 'block';
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        var ownerId = extrairOwnerDaResposta(r.response);
+        var ok = entrarNoDashboard(ownerId, r.response && r.response.token);
+        if (!ok) {
+          showMessage('view-login', 'Entrou, mas não consegui identificar a conta na resposta do Bubble. Abre o Console (F12) e vê o aviso - manda-me o que aparecer.', 'error');
         }
       } else {
-        elDominioPendenteErro.textContent = r.message || 'Não foi possível verificar o domínio.';
-        elDominioPendenteErro.style.display = 'block';
+        showMessage('view-login', r.message || 'Email ou password incorrectos.', 'error');
       }
     })
     .catch(function(){
-      btnDominioVerificar.disabled = false;
-      btnDominioVerificar.textContent = 'Verificar';
-      elDominioPendenteErro.textContent = 'Não foi possível ligar ao servidor.';
-      elDominioPendenteErro.style.display = 'block';
+      setLoading(btn, false);
+      showMessage('view-login', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
     });
 });
 
-document.getElementById('btn-dominio-copiar').addEventListener('click', function(){
-  var valor = elDominioPendenteCname.textContent;
-  var btn = document.getElementById('btn-dominio-copiar');
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(valor).then(function(){
-      btn.textContent = 'Copiado!';
-      setTimeout(function(){ btn.textContent = 'Copiar'; }, 1500);
-    }).catch(function(){});
-  }
-});
-
-// ---- Modal "Email de contacto" ----
-// Mesmo princípio do modal de domínio acima, mas mais simples: um único
-// campo (o email), sem estados pendente/activo.
-var elOverlayContacto = document.getElementById('overlay-contacto');
-var elContactoInput = document.getElementById('contacto-f-email');
-var elContactoErro = document.getElementById('contacto-erro');
-var btnContactoGuardar = document.getElementById('btn-contacto-guardar');
-var contactoSiteIdActual = '';
-
-function abrirModalContacto(siteId, emailActual){
-  contactoSiteIdActual = siteId;
-  elContactoInput.value = emailActual || '';
-  elContactoErro.style.display = 'none';
-  elContactoErro.textContent = '';
-  btnContactoGuardar.disabled = false;
-  btnContactoGuardar.textContent = 'Guardar';
-  elOverlayContacto.style.display = 'flex';
-}
-
-function fecharModalContacto(){
-  elOverlayContacto.style.display = 'none';
-}
-
-document.getElementById('btn-contacto-cancelar').addEventListener('click', fecharModalContacto);
-
-btnContactoGuardar.addEventListener('click', function(){
-  var email = elContactoInput.value.trim();
-  elContactoErro.style.display = 'none';
-
-  if (email && email.indexOf('@') < 1) {
-    elContactoErro.textContent = 'Esse email não é válido.';
-    elContactoErro.style.display = 'block';
+// ---- SIGNUP ----
+document.getElementById('btn-signup').addEventListener('click', function(){
+  var btn = this;
+  var nome = document.getElementById('su-nome').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var pass = document.getElementById('su-pass').value;
+  if (!nome || !email || !pass) {
+    showMessage('view-signup', 'Preenche todos os campos.', 'error');
     return;
   }
-
-  btnContactoGuardar.disabled = true;
-  btnContactoGuardar.textContent = 'A guardar...';
-
-  fetch(CONTAINER_URL + '/contacto-guardar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER, site_id: contactoSiteIdActual, email_contacto: email })
-  }).then(function(r){ return r.json(); })
+  if (pass.length < 6) {
+    showMessage('view-signup', 'A password deve ter pelo menos 6 caracteres.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarWorkflow('signup', { nome: nome, email: email, pass: pass })
     .then(function(r){
-      btnContactoGuardar.disabled = false;
-      btnContactoGuardar.textContent = 'Guardar';
+      if (r.status !== 'success') {
+        setLoading(btn, false);
+        showMessage('view-signup', r.message || 'Não foi possível criar a conta.', 'error');
+        return;
+      }
+      ownerAtual = r.response && r.response.owner;
+      if (!ownerAtual) {
+        setLoading(btn, false);
+        showMessage('view-signup', 'Conta criada, mas não foi possível preparar a confirmação de email. Contacta o suporte.', 'error');
+        return;
+      }
+      // Pede já o primeiro código, e só muda de ecrã depois de confirmar
+      // que o email saiu (ou pelo menos que o pedido foi aceite).
+      chamarContainer('/signup-code', { owner: ownerAtual })
+        .then(function(cr){
+          setLoading(btn, false);
+          document.getElementById('confirmar-sub').textContent = 'Enviámos um código de 8 caracteres para ' + email + '. Escreve-o abaixo para activares a conta.';
+          showView('view-confirmar');
+          iniciarContagemReenvio(60);
+          if (cr.status !== 'success') {
+            // A conta já ficou criada - só o envio do email falhou. Deixa a
+            // pessoa no ecrã de confirmação, com o botão "Reenviar código"
+            // já disponível (sem contagem), para tentar outra vez.
+            pararContagemReenvio();
+            showMessage('view-confirmar', 'Não foi possível enviar o email agora. Clica em "Reenviar código" para tentar de novo.', 'error');
+          }
+        })
+        .catch(function(){
+          setLoading(btn, false);
+          showView('view-confirmar');
+          pararContagemReenvio();
+          showMessage('view-confirmar', 'Não foi possível enviar o email agora. Clica em "Reenviar código" para tentar de novo.', 'error');
+        });
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-signup', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- CONFIRMAR CÓDIGO ----
+document.getElementById('btn-confirmar').addEventListener('click', function(){
+  var btn = this;
+  var codigo = document.getElementById('cf-codigo').value.trim();
+  if (!codigo) {
+    showMessage('view-confirmar', 'Escreve o código que recebeste por email.', 'error');
+    return;
+  }
+  if (!ownerAtual) {
+    showMessage('view-confirmar', 'Sessão perdida. Volta a criar a conta ou a entrar.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarContainer('/verify-code', { owner: ownerAtual, code: codigo })
+    .then(function(r){
+      setLoading(btn, false);
       if (r.status === 'success') {
-        fecharModalContacto();
-        carregarSites();
+        // Já sabemos o id da conta desde o registo (ownerAtual) - não
+        // precisa de vir do Bubble outra vez.
+        entrarNoDashboard(ownerAtual, null);
       } else {
-        elContactoErro.textContent = r.message || 'Não foi possível guardar o email.';
-        elContactoErro.style.display = 'block';
+        showMessage('view-confirmar', r.message || 'Código incorrecto.', 'error');
       }
     })
     .catch(function(){
-      btnContactoGuardar.disabled = false;
-      btnContactoGuardar.textContent = 'Guardar';
-      elContactoErro.textContent = 'Não foi possível ligar ao servidor.';
-      elContactoErro.style.display = 'block';
+      setLoading(btn, false);
+      showMessage('view-confirmar', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- REENVIAR CÓDIGO ----
+function iniciarContagemReenvio(segundos){
+  var link = document.getElementById('go-reenviar');
+  reenviarSegundosRestantes = segundos;
+  link.classList.add('disabled');
+  atualizarTextoReenvio();
+  if (reenviarIntervalo) clearInterval(reenviarIntervalo);
+  reenviarIntervalo = setInterval(function(){
+    reenviarSegundosRestantes--;
+    if (reenviarSegundosRestantes <= 0) {
+      pararContagemReenvio();
+    } else {
+      atualizarTextoReenvio();
+    }
+  }, 1000);
+}
+
+function pararContagemReenvio(){
+  if (reenviarIntervalo) clearInterval(reenviarIntervalo);
+  reenviarIntervalo = null;
+  reenviarSegundosRestantes = 0;
+  var link = document.getElementById('go-reenviar');
+  link.classList.remove('disabled');
+  link.textContent = 'Reenviar código';
+}
+
+function atualizarTextoReenvio(){
+  var link = document.getElementById('go-reenviar');
+  link.textContent = 'Reenviar código (' + reenviarSegundosRestantes + 's)';
+}
+
+document.getElementById('go-reenviar').addEventListener('click', function(){
+  if (this.classList.contains('disabled')) return;
+  if (!ownerAtual) {
+    showMessage('view-confirmar', 'Sessão perdida. Volta a criar a conta ou a entrar.', 'error');
+    return;
+  }
+  chamarContainer('/signup-code', { owner: ownerAtual })
+    .then(function(cr){
+      if (cr.status === 'success') {
+        showMessage('view-confirmar', 'Código reenviado. Verifica a tua caixa de entrada.', 'success');
+        iniciarContagemReenvio(60);
+      } else {
+        showMessage('view-confirmar', cr.message || 'Não foi possível reenviar agora.', 'error');
+      }
+    })
+    .catch(function(){
+      showMessage('view-confirmar', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- RECUPERAR PASSWORD ----
+document.getElementById('btn-forgot').addEventListener('click', function(){
+  var btn = this;
+  var email = document.getElementById('fg-email').value.trim();
+  if (!email) {
+    showMessage('view-forgot', 'Escreve o teu email.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarWorkflow('forgot-password', { email: email })
+    .then(function(r){
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        showView('view-sent');
+      } else {
+        showMessage('view-forgot', r.message || 'Não foi possível enviar o email.', 'error');
+      }
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-forgot', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
     });
 });
 </script>
