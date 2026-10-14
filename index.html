@@ -505,7 +505,11 @@ document.getElementById('btn-login').addEventListener('click', function(){
       setLoading(btn, false);
       if (r.status === 'success') {
         var ownerId = extrairOwnerDaResposta(r.response);
-        var ok = entrarNoDashboard(ownerId, r.response && r.response.token);
+        // 14/10/2026: o Bubble já devolve por conta própria um "token" com o
+        // formato bus|...|... (sessão interna dele, que NÃO usamos). O nosso
+        // token de sessão vem noutra chave, "token_sessao", para não se
+        // confundirem.
+        var ok = entrarNoDashboard(ownerId, r.response && r.response.token_sessao);
         if (!ok) {
           showMessage('view-login', 'Entrou, mas não consegui identificar a conta na resposta do Bubble. Abre o Console (F12) e vê o aviso - manda-me o que aparecer.', 'error');
         }
