@@ -516,6 +516,24 @@
     background:linear-gradient(90deg,transparent 0%,rgba(180,240,43,.55) 50%,transparent 100%);opacity:.55;
   }
   :root[data-theme="light"] .topbar::after{background:linear-gradient(90deg,transparent 0%,rgba(67,9,96,.35) 50%,transparent 100%);}
+
+  /* ---- Aviso de verificação de identidade (KYC) ---- */
+  .kyc-banner{display:flex;align-items:center;gap:16px;margin:-12px 0 32px;padding:18px 20px;border-radius:16px;
+    background:linear-gradient(135deg,var(--tint-a),var(--tint-b)),var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .kyc-banner.ok{background:var(--glass-bg);}
+  .kyc-icone{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .kyc-icone svg{width:21px;height:21px;}
+  .kyc-icone.nenhum{background:var(--grad-accent);color:var(--on-accent);box-shadow:0 0 18px var(--accent-glow);}
+  .kyc-icone.pendente{background:rgba(245,166,35,.14);color:var(--warning);}
+  .kyc-icone.aprovado{background:rgba(137,200,4,.14);color:var(--success);}
+  .kyc-icone.rejeitado{background:rgba(255,92,122,.14);color:var(--error);}
+  .kyc-texto{flex:1;min-width:0;}
+  .kyc-titulo{font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:-.01em;}
+  .kyc-sub{color:var(--text-dim);font-size:13px;line-height:1.5;margin-top:2px;}
+  .kyc-btn{flex-shrink:0;background:var(--grad-accent);color:var(--on-accent);font-weight:800;font-size:13px;padding:10px 16px;
+    border-radius:10px;text-decoration:none;box-shadow:0 6px 18px var(--accent-glow);white-space:nowrap;}
+  @media (max-width:640px){.kyc-banner{flex-wrap:wrap;}.kyc-btn{width:100%;text-align:center;}}
 </style>
 </head>
 <body>
@@ -554,6 +572,17 @@
       <div class="bar-track"><div class="bar-fill" id="bar-tokens"></div></div>
       <div class="bar-caption" id="caption-tokens"></div>
     </div>
+  </div>
+
+
+  <!-- Verificação de identidade (KYC) - só aparece depois de saber o estado -->
+  <div class="kyc-banner" id="kyc-banner" style="display:none;">
+    <div class="kyc-icone" id="kyc-icone"></div>
+    <div class="kyc-texto">
+      <div class="kyc-titulo" id="kyc-titulo"></div>
+      <div class="kyc-sub" id="kyc-sub"></div>
+    </div>
+    <a class="kyc-btn" id="kyc-btn" href="/kyc/" style="display:none;"></a>
   </div>
 
   <div class="sites-header">
@@ -1539,5 +1568,49 @@ btnContactoGuardar.addEventListener('click', function(){
 });
 </script>
 
+
+<script>
+// ---- Verificação de identidade (KYC) ----
+// Mostra em que ponto está a verificação. Precisa do token de sessão: se
+// não houver (sessão antiga), o aviso simplesmente não aparece.
+(function(){
+  var token = '';
+  try { token = localStorage.getItem('daniel_token') || ''; } catch (e) {}
+  if (!OWNER || !token) return;
+  var ICONES = {
+    escudo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+    relogio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+    certo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+    alerta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+  };
+  var VISTAS = {
+    Nenhum: ['nenhum', 'escudo', 'Activa os pagamentos do Daniel IA', 'Verifica a tua identidade para receberes por M-Pesa, e-Mola e cartão nas tuas lojas. Demora 2 minutos, no telemóvel.', 'Verificar identidade'],
+    Pendente: ['pendente', 'relogio', 'Verificação em análise', 'Recebemos os teus documentos. Avisamos-te por email assim que estiver feito.', ''],
+    Aprovado: ['aprovado', 'certo', 'Identidade verificada', 'Já podes receber pagamentos do Daniel IA nas tuas lojas.', ''],
+    Rejeitado: ['rejeitado', 'alerta', 'Verificação não aprovada', '', 'Tentar outra vez']
+  };
+  fetch(CONTAINER_URL + '/kyc-estado', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, token: token })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success') return;
+    var v = VISTAS[r.response.estado];
+    if (!v) return;
+    var banner = document.getElementById('kyc-banner');
+    var icone = document.getElementById('kyc-icone');
+    icone.className = 'kyc-icone ' + v[0];
+    icone.innerHTML = ICONES[v[1]];
+    document.getElementById('kyc-titulo').textContent = v[2];
+    document.getElementById('kyc-sub').textContent = r.response.estado === 'Rejeitado'
+      ? ('Motivo: ' + (r.response.motivo || 'não indicado') + '. Podes tentar outra vez.')
+      : v[3];
+    var btn = document.getElementById('kyc-btn');
+    if (v[4]) { btn.textContent = v[4]; btn.style.display = 'inline-block'; }
+    if (r.response.estado === 'Aprovado') banner.classList.add('ok');
+    banner.style.display = 'flex';
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
