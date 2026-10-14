@@ -914,7 +914,7 @@ function acaoSite(site){
     html = '<button class="btn-ver btn-editar-site" data-site-id="' + site.id + '" data-nome="' + (site.nome || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">Editar</button>' + html;
     // Só os projectos de E-commerce ou Checkout têm produtos para gerir.
     if (site.tipo === 'E-commerce' || site.tipo === 'Checkout') {
-      html = '<button class="btn-ver btn-gerir-produtos" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir produtos</button>' + html;
+      html = '<button class="btn-ver btn-gerir-produtos" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir loja</button>' + html;
     }
     // Só os projectos de Portefólio têm trabalhos para gerir.
     if (site.tipo === 'Portefólio') {
