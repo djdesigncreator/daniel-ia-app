@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<style>
+  :root{
+    --bg:#0A0A12;
+    --bg-alt:#0D0D18;
+    --card:#14141F;
+    --card-alt:#1A1A28;
+    --border:#24243A;
+    --text:#F5F5F7;
+    --text-dim:#9699B0;
+    --accent-1:#A855F7;
+    --accent-2:#6366F1;
+    --accent-solid:#7C3AED;
+    --accent-glow:rgba(124,58,237,0.35);
+    --error:#FF5C7A;
+    --success:#22C55E;
+    --glass-bg:rgba(20,20,31,0.55);
+    --glass-border:rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7FB;
+    --card:#FFFFFF;
+    --card-alt:#F3F2FA;
+    --border:#E6E4F0;
+    --text:#14121F;
+    --text-dim:#6B6880;
+    --accent-glow:rgba(124,58,237,0.15);
+    --glass-bg:rgba(255,255,255,0.6);
+    --glass-border:rgba(20,18,30,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta (sem
+     variação horizontal nenhuma - ver nota na landing page) ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #2E1768 0%, #1C0F42 22%, #140B30 42%, #0A0A12 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EDE4FB 0%, #F3EEFC 22%, #F8F6FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(124,58,237,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,58,237,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .theme-toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:18px;height:18px;}
+  .wrap{
+    width:100%;
+    max-width:420px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+    justify-content:center;
+  }
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    box-shadow:0 0 24px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .logo-mark svg{width:20px;height:20px;}
+  .brand .wordmark{
+    font-size:21px;
+    font-weight:700;
+    letter-spacing:-0.02em;
+  }
+  .brand .wordmark .ia{
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    border-radius:18px;
+    padding:32px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] .card{
+    box-shadow:0 30px 70px rgba(20,18,30,.08);
+  }
+  h1{
+    font-size:20px;
+    margin:0 0 6px 0;
+    font-weight:700;
+  }
+  p.sub{
+    margin:0 0 24px 0;
+    color:var(--text-dim);
+    font-size:14px;
+    line-height:1.5;
+  }
+  label{
+    display:block;
+    font-size:13px;
+    color:var(--text-dim);
+    margin:16px 0 6px 0;
+  }
+  label:first-of-type{margin-top:0;}
+  input{
+    width:100%;
+    background:var(--card-alt);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--text);
+    font-size:14px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input::placeholder{color:var(--text-dim);}
+  input:focus{
+    border-color:var(--accent-2);
+  }
+  input.code-input{
+    font-family:'Courier New',Courier,monospace;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:6px;
+    text-align:center;
+    text-transform:uppercase;
+  }
+  .btn{
+    width:100%;
+    margin-top:22px;
+    background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:13px 14px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:opacity .15s,transform .05s;
+  }
+  .btn:hover{opacity:.92;}
+  .btn:active{transform:scale(.99);}
+  .btn:disabled{opacity:.5;cursor:default;}
+  .btn.secondary{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+  .links{
+    display:flex;
+    justify-content:space-between;
+    margin-top:18px;
+    font-size:13px;
+  }
+  .links a{
+    color:var(--text-dim);
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .links a:hover{color:var(--accent-2);}
+  .msg{
+    margin-top:16px;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    display:none;
+  }
+  .msg.show{display:block;}
+  .msg.error{background:rgba(255,92,122,0.1);color:var(--error);border:1px solid rgba(255,92,122,0.25);}
+  .msg.success{background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.25);}
+  .view{display:none;}
+  .view.active{display:block;}
+  .resend-hint{
+    margin-top:14px;
+    font-size:13px;
+    color:var(--text-dim);
+    text-align:center;
+  }
+  .resend-hint a{
+    color:var(--accent-2);
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .resend-hint a.disabled{
+    color:var(--text-dim);
+    cursor:default;
+    pointer-events:none;
+  }
+  .resend-hint a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+  <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+  <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+</div>
+
+<div class="wrap">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 3h6a9 9 0 0 1 0 18H5V3z" fill="white" fill-opacity="0.95"/>
+        <path d="M9 7.5a4.5 4.5 0 0 1 0 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="wordmark">Daniel<span class="ia"> IA</span></div>
+  </div>
+
+  <div class="card">
+
+    <!-- LOGIN -->
+    <div class="view active" id="view-login">
+      <h1>Entrar</h1>
+      <p class="sub">Acede à tua conta para continuar a criar.</p>
+
+      <label for="li-email">Email</label>
+      <input type="email" id="li-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
+
+      <label for="li-pass">Password</label>
+      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
+
+      <button class="btn" id="btn-login">Entrar</button>
+
+      <div class="msg" id="msg-login"></div>
+
+      <div class="links">
+        <a id="go-forgot">Esqueci a password</a>
+        <a id="go-signup">Criar conta</a>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="view" id="view-signup">
+      <h1>Criar conta</h1>
+      <p class="sub">Do prompt ao lucro — começa agora.</p>
+
+      <label for="su-nome">Nome</label>
+      <input type="text" id="su-nome" placeholder="O teu nome" autocomplete="name">
+
+      <label for="su-email">Email</label>
+      <input type="email" id="su-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
+
+      <label for="su-pass">Password</label>
+      <input type="password" id="su-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+
+      <button class="btn" id="btn-signup">Criar conta</button>
+
+      <div class="msg" id="msg-signup"></div>
+
+      <div class="links">
+        <a id="go-login-1">Já tenho conta</a>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- CONFIRMAR EMAIL (código) -->
+    <div class="view" id="view-confirmar">
+      <h1>Confirma o teu email</h1>
+      <p class="sub" id="confirmar-sub">Enviámos um código de 8 caracteres para o teu email. Escreve-o abaixo para activares a conta.</p>
+
+      <label for="cf-codigo">Código</label>
+      <input type="text" id="cf-codigo" class="code-input" placeholder="________" maxlength="8" autocomplete="one-time-code">
+
+      <button class="btn" id="btn-confirmar">Confirmar</button>
+
+      <div class="msg" id="msg-confirmar"></div>
+
+      <div class="resend-hint">
+        Não recebeste? <a id="go-reenviar">Reenviar código</a>
+      </div>
+    </div>
+
+    <!-- RECUPERAR PASSWORD -->
+    <div class="view" id="view-forgot">
+      <h1>Recuperar password</h1>
+      <p class="sub">Escreve o teu email e enviamos-te um link para definires uma password nova.</p>
+
+      <label for="fg-email">Email</label>
+      <input type="email" id="fg-email" placeholder="o-teu-email@exemplo.com" autocomplete="email">
+
+      <button class="btn" id="btn-forgot">Enviar link</button>
+
+      <div class="msg" id="msg-forgot"></div>
+
+      <div class="links">
+        <a id="go-login-2">Voltar ao login</a>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- CONFIRMAÇÃO DE ENVIO -->
+    <div class="view" id="view-sent">
+      <h1>Email enviado</h1>
+      <p class="sub">Verifica a tua caixa de entrada (e o spam) para continuares.</p>
+      <button class="btn secondary" id="btn-sent-back">Voltar ao login</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026)
+  ----------------------------------------------------------------
+  Esta página já não vive dentro de um elemento HTML do Bubble - está
+  hospedada a sério (GitHub Pages). Isso resolve de vez o problema do
+  "window.open em aba nova a cada clique": agora dá para navegar a sério
+  com window.location.href, sem a iframe isolada do Bubble a bloquear.
+
+  Como já não há sessão/cookie do Bubble partilhada com esta página (é
+  outro endereço), guardamos nós próprios o id da conta (e o token, se
+  vier) no localStorage do browser depois do login/registo. As páginas
+  seguintes (dashboard, etc.) lêem dali, em vez de pedirem ao Bubble
+  "Current User's unique id" - é por isso, já agora, que o bug do
+  logout/login a mostrar a conta errada desaparece: deixa de haver
+  "Current User" nenhum a recalcular.
+*/
+var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+
+// Endereço do container daniel-ia-proxy - usado só para o código de
+// confirmação do email (/signup-code e /verify-code), que não passam
+// pelo Bubble.
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+
+// Guarda o unique id do utilizador recém-criado, para sabermos a quem
+// pertence o código enquanto a pessoa está no ecrã de confirmação.
+var ownerAtual = null;
+
+// Protecção contra página "velha" guardada pelo browser (bfcache) - ver
+// explicação completa no dashboard.html. 14/10/2026: limitada a UMA vez
+// por separador (sessionStorage) porque estava a causar loop infinito de
+// reloads no telemóvel - ver nota completa no dashboard.
+window.addEventListener('pageshow', function(evento){
+  if (evento.persisted) {
+    var jaRecarregou = false;
+    try { jaRecarregou = sessionStorage.getItem('dia_bfcache_recarregado'); } catch (e) {}
+    if (!jaRecarregou) {
+      try { sessionStorage.setItem('dia_bfcache_recarregado', '1'); } catch (e) {}
+      window.location.reload();
+    }
+  }
+});
+
+// Se já houver uma conta guardada neste browser, não faz sentido mostrar
+// o ecrã de login outra vez - segue direito para o dashboard.
+if (localStorage.getItem('daniel_owner')) {
+  window.location.href = '/dashboard/';
+}
+
+// Guarda a conta neste browser e segue a sério para o dashboard (já não
+// precisa de ser aba nova - esta página já não está presa numa iframe).
+function entrarNoDashboard(ownerId, token){
+  if (!ownerId) {
+    console.warn('Login/confirmação não devolveu um id de utilizador reconhecível. Resposta completa fica no aviso acima desta linha, no Console.');
+    return false;
+  }
+  localStorage.setItem('daniel_owner', ownerId);
+  if (token) localStorage.setItem('daniel_token', token);
+  window.location.href = '/dashboard/';
+  return true;
+}
+
+// O Bubble costuma devolver o id da conta em "user_id" quando o workflow
+// tem uma action "Log the user in" exposta como API pública - mas por
+// segurança vamos também à procura de nomes parecidos, caso o teu Bubble
+// devolva outro.
+function extrairOwnerDaResposta(resposta){
+  if (!resposta) return null;
+  return resposta.user_id || resposta.owner || resposta.user || resposta.id || null;
+}
+
+// Contagem decrescente do botão "Reenviar código".
+var reenviarSegundosRestantes = 0;
+var reenviarIntervalo = null;
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.msg').forEach(function(m){ m.classList.remove('show','error','success'); m.textContent=''; });
+}
+
+function showMessage(viewId, texto, tipo){
+  var view = document.getElementById(viewId);
+  var msg = view.querySelector('.msg');
+  msg.textContent = texto;
+  msg.classList.remove('error','success');
+  msg.classList.add('show', tipo);
+}
+
+function setLoading(btn, loading){
+  btn.disabled = loading;
+  if (!btn.dataset.original) btn.dataset.original = btn.textContent;
+  btn.textContent = loading ? 'A processar...' : btn.dataset.original;
+}
+
+function chamarWorkflow(nome, dados){
+  return fetch(API_ROOT + nome, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(dados)
+  }).then(function(res){
+    return res.json().then(function(json){
+      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
+    });
+  });
+}
+
+// Chama uma rota do container daniel-ia-proxy (não passa pelo Bubble).
+function chamarContainer(caminho, dados){
+  return fetch(CONTAINER_URL + caminho, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+  }).then(function(res){
+    return res.json();
+  });
+}
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Navegação entre vistas ----
+document.getElementById('go-signup').addEventListener('click', function(){ showView('view-signup'); });
+document.getElementById('go-login-1').addEventListener('click', function(){ showView('view-login'); });
+document.getElementById('go-login-2').addEventListener('click', function(){ showView('view-login'); });
+document.getElementById('go-forgot').addEventListener('click', function(){ showView('view-forgot'); });
+document.getElementById('btn-sent-back').addEventListener('click', function(){ showView('view-login'); });
+
+// ---- LOGIN ----
+document.getElementById('btn-login').addEventListener('click', function(){
+  var btn = this;
+  var email = document.getElementById('li-email').value.trim();
+  var pass = document.getElementById('li-pass').value;
+  if (!email || !pass) {
+    showMessage('view-login', 'Preenche o email e a password.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarWorkflow('login', { email: email, pass: pass })
+    .then(function(r){
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        var ownerId = extrairOwnerDaResposta(r.response);
+        // 14/10/2026: o Bubble já devolve por conta própria um "token" com o
+        // formato bus|...|... (sessão interna dele, que NÃO usamos). O nosso
+        // token de sessão vem noutra chave, "token_sessao", para não se
+        // confundirem.
+        var ok = entrarNoDashboard(ownerId, r.response && r.response.token_sessao);
+        if (!ok) {
+          showMessage('view-login', 'Entrou, mas não consegui identificar a conta na resposta do Bubble. Abre o Console (F12) e vê o aviso - manda-me o que aparecer.', 'error');
+        }
+      } else {
+        showMessage('view-login', r.message || 'Email ou password incorrectos.', 'error');
+      }
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-login', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- SIGNUP ----
+document.getElementById('btn-signup').addEventListener('click', function(){
+  var btn = this;
+  var nome = document.getElementById('su-nome').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var pass = document.getElementById('su-pass').value;
+  if (!nome || !email || !pass) {
+    showMessage('view-signup', 'Preenche todos os campos.', 'error');
+    return;
+  }
+  if (pass.length < 6) {
+    showMessage('view-signup', 'A password deve ter pelo menos 6 caracteres.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarWorkflow('signup', { nome: nome, email: email, pass: pass })
+    .then(function(r){
+      if (r.status !== 'success') {
+        setLoading(btn, false);
+        showMessage('view-signup', r.message || 'Não foi possível criar a conta.', 'error');
+        return;
+      }
+      ownerAtual = r.response && r.response.owner;
+      if (!ownerAtual) {
+        setLoading(btn, false);
+        showMessage('view-signup', 'Conta criada, mas não foi possível preparar a confirmação de email. Contacta o suporte.', 'error');
+        return;
+      }
+      // Pede já o primeiro código, e só muda de ecrã depois de confirmar
+      // que o email saiu (ou pelo menos que o pedido foi aceite).
+      chamarContainer('/signup-code', { owner: ownerAtual })
+        .then(function(cr){
+          setLoading(btn, false);
+          document.getElementById('confirmar-sub').textContent = 'Enviámos um código de 8 caracteres para ' + email + '. Escreve-o abaixo para activares a conta.';
+          showView('view-confirmar');
+          iniciarContagemReenvio(60);
+          if (cr.status !== 'success') {
+            // A conta já ficou criada - só o envio do email falhou. Deixa a
+            // pessoa no ecrã de confirmação, com o botão "Reenviar código"
+            // já disponível (sem contagem), para tentar outra vez.
+            pararContagemReenvio();
+            showMessage('view-confirmar', 'Não foi possível enviar o email agora. Clica em "Reenviar código" para tentar de novo.', 'error');
+          }
+        })
+        .catch(function(){
+          setLoading(btn, false);
+          showView('view-confirmar');
+          pararContagemReenvio();
+          showMessage('view-confirmar', 'Não foi possível enviar o email agora. Clica em "Reenviar código" para tentar de novo.', 'error');
+        });
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-signup', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- CONFIRMAR CÓDIGO ----
+document.getElementById('btn-confirmar').addEventListener('click', function(){
+  var btn = this;
+  var codigo = document.getElementById('cf-codigo').value.trim();
+  if (!codigo) {
+    showMessage('view-confirmar', 'Escreve o código que recebeste por email.', 'error');
+    return;
+  }
+  if (!ownerAtual) {
+    showMessage('view-confirmar', 'Sessão perdida. Volta a criar a conta ou a entrar.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarContainer('/verify-code', { owner: ownerAtual, code: codigo })
+    .then(function(r){
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        // Já sabemos o id da conta desde o registo (ownerAtual) - não
+        // precisa de vir do Bubble outra vez. O token de sessão vem agora
+        // na resposta do /verify-code (14/10/2026 - autenticação a sério).
+        entrarNoDashboard(ownerAtual, r.token);
+      } else {
+        showMessage('view-confirmar', r.message || 'Código incorrecto.', 'error');
+      }
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-confirmar', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- REENVIAR CÓDIGO ----
+function iniciarContagemReenvio(segundos){
+  var link = document.getElementById('go-reenviar');
+  reenviarSegundosRestantes = segundos;
+  link.classList.add('disabled');
+  atualizarTextoReenvio();
+  if (reenviarIntervalo) clearInterval(reenviarIntervalo);
+  reenviarIntervalo = setInterval(function(){
+    reenviarSegundosRestantes--;
+    if (reenviarSegundosRestantes <= 0) {
+      pararContagemReenvio();
+    } else {
+      atualizarTextoReenvio();
+    }
+  }, 1000);
+}
+
+function pararContagemReenvio(){
+  if (reenviarIntervalo) clearInterval(reenviarIntervalo);
+  reenviarIntervalo = null;
+  reenviarSegundosRestantes = 0;
+  var link = document.getElementById('go-reenviar');
+  link.classList.remove('disabled');
+  link.textContent = 'Reenviar código';
+}
+
+function atualizarTextoReenvio(){
+  var link = document.getElementById('go-reenviar');
+  link.textContent = 'Reenviar código (' + reenviarSegundosRestantes + 's)';
+}
+
+document.getElementById('go-reenviar').addEventListener('click', function(){
+  if (this.classList.contains('disabled')) return;
+  if (!ownerAtual) {
+    showMessage('view-confirmar', 'Sessão perdida. Volta a criar a conta ou a entrar.', 'error');
+    return;
+  }
+  chamarContainer('/signup-code', { owner: ownerAtual })
+    .then(function(cr){
+      if (cr.status === 'success') {
+        showMessage('view-confirmar', 'Código reenviado. Verifica a tua caixa de entrada.', 'success');
+        iniciarContagemReenvio(60);
+      } else {
+        showMessage('view-confirmar', cr.message || 'Não foi possível reenviar agora.', 'error');
+      }
+    })
+    .catch(function(){
+      showMessage('view-confirmar', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+
+// ---- RECUPERAR PASSWORD ----
+document.getElementById('btn-forgot').addEventListener('click', function(){
+  var btn = this;
+  var email = document.getElementById('fg-email').value.trim();
+  if (!email) {
+    showMessage('view-forgot', 'Escreve o teu email.', 'error');
+    return;
+  }
+  setLoading(btn, true);
+  chamarWorkflow('forgot-password', { email: email })
+    .then(function(r){
+      setLoading(btn, false);
+      if (r.status === 'success') {
+        showView('view-sent');
+      } else {
+        showMessage('view-forgot', r.message || 'Não foi possível enviar o email.', 'error');
+      }
+    })
+    .catch(function(){
+      setLoading(btn, false);
+      showMessage('view-forgot', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
+    });
+});
+</script>
+
+</body>
+</html>
