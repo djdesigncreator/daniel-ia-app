@@ -461,6 +461,60 @@
     .barra-guardar .espaco{display:none;}
   }
 
+  /* ===== Organizar a minha loja (1.54.0) ===== */
+  .organizar{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:18px;margin-bottom:18px;
+    background:radial-gradient(500px 160px at 0% 0%,rgba(137,200,4,.16),transparent 70%),linear-gradient(135deg,rgba(67,9,96,.55),rgba(23,14,37,.9));border:1px solid rgba(137,200,4,.28);}
+  :root[data-theme="light"] .organizar{background:radial-gradient(500px 160px at 0% 0%,rgba(137,200,4,.18),transparent 70%),linear-gradient(135deg,#F5EEFB,#FFFFFF);border-color:rgba(67,9,96,.18);}
+  .org-icone{width:46px;height:46px;border-radius:14px;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 10px 26px var(--accent-glow);}
+  .org-icone svg{width:22px;height:22px;}
+  .org-texto{flex:1;min-width:0;}
+  .org-texto b{display:block;font-family:var(--font-display);font-size:16px;letter-spacing:-.01em;}
+  .org-texto span{display:block;color:var(--text-dim);font-size:13px;line-height:1.45;margin-top:2px;}
+  .org-texto .msg{margin-top:6px;}
+  .org-painel{display:none;background:var(--card);border:1px solid var(--border);border-radius:18px;margin-bottom:22px;overflow:hidden;animation:entrar .3s ease-out;}
+  .org-painel.aberto{display:block;}
+  .org-cabeca{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);}
+  .org-cabeca h3{margin:0;font-size:17px;display:flex;align-items:center;gap:10px;}
+  .org-cabeca h3 svg{width:20px;height:20px;color:var(--accent-2);flex-shrink:0;}
+  .org-cabeca .num{font-family:var(--font-mono);font-size:12px;background:rgba(137,200,4,.15);color:var(--accent-2);padding:3px 9px;border-radius:999px;}
+  .org-seccao{padding:16px 20px;border-bottom:1px solid var(--border);}
+  .org-seccao h4{margin:0 0 4px;font-size:14.5px;display:flex;align-items:center;gap:8px;}
+  .org-seccao h4 svg{width:16px;height:16px;color:var(--accent-2);}
+  .org-seccao h4 .num{font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);font-weight:600;}
+  .org-seccao > p{margin:0 0 12px;color:var(--text-dim);font-size:12.5px;line-height:1.5;}
+  .org-linha{display:grid;grid-template-columns:22px minmax(0,1fr) 18px minmax(0,1fr);gap:10px;align-items:center;padding:7px 0;}
+  .org-linha input[type=checkbox]{accent-color:#89C804;width:18px;height:18px;margin:0;}
+  .org-linha .de{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .org-linha .de.riscado{text-decoration:line-through;color:var(--text-dim);font-weight:500;}
+  .org-linha .seta{color:var(--text-dim);display:flex;}
+  .org-linha .seta svg{width:16px;height:16px;}
+  .org-linha input[type=text]{width:100%;min-width:0;background:var(--card-alt);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:8px 10px;font-size:13.5px;font-weight:700;outline:none;font-family:inherit;}
+  .org-linha input[type=text]:focus{border-color:var(--lime);}
+  .org-linha.simples{grid-template-columns:22px minmax(0,1fr) auto;}
+  .org-numeros{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px;}
+  .org-numeros span{font-size:12px;font-weight:700;background:var(--card-alt);border:1px solid var(--border);border-radius:999px;padding:4px 10px;}
+  .org-numeros b{font-family:var(--font-mono);margin-left:4px;}
+  .org-info{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px dashed var(--border);font-size:13.5px;}
+  .org-info:first-of-type{border-top:none;}
+  .org-info .preco{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);margin-left:8px;}
+  .org-info img{width:64px;height:28px;object-fit:cover;border-radius:6px;margin-right:10px;vertical-align:middle;}
+  .org-rodape{display:flex;align-items:center;gap:10px;justify-content:flex-end;padding:14px 20px;flex-wrap:wrap;}
+  .org-rodape .msg{margin:0 auto 0 0;}
+  .org-arrumada{padding:28px 20px;text-align:center;}
+  .org-arrumada svg{width:42px;height:42px;color:var(--accent-2);}
+  .org-arrumada h3{margin:8px 0 4px;}
+  .org-arrumada p{margin:0;color:var(--text-dim);font-size:13.5px;}
+  .org-a-pensar{display:flex;align-items:center;gap:12px;padding:22px 20px;color:var(--text-dim);font-size:14px;}
+  .org-a-pensar i{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--lime);animation:girar .8s linear infinite;}
+  @keyframes girar{to{transform:rotate(360deg);}}
+  @media (max-width:560px){
+    .organizar{flex-wrap:wrap;}
+    .organizar .btn{width:100%;}
+    .org-linha{grid-template-columns:22px minmax(0,1fr);}
+    .org-linha .seta{display:none;}
+    .org-linha input[type=text]{grid-column:2;}
+  }
+
 </style>
 </head>
 <body>
@@ -498,6 +552,12 @@
 
   <!-- PRODUTOS -->
   <section class="painel activo" id="p-produtos">
+    <div class="organizar">
+      <div class="org-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9.4l-4.7 1.8L12 16l-1.8-4.8L5.5 9.4l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></div>
+      <div class="org-texto"><b>Organizar a minha loja</b><span>A IA revê categorias, nomes e destaques e propõe correcções. Nada muda sem tu aprovares.</span><div class="msg" id="msg-organizar"></div></div>
+      <button type="button" class="btn btn-principal" id="btn-organizar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9.4l-4.7 1.8L12 16l-1.8-4.8L5.5 9.4l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>Organizar agora</button>
+    </div>
+    <div class="org-painel" id="org-painel"></div>
     <div class="barra-produtos">
       <label class="pesquisa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="filtro-produtos" placeholder="Procurar nos teus produtos"></label>
       <button class="btn btn-principal" id="btn-novo-produto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo produto</button>
@@ -604,7 +664,7 @@
       <div class="campo"><label for="f-preco">Preço (MZN)</label><input type="number" id="f-preco" min="1" step="1" placeholder="0"></div>
       <div class="campo"><label for="f-antigo">Preço antigo (opcional)</label><input type="number" id="f-antigo" min="0" step="1" placeholder="Para mostrar desconto"></div>
     </div>
-    <div class="campo"><label for="f-categoria">Categoria</label><input type="text" id="f-categoria" maxlength="40" list="lista-categorias" placeholder="Ex: Roupa, Bebidas, Acessórios"><datalist id="lista-categorias"></datalist><small>Escreve uma nova ou escolhe uma que já usaste. A loja cria os filtros sozinha.</small></div>
+    <div class="campo"><label for="f-categoria">Categoria</label><input type="text" id="f-categoria" maxlength="40" list="lista-categorias" placeholder="Ex: Roupa, Bebidas, Acessórios"><datalist id="lista-categorias"></datalist><small>Escreve uma nova ou escolhe uma que já usaste. Se deixares vazio, a IA escolhe uma por ti.</small></div>
     <div class="campo"><label for="f-descricao">Descrição</label><textarea id="f-descricao" maxlength="1000" placeholder="Material, tamanhos, cores, o que vem incluído..."></textarea></div>
     <div class="seccao-form">
       <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>Opções</h3>
@@ -798,7 +858,13 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-ficheiro]'), function(inp){
       inp.addEventListener('change', function(){
         var i = Number(inp.getAttribute('data-ficheiro'));
-        lerImagem(inp.files[0], 2000).then(function(d){ slides[i].imagem_data_url = d; renderSlides(); }).catch(function(e){ msg($('msg-capa'), e.message, 'erro'); });
+        lerImagem(inp.files[0], 2000).then(function(d){
+          slides[i].imagem_data_url = d; renderSlides();
+          capaAlta(d).then(function(alta){
+            if (alta) msg($('msg-capa'), 'Esta imagem é alta demais para a capa e vai aparecer cortada. Usa uma imagem larga (ex: 1600 × 700) - um banner por slide.', 'erro');
+            else msg($('msg-capa'), '');
+          });
+        }).catch(function(e){ msg($('msg-capa'), e.message, 'erro'); });
       });
     });
     Array.prototype.forEach.call(document.querySelectorAll('[data-campo]'), function(inp){
@@ -1674,6 +1740,158 @@
   cadaEl('[data-filtro-aval]', document, function(b){
     b.addEventListener('click', function(){ filtroAval = b.getAttribute('data-filtro-aval'); renderAvaliacoes(); });
   });
+
+  // ======================================================
+  // Organizar a minha loja (sugestões da IA, o dono aprova)
+  // ======================================================
+  var IC_SETA = svg('<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>');
+  var IC_OK = svg('<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>');
+  var organizacao = null;
+
+  // Capa: imagem mais alta do que 1,6 : 1 parece uma montagem de vários banners.
+  function capaAlta(src){
+    return new Promise(function(resolve){
+      if (!src) { resolve(false); return; }
+      var img = new Image();
+      img.onload = function(){ resolve(img.naturalWidth / Math.max(1, img.naturalHeight) < 1.6); };
+      img.onerror = function(){ resolve(false); };
+      img.src = src;
+    });
+  }
+
+  function abrirPainelOrganizar(html){
+    $('org-painel').innerHTML = html;
+    $('org-painel').classList.add('aberto');
+  }
+  function fecharPainelOrganizar(){ $('org-painel').classList.remove('aberto'); $('org-painel').innerHTML = ''; }
+
+  $('btn-organizar').addEventListener('click', function(){
+    var btn = this;
+    btn.disabled = true;
+    msg($('msg-organizar'), '');
+    abrirPainelOrganizar('<div class="org-a-pensar"><i></i><span>A analisar a tua loja... pode levar até um minuto.</span></div>');
+    var capas = (estadoLoja && estadoLoja.capa) || [];
+    Promise.all([
+      post('/loja-organizar', { site_id: SITE_ID }),
+      Promise.all(capas.map(function(c){ return capaAlta(c.imagem).then(function(alta){ return alta ? c.imagem : ''; }); }))
+    ]).then(function(r){
+      btn.disabled = false;
+      var res = r[0];
+      if (res.status !== 'success') { fecharPainelOrganizar(); msg($('msg-organizar'), res.message || 'Não foi possível analisar a loja.', 'erro'); return; }
+      organizacao = res.response;
+      organizacao.capas_altas = r[1].filter(Boolean);
+      renderOrganizar();
+      $('org-painel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }).catch(function(){ btn.disabled = false; fecharPainelOrganizar(); msg($('msg-organizar'), 'Não foi possível ligar ao servidor.', 'erro'); });
+  });
+
+  function renderOrganizar(){
+    var o = organizacao;
+    var html = '', total = 0;
+    function cab(icone, titulo, n){ return '<h4>' + icone + '<span>' + titulo + '</span><span class="num">' + n + '</span></h4>'; }
+    if (o.ia_falhou) html += '<div class="org-seccao"><div class="aviso kyc" style="margin:0">' + IC.info + '<span>A IA não respondeu agora. Mostramos o resto da análise; tenta outra vez daqui a pouco para as categorias e os nomes.</span></div></div>';
+    if (o.categorias.length) {
+      total += o.categorias.length;
+      html += '<div class="org-seccao">' + cab(IC.etiqueta, 'Categorias', o.categorias.length)
+        + '<p>Produtos sem categoria ficam misturados. Com categorias, a loja ganha filtros e secções arrumadas.</p>'
+        + o.categorias.map(function(c, i){
+          return '<label class="org-linha"><input type="checkbox" checked data-org="cat" data-i="' + i + '"><span class="de" data-no-i18n>' + esc(c.nome) + '</span><span class="seta">' + IC_SETA + '</span>'
+            + '<input type="text" maxlength="40" value="' + esc(c.sugestao) + '" data-org-valor="cat" data-i="' + i + '" aria-label="Categoria"></label>';
+        }).join('') + '</div>';
+    }
+    if (o.nomes.length) {
+      total += o.nomes.length;
+      html += '<div class="org-seccao">' + cab(svg('<path d="M4 7V4h16v3"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'), 'Nomes', o.nomes.length)
+        + '<p>Acentos, maiúsculas e erros de escrita. A loja parece mais profissional.</p>'
+        + o.nomes.map(function(n, i){
+          return '<label class="org-linha"><input type="checkbox" checked data-org="nome" data-i="' + i + '"><span class="de riscado" data-no-i18n>' + esc(n.atual) + '</span><span class="seta">' + IC_SETA + '</span>'
+            + '<input type="text" maxlength="120" value="' + esc(n.sugestao) + '" data-org-valor="nome" data-i="' + i + '" aria-label="Nome"></label>';
+        }).join('') + '</div>';
+    }
+    if (o.destaques_a_mais.length) {
+      total += o.destaques_a_mais.length;
+      html += '<div class="org-seccao">' + cab(IC.estrela, 'Destaques a mais', o.destaques_a_mais.length)
+        + '<p>Quando quase tudo está em destaque, nada se destaca. Tira o destaque a estes (ficam os que mais vendem e os mais recentes):</p>'
+        + '<div class="org-numeros"><span>Em destaque<b>' + (o.total_destaques || 0) + '</b></span><span>Produtos<b>' + o.total + '</b></span><span>Recomendado até<b>' + o.limite_destaques + '</b></span></div>'
+        + o.destaques_a_mais.map(function(d, i){
+          return '<label class="org-linha simples"><input type="checkbox" checked data-org="dest" data-i="' + i + '"><span class="de" data-no-i18n>' + esc(d.nome) + '</span><span></span></label>';
+        }).join('') + '</div>';
+    }
+    if (o.repetidos.length) {
+      html += '<div class="org-seccao">' + cab(IC.info, 'Nomes repetidos', o.repetidos.length)
+        + '<p>O cliente não percebe a diferença entre produtos com o mesmo nome. Dá-lhes nomes diferentes (ex: com a capacidade, o tamanho ou o modelo).</p>'
+        + o.repetidos.map(function(g){
+          return g.map(function(p){
+            return '<div class="org-info"><span><span data-no-i18n>' + esc(p.nome) + '</span><span class="preco">' + esc(mzn(p.preco)) + '</span></span><button type="button" class="btn-mini" data-org-editar="' + esc(p.id) + '">Editar</button></div>';
+          }).join('');
+        }).join('') + '</div>';
+    }
+    if (o.sem_foto.length) {
+      html += '<div class="org-seccao">' + cab(IC.foto, 'Produtos sem foto', o.sem_foto.length)
+        + '<p>Sem foto, um produto quase não vende. Junta pelo menos uma.</p>'
+        + o.sem_foto.map(function(p){
+          return '<div class="org-info"><span data-no-i18n>' + esc(p.nome) + '</span><button type="button" class="btn-mini" data-org-editar="' + esc(p.id) + '">Editar</button></div>';
+        }).join('') + '</div>';
+    }
+    if (o.capas_altas.length) {
+      html += '<div class="org-seccao">' + cab(IC.imagem, 'Capa', o.capas_altas.length)
+        + '<p>Esta imagem é alta demais para a capa e parece ter vários banners juntos numa só. Usa uma imagem larga (ex: 1600 × 700) em cada slide.</p>'
+        + o.capas_altas.map(function(src){
+          return '<div class="org-info"><span><img src="' + esc(src) + '" alt=""></span><button type="button" class="btn-mini" data-org-capa>Abrir Capa</button></div>';
+        }).join('') + '</div>';
+    }
+    var nadaParaVer = !html || (o.ia_falhou && !total && !o.repetidos.length && !o.sem_foto.length && !o.capas_altas.length);
+    if (!o.total) {
+      abrirPainelOrganizar('<div class="org-arrumada">' + IC_OK + '<h3>Ainda não há produtos à venda</h3><p>Adiciona produtos e volta aqui.</p></div>'
+        + '<div class="org-rodape"><button type="button" class="btn btn-sec" data-org-fechar>Fechar</button></div>');
+    } else if (nadaParaVer && !o.ia_falhou) {
+      abrirPainelOrganizar('<div class="org-arrumada">' + IC_OK + '<h3>A tua loja está arrumada</h3><p>Categorias, nomes e destaques estão bem. Bom trabalho!</p></div>'
+        + '<div class="org-rodape"><button type="button" class="btn btn-sec" data-org-fechar>Fechar</button></div>');
+    } else {
+      abrirPainelOrganizar('<div class="org-cabeca"><h3>' + BRILHO_SVG + '<span>Sugestões para a tua loja</span></h3><button type="button" class="btn-x" data-org-fechar aria-label="Fechar">' + IC.x + '</button></div>'
+        + html
+        + '<div class="org-rodape"><div class="msg" id="msg-org-aplicar"></div><button type="button" class="btn btn-sec" data-org-fechar>Fechar</button>'
+        + (total ? '<button type="button" class="btn btn-principal" id="btn-org-aplicar">Aplicar o que está marcado</button>' : '') + '</div>');
+    }
+    ligarOrganizar();
+  }
+  var BRILHO_SVG = svg('<path d="M12 3l1.8 4.6L18.5 9.4l-4.7 1.8L12 16l-1.8-4.8L5.5 9.4l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>');
+
+  function ligarOrganizar(){
+    var painel = $('org-painel');
+    cadaEl('[data-org-fechar]', painel, function(b){ b.addEventListener('click', fecharPainelOrganizar); });
+    cadaEl('[data-org-editar]', painel, function(b){ b.addEventListener('click', function(){ abrirFormulario(b.getAttribute('data-org-editar')); }); });
+    cadaEl('[data-org-capa]', painel, function(b){ b.addEventListener('click', function(){ document.querySelector('.tab[data-painel="p-capa"]').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); }); });
+    var aplicar = $('btn-org-aplicar');
+    if (!aplicar) return;
+    aplicar.addEventListener('click', function(){
+      var porProduto = {};
+      function mudanca(id){ return porProduto[id] || (porProduto[id] = { produto_id: id }); }
+      cadaEl('[data-org]:checked', painel, function(chk){
+        var tipo = chk.getAttribute('data-org'), i = Number(chk.getAttribute('data-i'));
+        if (tipo === 'cat') {
+          var v = painel.querySelector('[data-org-valor="cat"][data-i="' + i + '"]').value.trim();
+          if (v) mudanca(organizacao.categorias[i].id).categoria = v;
+        }
+        if (tipo === 'nome') {
+          var n = painel.querySelector('[data-org-valor="nome"][data-i="' + i + '"]').value.trim();
+          if (n.length >= 2) mudanca(organizacao.nomes[i].id).nome = n;
+        }
+        if (tipo === 'dest') mudanca(organizacao.destaques_a_mais[i].id).destaque = false;
+      });
+      var alteracoes = Object.keys(porProduto).map(function(k){ return porProduto[k]; });
+      if (!alteracoes.length) { msg($('msg-org-aplicar'), 'Marca pelo menos uma correcção.', 'erro'); return; }
+      aplicar.disabled = true;
+      msg($('msg-org-aplicar'), 'A aplicar...');
+      post('/loja-organizar-aplicar', { site_id: SITE_ID, alteracoes: alteracoes }).then(function(r){
+        aplicar.disabled = false;
+        if (r.status !== 'success') { msg($('msg-org-aplicar'), r.message || 'Não foi possível aplicar.', 'erro'); return; }
+        fecharPainelOrganizar();
+        msg($('msg-organizar'), 'Correcções aplicadas. A tua loja já está mais arrumada.', 'ok');
+        carregarProdutos();
+      }).catch(function(){ aplicar.disabled = false; msg($('msg-org-aplicar'), 'Não foi possível ligar ao servidor.', 'erro'); });
+    });
+  }
 
   carregarLoja();
   carregarProdutos();
