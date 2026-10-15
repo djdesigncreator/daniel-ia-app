@@ -513,7 +513,12 @@ function setLoading(btn, loading){
   btn.textContent = loading ? 'A processar...' : btn.dataset.original;
 }
 
-function chamarWorkflow(nome, dados){
+// 15/10/2026: criar conta e recuperar password passam primeiro pelo
+// container (/conta-wf), que fala com o Bubble pelo endereço que já usa
+// para tudo. Só se o container não conseguir é que a página chama o
+// Bubble directamente, como antes.
+var CONTAINER_CONTA = 'https://mc-8oxfde5o71.bunny.run';
+function chamarBubbleDirecto(nome, dados){
   return fetch(API_ROOT + nome, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -521,9 +526,23 @@ function chamarWorkflow(nome, dados){
     body: JSON.stringify(dados)
   }).then(function(res){
     return res.json().then(function(json){
-      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
+      var corpo = json.body || {};
+      return { ok: res.ok, status: json.status, message: json.message || corpo.message, response: json.response };
     });
   });
+}
+function chamarWorkflow(nome, dados){
+  return fetch(CONTAINER_CONTA + '/conta-wf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ wf: nome, dados: dados })
+  }).then(function(res){ return res.json(); })
+    .then(function(j){
+      if (!j || j.codigo === 'indisponivel') return chamarBubbleDirecto(nome, dados);
+      return { ok: j.status === 'success', status: j.status, message: j.message, response: j.response };
+    }, function(){
+      return chamarBubbleDirecto(nome, dados);
+    });
 }
 
 // Chama uma rota do container daniel-ia-proxy (não passa pelo Bubble).
