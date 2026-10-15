@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
+<script src="/i18n/i18n.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daniel IA</title>
 <meta name="theme-color" content="#07030C">
@@ -597,7 +598,7 @@
 
   <div class="sites-empty" id="sites-empty" style="display:none">
     <h3>Ainda não criaste nenhum projecto</h3>
-    <p>Escreve um prompt e a nossa IA gera o teu e-commerce, checkout, landing page, portefólio ou blog em menos de um minuto.</p>
+    <p>Descreve o que queres e a nossa IA cria a tua loja online, site, portefólio, blog ou galeria de fotos em menos de um minuto - em português, inglês ou francês.</p>
     <button class="btn-novo" id="btn-novo-projecto-vazio" style="margin:0 auto;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       Criar o primeiro projecto
@@ -898,6 +899,10 @@ function formatarData(iso){
   return d.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+// Nomes simples dos tipos de projecto (o valor guardado continua igual).
+var NOMES_TIPO = { 'E-commerce': 'Loja online', 'Checkout': 'Página de venda', 'Landing Page': 'Site', 'Portefólio': 'Portefólio', 'Blog': 'Blog', 'Galeria': 'Galeria de fotos' };
+function nomeDoTipo(t){ return NOMES_TIPO[t] || t || ''; }
+
 function pillEstado(estado){
   if (estado === 'Pronto') return '<span class="pill estado-pronto">Pronto</span>';
   if (estado === 'Erro') return '<span class="pill estado-erro">Erro</span>';
@@ -953,7 +958,7 @@ function renderSites(sites){
           '<div class="site-nome">' + (site.nome || 'Sem nome') + '</div>' +
           '<div class="site-meta">' +
             pillEstado(site.estado) +
-            '<span class="pill">' + (site.tipo || '') + '</span>' +
+            '<span class="pill">' + nomeDoTipo(site.tipo) + '</span>' +
             '<span class="site-data">' + formatarData(site.criado) + '</span>' +
           '</div>' +
         '</div>' +

@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
+<script src="/i18n/i18n.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daniel IA</title>
 <meta name="theme-color" content="#07030C">
@@ -463,6 +464,33 @@
     background:linear-gradient(90deg,transparent 0%,rgba(180,240,43,.55) 50%,transparent 100%);opacity:.55;
   }
   :root[data-theme="light"] .topbar::after{background:linear-gradient(90deg,transparent 0%,rgba(67,9,96,.35) 50%,transparent 100%);}
+
+  /* ---- Tipo de projecto em cartões + idioma do site (15/10/2026) ----
+     Nomes simples, que qualquer pessoa entende, com uma linha a explicar.
+     O valor enviado ao container continua o mesmo de sempre. */
+  .tipos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  @media (max-width:560px){.tipos{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .tipo{position:relative;text-align:left;background:var(--card-alt);border:1px solid var(--border);border-radius:14px;padding:14px 14px 13px;cursor:pointer;color:var(--text);display:flex;flex-direction:column;gap:7px;min-height:122px;transition:border-color .18s,transform .18s,box-shadow .18s,background .18s;}
+  .tipo:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent-2) 50%,var(--border));}
+  .tipo:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-glow);}
+  .tipo .ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--tint-a);color:var(--text);transition:background .18s,color .18s;}
+  .tipo .ic svg{width:19px;height:19px;}
+  .tipo .nome{font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:-.01em;line-height:1.25;}
+  .tipo .desc{font-size:12px;color:var(--text-dim);line-height:1.45;}
+  .tipo .visto{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:opacity .18s,transform .18s;}
+  .tipo .visto svg{width:12px;height:12px;}
+  .tipo.on{border-color:var(--accent-2);background:linear-gradient(160deg,var(--tint-b),transparent 70%),var(--card-alt);box-shadow:0 0 0 3px var(--accent-glow);}
+  .tipo.on .ic{background:var(--grad-accent);color:var(--on-accent);}
+  .tipo.on .visto{opacity:1;transform:none;}
+  .idiomas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+  .idioma{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card-alt);cursor:pointer;color:var(--text);font-size:14px;font-weight:600;transition:border-color .18s,box-shadow .18s;}
+  .idioma:hover{border-color:color-mix(in srgb,var(--accent-2) 50%,var(--border));}
+  .idioma:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-glow);}
+  .idioma .cod{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 7px;border-radius:7px;background:var(--tint-a);color:var(--text-dim);transition:background .18s,color .18s;}
+  .idioma.on{border-color:var(--accent-2);box-shadow:0 0 0 3px var(--accent-glow);}
+  .idioma.on .cod{background:var(--grad-accent);color:var(--on-accent);}
+  @media (max-width:560px){.idioma{flex-direction:column;justify-content:center;gap:6px;padding:11px 6px;font-size:13px;}}
+  @media (prefers-reduced-motion:reduce){.tipo,.tipo .visto,.idioma{transition:none;}.tipo:hover{transform:none;}}
 </style>
 </head>
 <body>
@@ -497,16 +525,26 @@
       <label for="f-nome">Nome do negócio</label>
       <input type="text" id="f-nome" placeholder="Ex: Loja Teste" maxlength="80">
 
-      <label for="f-tipo">Tipo de projecto</label>
-      <select id="f-tipo" class="placeholder-active">
-        <option value="" disabled selected>Escolhe o tipo de projecto</option>
-        <option value="E-commerce">E-commerce</option>
-        <option value="Checkout">Checkout</option>
-        <option value="Landing Page">Landing Page</option>
-        <option value="Portefólio">Portefólio</option>
-        <option value="Blog">Blog</option>
-        <option value="Galeria">Galeria</option>
-      </select>
+      <label id="l-tipo">O que queres criar?</label>
+      <input type="hidden" id="f-tipo" value="">
+      <div class="tipos" role="radiogroup" aria-labelledby="l-tipo">
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="E-commerce"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Loja online</span><span class="desc">Vende muitos produtos, com carrinho e pagamento.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Checkout"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Página de venda</span><span class="desc">Para vender um ou poucos produtos, com compra rápida.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Landing Page"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="7" y1="13" x2="13" y2="13"></line><line x1="7" y1="16" x2="11" y2="16"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Site / Landing page</span><span class="desc">Apresenta o teu negócio ou serviço e atrai clientes.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Portefólio"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="3" y1="13" x2="21" y2="13"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Portefólio</span><span class="desc">Mostra os teus trabalhos e projectos.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Blog"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Blog</span><span class="desc">Publica artigos, notícias e dicas.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Galeria"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.6"></circle><path d="M21 15l-5-5L5 21"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Galeria de fotos (sites para fotógrafos)</span><span class="desc">Álbuns de fotos e vídeos para mostrar o teu trabalho.</span></button>
+      </div>
+
+      <label id="l-idioma">Idioma do site</label>
+      <input type="hidden" id="f-idioma" value="pt">
+      <div class="idiomas" role="radiogroup" aria-labelledby="l-idioma">
+        <button type="button" class="idioma on" role="radio" aria-checked="true" data-idioma="pt"><span class="cod">PT</span>Português</button>
+        <button type="button" class="idioma" role="radio" aria-checked="false" data-idioma="en"><span class="cod">EN</span>English</button>
+        <button type="button" class="idioma" role="radio" aria-checked="false" data-idioma="fr"><span class="cod">FR</span>Français</button>
+        <button type="button" class="idioma" role="radio" aria-checked="false" data-idioma="es"><span class="cod">ES</span>Español</button>
+      </div>
+      <div class="hint">É o idioma que os teus clientes vão ver no site. Podes escrever a descrição em português.</div>
 
       <label for="f-prompt">Descreve o que queres</label>
       <textarea id="f-prompt" placeholder="Ex: Uma padaria artesanal em Maputo, com secção de produtos, sobre nós e contacto. Tom acolhedor, cores quentes." maxlength="900"></textarea>
@@ -667,11 +705,59 @@ campoPrompt.addEventListener('input', function(){
   document.getElementById('f-prompt-count').textContent = campoPrompt.value.length;
 });
 
-// ---- Select: estilo diferente quando ainda está no placeholder ----
+// ---- Tipo de projecto (cartões) ----
+// O exemplo da descrição muda com o tipo escolhido, para ajudar a pessoa
+// a perceber o que escrever.
+var EXEMPLOS_PROMPT = {
+  'E-commerce': 'Ex: Loja de roupa feminina em Maputo, com vestidos, capulanas e acessórios. Visual alegre e colorido.',
+  'Checkout': 'Ex: Página para vender o meu curso de bolos online, com o preço, o que se aprende e a compra rápida.',
+  'Landing Page': 'Ex: Uma padaria artesanal em Maputo, com os nossos produtos, sobre nós e contacto. Tom acolhedor, cores quentes.',
+  'Portefólio': 'Ex: Sou designer gráfico na Beira. Quero mostrar logótipos e cartazes que fiz. Estilo simples e limpo.',
+  'Blog': 'Ex: Blog sobre agricultura em Moçambique, com dicas para pequenos produtores. Visual natural, verde.',
+  'Galeria': 'Ex: Fotógrafo de casamentos em Maputo. Quero um site elegante para mostrar os meus álbuns.'
+};
 var campoTipo = document.getElementById('f-tipo');
-campoTipo.addEventListener('change', function(){
-  campoTipo.classList.toggle('placeholder-active', campoTipo.value === '');
+document.querySelectorAll('.tipo').forEach(function(cartao){
+  cartao.addEventListener('click', function(){
+    document.querySelectorAll('.tipo').forEach(function(c){
+      c.classList.remove('on');
+      c.setAttribute('aria-checked', 'false');
+    });
+    cartao.classList.add('on');
+    cartao.setAttribute('aria-checked', 'true');
+    campoTipo.value = cartao.getAttribute('data-tipo');
+    var exemplo = EXEMPLOS_PROMPT[campoTipo.value];
+    if (exemplo) campoPrompt.setAttribute('placeholder', exemplo);
+  });
 });
+
+// ---- Idioma do site ----
+var campoIdioma = document.getElementById('f-idioma');
+document.querySelectorAll('.idioma').forEach(function(botao){
+  botao.addEventListener('click', function(){
+    document.querySelectorAll('.idioma').forEach(function(b){
+      b.classList.remove('on');
+      b.setAttribute('aria-checked', 'false');
+    });
+    botao.classList.add('on');
+    botao.setAttribute('aria-checked', 'true');
+    campoIdioma.value = botao.getAttribute('data-idioma');
+  });
+});
+// O idioma do site começa igual ao idioma em que a pessoa está a usar o
+// Daniel IA (se mudar o idioma da app, o do site acompanha, até ela
+// escolher outro à mão).
+var idiomaEscolhidoAMao = false;
+document.querySelectorAll('.idioma').forEach(function(b){
+  b.addEventListener('click', function(e){ if (e.isTrusted) idiomaEscolhidoAMao = true; });
+});
+function seguirIdiomaDaApp(l){
+  if (idiomaEscolhidoAMao) return;
+  var b = document.querySelector('.idioma[data-idioma="' + l + '"]');
+  if (b) b.click();
+}
+seguirIdiomaDaApp(window.DANIEL_IDIOMA || 'pt');
+window.addEventListener('daniel-idioma', function(e){ seguirIdiomaDaApp(e.detail.idioma); });
 
 // ---- Logótipo ----
 var logoDrop = document.getElementById('logo-drop');
@@ -781,7 +867,7 @@ btnGerar.addEventListener('click', function(){
     return;
   }
   if (!tipo) {
-    showMessage('Escolhe o tipo de projecto.');
+    showMessage('Escolhe o que queres criar.');
     return;
   }
   if (prompt.length < 15) {
@@ -791,7 +877,7 @@ btnGerar.addEventListener('click', function(){
 
   setLoading(btnGerar, true, 'Gerar o meu site', 'A iniciar...');
 
-  var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt };
+  var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt, idioma: document.getElementById('f-idioma').value || 'pt' };
   if (logoDataUrl) corpo.logo_data_url = logoDataUrl;
   if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
 
