@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="/i18n/i18n.js?v=1"></script>
+<script src="/seguranca/sessao.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daniel IA</title>
 <meta name="theme-color" content="#07030C">
@@ -462,7 +463,7 @@ window.addEventListener('pageshow', function(evento){
 
 // Se já houver uma conta guardada neste browser, não faz sentido mostrar
 // o ecrã de login outra vez - segue direito para o dashboard.
-if (localStorage.getItem('daniel_owner')) {
+if (localStorage.getItem('daniel_owner') && localStorage.getItem('daniel_token')) {
   window.location.href = '/dashboard/';
 }
 
@@ -554,6 +555,11 @@ themeToggle.addEventListener('click', function(){
   }
 });
 
+// Veio de uma sessão que expirou (ou de antes desta versão): explica porquê.
+if (/[?&]sessao=expirou/.test(location.search)) {
+  setTimeout(function(){ showMessage('view-login', 'A tua sessão expirou. Entra outra vez na tua conta.', 'error'); }, 0);
+}
+
 // ---- Navegação entre vistas ----
 document.getElementById('go-signup').addEventListener('click', function(){ showView('view-signup'); });
 document.getElementById('go-login-1').addEventListener('click', function(){ showView('view-login'); });
@@ -571,8 +577,27 @@ document.getElementById('btn-login').addEventListener('click', function(){
     return;
   }
   setLoading(btn, true);
-  chamarWorkflow('login', { email: email, pass: pass })
+  // 15/10/2026: o login passa primeiro pelo container (/entrar), que fala
+  // com o Bubble e devolve logo o token de sessão. Só se o container não
+  // conseguir falar com o Bubble é que usamos o caminho antigo.
+  chamarContainer('/entrar', { email: email, pass: pass })
     .then(function(r){
+      if (r && r.status === 'success' && r.response && r.response.owner && r.response.token) {
+        setLoading(btn, false);
+        entrarNoDashboard(r.response.owner, r.response.token);
+        return null;
+      }
+      if (r && r.codigo !== 'indisponivel') {
+        setLoading(btn, false);
+        showMessage('view-login', r.message || 'Email ou password incorrectos.', 'error');
+        return null;
+      }
+      return chamarWorkflow('login', { email: email, pass: pass });
+    }, function(){
+      return chamarWorkflow('login', { email: email, pass: pass });
+    })
+    .then(function(r){
+      if (!r) return;
       setLoading(btn, false);
       if (r.status === 'success') {
         var ownerId = extrairOwnerDaResposta(r.response);

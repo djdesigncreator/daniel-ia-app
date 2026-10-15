@@ -708,6 +708,12 @@ window.__danielI18nRegistar("en",
 "Álbuns de fotos e vídeos para mostrar o teu trabalho.": "Photo and video albums to showcase your work.",
 "É o idioma que os teus clientes vão ver no site. Podes escrever a descrição em português.": "This is the language your customers will see on the site. You can write the description in any language.",
 "★ Destaque": "★ Featured",
-"✓ Activo": "✓ Active"
+"✓ Activo": "✓ Active",
+"Demasiados pedidos. Espera um pouco e tenta outra vez.": "Too many requests. Please wait a moment and try again.",
+"Demasiadas tentativas. Pede um código novo.": "Too many attempts. Request a new code.",
+"Demasiadas tentativas. Espera 15 minutos e tenta outra vez.": "Too many attempts. Wait 15 minutes and try again.",
+"Pedido não autorizado.": "Unauthorized request.",
+"Não foi possível entrar. Tenta novamente.": "Could not sign in. Please try again.",
+"Não foi possível fazer a verificação.": "Could not run the check."
 },
 [["^Só podes anexar até (\\d+) imagens\\.$", "You can attach up to $1 images."], ["^Bem-vindo, (.+)$", "Welcome, $1"], ["^Motivo: (.*)\\. Podes tentar outra vez\\.$", "Reason: $1. You can try again."], ["^O envio falhou: (.*)$", "Upload failed: $1"], ["^A enviar\\.\\.\\. (\\d+)%$", "Uploading... $1%"], ["^Mudar para o plano (.+)\\?$", "Switch to the $1 plan?"], ["^Mudar para (Free|Starter|Pro|Business)$", "Switch to $1"], ["^Plano actualizado para (.+)\\.$", "Plan updated to $1."], ["^Enviámos um código de 8 caracteres para (.+)\\. Escreve-o abaixo para activares a conta\\.$", "We sent an 8-character code to $1. Enter it below to activate your account."], ["^([\\d\\s  .,]+) de ([\\d\\s  .,]+) incluídos \\((\\d+)%\\)$", "$1 of $2 included ($3%)"], ["^usados de (.+) do teu plano$", "used of $1 on your plan"], ["^Reenviar código \\((\\d+)s\\)$", "Resend code ($1s)"], ["^A imagem \"(.+)\" é demasiado grande\\. O limite é 3 MB\\.$", "The image \"$1\" is too large. The limit is 3 MB."], ["^1 site$", "1 site"], ["^(\\d+) sites$", "$1 sites"], ["^([\\d\\s  .,]+) tokens de IA/mês$", "$1 AI tokens/month"], ["^1 colaborador$", "1 team member"], ["^(\\d+) colaboradores$", "$1 team members"]]);

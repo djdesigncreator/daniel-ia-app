@@ -683,6 +683,12 @@ window.__danielI18nRegistar("es",
 "Álbum visível no site": "Álbum visible en el sitio",
 "Álbuns de fotos e vídeos para mostrar o teu trabalho.": "Álbumes de fotos y vídeos para mostrar tu trabajo.",
 "É o idioma que os teus clientes vão ver no site. Podes escrever a descrição em português.": "Es el idioma que tus clientes verán en el sitio. Puedes escribir la descripción en cualquier idioma.",
-"★ Destaque": "★ Destacado"
+"★ Destaque": "★ Destacado",
+"Demasiados pedidos. Espera um pouco e tenta outra vez.": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+"Demasiadas tentativas. Pede um código novo.": "Demasiados intentos. Pide un código nuevo.",
+"Demasiadas tentativas. Espera 15 minutos e tenta outra vez.": "Demasiados intentos. Espera 15 minutos e inténtalo de nuevo.",
+"Pedido não autorizado.": "Solicitud no autorizada.",
+"Não foi possível entrar. Tenta novamente.": "No se pudo iniciar sesión. Inténtalo de nuevo.",
+"Não foi possível fazer a verificação.": "No se pudo hacer la verificación."
 },
 [["^Só podes anexar até (\\d+) imagens\\.$", "Puedes adjuntar hasta $1 imágenes."], ["^Bem-vindo, (.+)$", "Bienvenido, $1"], ["^Motivo: (.*)\\. Podes tentar outra vez\\.$", "Motivo: $1. Puedes intentarlo de nuevo."], ["^O envio falhou: (.*)$", "La subida falló: $1"], ["^A enviar\\.\\.\\. (\\d+)%$", "Subiendo... $1%"], ["^Mudar para o plano (.+)\\?$", "¿Cambiar al plan $1?"], ["^Mudar para (Free|Starter|Pro|Business)$", "Cambiar a $1"], ["^Plano actualizado para (.+)\\.$", "Plan actualizado a $1."], ["^Enviámos um código de 8 caracteres para (.+)\\. Escreve-o abaixo para activares a conta\\.$", "Enviamos un código de 8 caracteres a $1. Escríbelo abajo para activar tu cuenta."], ["^([\\d\\s  .,]+) de ([\\d\\s  .,]+) incluídos \\((\\d+)%\\)$", "$1 de $2 incluidos ($3%)"], ["^usados de (.+) do teu plano$", "usados de $1 de tu plan"], ["^Reenviar código \\((\\d+)s\\)$", "Reenviar código ($1 s)"], ["^A imagem \"(.+)\" é demasiado grande\\. O limite é 3 MB\\.$", "La imagen \"$1\" es demasiado grande. El límite es 3 MB."], ["^1 site$", "1 sitio"], ["^(\\d+) sites$", "$1 sitios"], ["^([\\d\\s  .,]+) tokens de IA/mês$", "$1 tokens de IA/mes"], ["^1 colaborador$", "1 colaborador"], ["^(\\d+) colaboradores$", "$1 colaboradores"]]);

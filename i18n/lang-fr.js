@@ -710,6 +710,12 @@ window.__danielI18nRegistar("fr",
 "Álbuns de fotos e vídeos para mostrar o teu trabalho.": "Des albums photo et vidéo pour présenter votre travail.",
 "É o idioma que os teus clientes vão ver no site. Podes escrever a descrição em português.": "C'est la langue que vos clients verront sur le site. Vous pouvez rédiger la description dans n'importe quelle langue.",
 "★ Destaque": "★ En vedette",
-"✓ Activo": "✓ Actif"
+"✓ Activo": "✓ Actif",
+"Demasiados pedidos. Espera um pouco e tenta outra vez.": "Trop de requêtes. Patientez un instant et réessayez.",
+"Demasiadas tentativas. Pede um código novo.": "Trop de tentatives. Demandez un nouveau code.",
+"Demasiadas tentativas. Espera 15 minutos e tenta outra vez.": "Trop de tentatives. Attendez 15 minutes et réessayez.",
+"Pedido não autorizado.": "Requête non autorisée.",
+"Não foi possível entrar. Tenta novamente.": "Connexion impossible. Veuillez réessayer.",
+"Não foi possível fazer a verificação.": "Impossible de faire la vérification."
 },
 [["^Só podes anexar até (\\d+) imagens\\.$", "Vous pouvez joindre jusqu'à $1 images."], ["^Bem-vindo, (.+)$", "Bienvenue, $1"], ["^Motivo: (.*)\\. Podes tentar outra vez\\.$", "Motif : $1. Vous pouvez réessayer."], ["^O envio falhou: (.*)$", "L'envoi a échoué : $1"], ["^A enviar\\.\\.\\. (\\d+)%$", "Envoi... $1 %"], ["^Mudar para o plano (.+)\\?$", "Passer au forfait $1 ?"], ["^Mudar para (Free|Starter|Pro|Business)$", "Passer à $1"], ["^Plano actualizado para (.+)\\.$", "Forfait mis à jour : $1."], ["^Enviámos um código de 8 caracteres para (.+)\\. Escreve-o abaixo para activares a conta\\.$", "Nous avons envoyé un code de 8 caractères à $1. Saisissez-le ci-dessous pour activer votre compte."], ["^([\\d\\s  .,]+) de ([\\d\\s  .,]+) incluídos \\((\\d+)%\\)$", "$1 sur $2 inclus ($3 %)"], ["^usados de (.+) do teu plano$", "utilisés sur $1 de votre forfait"], ["^Reenviar código \\((\\d+)s\\)$", "Renvoyer le code ($1 s)"], ["^A imagem \"(.+)\" é demasiado grande\\. O limite é 3 MB\\.$", "L'image « $1 » est trop volumineuse. La limite est de 3 Mo."], ["^1 site$", "1 site"], ["^(\\d+) sites$", "$1 sites"], ["^([\\d\\s  .,]+) tokens de IA/mês$", "$1 tokens d'IA/mois"], ["^1 colaborador$", "1 collaborateur"], ["^(\\d+) colaboradores$", "$1 collaborateurs"]]);
