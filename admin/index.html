@@ -287,6 +287,14 @@
   .registo div:first-child{border-top:none;}
   .registo time{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);}
   .registo small{display:block;color:var(--text-dim);font-size:12.5px;margin-top:2px;}
+  .btn-peq{padding:7px 12px;font-size:12.5px;}
+  .aviso-pl{display:flex;align-items:center;gap:14px;margin-bottom:14px;border-color:rgba(245,166,35,.45);background:linear-gradient(180deg,rgba(245,166,35,.08),var(--card));flex-wrap:wrap;}
+  .aviso-pl svg{width:22px;height:22px;color:var(--warning);flex-shrink:0;}
+  .aviso-pl div{flex:1;min-width:200px;}
+  .aviso-pl b{display:block;}
+  .aviso-pl span{color:var(--text-dim);font-size:13px;}
+  .extra-tk{display:block;font-size:11.5px;color:var(--success);margin-top:3px;}
+  .layout > *{min-width:0;}
   .bloqueio{max-width:440px;margin:100px auto;text-align:center;padding:30px;}
   .bloqueio svg{width:46px;height:46px;color:var(--error);}
   @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr));}.graficos{grid-template-columns:1fr;}}
@@ -340,6 +348,7 @@
     <button type="button" data-sec="kyc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>KYC<span class="badge-n" id="badge-kyc"></span></button>
     <button type="button" data-sec="sites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Sites</button>
     <button type="button" data-sec="pagamentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pagamentos</button>
+    <button type="button" data-sec="planos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>Planos</button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
@@ -387,6 +396,16 @@
       <div class="cab"><div><h1>Pagamentos</h1><p>Assinaturas dos planos e encomendas das lojas.</p></div><button type="button" class="btn-sec" data-actualizar="pagamentos">Actualizar</button></div>
       <div class="cartao" style="margin-bottom:14px"><h3>Assinaturas</h3><p class="sub">As mais recentes primeiro. "Manual" são os planos atribuídos aqui no painel.</p><div class="tabela-caixa" id="p-assinaturas" style="border:none"></div></div>
       <div class="cartao"><h3>Encomendas das lojas</h3><p class="sub">Todas as lojas da plataforma, as mais recentes primeiro.</p><div class="tabela-caixa" id="p-encomendas" style="border:none"></div></div>
+    </section>
+
+    <!-- PLANOS E RECARGAS -->
+    <section class="seccao" id="sec-planos">
+      <div class="cab"><div><h1>Planos e recargas</h1><p>O que os clientes vêem na página de planos. Muda aqui, sem ir ao Bubble.</p></div>
+        <div class="linha-accoes" style="margin:0"><button type="button" class="btn-sec" id="pl-nova-recarga">Nova recarga</button><button type="button" class="btn-pri" id="pl-novo-plano">Novo plano</button></div></div>
+      <div id="pl-aviso"></div>
+      <div class="msg" id="pl-msg" style="margin-bottom:12px"></div>
+      <div class="cartao" style="margin-bottom:14px"><h3>Planos</h3><p class="sub">Por mês. Do mais barato para o mais caro; o "Pro" leva o selo "Mais popular".</p><div class="tabela-caixa" id="pl-planos" style="border:none"></div></div>
+      <div class="cartao"><h3>Recargas de tokens</h3><p class="sub">Para quem gastou os tokens do plano antes do fim do mês. Os tokens recarregados não expiram e são usados depois dos do plano.</p><div class="tabela-caixa" id="pl-pacotes" style="border:none"></div></div>
     </section>
 
     <!-- REGISTO -->
@@ -528,7 +547,7 @@
         kpi(IC.pessoas, 'Utilizadores', num(x.utilizadores.total), '<b>+' + num(x.utilizadores.novos7) + '</b> esta semana · +' + num(x.utilizadores.novos30) + ' em 30 dias')
         + kpi(IC.globo, 'Sites criados', num(x.sites.total), '<b>+' + num(x.sites.novos7) + '</b> esta semana')
         + kpi(IC.escudo, 'KYC por aprovar', num(x.kyc.pendentes), num(x.kyc.aprovados) + ' aprovados', x.kyc.pendentes ? ' alerta clicavel" data-ir="kyc' : ' clicavel" data-ir="kyc')
-        + kpi(IC.dinheiro, 'Receita de planos (30 dias)', num(x.receita.assinaturas30) + '<small>MZN</small>', num(x.receita.n_assinaturas30) + ' assinaturas pagas')
+        + kpi(IC.dinheiro, 'Receita: planos e recargas (30 dias)', num(x.receita.assinaturas30) + '<small>MZN</small>', num(x.receita.n_assinaturas30) + ' pagamentos', ' clicavel" data-ir="planos')
         + kpi(IC.saco, 'Vendas das lojas (30 dias)', num(x.lojas.volume30) + '<small>MZN</small>', num(x.lojas.pagas30) + ' pagas de ' + num(x.lojas.encomendas30) + ' encomendas')
         + kpi(IC.chip, 'Tokens de IA este mês', num(x.tokens_mes), 'somados de todas as contas')
         + kpi(IC.raio, 'Gerações agora', num(x.geracoes.activas) + '<small>/ ' + x.geracoes.maximo + '</small>', num(x.geracoes.em_fila) + ' em fila')
@@ -558,7 +577,13 @@
     $('sis-kpis').innerHTML = kpi(IC.servidor, 'Versão', esc(s.versao), 'ligado há ' + tempoLigado(s.ligado_ha_min))
       + kpi(IC.raio, 'Gerações', num(x.geracoes.activas) + '<small>/ ' + x.geracoes.maximo + '</small>', num(x.geracoes.em_fila) + ' em fila')
       + kpi(IC.cadeado, 'Sessões', esc(s.sessao_modo), s.sessao_modo === 'obrigatoria' ? 'protecção completa' : 'atenção: protecção reduzida', s.sessao_modo === 'obrigatoria' ? '' : ' alerta')
-      + kpi(IC.pessoas, 'Emails de admin', num(s.config.admin_emails), 'variável ADMIN_EMAILS');
+      + kpi(IC.pessoas, 'Emails de admin', num(s.config.admin_emails), 'variável ADMIN_EMAILS')
+      + (function(c){
+        c = c || {};
+        var v = c.modo === 'sim' ? 'Sempre' : (c.modo === 'nao' ? 'Nunca' : (!c.verificado ? 'Por testar' : (c.embutivel ? 'Sim' : 'Não')));
+        var sub = c.modo === 'sim' || c.modo === 'nao' ? 'forçado pela variável CARTAO_EMBUTIR' : (!c.verificado ? 'vê-se no primeiro pagamento com cartão' : (c.embutivel ? 'o checkout abre dentro da página' : 'a página do banco não deixa: abre à parte'));
+        return kpi(IC.cadeado, 'Cartão dentro da página', esc(v), sub, c.verificado && !c.embutivel && c.modo !== 'sim' ? ' alerta' : '');
+      })(s.cartao);
     var nomes = { openai: 'OpenAI (gerar sites)', resend: 'Resend (emails)', bunny_api: 'Bunny API (limpar cache)', stream: 'Bunny Stream (vídeos)', mozpayment: 'MozPayment (pagamentos)', kyc_cifra: 'Chave de cifra do KYC', admin_secret: 'Chave antiga do admin KYC' };
     $('sis-config').innerHTML = Object.keys(nomes).map(function(k){
       var ok = !!s.config[k];
@@ -585,7 +610,7 @@
           return '<tr class="clicavel" data-u="' + esc(u.id) + '"><td class="pessoa"><b>' + esc(u.nome || '(sem nome)') + '</b><span>' + esc(u.email) + '</span></td>'
             + '<td>' + '<span class="pill ' + (u.plano && u.plano.toLowerCase() !== 'free' ? 'ok' : '') + '">' + esc(u.plano || 'Sem plano') + '</span>'
             + (u.plano_expira ? '<div class="dim" style="margin-top:4px">' + (expirado ? 'expirou ' : 'até ') + esc(data(u.plano_expira)) + '</div>' : '') + '</td>'
-            + '<td><span class="dim">' + num(u.tokens_usados) + ' / ' + num(u.tokens_incluidos) + '</span><div class="mini-barra"><i class="' + (pct >= 90 ? 'cheio' : '') + '" style="width:' + pct + '%"></i></div></td>'
+            + '<td><span class="dim">' + num(u.tokens_usados) + ' / ' + num(u.tokens_incluidos) + '</span>' + (u.tokens_extra ? '<span class="extra-tk">+ ' + num(u.tokens_extra) + ' recarregados</span>' : '') + '<div class="mini-barra"><i class="' + (pct >= 90 ? 'cheio' : '') + '" style="width:' + pct + '%"></i></div></td>'
             + '<td class="num">' + num(u.sites) + '</td><td>' + pillEstado(u.kyc) + '</td><td class="dim">' + esc(data(u.criado)) + '</td></tr>';
         }).join('') + '</tbody></table>';
       Array.prototype.forEach.call(document.querySelectorAll('[data-u]'), function(tr){ tr.addEventListener('click', function(){ abrirUtilizador(tr.getAttribute('data-u')); }); });
@@ -618,6 +643,7 @@
       + '<div class="dado"><span>Plano</span><b>' + esc(u.plano || 'Sem plano') + '</b></div>'
       + '<div class="dado"><span>' + (expirado ? 'Expirou a' : 'Válido até') + '</span><b>' + esc(u.plano_expira ? data(u.plano_expira) : '—') + '</b></div>'
       + '<div class="dado"><span>Tokens do mês</span><b>' + num(u.tokens_usados) + ' / ' + num(u.tokens_incluidos) + '</b></div>'
+      + '<div class="dado"><span>Tokens recarregados</span><b>' + num(u.tokens_extra) + '</b></div>'
       + '<div class="dado"><span>Verificação (KYC)</span><b>' + pillEstado(u.kyc) + '</b></div>'
       + '<div class="dado"><span>Sites</span><b>' + num(u.sites_lista.length) + '</b></div>'
       + '<div class="dado"><span>Sessão</span><b>' + (u.sessao_activa ? 'Com sessão aberta' : 'Sem sessão aberta') + '</b></div></div>';
@@ -634,6 +660,9 @@
     // tokens
     html += '<div class="cartao grupo"><h4>' + IC.chip + 'Tokens do mês</h4><p>Muda quantos tokens a pessoa já gastou este mês (0 = começa de novo).</p>'
       + '<div class="linha-accoes" style="margin-top:0"><input class="inp" type="number" min="0" id="g-tokens" value="' + esc(u.tokens_usados) + '" style="width:170px"><button type="button" class="btn-sec" id="g-tokens-guardar">Guardar</button><button type="button" class="btn-sec" id="g-tokens-zero">Repor a 0</button><span class="msg" id="g-msg-tokens"></span></div></div>';
+    // tokens recarregados
+    html += '<div class="cartao grupo"><h4>' + IC.raio + 'Tokens recarregados</h4><p>Não expiram e são usados depois dos do plano. Usa para quem pagou uma recarga por fora, ou para ofertas.</p>'
+      + '<div class="linha-accoes" style="margin-top:0"><input class="inp" type="number" id="g-extra" placeholder="Ex: 50000" style="width:170px"><button type="button" class="btn-sec" id="g-extra-somar">Juntar</button><button type="button" class="btn-sec" id="g-extra-definir">Definir este total</button><span class="msg" id="g-msg-extra"></span></div></div>';
     // segurança
     html += '<div class="cartao grupo"><h4>' + IC.cadeado + 'Segurança</h4><p>Termina todas as sessões desta pessoa (ex: telemóvel perdido ou acesso suspeito). Ela terá de entrar outra vez.</p>'
       + '<div class="linha-accoes" style="margin-top:0"><button type="button" class="btn-perigo" id="g-sessoes">Terminar sessões</button><span class="msg" id="g-msg-sessoes"></span></div></div>';
@@ -671,6 +700,17 @@
         $('g-tokens').value = r.response.tokens_usados; msg($('g-msg-tokens'), 'Guardado.', 'ok'); carregarUtilizadores(true);
       }).catch(function(e){ msg($('g-msg-tokens'), e.message, 'erro'); });
     }
+    function mudarExtra(modo){
+      var v = parseInt($('g-extra').value, 10);
+      if (isNaN(v)) { msg($('g-msg-extra'), 'Escreve quantos tokens.', 'erro'); return; }
+      msg($('g-msg-extra'), 'A guardar...');
+      post('/admin-tokens-extra', { user_id: u.id, valor: v, modo: modo }).then(function(r){
+        if (r.status !== 'success') { msg($('g-msg-extra'), r.message, 'erro'); return; }
+        msg($('g-msg-extra'), 'Agora tem ' + num(r.response.tokens_extra) + ' tokens recarregados.', 'ok'); $('g-extra').value = ''; carregarUtilizadores(true);
+      }).catch(function(e){ msg($('g-msg-extra'), e.message, 'erro'); });
+    }
+    $('g-extra-somar').addEventListener('click', function(){ mudarExtra('somar'); });
+    doisToques($('g-extra-definir'), 'Definir mesmo?', function(){ mudarExtra('definir'); });
     $('g-tokens-guardar').addEventListener('click', function(){ guardarTokens(parseInt($('g-tokens').value, 10) || 0); });
     doisToques($('g-tokens-zero'), 'Repor mesmo?', function(){ guardarTokens(0); });
     doisToques($('g-sessoes'), 'Terminar mesmo?', function(){
@@ -777,7 +817,7 @@
     post('/admin-pagamentos', { actualizar: !!forcar }).then(function(r){
       if (r.status !== 'success') throw new Error(r.message);
       var a = r.response.assinaturas, e = r.response.encomendas;
-      $('p-assinaturas').innerHTML = a.length ? '<table class="tabela"><thead><tr><th>Cliente</th><th>Plano</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Data</th></tr></thead><tbody>'
+      $('p-assinaturas').innerHTML = a.length ? '<table class="tabela"><thead><tr><th>Cliente</th><th>Plano ou recarga</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Data</th></tr></thead><tbody>'
         + a.map(function(x){ return '<tr><td>' + esc(x.email) + '</td><td>' + esc(x.plano) + '</td><td class="num">' + esc(mzn(x.valor)) + '</td><td class="dim">' + esc(x.metodo || '—') + '</td><td>' + pillEstado(x.estado) + '</td><td class="dim">' + esc(data(x.criado, true)) + '</td></tr>'; }).join('') + '</tbody></table>'
         : '<div class="vazio">Ainda sem assinaturas.</div>';
       $('p-encomendas').innerHTML = e.length ? '<table class="tabela"><thead><tr><th>Loja</th><th>Cliente</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Data</th></tr></thead><tbody>'
@@ -798,7 +838,131 @@
     }).catch(function(e){ $('registo').innerHTML = '<div class="vazio">' + esc(e.message) + '</div>'; });
   }
 
-  var CARREGAR = { resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+
+  // ======================================================
+  // Planos e recargas (1.59.0)
+  // ======================================================
+  var dadosPlanos = { planos: [], pacotes: [], pacotes_ok: true };
+  function carregarPlanosAdmin(){
+    $('pl-planos').innerHTML = '<div class="vazio">A carregar...</div>';
+    $('pl-pacotes').innerHTML = '';
+    post('/admin-planos', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      dadosPlanos = r.response;
+      planos = r.response.planos.map(function(p){ return { id: p.id, nome: p.nome, preco: p.preco, tokens: p.tokens, sites: p.sites, activo: p.activo }; });
+      preencherPlanos();
+      desenharPlanosAdmin();
+    }).catch(function(e){ $('pl-planos').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
+  }
+  function desenharPlanosAdmin(){
+    var l = dadosPlanos.planos;
+    var temPro = l.some(function(p){ return String(p.nome).toLowerCase() === 'pro'; });
+    $('pl-aviso').innerHTML = temPro ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>Ainda não tens o plano Pro.</b><span>Cria-o já com o valor de 1 200 MZN por mês. Podes mudar tudo depois.</span></div><button type="button" class="btn-pri" id="pl-criar-pro">Criar o Pro</button></div>';
+    var bp = $('pl-criar-pro');
+    if (bp) bp.addEventListener('click', function(){ abrirFormPlano({ nome: 'Pro', preco: 1200, tokens: 300000, sites: 10, colaboradores: 1, dominio: true, activo: true }); });
+    $('pl-planos').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Plano</th><th class="num">Preço / mês</th><th class="num">Tokens / mês</th><th class="num">Sites</th><th class="num">Colab.</th><th>Domínio</th><th>Estado</th><th class="num">Contas</th><th></th></tr></thead><tbody>'
+      + l.map(function(p){
+        return '<tr><td><b>' + esc(p.nome) + '</b></td><td class="num">' + (p.preco ? esc(mzn(p.preco)) : 'Grátis') + '</td><td class="num">' + num(p.tokens) + '</td><td class="num">' + num(p.sites) + '</td><td class="num">' + num(p.colaboradores) + '</td>'
+          + '<td>' + (p.dominio ? '<span class="pill ok">Sim</span>' : '<span class="pill">Não</span>') + '</td><td>' + (p.activo ? '<span class="pill ok">Activo</span>' : '<span class="pill erro">Escondido</span>') + '</td>'
+          + '<td class="num">' + num(p.contas) + '</td><td><button type="button" class="btn-sec btn-peq" data-editar-plano="' + esc(p.id) + '">Editar</button></td></tr>';
+      }).join('') + '</tbody></table>' : '<div class="vazio">Ainda sem planos.</div>';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-editar-plano]'), function(b){
+      b.addEventListener('click', function(){ abrirFormPlano(dadosPlanos.planos.filter(function(p){ return p.id === b.getAttribute('data-editar-plano'); })[0]); });
+    });
+    var pk = dadosPlanos.pacotes;
+    if (!dadosPlanos.pacotes_ok) {
+      $('pl-pacotes').innerHTML = '<div class="vazio">Falta criar o tipo <b>Pacote</b> no Bubble (Name, Tokens, Price MZN, Is Active, Sort Order). Depois disso, as recargas aparecem aqui.</div>';
+      return;
+    }
+    $('pl-pacotes').innerHTML = (pk.length ? '<table class="tabela"><thead><tr><th>Pacote</th><th class="num">Tokens</th><th class="num">Preço</th><th class="num">MZN por 1 000 tokens</th><th>Estado</th><th class="num">Ordem</th><th></th></tr></thead><tbody>'
+      + pk.map(function(p){
+        return '<tr><td><b>' + esc(p.nome) + '</b></td><td class="num">' + num(p.tokens) + '</td><td class="num">' + esc(mzn(p.preco_mzn)) + '</td><td class="num">' + (p.tokens ? (p.preco_mzn / (p.tokens / 1000)).toFixed(1).replace('.', ',') : '—') + '</td>'
+          + '<td>' + (p.activo ? '<span class="pill ok">À venda</span>' : '<span class="pill erro">Escondido</span>') + '</td><td class="num">' + num(p.ordem) + '</td>'
+          + '<td><button type="button" class="btn-sec btn-peq" data-editar-pacote="' + esc(p.id) + '">Editar</button></td></tr>';
+      }).join('') + '</tbody></table>'
+      : '<div class="vazio"><p style="margin:0 0 14px">Ainda não há recargas à venda.</p><button type="button" class="btn-pri" id="pl-sugeridos">Criar 3 recargas sugeridas</button><p class="sub" style="margin:10px 0 0">50 000 tokens por 350 MZN, 150 000 por 900 MZN e 500 000 por 2 500 MZN. Podes mudar depois.</p></div>');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-editar-pacote]'), function(b){
+      b.addEventListener('click', function(){ abrirFormPacote(pk.filter(function(p){ return p.id === b.getAttribute('data-editar-pacote'); })[0]); });
+    });
+    var bs = $('pl-sugeridos');
+    if (bs) bs.addEventListener('click', function(){
+      bs.disabled = true; bs.textContent = 'A criar...';
+      post('/admin-pacotes-sugeridos', {}).then(function(r){
+        if (r.status !== 'success') { bs.disabled = false; bs.textContent = 'Criar 3 recargas sugeridas'; alertaPl(r.message, 'erro'); return; }
+        alertaPl('Recargas criadas. Já aparecem na página de planos dos clientes.', 'ok'); carregarPlanosAdmin();
+      }).catch(function(e){ bs.disabled = false; alertaPl(e.message, 'erro'); });
+    });
+  }
+  function alertaPl(t, tipo){ msg($('pl-msg'), t, tipo); }
+
+  // formulário (na gaveta)
+  function abrirGavetaForm(titulo, sub, html){
+    $('g-nome').textContent = titulo; $('g-email').textContent = sub; $('g-id').textContent = '';
+    $('g-corpo').innerHTML = html;
+    $('gaveta').classList.add('aberta'); $('fundo').classList.add('aberto'); $('gaveta').setAttribute('aria-hidden', 'false');
+  }
+  function campoNum(id, rotulo, valor, extra){ return '<div class="campo-a"><label for="' + id + '">' + rotulo + '</label><input class="inp" type="number" min="0" step="1" id="' + id + '" value="' + esc(valor) + '"' + (extra || '') + '></div>'; }
+  function abrirFormPlano(p){
+    var novo = !p || !p.id;
+    p = p || { nome: '', preco: 0, tokens: 0, sites: 1, colaboradores: 0, dominio: false, activo: true };
+    var ehFree = !novo && String(p.nome).toLowerCase() === 'free';
+    abrirGavetaForm(novo ? 'Novo plano' : 'Editar ' + p.nome, novo ? 'Aparece na página de planos dos clientes quando estiver activo.' : (num(p.contas) + ' contas neste plano'),
+      '<div class="cartao grupo"><div class="campos">'
+      + '<div class="campo-a"><label for="f-nome">Nome</label><input class="inp" type="text" maxlength="40" id="f-nome" value="' + esc(p.nome) + '"' + (ehFree ? ' readonly' : '') + '></div>'
+      + campoNum('f-preco', 'Preço por mês (MZN)', p.preco)
+      + campoNum('f-tokens', 'Tokens de IA por mês', p.tokens)
+      + campoNum('f-sites', 'Sites (projectos)', p.sites)
+      + campoNum('f-colab', 'Colaboradores', p.colaboradores || 0)
+      + '</div>'
+      + '<label class="verif"><input type="checkbox" id="f-dominio"' + (p.dominio ? ' checked' : '') + '>Permite domínio próprio</label>'
+      + '<label class="verif"><input type="checkbox" id="f-activo"' + (p.activo ? ' checked' : '') + (ehFree ? ' disabled' : '') + '>Activo (aparece na página de planos)</label>'
+      + (ehFree ? '<p class="sub">O Free é o plano de quem acaba de criar conta: não muda de nome nem fica escondido.</p>' : '')
+      + '<p class="sub">Mudar o preço não mexe nas assinaturas já pagas: vale para os próximos pagamentos.</p>'
+      + '<div class="linha-accoes"><button type="button" class="btn-pri" id="f-guardar">' + (novo ? 'Criar plano' : 'Guardar') + '</button><span class="msg" id="f-msg"></span></div></div>');
+    $('f-guardar').addEventListener('click', function(){
+      var b = $('f-guardar'); b.disabled = true; msg($('f-msg'), 'A guardar...');
+      post('/admin-plano-guardar', { plano_id: novo ? '' : p.id, nome: $('f-nome').value, preco: Number($('f-preco').value), tokens: Number($('f-tokens').value),
+        sites: Number($('f-sites').value), colaboradores: Number($('f-colab').value), dominio: $('f-dominio').checked, activo: ehFree ? true : $('f-activo').checked }).then(function(r){
+        b.disabled = false;
+        if (r.status !== 'success') { msg($('f-msg'), r.message, 'erro'); return; }
+        msg($('f-msg'), 'Guardado.', 'ok'); alertaPl('Plano ' + $('f-nome').value + ' guardado.', 'ok');
+        setTimeout(fecharGaveta, 600); carregarPlanosAdmin();
+      }).catch(function(e){ b.disabled = false; msg($('f-msg'), e.message, 'erro'); });
+    });
+  }
+  function abrirFormPacote(p){
+    var novo = !p || !p.id;
+    p = p || { nome: '', tokens: 100000, preco_mzn: 500, activo: true, ordem: (dadosPlanos.pacotes.length + 1) };
+    abrirGavetaForm(novo ? 'Nova recarga' : 'Editar ' + p.nome, 'Os tokens recarregados não expiram e são usados depois dos do plano.',
+      '<div class="cartao grupo"><div class="campos">'
+      + '<div class="campo-a"><label for="k-nome">Nome (opcional)</label><input class="inp" type="text" maxlength="40" id="k-nome" value="' + esc(p.nome) + '" placeholder="Ex: Recarga média"></div>'
+      + campoNum('k-tokens', 'Tokens', p.tokens)
+      + campoNum('k-preco', 'Preço (MZN)', p.preco_mzn)
+      + campoNum('k-ordem', 'Ordem na página', p.ordem)
+      + '</div>'
+      + '<label class="verif"><input type="checkbox" id="k-activo"' + (p.activo ? ' checked' : '') + '>À venda (aparece na página de planos)</label>'
+      + '<p class="sub" id="k-conta"></p>'
+      + '<div class="linha-accoes"><button type="button" class="btn-pri" id="k-guardar">' + (novo ? 'Criar recarga' : 'Guardar') + '</button><span class="msg" id="k-msg"></span></div></div>');
+    function conta(){ var t = Number($('k-tokens').value) || 0, v = Number($('k-preco').value) || 0; $('k-conta').textContent = t ? 'Fica a ' + (v / (t / 1000)).toFixed(1).replace('.', ',') + ' MZN por cada 1 000 tokens.' : ''; }
+    $('k-tokens').addEventListener('input', conta); $('k-preco').addEventListener('input', conta); conta();
+    $('k-guardar').addEventListener('click', function(){
+      var b = $('k-guardar'); b.disabled = true; msg($('k-msg'), 'A guardar...');
+      post('/admin-pacote-guardar', { pacote_id: novo ? '' : p.id, nome: $('k-nome').value, tokens: Number($('k-tokens').value), preco: Number($('k-preco').value),
+        ordem: Number($('k-ordem').value), activo: $('k-activo').checked }).then(function(r){
+        b.disabled = false;
+        if (r.status !== 'success') { msg($('k-msg'), r.message, 'erro'); return; }
+        msg($('k-msg'), 'Guardado.', 'ok'); alertaPl('Recarga guardada.', 'ok');
+        setTimeout(fecharGaveta, 600); carregarPlanosAdmin();
+      }).catch(function(e){ b.disabled = false; msg($('k-msg'), e.message, 'erro'); });
+    });
+  }
+  $('pl-novo-plano').addEventListener('click', function(){ abrirFormPlano(null); });
+  $('pl-nova-recarga').addEventListener('click', function(){
+    if (!dadosPlanos.pacotes_ok) { alertaPl('Cria primeiro o tipo Pacote no Bubble.', 'erro'); return; }
+    abrirFormPacote(null);
+  });
+
+  var CARREGAR = { planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){

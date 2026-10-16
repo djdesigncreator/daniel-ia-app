@@ -542,6 +542,8 @@
   .kyc-btn{flex-shrink:0;background:var(--grad-accent);color:var(--on-accent);font-weight:800;font-size:13px;padding:10px 16px;
     border-radius:10px;text-decoration:none;box-shadow:0 6px 18px var(--accent-glow);white-space:nowrap;}
   @media (max-width:640px){.kyc-banner{flex-wrap:wrap;}.kyc-btn{width:100%;text-align:center;}}
+  .link-recarga{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-weight:800;color:var(--accent-2);text-decoration:none;white-space:nowrap;}
+  .link-recarga:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -579,6 +581,8 @@
       <div class="value" id="card-tokens">—</div>
       <div class="bar-track"><div class="bar-fill" id="bar-tokens"></div></div>
       <div class="bar-caption" id="caption-tokens"></div>
+      <div class="bar-caption" id="caption-extra" style="display:none"></div>
+      <a class="card-link" id="link-recarregar" href="/planos/#recarregar" style="text-decoration:none">Recarregar tokens →</a>
     </div>
   </div>
 
@@ -876,6 +880,16 @@ fetch(CONTAINER_URL + '/account', {
     } else {
       document.getElementById('caption-tokens').textContent = '';
     }
+    var extra = Number(d.tokens_extra || 0);
+    var capExtra = document.getElementById('caption-extra');
+    if (extra > 0) {
+      capExtra.style.display = '';
+      capExtra.textContent = '+ ' + extra.toLocaleString('pt-PT') + ' tokens recarregados (não expiram)';
+    }
+    if (incluidos > 0 && usados >= incluidos && extra <= 0) {
+      document.getElementById('bar-tokens').style.background = 'var(--error)';
+      document.getElementById('caption-tokens').textContent = 'Os tokens do teu plano acabaram. Recarrega para continuares a criar e editar.';
+    }
   } else {
     document.getElementById('welcome-title').textContent = 'Bem-vindo';
     document.getElementById('welcome-sub').textContent = 'Não foi possível carregar os dados da conta.';
@@ -884,6 +898,17 @@ fetch(CONTAINER_URL + '/account', {
   document.getElementById('welcome-title').textContent = 'Bem-vindo';
   document.getElementById('welcome-sub').textContent = 'Não foi possível ligar ao servidor.';
 });
+
+// Tokens acabaram (1.59.0): junta a ligação para recarregar à mensagem.
+function juntarLigacaoRecarga(el){
+  if (!el || el.querySelector('.link-recarga')) return;
+  var a = document.createElement('a');
+  a.className = 'link-recarga';
+  a.href = '/planos/#recarregar';
+  a.textContent = 'Recarregar tokens →';
+  el.appendChild(document.createTextNode(' '));
+  el.appendChild(a);
+}
 
 // ---- Carregar e mostrar os sites ----
 var elLoading = document.getElementById('sites-loading');
@@ -1230,6 +1255,7 @@ btnEditarAplicar.addEventListener('click', function(){
         btnEditarAplicar.disabled = false;
         btnEditarAplicar.textContent = 'Aplicar alteração';
         elEditarErro.textContent = r.message || 'Não foi possível iniciar a alteração. Tenta novamente.';
+        if (r.codigo === 'tokens') juntarLigacaoRecarga(elEditarErro);
         elEditarErro.style.display = 'block';
       }
     })

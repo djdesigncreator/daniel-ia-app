@@ -274,6 +274,75 @@
     background:linear-gradient(90deg,transparent 0%,rgba(180,240,43,.55) 50%,transparent 100%);opacity:.55;
   }
   :root[data-theme="light"] .topbar::after{background:linear-gradient(90deg,transparent 0%,rgba(67,9,96,.35) 50%,transparent 100%);}
+  /* =====================================================================
+     TOKENS, RECARGAS E CARTÃO DENTRO DA PÁGINA (1.59.0)
+     ===================================================================== */
+  .mono{font-family:var(--font-mono);}
+  .plano-actual{align-items:stretch;}
+  .conta-lado{display:flex;flex-direction:column;justify-content:center;}
+  .conta-tokens{flex:1;min-width:240px;max-width:420px;display:flex;flex-direction:column;gap:7px;}
+  .tk-linha{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--text-dim);}
+  .tk-linha b{color:var(--text);font-size:13px;}
+  .tk-barra{height:8px;border-radius:99px;background:var(--card-alt);overflow:hidden;border:1px solid var(--border);}
+  .tk-barra i{display:block;height:100%;background:var(--grad-accent);border-radius:99px;}
+  .conta-tokens.quase .tk-barra i{background:var(--warning);}
+  .conta-tokens.acabou .tk-barra i{background:var(--error);}
+  .tk-aviso{margin:2px 0 0;font-size:12.5px;color:var(--error);font-weight:700;}
+  .btn-recarga{align-self:center;display:inline-flex;align-items:center;gap:8px;background:var(--card-alt);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:800;padding:11px 15px;border-radius:11px;cursor:pointer;white-space:nowrap;}
+  .btn-recarga:hover{border-color:var(--accent-2);}
+  .btn-recarga svg{width:16px;height:16px;color:var(--accent-2);}
+  .recarga{margin-top:56px;scroll-margin-top:90px;}
+  .recarga-eti{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--accent-2);margin-bottom:8px;}
+  .recarga h2{font-size:22px;margin:0 0 6px;}
+  .recarga > p{font-size:14px;color:var(--text-dim);margin:0 0 26px;max-width:620px;line-height:1.55;}
+  .recarga-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .pacote{position:relative;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:22px 20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:8px;}
+  .pacote.melhor{border-color:var(--accent-2);box-shadow:0 14px 34px var(--accent-glow);}
+  .pacote-topo{display:flex;align-items:center;gap:10px;}
+  .pacote-icone{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);}
+  .pacote-icone svg{width:17px;height:17px;}
+  .pacote-nome{font-size:13.5px;font-weight:700;color:var(--text-dim);}
+  .pacote-tokens{font-size:28px;font-weight:800;font-family:var(--font-display);letter-spacing:-.02em;}
+  .pacote-tokens span{font-size:13px;font-weight:600;color:var(--text-dim);font-family:var(--font-body);letter-spacing:0;}
+  .pacote-preco{font-size:17px;font-weight:800;}
+  .pacote-unit{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
+  .pacote .btn-plano{margin-top:auto;}
+  .metodo-tile small{display:block;font-size:10.5px;font-weight:600;color:var(--text-dim);margin-top:3px;}
+  .periodo-modal{color:var(--text-dim);}
+  /* janela do cartão */
+  .modal.modal-cartao{max-width:580px;padding:0;display:flex;flex-direction:column;height:min(780px,92vh);overflow:hidden;}
+  .cartao-topo{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);}
+  .cartao-topo .cadeado{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);flex-shrink:0;}
+  .cartao-topo .cadeado svg{width:18px;height:18px;}
+  .cartao-topo b{display:block;font-size:14.5px;}
+  .cartao-topo small{display:block;font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .cartao-topo .valor{margin-left:auto;font-weight:800;font-size:15px;white-space:nowrap;}
+  .btn-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .btn-x svg{width:16px;height:16px;}
+  .cartao-palco{position:relative;flex:1;background:#fff;min-height:0;}
+  .cartao-palco iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
+  .cartao-carregar{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:var(--bg-alt);z-index:1;transition:opacity .3s;}
+  .cartao-carregar p{color:var(--text-dim);font-size:13.5px;margin:0;}
+  .cartao-palco.carregado .cartao-carregar{opacity:0;pointer-events:none;}
+  .cartao-fora{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;background:var(--bg-alt);color:var(--text);}
+  .cartao-fora-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);margin-bottom:16px;}
+  .cartao-fora-ic svg{width:24px;height:24px;}
+  .cartao-fora h4{margin:0 0 8px;font-size:17px;}
+  .cartao-fora p{margin:0 0 20px;color:var(--text-dim);font-size:13.5px;line-height:1.55;max-width:360px;}
+  .cartao-fora .btn-plano{width:auto;padding:13px 22px;text-decoration:none;}
+  .cartao-rodape{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-dim);}
+  .cartao-rodape .ponto{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:8px;animation:pulsar 1.4s ease-in-out infinite;}
+  .cartao-rodape a{color:var(--text-dim);}
+  @keyframes pulsar{50%{opacity:.35;}}
+  @media (max-width:440px){.top-actions{gap:6px;}.btn-sair,.btn-voltar{padding:8px 10px !important;font-size:12.5px !important;}}
+  @media (max-width:600px){
+    .overlay.overlay-cartao{padding:0;align-items:stretch;}
+    .modal.modal-cartao{max-width:none;height:100%;max-height:none;border-radius:0;}
+    .plano-actual{flex-direction:column;align-items:stretch;}
+    .conta-tokens{max-width:none;}
+    .btn-recarga{align-self:stretch;justify-content:center;}
+  }
+
 </style>
 </head>
 <body>
@@ -300,10 +369,12 @@
   <p class="sub">Escolhe o plano que melhor serve o teu negócio. Podes mudar quando quiseres.</p>
 
   <div class="plano-actual">
-    <div>
+    <div class="conta-lado">
       <div class="rotulo">O teu plano actual</div>
       <div class="nome" id="plano-actual-nome">A carregar...</div>
     </div>
+    <div class="conta-tokens" id="conta-tokens"></div>
+    <button type="button" class="btn-recarga" id="btn-ir-recarga"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>Recarregar tokens</button>
   </div>
 
   <div class="planos-grid" id="planos-grid">
@@ -311,15 +382,23 @@
   </div>
 
   <div class="msg-pagina" id="msg-pagina"></div>
+
+  <section class="recarga" id="recarregar" style="display:none">
+    <div class="recarga-eti">RECARGAS</div>
+    <h2>Os tokens acabaram? Recarrega.</h2>
+    <p>Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira e só é usada depois dos tokens do plano.</p>
+    <div class="recarga-grid" id="recarga-grid"></div>
+  </section>
 </div>
 
 <!-- MODAL DE PAGAMENTO -->
 <div class="overlay" id="overlay-pagar" style="display:none">
-  <div class="modal">
+  <div class="modal" id="modal-pagar">
 
     <div id="vista-form">
-      <h3>Mudar para <span id="pagar-nome-plano"></span></h3>
-      <p class="sub">Valor: <strong id="pagar-valor"></strong> MZN/mês</p>
+      <h3 id="titulo-plano">Mudar para <span id="pagar-nome-plano" data-no-i18n></span></h3>
+      <h3 id="titulo-recarga" style="display:none">Recarregar <span id="pagar-tokens" data-no-i18n></span> tokens</h3>
+      <p class="sub">Valor: <strong id="pagar-valor"></strong> <span id="periodo-mes">MZN/mês</span><span id="periodo-unico" style="display:none">MZN · pagamento único</span></p>
 
       <div class="campo" id="campo-telefone" style="display:none">
         <label>Telefone (M-Pesa / e-Mola)</label>
@@ -331,7 +410,7 @@
         <div class="metodos">
           <div class="metodo-tile" data-metodo="mpesa">M-Pesa</div>
           <div class="metodo-tile" data-metodo="emola">e-Mola</div>
-          <div class="metodo-tile" data-metodo="cartao">Cartão</div>
+          <div class="metodo-tile" data-metodo="cartao">Cartão<small>Visa · Mastercard</small></div>
         </div>
       </div>
 
@@ -347,12 +426,24 @@
       <div class="estado-pagamento">
         <div class="spinner-grande"></div>
         <p id="espera-texto">Confirma o pagamento no teu telemóvel...</p>
+        <div class="acoes-modal" style="justify-content:center"><button class="btn-fechar" id="btn-espera-fechar">Fechar</button></div>
       </div>
+    </div>
+
+    <div id="vista-cartao" style="display:none;flex-direction:column;flex:1;min-height:0">
+      <div class="cartao-topo">
+        <span class="cadeado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+        <div><b>Pagamento seguro</b><small>Visa · Mastercard</small></div>
+        <span class="valor" id="cartao-valor" data-no-i18n></span>
+        <button type="button" class="btn-x" id="btn-cartao-fechar" aria-label="Fechar" title="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button>
+      </div>
+      <div class="cartao-palco" id="cartao-palco"></div>
+      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">Não aparece? Abrir numa janela nova</a></div>
     </div>
 
     <div id="vista-sucesso" style="display:none">
       <div class="estado-pagamento">
-        <p><strong>Pagamento confirmado!</strong><br>O teu plano já está actualizado.</p>
+        <p><strong>Pagamento confirmado!</strong><br><span id="sucesso-plano">O teu plano já está actualizado.</span><span id="sucesso-recarga" style="display:none"><span id="sucesso-tokens" data-no-i18n></span> <span>tokens já estão na tua conta.</span></span></p>
         <div class="acoes-modal">
           <button class="btn-plano principal" id="btn-fechar-sucesso" style="flex:1;">Fechar</button>
         </div>
@@ -429,70 +520,90 @@ function mostrarMsgPagina(texto, tipo){
   el.className = 'msg-pagina' + (tipo ? ' ' + tipo : '');
 }
 
-// ---- Carregar o plano actual ----
-// Antes chamava o backend workflow "account" do Bubble, que lia o Current
-// User - mas já não há sessão do Bubble (ver nota no topo). Passa a
-// chamar a rota /account do próprio container, igual ao dashboard.html,
-// com o OWNER explícito.
+// ======================================================
+// Conta: plano actual e tokens (do plano + recarregados)
+// ======================================================
 var nomePlanoActual = '';
-function carregarPlanoActual(){
-  fetch(CONTAINER_URL + '/account', {
+var conta = null;
+function fmt(n){ return Number(n || 0).toLocaleString('pt-PT'); }
+function postContainer(rota, corpo){
+  corpo = corpo || {};
+  if (!corpo.owner) corpo.owner = OWNER;
+  return fetch(CONTAINER_URL + rota, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER })
-  }).then(function(r){ return r.json(); }).then(function(r){
-    if (r.status === 'success' && r.response) {
-      nomePlanoActual = r.response.plano || '';
-      document.getElementById('plano-actual-nome').textContent = nomePlanoActual || '—';
-      carregarPlanos();
-    } else {
-      document.getElementById('plano-actual-nome').textContent = '—';
-      carregarPlanos();
-    }
+    body: JSON.stringify(corpo)
+  }).then(function(r){ return r.json(); });
+}
+
+function carregarPlanoActual(){
+  postContainer('/account', {}).then(function(r){
+    conta = (r.status === 'success' && r.response) ? r.response : null;
+    nomePlanoActual = conta ? (conta.plano || '') : '';
+    desenharConta();
+    carregarPlanos();
   }).catch(function(){
-    document.getElementById('plano-actual-nome').textContent = '—';
+    conta = null;
+    desenharConta();
     carregarPlanos();
   });
 }
 
-// ---- Carregar a lista de planos do container ----
-var planosCache = [];
-function carregarPlanos(){
-  fetch(CONTAINER_URL + '/planos', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({})
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
-      var grelha = document.getElementById('planos-grid');
-      if (r.status !== 'success' || !r.response || !r.response.planos) {
-        grelha.innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível carregar os planos.</p>';
-        return;
-      }
-      planosCache = r.response.planos;
-      renderPlanos();
-    })
-    .catch(function(){
-      document.getElementById('planos-grid').innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível ligar ao servidor.</p>';
-    });
+function desenharConta(){
+  document.getElementById('plano-actual-nome').textContent = nomePlanoActual || '—';
+  var el = document.getElementById('conta-tokens');
+  if (!conta) { el.innerHTML = ''; return; }
+  var inc = Number(conta.tokens_incluidos || 0), us = Number(conta.tokens_usados || 0), ex = Number(conta.tokens_extra || 0);
+  var livresMes = Math.max(0, inc - us);
+  var pct = inc ? Math.min(100, Math.round(us / inc * 100)) : 100;
+  var acabou = livresMes + ex <= 0;
+  el.className = 'conta-tokens' + (acabou ? ' acabou' : (pct >= 80 && !ex ? ' quase' : ''));
+  el.innerHTML = ''
+    + '<div class="tk-linha"><span>Tokens do plano este mês</span><b class="mono">' + fmt(us) + ' / ' + fmt(inc) + '</b></div>'
+    + '<div class="tk-barra"><i style="width:' + pct + '%"></i></div>'
+    + '<div class="tk-linha"><span>Tokens recarregados</span><b class="mono">' + fmt(ex) + '</b></div>'
+    + (acabou ? '<p class="tk-aviso">Os teus tokens acabaram. Recarrega para continuares a criar e editar.</p>' : '');
 }
 
+// ======================================================
+// Planos
+// ======================================================
+var planosCache = [];
+function carregarPlanos(){
+  postContainer('/planos', {}).then(function(r){
+    var grelha = document.getElementById('planos-grid');
+    if (r.status !== 'success' || !r.response || !r.response.planos) {
+      grelha.innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível carregar os planos.</p>';
+      return;
+    }
+    planosCache = r.response.planos.slice().sort(function(a, b){ return a.preco_mzn - b.preco_mzn; });
+    renderPlanos();
+  }).catch(function(){
+    document.getElementById('planos-grid').innerHTML = '<p style="color:var(--text-dim);font-size:13.5px;">Não foi possível ligar ao servidor.</p>';
+  });
+}
+
+var ICONE_CERTO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 function renderPlanos(){
   var grelha = document.getElementById('planos-grid');
+  grelha.style.gridTemplateColumns = planosCache.length && planosCache.length < 4 ? 'repeat(' + planosCache.length + ',minmax(0,1fr))' : '';
   grelha.innerHTML = planosCache.map(function(p){
     var ehActual = nomePlanoActual && p.nome === nomePlanoActual;
-    var ehPopular = p.nome === 'Pro';
+    var ehPopular = String(p.nome).toLowerCase() === 'pro';
     var classes = 'plano-card' + (ehActual ? ' actual' : '') + (ehPopular && !ehActual ? ' popular' : '');
     var selo = ehActual ? '<div class="plano-selo">Plano actual</div>' : (ehPopular ? '<div class="plano-selo">Mais popular</div>' : '');
 
     var lista = ''
-      + '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + p.sites_limit + ' site' + (p.sites_limit === 1 ? '' : 's') + '</li>'
-      + '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + Number(p.tokens_incluidos).toLocaleString('pt-PT') + ' tokens de IA/mês</li>';
+      + '<li>' + ICONE_CERTO + ' ' + p.sites_limit + ' site' + (p.sites_limit === 1 ? '' : 's') + '</li>'
+      + '<li>' + ICONE_CERTO + ' ' + Number(p.tokens_incluidos).toLocaleString('pt-PT') + ' tokens de IA/mês</li>';
+    if (p.preco_mzn > 0) {
+      lista += '<li>' + ICONE_CERTO + ' Escolhe entre as 3 versões do teu site</li>';
+    }
     if (p.permite_dominio) {
-      lista += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Domínio próprio</li>';
+      lista += '<li>' + ICONE_CERTO + ' Domínio próprio</li>';
     }
     if (p.max_colaboradores > 0) {
-      lista += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ' + p.max_colaboradores + ' colaborador' + (p.max_colaboradores === 1 ? '' : 'es') + '</li>';
+      lista += '<li>' + ICONE_CERTO + ' ' + p.max_colaboradores + ' colaborador' + (p.max_colaboradores === 1 ? '' : 'es') + '</li>';
     }
 
     var preco = p.preco_mzn > 0
@@ -501,7 +612,7 @@ function renderPlanos(){
 
     var botao = ehActual
       ? '<button class="btn-plano" disabled>Plano actual</button>'
-      : '<button class="btn-plano' + (ehPopular ? ' principal' : '') + '" data-plano-id="' + p.id + '" data-plano-nome="' + escaparHtml(p.nome) + '" data-plano-preco="' + p.preco_mzn + '">Mudar para ' + escaparHtml(p.nome) + '</button>';
+      :'<button class="btn-plano' + (ehPopular ? ' principal' : '') + '" data-plano-id="' + p.id + '" data-plano-nome="' + escaparHtml(p.nome) + '" data-plano-preco="' + p.preco_mzn + '">Mudar para ' + escaparHtml(p.nome) + '</button>';
 
     return ''
       + '<div class="' + classes + '">'
@@ -521,59 +632,119 @@ function renderPlanos(){
 }
 
 // ======================================================
-// Mudar de plano - grátis aplica-se logo, pago abre o modal de pagamento
+// Recargas de tokens
+// ======================================================
+var pacotesCache = [];
+var ICONE_RAIO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>';
+function carregarPacotes(){
+  postContainer('/pacotes', {}).then(function(r){
+    pacotesCache = (r.status === 'success' && r.response && r.response.pacotes) || [];
+    renderPacotes();
+  }).catch(function(){ pacotesCache = []; renderPacotes(); });
+}
+function renderPacotes(){
+  var sec = document.getElementById('recarregar');
+  var grelha = document.getElementById('recarga-grid');
+  if (!pacotesCache.length) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  var custos = pacotesCache.map(function(p){ return p.preco_mzn / (p.tokens / 1000); });
+  var minimo = Math.min.apply(null, custos);
+  var maisBarato = pacotesCache.length > 1 && custos.filter(function(c){ return c === minimo; }).length === 1 ? custos.indexOf(minimo) : -1;
+  grelha.innerHTML = pacotesCache.map(function(p, i){
+    var melhor = i === maisBarato;
+    return '<div class="pacote' + (melhor ? ' melhor' : '') + '">'
+      + (melhor ? '<div class="plano-selo">Melhor preço</div>' : '')
+      + '<div class="pacote-topo"><span class="pacote-icone">' + ICONE_RAIO + '</span><span class="pacote-nome">' + escaparHtml(p.nome) + '</span></div>'
+      + '<div class="pacote-tokens"><b class="mono">' + fmt(p.tokens) + '</b> <span>tokens</span></div>'
+      + '<div class="pacote-preco">' + fmt(p.preco_mzn) + ' MZN</div>'
+      + '<div class="pacote-unit"><span class="mono">' + custos[i].toFixed(1).replace('.', ',') + '</span> <span>MZN por cada 1 000 tokens</span></div>'
+      + '<button class="btn-plano' + (melhor ? ' principal' : '') + '" data-pacote="' + escaparHtml(p.id) + '">Recarregar</button>'
+      + '</div>';
+  }).join('');
+  grelha.querySelectorAll('[data-pacote]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var p = pacotesCache.filter(function(x){ return x.id === b.getAttribute('data-pacote'); })[0];
+      if (p) abrirPagamento({ tipo: 'recarga', id: p.id, nome: p.nome, valor: p.preco_mzn, tokens: p.tokens });
+    });
+  });
+  if (location.hash === '#recarregar') {
+    setTimeout(function(){ sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
+  }
+}
+document.getElementById('btn-ir-recarga').addEventListener('click', function(){
+  var sec = document.getElementById('recarregar');
+  if (sec.style.display === 'none') {
+    mostrarMsgPagina('As recargas ainda não estão disponíveis. Sobe de plano para teres mais tokens por mês.', 'erro');
+    document.getElementById('planos-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// ======================================================
+// Pagamento - plano ou recarga, por M-Pesa, e-Mola ou cartão
+// (o cartão abre aqui dentro; a pessoa nunca sai da página)
 // ======================================================
 var elOverlay = document.getElementById('overlay-pagar');
-var elVistaForm = document.getElementById('vista-form');
-var elVistaEspera = document.getElementById('vista-espera');
-var elVistaSucesso = document.getElementById('vista-sucesso');
+var elModal = document.getElementById('modal-pagar');
 var elCampoTelefone = document.getElementById('campo-telefone');
 var elTelefone = document.getElementById('pagar-telefone');
 var elPagarErro = document.getElementById('pagar-erro');
 var btnPagar = document.getElementById('btn-pagar');
+var CONTAINER_ORIGEM = CONTAINER_URL.replace(/\/+$/, '');
 
-var planoEscolhidoId = '';
+var pedido = null;            // { tipo: 'plano'|'recarga', id, nome, valor, tokens }
 var metodoSeleccionado = '';
 var assinaturaActualId = '';
 var esperaTimer = null;
 var tentativasEspera = 0;
+var modoEspera = '';
+var fundoTimer = null;
 
 function mostrarVistaModal(nome){
-  elVistaForm.style.display = (nome === 'form') ? '' : 'none';
-  elVistaEspera.style.display = (nome === 'espera') ? '' : 'none';
-  elVistaSucesso.style.display = (nome === 'sucesso') ? '' : 'none';
+  ['form', 'espera', 'cartao', 'sucesso'].forEach(function(v){
+    document.getElementById('vista-' + v).style.display = (v === nome) ? (v === 'cartao' ? 'flex' : '') : 'none';
+  });
+  elModal.classList.toggle('modal-cartao', nome === 'cartao');
+  elOverlay.classList.toggle('overlay-cartao', nome === 'cartao');
+  if (nome !== 'cartao') document.getElementById('cartao-palco').innerHTML = '';
 }
 
 function abrirMudancaPlano(planoId, nomePlano, precoMzn){
   mostrarMsgPagina('', '');
-
   if (precoMzn <= 0) {
     if (!confirm('Mudar para o plano ' + nomePlano + '?')) return;
-    fetch(CONTAINER_URL + '/assinatura-iniciar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ owner: OWNER, plano_id: planoId })
-    }).then(function(r){ return r.json(); })
-      .then(function(r){
-        if (r.status === 'success') {
-          mostrarMsgPagina('Plano actualizado para ' + nomePlano + '.', 'ok');
-          carregarPlanoActual();
-        } else {
-          mostrarMsgPagina(r.message || 'Não foi possível mudar de plano.', 'erro');
-        }
-      })
-      .catch(function(){
-        mostrarMsgPagina('Não foi possível ligar ao servidor.', 'erro');
-      });
+    postContainer('/assinatura-iniciar', { plano_id: planoId }).then(function(r){
+      if (r.status === 'success') {
+        mostrarMsgPagina('Plano actualizado para ' + nomePlano + '.', 'ok');
+        carregarPlanoActual();
+      } else {
+        mostrarMsgPagina(r.message || 'Não foi possível mudar de plano.', 'erro');
+      }
+    }).catch(function(){
+      mostrarMsgPagina('Não foi possível ligar ao servidor.', 'erro');
+    });
     return;
   }
+  abrirPagamento({ tipo: 'plano', id: planoId, nome: nomePlano, valor: precoMzn });
+}
 
-  planoEscolhidoId = planoId;
+function abrirPagamento(p){
+  mostrarMsgPagina('', '');
+  pararEspera();
+  pedido = p;
+  assinaturaActualId = '';
   metodoSeleccionado = '';
   elTelefone.value = '';
   elPagarErro.textContent = '';
-  document.getElementById('pagar-nome-plano').textContent = nomePlano;
-  document.getElementById('pagar-valor').textContent = precoMzn.toLocaleString('pt-PT');
+  var ehPlano = p.tipo === 'plano';
+  document.getElementById('titulo-plano').style.display = ehPlano ? '' : 'none';
+  document.getElementById('titulo-recarga').style.display = ehPlano ? 'none' : '';
+  document.getElementById('pagar-nome-plano').textContent = p.nome;
+  document.getElementById('pagar-tokens').textContent = fmt(p.tokens);
+  document.getElementById('pagar-valor').textContent = Number(p.valor).toLocaleString('pt-PT');
+  document.getElementById('periodo-mes').style.display = ehPlano ? '' : 'none';
+  document.getElementById('periodo-unico').style.display = ehPlano ? 'none' : '';
   elCampoTelefone.style.display = 'none';
   document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
   btnPagar.disabled = false;
@@ -591,19 +762,26 @@ document.querySelectorAll('.metodo-tile').forEach(function(tile){
   });
 });
 
-document.getElementById('btn-cancelar-pagar').addEventListener('click', function(){
+function fecharModal(){
+  var pendente = !!assinaturaActualId && modoEspera !== '';
   elOverlay.style.display = 'none';
   pararEspera();
-});
+  mostrarVistaModal('form');
+  if (pendente) confirmarEmFundo();
+}
+document.getElementById('btn-cancelar-pagar').addEventListener('click', fecharModal);
+document.getElementById('btn-cartao-fechar').addEventListener('click', fecharModal);
+document.getElementById('btn-espera-fechar').addEventListener('click', fecharModal);
 document.getElementById('btn-fechar-sucesso').addEventListener('click', function(){
   elOverlay.style.display = 'none';
   pararEspera();
+  mostrarVistaModal('form');
   carregarPlanoActual();
 });
 
 btnPagar.addEventListener('click', function(){
   elPagarErro.textContent = '';
-
+  if (!pedido) return;
   if (!metodoSeleccionado) {
     elPagarErro.textContent = 'Escolhe um método de pagamento.';
     return;
@@ -617,93 +795,160 @@ btnPagar.addEventListener('click', function(){
   btnPagar.disabled = true;
   btnPagar.textContent = 'A processar...';
 
-  fetch(CONTAINER_URL + '/assinatura-iniciar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ owner: OWNER, plano_id: planoEscolhidoId })
-  }).then(function(r){ return r.json(); })
-    .then(function(rIniciar){
-      if (rIniciar.status !== 'success') {
-        throw new Error(rIniciar.message || 'Não foi possível iniciar a mudança de plano.');
-      }
-      if (rIniciar.response.gratis) {
-        // Por segurança (ex: o plano passou a ser grátis entretanto) -
-        // já está aplicado, não há nada mais a pagar.
-        mostrarVistaModal('sucesso');
-        return null;
-      }
-      assinaturaActualId = rIniciar.response.assinatura_id;
-      var corpo = { assinatura_id: assinaturaActualId, metodo: metodoSeleccionado };
-      if (telefone) corpo.telefone = telefone;
-      return fetch(CONTAINER_URL + '/assinatura-pagar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(corpo)
-      }).then(function(r){ return r.json(); });
-    })
-    .then(function(rPagar){
-      if (!rPagar) return; // já tratado no caminho "grátis" acima
-      if (rPagar.status !== 'success') {
-        throw new Error(rPagar.message || 'Não foi possível iniciar o pagamento.');
-      }
-      if (rPagar.response.tipo === 'cartao') {
-        // Sai desta página para a MozPayment - volta depois pelo
-        // return_url (/assinatura-obrigado, tratado pelo próprio
-        // container) directamente para o dashboard.
-        window.location.href = rPagar.response.checkout_url;
-        return;
-      }
-      // M-Pesa / e-Mola: fica aqui a aguardar a confirmação no telemóvel.
-      mostrarVistaModal('espera');
-      iniciarEsperaPagamento();
-    })
-    .catch(function(erro){
-      btnPagar.disabled = false;
-      btnPagar.textContent = 'Pagar';
-      elPagarErro.textContent = erro.message || 'Algo correu mal. Tenta novamente.';
-    });
+  var inicio = pedido.tipo === 'plano'
+    ? postContainer('/assinatura-iniciar', { plano_id: pedido.id })
+    : postContainer('/recarga-iniciar', { pacote_id: pedido.id });
+
+  inicio.then(function(rIniciar){
+    if (rIniciar.status !== 'success') {
+      throw new Error(rIniciar.message || 'Não foi possível iniciar o pagamento.');
+    }
+    if (rIniciar.response.gratis) {
+      mostrarSucesso();
+      return null;
+    }
+    assinaturaActualId = rIniciar.response.assinatura_id;
+    var corpo = { assinatura_id: assinaturaActualId, metodo: metodoSeleccionado };
+    if (telefone) corpo.telefone = telefone;
+    return postContainer('/assinatura-pagar', corpo);
+  }).then(function(rPagar){
+    if (!rPagar) return;
+    if (rPagar.status !== 'success') {
+      throw new Error(rPagar.message || 'Não foi possível iniciar o pagamento.');
+    }
+    if (rPagar.response.tipo === 'cartao') {
+      abrirCartao(rPagar.response);
+      return;
+    }
+    // M-Pesa / e-Mola: fica aqui a aguardar a confirmação no telemóvel.
+    mostrarVistaModal('espera');
+    iniciarEsperaPagamento('mobile');
+  }).catch(function(erro){
+    btnPagar.disabled = false;
+    btnPagar.textContent = 'Pagar';
+    elPagarErro.textContent = erro.message || 'Algo correu mal. Tenta novamente.';
+  });
 });
 
-function iniciarEsperaPagamento(){
+// ---- Cartão dentro da página ----
+var ICONE_CADEADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+function abrirCartao(resp){
+  mostrarVistaModal('cartao');
+  document.getElementById('cartao-valor').textContent = Number(pedido.valor).toLocaleString('pt-PT') + ' MZN';
+  var palco = document.getElementById('cartao-palco');
+  var linkFora = document.getElementById('cartao-abrir-fora');
+  linkFora.href = resp.checkout_url;
+  palco.classList.remove('carregado');
+  if (resp.embutivel === false) {
+    palco.innerHTML = '<div class="cartao-fora"><span class="cartao-fora-ic">' + ICONE_CADEADO + '</span>'
+      + '<h4>O banco abre o pagamento numa janela segura</h4>'
+      + '<p>Toca no botão, paga com o teu cartão e volta para aqui. Esta página confirma o pagamento sozinha.</p>'
+      + '<a class="btn-plano principal" id="cartao-fora-btn" href="#" target="_blank" rel="noopener">Abrir pagamento seguro</a></div>';
+    document.getElementById('cartao-fora-btn').href = resp.checkout_url;
+    palco.classList.add('carregado');
+    linkFora.style.display = 'none';
+  } else {
+    palco.innerHTML = '<div class="cartao-carregar"><div class="spinner-grande"></div><p>A abrir o pagamento seguro...</p></div>';
+    var fr = document.createElement('iframe');
+    fr.title = 'Pagamento com cartão';
+    fr.setAttribute('allow', 'payment');
+    // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.
+    fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox');
+    fr.addEventListener('load', function(){ palco.classList.add('carregado'); });
+    fr.src = resp.checkout_url;
+    palco.appendChild(fr);
+    linkFora.style.display = '';
+  }
+  iniciarEsperaPagamento('cartao');
+}
+
+// A página de "obrigado" (dentro da janela do cartão) avisa quando o banco a devolve.
+window.addEventListener('message', function(e){
+  if (e.origin !== CONTAINER_ORIGEM || !e.data || e.data.daniel !== 'pagamento') return;
+  if (!assinaturaActualId || !modoEspera) return;
+  document.getElementById('cartao-estado-texto').textContent = 'Pagamento recebido. A confirmar...';
+  if (esperaTimer) clearTimeout(esperaTimer);
+  verificarEsperaPagamento();
+});
+
+// ---- Esperar a confirmação ----
+function iniciarEsperaPagamento(modo){
+  pararEspera();
+  modoEspera = modo;
   tentativasEspera = 0;
   document.getElementById('espera-texto').textContent = 'Confirma o pagamento no teu telemóvel...';
-  verificarEsperaPagamento();
+  document.getElementById('cartao-estado-texto').textContent = 'À espera da confirmação do pagamento...';
+  esperaTimer = setTimeout(verificarEsperaPagamento, modo === 'cartao' ? 5000 : 3000);
 }
 
 function pararEspera(){
   if (esperaTimer) clearTimeout(esperaTimer);
   esperaTimer = null;
+  modoEspera = '';
 }
 
 function verificarEsperaPagamento(){
-  fetch(CONTAINER_URL + '/assinatura-estado', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ assinatura_id: assinaturaActualId })
-  }).then(function(r){ return r.json(); })
-    .then(function(r){
+  var modo = modoEspera;
+  if (!modo || !assinaturaActualId) return;
+  postContainer('/assinatura-estado', { assinatura_id: assinaturaActualId }).then(function(r){
+    if (modoEspera !== modo) return;
+    if (r.status === 'success' && r.response.estado === 'Pago') {
+      mostrarSucesso();
+      return;
+    }
+    proximaTentativa(modo);
+  }).catch(function(){
+    if (modoEspera === modo) proximaTentativa(modo);
+  });
+}
+
+function proximaTentativa(modo){
+  tentativasEspera++;
+  if (modo === 'mobile' && tentativasEspera >= 20) {
+    document.getElementById('espera-texto').textContent = 'Ainda a confirmar. Se já pagaste, aguarda mais um pouco e verifica o teu plano novamente.';
+    esperaTimer = setTimeout(verificarEsperaPagamento, 8000);
+    return;
+  }
+  if (modo === 'cartao' && tentativasEspera === 60) {
+    document.getElementById('cartao-estado-texto').textContent = 'Ainda à espera. Se já pagaste, a confirmação pode demorar um pouco.';
+  }
+  if (tentativasEspera >= 400) return; // ~20 minutos
+  esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
+}
+
+function mostrarSucesso(){
+  pararEspera();
+  var recarga = pedido && pedido.tipo === 'recarga';
+  document.getElementById('sucesso-plano').style.display = recarga ? 'none' : '';
+  document.getElementById('sucesso-recarga').style.display = recarga ? '' : 'none';
+  document.getElementById('sucesso-tokens').textContent = recarga ? fmt(pedido.tokens) : '';
+  mostrarVistaModal('sucesso');
+  assinaturaActualId = '';
+  carregarPlanoActual();
+}
+
+// Fechou a janela antes da confirmação: continua a verificar por trás
+// durante uns minutos e avisa quando entrar.
+function confirmarEmFundo(){
+  var id = assinaturaActualId, era = pedido, voltas = 0;
+  if (!id) return;
+  mostrarMsgPagina('Se concluíste o pagamento, a tua conta actualiza-se sozinha em instantes.', '');
+  if (fundoTimer) clearTimeout(fundoTimer);
+  function ver(){
+    postContainer('/assinatura-estado', { assinatura_id: id }).then(function(r){
       if (r.status === 'success' && r.response.estado === 'Pago') {
-        mostrarVistaModal('sucesso');
+        mostrarMsgPagina(era && era.tipo === 'recarga' ? 'Recarga confirmada! Os tokens já estão na tua conta.' : 'Pagamento confirmado! O teu plano já está actualizado.', 'ok');
+        carregarPlanoActual();
         return;
       }
-      tentativasEspera++;
-      if (tentativasEspera >= 20) {
-        document.getElementById('espera-texto').textContent = 'Ainda a confirmar. Se já pagaste, aguarda mais um pouco e verifica o teu plano novamente.';
-        return;
-      }
-      esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
-    })
-    .catch(function(){
-      tentativasEspera++;
-      if (tentativasEspera >= 20) {
-        document.getElementById('espera-texto').textContent = 'Não foi possível confirmar. Verifica a tua ligação.';
-        return;
-      }
-      esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
-    });
+      if (++voltas < 60) fundoTimer = setTimeout(ver, 5000);
+    }).catch(function(){ if (++voltas < 60) fundoTimer = setTimeout(ver, 5000); });
+  }
+  fundoTimer = setTimeout(ver, 3000);
 }
 
 carregarPlanoActual();
+carregarPacotes();
 </script>
 
 </body>

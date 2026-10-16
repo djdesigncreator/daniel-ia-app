@@ -655,6 +655,8 @@
   .proximo.plano .ic{background:rgba(163,91,224,.16);color:var(--purple-bright);}
   @media (max-width:640px){.estudio-plano{flex-wrap:wrap;}.estudio-plano .btn{width:100%;}}
 
+  .link-recarga{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-weight:800;color:var(--accent-2);text-decoration:none;white-space:nowrap;}
+  .link-recarga:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -845,6 +847,17 @@ var segundosDecorridos = 0;
 function showView(id){
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
+}
+
+// Tokens acabaram (1.59.0): junta a ligação para recarregar à mensagem.
+function juntarLigacaoRecarga(el){
+  if (!el || el.querySelector('.link-recarga')) return;
+  var a = document.createElement('a');
+  a.className = 'link-recarga';
+  a.href = '/planos/#recarregar';
+  a.textContent = 'Recarregar tokens →';
+  el.appendChild(document.createTextNode(' '));
+  el.appendChild(a);
 }
 
 function showMessage(texto){
@@ -1096,6 +1109,7 @@ btnGerar.addEventListener('click', function(){
       } else {
         setLoading(btnGerar, false, 'Criar as 3 versões', '');
         showMessage(r.message || 'Não foi possível iniciar a geração. Tenta novamente.');
+        if (r.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('msg-form'));
       }
     })
     .catch(function(){
@@ -1553,12 +1567,13 @@ function gerarNovas(botao){
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
   }).then(function(r){ return r.json(); }).then(function(r){
-    if (r.status !== 'success') throw new Error(r.message || '');
+    if (r.status !== 'success') { var er = new Error(r.message || ''); er.codigo = r.codigo; throw er; }
     estudio.actual = null;
     comecarDesenho();
   }).catch(function(e){
     if (botao) { botao.disabled = false; botao.textContent = botao.getAttribute('data-texto') || 'Desenhar 3 versões novas'; }
     document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível começar as versões novas. Tenta novamente.';
+    if (e.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('estudio-msg'));
   });
 }
 document.getElementById('btn-gerar-novas').addEventListener('click', function(){ gerarNovas(this); });
