@@ -547,6 +547,41 @@
     .cat-accoes{grid-column:1/-1;justify-content:flex-start;}
     .cat-nova{max-width:none;}
   }
+
+  /* vários produtos de uma vez */
+  .lote{display:none;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:18px;padding:18px;margin-bottom:18px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .lote.aberto{display:block;animation:entrar .3s ease-out;}
+  .lote-topo{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px;}
+  .lote-topo b{display:block;font-size:16px;}
+  .lote-topo span{display:block;color:var(--text-dim);font-size:13px;margin-top:3px;line-height:1.5;}
+  .btn-x-lote{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .btn-x-lote svg{width:15px;height:15px;}
+  .lote-accoes{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .lote-accoes input[type=text]{flex:1;min-width:200px;background:var(--card-alt);border:1px solid var(--border);color:var(--text);border-radius:11px;padding:0 13px;height:44px;font-size:14px;outline:none;font-family:inherit;}
+  .lote-lista{display:flex;flex-direction:column;gap:8px;}
+  .lote-linha{display:grid;grid-template-columns:56px minmax(0,2fr) minmax(0,1fr) minmax(0,1.2fr) 36px;gap:8px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px;}
+  .lote-linha.com-erro{border-color:var(--error);}
+  .lote-linha.feito{opacity:.5;}
+  .lote-foto{width:56px;height:56px;border-radius:10px;overflow:hidden;background:var(--card-alt);display:flex;align-items:center;justify-content:center;color:var(--text-dim);}
+  .lote-foto img{width:100%;height:100%;object-fit:cover;}
+  .lote-foto svg{width:20px;height:20px;}
+  .lote-linha input{min-width:0;background:var(--card-alt);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:0 11px;height:42px;font-size:14px;outline:none;font-family:inherit;}
+  .lote-linha input:focus,.lote-accoes input:focus{border-color:var(--lime);}
+  .lote-tirar{width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .lote-tirar:hover{color:var(--error);background:var(--card-alt);}
+  .lote-tirar svg{width:16px;height:16px;}
+  .lote-erro{grid-column:2/-1;color:var(--error);font-size:12px;}
+  .lote-rodape{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:14px;}
+  .lote-rodape .msg{flex:1;min-width:200px;}
+  .spinner-p{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--lime);animation:girar-p .8s linear infinite;}
+  @keyframes girar-p{to{transform:rotate(360deg);}}
+  @media (max-width:760px){
+    .lote-linha{grid-template-columns:56px minmax(0,1fr) 36px;}
+    .lote-linha input[data-campo="nome"]{grid-column:2;}
+    .lote-linha input[data-campo="preco"],.lote-linha input[data-campo="categoria"]{grid-column:1/-1;}
+    .lote-linha .lote-tirar{grid-column:3;grid-row:1;}
+    .lote-erro{grid-column:1/-1;}
+  }
   .temas-loja{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
   .tema-op{background:var(--card-alt);border:1.5px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;color:var(--text);text-align:left;display:flex;flex-direction:column;gap:3px;font-family:inherit;transition:border-color .15s;}
   .tema-op b{font-size:12.5px;}
@@ -602,6 +637,17 @@
     <div class="barra-produtos">
       <label class="pesquisa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="filtro-produtos" placeholder="Procurar nos teus produtos"></label>
       <button class="btn btn-principal" id="btn-novo-produto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo produto</button>
+      <button class="btn btn-sec" id="btn-lote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Vários de uma vez</button>
+    </div>
+    <div class="lote" id="lote">
+      <div class="lote-topo"><div><b>Juntar vários produtos de uma vez</b><span>Escolhe as fotos (até 30): cada foto vira um produto. Escreve o nome e o preço e guarda tudo junto.</span></div>
+        <button type="button" class="btn-x-lote" id="lote-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></div>
+      <div class="lote-accoes"><button type="button" class="btn btn-sec" id="lote-escolher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-9 9"/></svg>Escolher fotos</button>
+        <button type="button" class="btn-ligeiro" id="lote-sem-foto">+ Produto sem foto</button>
+        <input type="text" id="lote-cat" maxlength="40" list="lista-categorias" placeholder="Categoria para todos (opcional)">
+        <input type="file" id="lote-ficheiros" accept="image/*" multiple hidden></div>
+      <div class="lote-lista" id="lote-lista"></div>
+      <div class="lote-rodape"><div class="msg" id="lote-msg"></div><button type="button" class="btn btn-principal" id="lote-guardar" disabled>Guardar produtos</button></div>
     </div>
     <div id="lista-produtos"><p class="sub">A carregar os produtos...</p></div>
   </section>
@@ -1281,9 +1327,10 @@
     catalogo:   { nome: 'Catálogo', desc: 'Todos os produtos, arrumados por categoria.', icone: IC.caixa, unico: true },
     vistos:     { nome: 'Vistos recentemente', desc: 'O que o cliente já espreitou (fica no telemóvel dele).', icone: IC.olho, unico: true },
     banda:      { nome: 'Ofertas da semana', desc: 'Faixa escura com os melhores preços e separadores por categoria.', icone: IC.raio, unico: true },
-    colecao:    { nome: 'Colecção com filtros', desc: 'Grelha grande com categorias, ordenar e "mostrar mais".', icone: IC.grelha, unico: true }
+    colecao:    { nome: 'Colecção com filtros', desc: 'Grelha grande com categorias, ordenar e "mostrar mais".', icone: IC.grelha, unico: true },
+    filtros:    { nome: 'Catálogo com filtros ao lado', desc: 'Categorias, preço, avaliação e promoções numa coluna; grelha ou lista.', icone: IC.fila, unico: true }
   };
-  var ORDEM_TIPOS = ['anuncio', 'capa', 'categorias', 'fila', 'banners', 'oferta', 'banda', 'colecao', 'catalogo', 'vistos'];
+  var ORDEM_TIPOS = ['anuncio', 'capa', 'categorias', 'fila', 'banners', 'oferta', 'banda', 'colecao', 'filtros', 'catalogo', 'vistos'];
   // Estilos de loja (cada versão do estúdio traz um; o dono pode mudar)
   var TEMAS_LOJA = {
     '': ['Automático', 'O do layout que escolheste'],
@@ -1291,13 +1338,19 @@
     editorial: ['Editorial', 'Título gigante, fotos grandes, muito espaço'],
     tech: ['Tecnologia', 'Capa dividida, categorias em quadrados, filas'],
     moda: ['Moda', 'Letras pesadas, faixa de cor, fotos ao alto'],
+    catalogo: ['Catálogo', 'Filtros ao lado: categorias, preço, avaliação'],
+    vitrine: ['Vitrine', 'Um produto em grande, preço ao lado, miniaturas'],
+    bento: ['Bento', 'Mosaico pastel, cantos redondos, alegre'],
     classico: ['Clássico', 'A montra original do Daniel IA']
   };
   var BLOCOS_TEMA = {
     mercado: [['capa'], ['categorias'], ['fila', 'destaques'], ['banda'], ['fila', 'novidades'], ['catalogo'], ['vistos']],
     editorial: [['capa'], ['colecao'], ['vistos']],
     tech: [['capa'], ['categorias'], ['fila', 'destaques'], ['fila', 'novidades'], ['fila', 'mais_vendidos'], ['catalogo'], ['vistos']],
-    moda: [['capa'], ['categorias'], ['fila', 'novidades'], ['fila', 'promocoes'], ['catalogo'], ['vistos']]
+    moda: [['capa'], ['categorias'], ['fila', 'novidades'], ['fila', 'promocoes'], ['catalogo'], ['vistos']],
+    catalogo: [['capa'], ['filtros'], ['vistos']],
+    vitrine: [['capa'], ['catalogo'], ['vistos']],
+    bento: [['capa'], ['categorias'], ['fila', 'destaques'], ['catalogo'], ['vistos']]
   };
   function temaEfectivo(estilo){
     var t = (estilo && estilo.tema) || '';
@@ -1329,7 +1382,7 @@
   function montraDeOrigem(estilo){
     var tema = temaEfectivo(estilo || (montra && montra.estilo));
     if (BLOCOS_TEMA[tema]) {
-      return { estilo: { cartao: 'suave', colunas: { mercado: 5, editorial: 4, tech: 4, moda: 3 }[tema] }, blocos: BLOCOS_TEMA[tema].map(function(x, i){
+      return { estilo: { cartao: 'suave', colunas: { mercado: 5, editorial: 4, tech: 4, moda: 3, catalogo: 3, vitrine: 4, bento: 4 }[tema] }, blocos: BLOCOS_TEMA[tema].map(function(x, i){
         var b = { id: x[0].slice(0, 5) + i, tipo: x[0], activo: true, titulo: '' };
         if (x[0] === 'fila') { b.fonte = x[1]; b.categoria = ''; }
         if (x[0] === 'categorias') { b.formato = 'circulos'; b.imagens = {}; }
@@ -1399,6 +1452,7 @@
       case 'vistos': return b.titulo ? s(b.titulo, true) : s('Só aparece a quem já viu produtos');
       case 'banda': return b.titulo ? s(b.titulo, true) : s('Os melhores preços, com separadores por categoria');
       case 'colecao': return b.titulo ? s(b.titulo, true) : s('Todos os produtos, com filtros e ordenar');
+      case 'filtros': return s('Filtros ao lado e grelha de produtos');
     }
     return '';
   }
@@ -1530,6 +1584,8 @@
       case 'banda':
         return campoTexto('Título (opcional)', 'titulo', b.titulo, 'Ofertas da semana')
           + dica('Mostra primeiro os produtos com preço antigo (promoção). Precisa de pelo menos 5 produtos à venda.');
+      case 'filtros':
+        return dica('Mostra todos os produtos com filtros numa coluna ao lado (no telemóvel abrem num botão): categorias, preço, avaliação, promoções e stock.');
       case 'colecao':
         return campoTexto('Título (opcional)', 'titulo', b.titulo, '')
           + dica('Uma grelha grande com todos os produtos, separadores por categoria, ordenar por preço e o botão "Mostrar mais".');
@@ -1729,6 +1785,7 @@
       if (b.tipo === 'catalogo') corpo = '<div class="es' + foco + '"' + a + '>' + t + '<div class="es-grelha">' + prods(4) + '</div></div>';
       if (b.tipo === 'vistos') corpo = '<div class="es es-vistos' + foco + '"' + a + '>' + t + '<div class="es-linha">' + prods(5) + '</div></div>';
       if (b.tipo === 'banda') corpo = '<div class="es es-oferta' + foco + '"' + a + '>' + t + '<div class="es-linha">' + prods(5) + '</div></div>';
+      if (b.tipo === 'filtros') corpo = '<div class="es' + foco + '"' + a + '>' + t + '<div class="es-grelha">' + prods(6) + '</div></div>';
       if (b.tipo === 'colecao') corpo = '<div class="es' + foco + '"' + a + '>' + t + '<div class="es-grelha">' + prods(6) + '</div></div>';
       html += corpo;
     });
@@ -2169,6 +2226,119 @@
     msg($('msg-cat'), 'Categoria criada. Carrega em Guardar e depois escolhe-a nos teus produtos.', 'ok');
   });
   $('cat-ir-produtos').addEventListener('click', function(e){ e.preventDefault(); document.querySelector('.tab[data-painel="p-produtos"]').click(); });
+
+
+  // ======================================================
+  // Vários produtos de uma vez (1.59.0): cada foto vira um produto
+  // ======================================================
+  var loteItens = [];
+  var loteAGuardar = false;
+  function nomeDoFicheiro(n){
+    var t = String(n || '').replace(/\.[a-z0-9]+$/i, '').replace(/[_\-.]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (/^(img|dsc|image|photo|foto|whatsapp image)\s?\d*/i.test(t) || /^\d[\d\s]*$/.test(t)) return '';
+    return t ? t.charAt(0).toUpperCase() + t.slice(1, 120) : '';
+  }
+  function abrirLote(){
+    $('lote').classList.add('aberto');
+    $('lote').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!loteItens.length) $('lote-ficheiros').click();
+  }
+  function fecharLote(){
+    if (loteAGuardar) return;
+    loteItens = []; renderLote();
+    $('lote').classList.remove('aberto');
+    msg($('lote-msg'), '');
+  }
+  $('btn-lote').addEventListener('click', abrirLote);
+  $('lote-fechar').addEventListener('click', fecharLote);
+  $('lote-escolher').addEventListener('click', function(){ $('lote-ficheiros').click(); });
+  $('lote-sem-foto').addEventListener('click', function(){
+    if (loteItens.length >= 30) { msg($('lote-msg'), 'No máximo 30 produtos de cada vez.', 'erro'); return; }
+    loteItens.push({ foto: '', nome: '', preco: '', categoria: $('lote-cat').value.trim(), estado: '' });
+    renderLote();
+  });
+  $('lote-ficheiros').addEventListener('change', function(){
+    var ficheiros = Array.prototype.slice.call(this.files || []);
+    this.value = '';
+    var cabem = 30 - loteItens.length;
+    if (ficheiros.length > cabem) msg($('lote-msg'), 'No máximo 30 produtos de cada vez. Ficaram os primeiros ' + cabem + '.', 'erro');
+    ficheiros = ficheiros.slice(0, Math.max(0, cabem));
+    msg($('lote-msg'), ficheiros.length ? 'A preparar as fotos...' : '');
+    var feitas = 0;
+    ficheiros.forEach(function(f){
+      var item = { foto: '', nome: nomeDoFicheiro(f.name), preco: '', categoria: $('lote-cat').value.trim(), estado: 'a ler' };
+      loteItens.push(item);
+      lerImagem(f, 1400).then(function(d){ item.foto = d; item.estado = ''; })
+        .catch(function(){ item.estado = 'erro-foto'; })
+        .then(function(){ if (++feitas === ficheiros.length) msg($('lote-msg'), ''); renderLote(); });
+    });
+    renderLote();
+  });
+  $('lote-cat').addEventListener('change', function(){
+    var c = this.value.trim();
+    loteItens.forEach(function(i){ if (!i.categoria) i.categoria = c; });
+    renderLote();
+  });
+  function renderLote(){
+    var n = loteItens.length;
+    $('lote-lista').innerHTML = n ? loteItens.map(function(it, i){
+      return '<div class="lote-linha' + (it.estado === 'ok' ? ' feito' : '') + (it.estado === 'erro' ? ' com-erro' : '') + '" data-i="' + i + '">'
+        + '<div class="lote-foto">' + (it.foto ? '<img src="' + esc(it.foto) + '" alt="">' : (it.estado === 'a ler' ? '<span class="spinner-p"></span>' : IC.imagem)) + '</div>'
+        + '<input type="text" maxlength="120" placeholder="Nome do produto" value="' + esc(it.nome) + '" data-campo="nome">'
+        + '<input type="number" min="0" step="1" inputmode="numeric" placeholder="Preço (MZN)" value="' + esc(it.preco) + '" data-campo="preco">'
+        + '<input type="text" maxlength="40" list="lista-categorias" placeholder="Categoria (opcional)" value="' + esc(it.categoria) + '" data-campo="categoria">'
+        + '<button type="button" class="lote-tirar" data-tirar title="Tirar" aria-label="Tirar">' + IC.x + '</button>'
+        + (it.erro ? '<small class="lote-erro">' + esc(it.erro) + '</small>' : '')
+        + '</div>';
+    }).join('') : '<p class="sub" style="margin:6px 0">Escolhe as fotos dos produtos: cada foto vira um produto. Depois escreve o nome e o preço de cada um.</p>';
+    cadaEl('.lote-linha', $('lote-lista'), function(el){
+      var it = loteItens[Number(el.getAttribute('data-i'))];
+      cadaEl('[data-campo]', el, function(inp){
+        inp.addEventListener('input', function(){ it[inp.getAttribute('data-campo')] = inp.value; el.classList.remove('com-erro'); if ($('lote-msg').classList.contains('erro')) msg($('lote-msg'), ''); if (it.estado === 'erro') { it.estado = ''; it.erro = ''; var e = el.querySelector('.lote-erro'); if (e) e.remove(); } });
+      });
+      el.querySelector('[data-tirar]').addEventListener('click', function(){
+        if (loteAGuardar) return;
+        loteItens.splice(loteItens.indexOf(it), 1); renderLote();
+      });
+    });
+    var porGuardar = loteItens.filter(function(i){ return i.estado !== 'ok'; }).length;
+    $('lote-guardar').disabled = !porGuardar || loteAGuardar;
+    $('lote-guardar').textContent = porGuardar === 1 ? 'Guardar 1 produto' : 'Guardar ' + porGuardar + ' produtos';
+  }
+  $('lote-guardar').addEventListener('click', function(){
+    var faltam = loteItens.filter(function(i){ return i.estado !== 'ok'; });
+    var invalidos = faltam.filter(function(i){ return String(i.nome || '').trim().length < 2 || !(Number(i.preco) > 0) || i.estado === 'a ler'; });
+    if (invalidos.length) {
+      invalidos.forEach(function(i){ var lendo = i.estado === 'a ler'; if (!lendo) i.estado = 'erro'; i.erro = lendo ? 'A foto ainda está a carregar.' : 'Falta o nome ou o preço.'; });
+      renderLote();
+      msg($('lote-msg'), invalidos.length === 1 ? '1 produto sem nome ou sem preço.' : invalidos.length + ' produtos sem nome ou sem preço.', 'erro');
+      return;
+    }
+    loteAGuardar = true;
+    var feitos = 0, falhados = 0;
+    $('lote-guardar').disabled = true;
+    function seguinte(k){
+      if (k >= faltam.length) {
+        loteAGuardar = false;
+        msg($('lote-msg'), falhados ? (feitos + ' guardados, ' + falhados + ' com erro. Corrige e tenta outra vez.') : (feitos === 1 ? '1 produto guardado. Já está na tua loja.' : feitos + ' produtos guardados. Já estão na tua loja.'), falhados ? 'erro' : 'ok');
+        loteItens = loteItens.filter(function(i){ return i.estado !== 'ok'; });
+        renderLote();
+        carregarProdutos();
+        return;
+      }
+      var it = faltam[k];
+      msg($('lote-msg'), 'A guardar ' + (k + 1) + ' de ' + faltam.length + '...');
+      var dados = { site_id: SITE_ID, nome: String(it.nome).trim(), preco: Number(it.preco), categoria: String(it.categoria || '').trim(), descricao: '' };
+      if (it.foto) dados.imagem_data_url = it.foto;
+      post('/loja-produto-criar', dados).then(function(r){
+        if (r.status === 'success') { it.estado = 'ok'; it.erro = ''; feitos++; }
+        else { it.estado = 'erro'; it.erro = r.message || 'Não foi possível guardar.'; falhados++; }
+      }).catch(function(){ it.estado = 'erro'; it.erro = 'Não foi possível ligar ao servidor.'; falhados++; })
+        .then(function(){ renderLote(); seguinte(k + 1); });
+    }
+    seguinte(0);
+  });
+  renderLote();
 
   carregarLoja();
   carregarProdutos();

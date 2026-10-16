@@ -859,10 +859,10 @@
     var temPro = l.some(function(p){ return String(p.nome).toLowerCase() === 'pro'; });
     $('pl-aviso').innerHTML = temPro ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>Ainda não tens o plano Pro.</b><span>Cria-o já com o valor de 1 200 MZN por mês. Podes mudar tudo depois.</span></div><button type="button" class="btn-pri" id="pl-criar-pro">Criar o Pro</button></div>';
     var bp = $('pl-criar-pro');
-    if (bp) bp.addEventListener('click', function(){ abrirFormPlano({ nome: 'Pro', preco: 1200, tokens: 300000, sites: 10, colaboradores: 1, dominio: true, activo: true }); });
-    $('pl-planos').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Plano</th><th class="num">Preço / mês</th><th class="num">Tokens / mês</th><th class="num">Sites</th><th class="num">Colab.</th><th>Domínio</th><th>Estado</th><th class="num">Contas</th><th></th></tr></thead><tbody>'
+    if (bp) bp.addEventListener('click', function(){ abrirFormPlano({ nome: 'Pro', preco: 1200, tokens: 300000, sites: 10, espaco_mb: 5120, colaboradores: 1, dominio: true, activo: true }); });
+    $('pl-planos').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Plano</th><th class="num">Preço / mês</th><th class="num">Tokens / mês</th><th class="num">Sites</th><th class="num">Espaço</th><th class="num">Colab.</th><th>Domínio</th><th>Estado</th><th class="num">Contas</th><th></th></tr></thead><tbody>'
       + l.map(function(p){
-        return '<tr><td><b>' + esc(p.nome) + '</b></td><td class="num">' + (p.preco ? esc(mzn(p.preco)) : 'Grátis') + '</td><td class="num">' + num(p.tokens) + '</td><td class="num">' + num(p.sites) + '</td><td class="num">' + num(p.colaboradores) + '</td>'
+        return '<tr><td><b>' + esc(p.nome) + '</b></td><td class="num">' + (p.preco ? esc(mzn(p.preco)) : 'Grátis') + '</td><td class="num">' + num(p.tokens) + '</td><td class="num">' + num(p.sites) + '</td><td class="num">' + (p.espaco_mb >= 1024 ? (p.espaco_mb / 1024).toFixed(p.espaco_mb % 1024 ? 1 : 0).replace('.', ',') + ' GB' : num(p.espaco_mb) + ' MB') + '</td><td class="num">' + num(p.colaboradores) + '</td>'
           + '<td>' + (p.dominio ? '<span class="pill ok">Sim</span>' : '<span class="pill">Não</span>') + '</td><td>' + (p.activo ? '<span class="pill ok">Activo</span>' : '<span class="pill erro">Escondido</span>') + '</td>'
           + '<td class="num">' + num(p.contas) + '</td><td><button type="button" class="btn-sec btn-peq" data-editar-plano="' + esc(p.id) + '">Editar</button></td></tr>';
       }).join('') + '</tbody></table>' : '<div class="vazio">Ainda sem planos.</div>';
@@ -904,7 +904,7 @@
   function campoNum(id, rotulo, valor, extra){ return '<div class="campo-a"><label for="' + id + '">' + rotulo + '</label><input class="inp" type="number" min="0" step="1" id="' + id + '" value="' + esc(valor) + '"' + (extra || '') + '></div>'; }
   function abrirFormPlano(p){
     var novo = !p || !p.id;
-    p = p || { nome: '', preco: 0, tokens: 0, sites: 1, colaboradores: 0, dominio: false, activo: true };
+    p = p || { nome: '', preco: 0, tokens: 0, sites: 1, espaco_mb: 1024, colaboradores: 0, dominio: false, activo: true };
     var ehFree = !novo && String(p.nome).toLowerCase() === 'free';
     abrirGavetaForm(novo ? 'Novo plano' : 'Editar ' + p.nome, novo ? 'Aparece na página de planos dos clientes quando estiver activo.' : (num(p.contas) + ' contas neste plano'),
       '<div class="cartao grupo"><div class="campos">'
@@ -912,6 +912,7 @@
       + campoNum('f-preco', 'Preço por mês (MZN)', p.preco)
       + campoNum('f-tokens', 'Tokens de IA por mês', p.tokens)
       + campoNum('f-sites', 'Sites (projectos)', p.sites)
+      + campoNum('f-espaco', 'Espaço para fotos e vídeos (MB)', p.espaco_mb || 0)
       + campoNum('f-colab', 'Colaboradores', p.colaboradores || 0)
       + '</div>'
       + '<label class="verif"><input type="checkbox" id="f-dominio"' + (p.dominio ? ' checked' : '') + '>Permite domínio próprio</label>'
@@ -922,7 +923,7 @@
     $('f-guardar').addEventListener('click', function(){
       var b = $('f-guardar'); b.disabled = true; msg($('f-msg'), 'A guardar...');
       post('/admin-plano-guardar', { plano_id: novo ? '' : p.id, nome: $('f-nome').value, preco: Number($('f-preco').value), tokens: Number($('f-tokens').value),
-        sites: Number($('f-sites').value), colaboradores: Number($('f-colab').value), dominio: $('f-dominio').checked, activo: ehFree ? true : $('f-activo').checked }).then(function(r){
+        sites: Number($('f-sites').value), espaco_mb: Number($('f-espaco').value), colaboradores: Number($('f-colab').value), dominio: $('f-dominio').checked, activo: ehFree ? true : $('f-activo').checked }).then(function(r){
         b.disabled = false;
         if (r.status !== 'success') { msg($('f-msg'), r.message, 'erro'); return; }
         msg($('f-msg'), 'Guardado.', 'ok'); alertaPl('Plano ' + $('f-nome').value + ' guardado.', 'ok');
