@@ -657,6 +657,50 @@
 
   .link-recarga{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-weight:800;color:var(--accent-2);text-decoration:none;white-space:nowrap;}
   .link-recarga:hover{text-decoration:underline;}
+  /* Imagem de referência (1.59.0) */
+  .ref-bloco{margin-top:20px;border:1px solid var(--border);border-radius:16px;padding:16px;background:linear-gradient(135deg,var(--tint-b),transparent 60%),var(--card-alt);}
+  .ref-cab{display:flex;align-items:flex-start;gap:12px;}
+  .ref-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--grad-accent);color:var(--on-accent);flex-shrink:0;}
+  .ref-ic svg{width:20px;height:20px;}
+  .ref-cab b{display:block;font-family:var(--font-display);font-size:15px;line-height:1.3;color:var(--text);}
+  .ref-cab small{display:block;font-size:12.5px;color:var(--text-dim);margin-top:3px;line-height:1.45;}
+  .ref-opc{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);border:1px solid var(--border);border-radius:99px;padding:3px 9px;flex-shrink:0;}
+  .ref-drop{margin-top:14px;border:1.5px dashed var(--border);border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;outline:none;}
+  .ref-drop:hover,.ref-drop:focus-visible,.ref-drop.arrastar{border-color:var(--accent-2);background:var(--tint-b);}
+  .ref-drop svg{width:22px;height:22px;color:var(--text-dim);margin-bottom:6px;}
+  .ref-drop .label-main{font-size:13px;color:var(--text);font-weight:600;}
+  .ref-drop .label-sub{font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .ref-preview{display:none;margin-top:14px;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:16px;align-items:start;}
+  .ref-preview.show{display:grid;}
+  .ref-img{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--bg-alt);aspect-ratio:4/5;}
+  .ref-img img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+  .ref-a-ler{position:absolute;inset:0;display:none;place-items:center;}
+  .ref-preview.a-ler .ref-a-ler{display:grid;}
+  .ref-preview.a-ler .ref-img img{visibility:hidden;}
+  .ref-a-ler i{width:24px;height:24px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--accent-2);animation:refGira .8s linear infinite;}
+  @keyframes refGira{to{transform:rotate(360deg);}}
+  .ref-info > b{display:block;font-size:13.5px;color:var(--text);}
+  .ref-niveis{list-style:none;margin:10px 0 12px;padding:0;display:grid;gap:7px;}
+  .ref-niveis li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text);line-height:1.3;}
+  .ref-niveis i{font-style:normal;font-family:var(--font-mono);font-size:11px;font-weight:700;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:var(--card);border:1px solid var(--border);color:var(--accent-2);flex-shrink:0;}
+  .ref-niveis em{font-style:normal;color:var(--text-dim);font-size:12px;}
+  .ref-info small{display:block;font-size:12px;color:var(--text-dim);line-height:1.45;}
+  .ref-accoes{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap;}
+  .ref-accoes .btn{width:auto;margin-top:0;padding:9px 14px;font-size:13px;}
+  .ref-tirar{background:none;border:none;color:var(--text-dim);font:inherit;font-size:13px;cursor:pointer;padding:9px 8px;}
+  .ref-tirar:hover{color:var(--error);}
+  @media (max-width:520px){
+    .ref-preview{grid-template-columns:104px minmax(0,1fr);gap:12px;}
+    .ref-opc{display:none;}
+    .ref-niveis em{display:none;}
+  }
+  .estudio-ref{display:none;align-items:center;gap:12px;margin:0 0 18px;padding:10px 16px 10px 10px;border:1px solid var(--border);border-radius:14px;background:var(--card-alt);max-width:520px;}
+  .estudio-ref.show{display:flex;}
+  .estudio-ref img{width:46px;height:46px;border-radius:9px;object-fit:cover;object-position:top;border:1px solid var(--border);flex-shrink:0;}
+  .estudio-ref .ref-ic{width:46px;height:46px;border-radius:9px;}
+  .estudio-ref b{display:block;font-size:13.5px;color:var(--text);}
+  .estudio-ref small{display:block;font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .estudio-ref.a-analisar b::after{content:'';display:inline-block;width:10px;height:10px;margin-left:8px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--accent-2);animation:refGira .8s linear infinite;vertical-align:-1px;}
 </style>
 </head>
 <body>
@@ -716,6 +760,33 @@
       <textarea id="f-prompt" placeholder="Ex: Uma padaria artesanal em Maputo, com secção de produtos, sobre nós e contacto. Tom acolhedor, cores quentes." maxlength="900"></textarea>
       <div class="char-count"><span id="f-prompt-count">0</span>/900</div>
 
+      <div class="ref-bloco" id="ref-bloco">
+        <div class="ref-cab">
+          <span class="ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="9" cy="9" r="1.8"></circle><path d="M21 15l-4.5-4.5L6 21"></path><path d="M16 3.5l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7z" fill="currentColor" stroke="none"></path></svg></span>
+          <div><b id="ref-titulo">Criar parecido com uma imagem</b><small id="ref-sub">Tens um site de que gostas? Carrega um print e a IA faz um parecido para o teu negócio, com o teu nome e os teus textos.</small></div>
+          <span class="ref-opc">Opcional</span>
+        </div>
+        <div class="ref-drop" id="ref-drop" role="button" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <div class="label-main">Carregar imagem de referência</div>
+          <div class="label-sub">Um print de um site, de uma loja ou de um design · JPG, PNG, WEBP ou AVIF</div>
+        </div>
+        <input type="file" id="f-ref" accept="image/*,.avif" style="display:none">
+        <div class="ref-preview" id="ref-preview">
+          <div class="ref-img"><img id="ref-img" alt=""><span class="ref-a-ler"><i></i></span></div>
+          <div class="ref-info">
+            <b>Vais receber 3 versões a partir desta imagem</b>
+            <ul class="ref-niveis">
+              <li><i>1</i><span>Fiel à imagem</span> <em>o mais parecido possível</em></li>
+              <li><i>2</i><span>Parecida</span> <em>o mesmo estilo, outra composição</em></li>
+              <li><i>3</i><span>Inspirada</span> <em>com um toque novo</em></li>
+            </ul>
+            <small>Copiamos o estilo: cores, letras e disposição. Nunca o nome, o logótipo ou os textos de outra marca.</small>
+            <div class="ref-accoes"><button type="button" class="btn secondary" id="ref-trocar">Trocar imagem</button><button type="button" class="ref-tirar" id="ref-tirar">Tirar</button></div>
+          </div>
+        </div>
+      </div>
+
       <label>Logótipo (opcional)</label>
       <div class="logo-drop" id="logo-drop">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -764,6 +835,7 @@
       </div>
       <div class="estudio-relogio" id="estudio-relogio"><span class="ponto"></span><div><b id="estudio-tempo" data-no-i18n>0:00</b><small id="estudio-relogio-sub">A desenhar em paralelo</small></div></div>
     </div>
+    <div class="estudio-ref" id="estudio-ref"><img id="estudio-ref-img" alt=""><span class="ref-ic" id="estudio-ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="9" cy="9" r="1.8"></circle><path d="M21 15l-4.5-4.5L6 21"></path><path d="M16 3.5l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7z" fill="currentColor" stroke="none"></path></svg></span><div><b id="estudio-ref-titulo">A estudar a tua imagem</b><small id="estudio-ref-sub">Cores, letras e disposição</small></div></div>
     <div class="estudio-plano" id="estudio-plano"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><div><b>Estás no plano Free</b><small>Podes ver todas as versões, mas para usares as outras precisas de um plano pago. O teu site continua como está.</small></div><a class="btn" href="/planos/">Ver planos</a></div>
     <div class="estudio-sucesso" id="estudio-sucesso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><b>Feito! O teu site já tem o visual novo.</b><small><span>Layout em uso:</span> <span id="estudio-sucesso-nome"></span></small></div><a href="#" target="_blank" rel="noopener" id="estudio-sucesso-link">Ver o site</a></div>
     <div class="variantes" id="variantes"></div>
@@ -1067,6 +1139,113 @@ function renderImagensGrid(){
   imagensDrop.classList.toggle('disabled', imagensDataUrls.length >= MAX_IMAGENS);
 }
 
+// ---- Imagem de referência: criar parecido com ela (1.59.0) ----
+var referenciaDataUrl = '';
+var refDrop = document.getElementById('ref-drop');
+var inputRef = document.getElementById('f-ref');
+var refPreview = document.getElementById('ref-preview');
+var refImg = document.getElementById('ref-img');
+var REF_TEXTOS = {
+  loja: ['Criar uma loja parecida com uma imagem', 'Tens uma loja online de que gostas? Carrega um print e a IA faz uma parecida para o teu negócio, com o teu nome e os teus produtos.'],
+  site: ['Criar parecido com uma imagem', 'Tens um site de que gostas? Carrega um print e a IA faz um parecido para o teu negócio, com o teu nome e os teus textos.']
+};
+function actualizarTextosReferencia(){
+  var t = (campoTipo.value === 'E-commerce' || campoTipo.value === 'Checkout') ? REF_TEXTOS.loja : REF_TEXTOS.site;
+  document.getElementById('ref-titulo').textContent = t[0];
+  document.getElementById('ref-sub').textContent = t[1];
+}
+document.querySelectorAll('.tipo').forEach(function(c){ c.addEventListener('click', actualizarTextosReferencia); });
+actualizarTextosReferencia();
+
+// Lê a imagem (também AVIF e WEBP, se o navegador as abrir) e passa-a para
+// JPG com no máximo 1600 px de largura - leve e aceite pela IA.
+function prepararReferencia(ficheiro){
+  return new Promise(function(resolver, falhar){
+    var url = URL.createObjectURL(ficheiro);
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        if (!w || !h) throw new Error('vazia');
+        var esc = Math.min(1, 1600 / w, 4000 / h);
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * esc));
+        c.height = Math.max(1, Math.round(h * esc));
+        var ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        var q = 0.86, d = c.toDataURL('image/jpeg', q);
+        while (d.length > 5.5 * 1024 * 1024 && q > 0.5) { q -= 0.12; d = c.toDataURL('image/jpeg', q); }
+        URL.revokeObjectURL(url);
+        resolver(d);
+      } catch (e) { URL.revokeObjectURL(url); falhar(e); }
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); falhar(new Error('ler')); };
+    img.src = url;
+  });
+}
+function escolherReferencia(ficheiro){
+  if (!ficheiro) return;
+  if (!/^image\//.test(ficheiro.type || '') && !/\.(avif|webp|png|jpe?g|gif)$/i.test(ficheiro.name || '')) {
+    showMessage('Escolhe uma imagem (JPG, PNG, WEBP ou AVIF).');
+    return;
+  }
+  if (ficheiro.size > 15 * 1024 * 1024) {
+    showMessage('A imagem de referência é demasiado grande. O limite é 15 MB.');
+    return;
+  }
+  hideMessage();
+  referenciaDataUrl = '';
+  refImg.removeAttribute('src');
+  refDrop.style.display = 'none';
+  refPreview.classList.add('show', 'a-ler');
+  prepararReferencia(ficheiro).then(function(d){
+    referenciaDataUrl = d;
+    refImg.src = d;
+    refPreview.classList.remove('a-ler');
+  }).catch(function(){
+    tirarReferencia();
+    showMessage('Não consegui ler esta imagem. Tenta um JPG ou PNG.');
+  });
+}
+function tirarReferencia(){
+  referenciaDataUrl = '';
+  inputRef.value = '';
+  refImg.removeAttribute('src');
+  refPreview.classList.remove('show', 'a-ler');
+  refDrop.style.display = '';
+}
+refDrop.addEventListener('click', function(){ inputRef.click(); });
+refDrop.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inputRef.click(); } });
+refDrop.addEventListener('dragover', function(e){ e.preventDefault(); refDrop.classList.add('arrastar'); });
+refDrop.addEventListener('dragleave', function(){ refDrop.classList.remove('arrastar'); });
+refDrop.addEventListener('drop', function(e){
+  e.preventDefault();
+  refDrop.classList.remove('arrastar');
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  escolherReferencia(f);
+});
+inputRef.addEventListener('change', function(){ escolherReferencia(inputRef.files && inputRef.files[0]); inputRef.value = ''; });
+document.getElementById('ref-trocar').addEventListener('click', function(){ inputRef.click(); });
+document.getElementById('ref-tirar').addEventListener('click', tirarReferencia);
+
+// No estúdio: mostra que as versões vêm da imagem.
+function mostrarReferenciaEstudio(estado){
+  var caixa = document.getElementById('estudio-ref');
+  estudio.refAnalisar = estado === 'a analisar';
+  if (!estado || estudio.modo !== 'criar') { caixa.classList.remove('show'); return; }
+  var temImg = !!estudio.refThumb;
+  document.getElementById('estudio-ref-img').style.display = temImg ? '' : 'none';
+  if (temImg) document.getElementById('estudio-ref-img').src = estudio.refThumb;
+  document.getElementById('estudio-ref-ic').style.display = temImg ? 'none' : '';
+  caixa.classList.add('show');
+  caixa.classList.toggle('a-analisar', estudio.refAnalisar);
+  document.getElementById('estudio-ref-titulo').textContent = estudio.refAnalisar ? 'A estudar a tua imagem' : 'Feito a partir da tua imagem';
+  document.getElementById('estudio-ref-sub').textContent = estudio.refAnalisar ? 'Cores, letras e disposição' : '1 fiel · 2 parecida · 3 inspirada';
+  document.getElementById('estudio-texto').textContent = 'A nossa IA estudou a tua imagem e está a desenhar três versões a partir dela: uma fiel, uma parecida e uma inspirada. Abre cada uma, vê no computador e no telemóvel, e escolhe a tua. Só a versão que escolheres conta no teu plano.';
+}
+
 // ---- Submeter o formulário ----
 var btnGerar = document.getElementById('btn-gerar');
 
@@ -1090,11 +1269,18 @@ btnGerar.addEventListener('click', function(){
     return;
   }
 
+  if (refPreview.classList.contains('a-ler')) {
+    showMessage('A imagem de referência ainda está a carregar. Espera um segundo.');
+    return;
+  }
+
   setLoading(btnGerar, true, 'Criar as 3 versões', 'A iniciar...');
 
   var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt, idioma: document.getElementById('f-idioma').value || 'pt', variantes: 3 };
   if (logoDataUrl) corpo.logo_data_url = logoDataUrl;
   if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
+  if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
+  estudio.refThumb = referenciaDataUrl || '';
 
   fetch(CONTAINER_URL + '/generate', {
     method: 'POST',
@@ -1252,6 +1438,7 @@ function abrirEstudio(siteId, nome, tipo, modo){
   document.getElementById('estudio-sucesso').style.display = 'none';
   document.getElementById('estudio-extra').style.display = 'none';
   estudio.planoPago = true; mostrarAvisoPlano();
+  mostrarReferenciaEstudio(estudio.modo === 'criar' && estudio.refThumb ? 'a analisar' : '');
   showView('view-estudio');
   window.scrollTo({ top: 0, behavior: 'smooth' });
   try { history.replaceState(null, '', '/criar/?' + (estudio.modo === 'mudar' ? 'mudar' : 'escolher') + '=' + encodeURIComponent(siteId)); } catch (e) {}
@@ -1298,7 +1485,7 @@ function tiqueRelogio(){
   if (!acabou) document.getElementById('estudio-tempo').textContent = relogioTexto(seg);
   r.classList.toggle('feito', !!acabou);
   document.getElementById('estudio-relogio-sub').textContent = acabou ? 'Versões prontas' : 'A desenhar em paralelo';
-  Array.prototype.forEach.call(document.querySelectorAll('.variante [data-etapa]'), function(el){ el.textContent = etapaDe(seg); });
+  Array.prototype.forEach.call(document.querySelectorAll('.variante [data-etapa]'), function(el){ el.textContent = estudio.refAnalisar ? 'A estudar a tua imagem...' : etapaDe(seg); });
   Array.prototype.forEach.call(document.querySelectorAll('.variante [data-tempo]'), function(el){ el.textContent = relogioTexto(seg); });
 }
 function pararEstudio(){
@@ -1325,6 +1512,7 @@ function verificarEstudio(){
       return;
     }
     estudio.variantes = vs.variantes;
+    if (vs.referencia) mostrarReferenciaEstudio(vs.referencia);
     estudio.actual = vs.escolhida || null;
     vs.variantes.forEach(actualizarCartao);
     marcarActual();
