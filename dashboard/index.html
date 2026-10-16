@@ -334,6 +334,10 @@
   .pill.estado-erro{background:rgba(255,92,122,0.12);color:var(--error);border-color:rgba(255,92,122,0.25);}
   .pill.estado-escolher{background:rgba(180,240,43,0.14);color:var(--accent-2);border-color:rgba(137,200,4,0.35);}
   .btn-escolher-layout{background:var(--grad-accent) !important;color:var(--on-accent) !important;border-color:transparent !important;font-weight:800;text-decoration:none;}
+  .btn-mudar-layout{text-decoration:none;display:inline-flex;align-items:center;}
+  .btn-admin{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;background:var(--grad-accent);color:var(--on-accent);font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 8px 20px var(--accent-glow);}
+  .btn-admin svg{width:15px;height:15px;}
+  @media (max-width:640px){.btn-admin span{display:none;}}
   .pill.estado-gerando{background:rgba(245,166,35,0.12);color:var(--warning);border-color:rgba(245,166,35,0.25);}
   .site-data{
     font-size:12px;
@@ -913,6 +917,8 @@ function acaoSite(site){
     var textoBtnContacto = site.email_contacto ? 'Contacto ✓' : 'Contacto';
     html = '<button class="btn-ver btn-contacto-site" data-site-id="' + site.id + '" data-email-contacto="' + (site.email_contacto || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnContacto + '</button>' + html;
     html = '<button class="btn-ver btn-editar-site" data-site-id="' + site.id + '" data-nome="' + (site.nome || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">Editar</button>' + html;
+    // Mudar de layout: 3 versões novas ou trocar entre as que já existem (o link não muda).
+    html = '<a class="btn-ver btn-mudar-layout" href="/criar/?mudar=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Mudar layout</a>' + html;
     // Só os projectos de E-commerce ou Checkout têm produtos para gerir.
     if (site.tipo === 'E-commerce' || site.tipo === 'Checkout') {
       html = '<button class="btn-ver btn-gerir-produtos" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir loja</button>' + html;
@@ -1575,6 +1581,25 @@ btnContactoGuardar.addEventListener('click', function(){
 
 <script>
 // O KYC aparece só na loja (Gerir loja e no fim de criar uma loja).
+
+// ---- Painel de administração: o botão só aparece a quem é admin ----
+(function(){
+  var token = '';
+  try { token = localStorage.getItem('daniel_token') || ''; } catch (e) {}
+  if (!OWNER || !token) return;
+  fetch(CONTAINER_URL + '/admin-entrar', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, token: token })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (!r.response || !r.response.admin) return;
+    var zona = document.querySelector('.top-actions');
+    if (!zona || document.getElementById('btn-admin')) return;
+    var a = document.createElement('a');
+    a.id = 'btn-admin'; a.href = '/admin/'; a.className = 'btn-admin';
+    a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Admin</span>';
+    zona.insertBefore(a, zona.firstChild);
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>

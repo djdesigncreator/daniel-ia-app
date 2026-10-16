@@ -610,6 +610,50 @@
     .proximo{flex-wrap:wrap;}
   }
   @media (prefers-reduced-motion:reduce){.planta .l::after,.planta .scan,.estudio-relogio .ponto{animation:none;}}
+  /* ---- Mudar de layout ---- */
+  .variante.actual{border-color:rgba(137,200,4,.6);box-shadow:0 0 0 3px rgba(137,200,4,.12);}
+  :root[data-theme="light"] .variante.actual{border-color:rgba(67,9,96,.45);box-shadow:0 0 0 3px rgba(67,9,96,.08);}
+  .variante.actual .variante-estado{background:var(--grad-accent);color:var(--on-accent);}
+  .variante-accoes .btn.confirmar{background:var(--warning);color:#1A0A27;box-shadow:0 10px 24px rgba(245,166,35,.35);}
+  .visor-topo .btn.confirmar{background:var(--warning);color:#1A0A27;}
+  .estudio-carregar{grid-column:1/-1;display:flex;justify-content:center;padding:80px 0;}
+  .estudio-carregar i{width:34px;height:34px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--lime);animation:girar .8s linear infinite;}
+  @keyframes girar{to{transform:rotate(360deg);}}
+  .estudio-vazio{grid-column:1/-1;text-align:center;padding:48px 24px;border-radius:24px;border:1px dashed var(--border);background:radial-gradient(600px 220px at 50% 0%,rgba(137,200,4,.10),transparent 70%),var(--card);}
+  .estudio-vazio-arte{display:flex;justify-content:center;gap:12px;margin-bottom:22px;}
+  .estudio-vazio-arte span{width:78px;height:96px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(160deg,var(--card-alt),var(--card));position:relative;overflow:hidden;}
+  .estudio-vazio-arte span::before{content:'';position:absolute;left:8px;right:8px;top:8px;height:34px;border-radius:7px;}
+  .estudio-vazio-arte span:nth-child(1)::before{background:#F4EEE3;}
+  .estudio-vazio-arte span:nth-child(2){transform:translateY(-10px);}
+  .estudio-vazio-arte span:nth-child(2)::before{background:linear-gradient(135deg,#1B1B22,#3A3A48);box-shadow:inset 0 0 0 1px #E8FF5A;}
+  .estudio-vazio-arte span:nth-child(3)::before{background:linear-gradient(135deg,#FF5A36,#FFC93C);}
+  .estudio-vazio-arte span::after{content:'';position:absolute;left:8px;width:60%;top:50px;height:5px;border-radius:3px;background:var(--border);box-shadow:0 11px 0 var(--border),0 22px 0 var(--border);}
+  .estudio-vazio h3{font-family:var(--font-display);font-size:22px;margin:0 0 8px;letter-spacing:-.02em;}
+  .estudio-vazio p{color:var(--text-dim);max-width:560px;margin:0 auto 22px;line-height:1.6;font-size:14.5px;}
+  .estudio-vazio .btn{width:auto;display:inline-flex;padding:14px 26px;margin:0;}
+  .estudio-extra{display:none;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:22px;}
+  .estudio-extra .btn{width:auto;margin:0;padding:12px 20px;}
+  .estudio-extra small{color:var(--text-dim);font-size:12.5px;}
+  .estudio-sucesso{display:none;align-items:center;gap:14px;margin:0 0 20px;padding:16px 18px;border-radius:18px;background:rgba(137,200,4,.10);border:1px solid rgba(137,200,4,.35);animation:surgir .4s ease-out;}
+  .estudio-sucesso .ic{width:40px;height:40px;border-radius:12px;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .estudio-sucesso .ic svg{width:20px;height:20px;}
+  .estudio-sucesso div{flex:1;min-width:0;}
+  .estudio-sucesso b{display:block;font-size:15px;}
+  .estudio-sucesso small{display:block;color:var(--text-dim);font-size:12.5px;margin-top:2px;}
+  .estudio-sucesso a{font-weight:800;font-size:14px;color:var(--accent-2);text-decoration:none;white-space:nowrap;}
+  /* ---- Plano Free: cadeados e convite ---- */
+  .estudio-plano{display:none;align-items:center;gap:14px;margin:0 0 20px;padding:16px 18px;border-radius:18px;background:linear-gradient(135deg,rgba(67,9,96,.5),rgba(137,200,4,.08));border:1px solid rgba(137,200,4,.3);}
+  :root[data-theme="light"] .estudio-plano{background:linear-gradient(135deg,#F3EAFA,#F6FCEB);}
+  .estudio-plano .ic{width:40px;height:40px;border-radius:12px;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .estudio-plano .ic svg{width:19px;height:19px;}
+  .estudio-plano div{flex:1;min-width:0;}
+  .estudio-plano b{display:block;font-size:15px;}
+  .estudio-plano small{display:block;color:var(--text-dim);font-size:12.5px;margin-top:2px;line-height:1.45;}
+  .estudio-plano .btn{width:auto;margin:0;padding:11px 18px;text-decoration:none;}
+  .variante.bloqueada .variante-estado{background:rgba(163,91,224,.16);color:var(--purple-bright);}
+  .variante-accoes .btn svg,.estudio-extra .btn svg,.visor-topo .btn svg,.estudio-vazio .btn svg{width:16px;height:16px;margin-right:6px;vertical-align:-3px;}
+  .proximo.plano .ic{background:rgba(163,91,224,.16);color:var(--purple-bright);}
+  @media (max-width:640px){.estudio-plano{flex-wrap:wrap;}.estudio-plano .btn{width:100%;}}
 
 </style>
 </head>
@@ -712,15 +756,18 @@
   <div class="view" id="view-estudio">
     <div class="estudio-topo">
       <div>
-        <div class="estudio-eyebrow">ESTÚDIO DE LAYOUTS</div>
-        <h2>Três direcções para <em id="estudio-nome" data-no-i18n></em></h2>
-        <p>A nossa IA está a desenhar três sites completos e diferentes ao mesmo tempo. Abre cada um, vê no computador e no telemóvel, e escolhe o que tem mais a ver contigo. Só a versão que escolheres conta no teu plano.</p>
+        <div class="estudio-eyebrow" id="estudio-eyebrow">ESTÚDIO DE LAYOUTS</div>
+        <h2><span id="estudio-pre">Três direcções para</span> <em id="estudio-nome" data-no-i18n></em></h2>
+        <p id="estudio-texto">A nossa IA está a desenhar três sites completos e diferentes ao mesmo tempo. Abre cada um, vê no computador e no telemóvel, e escolhe o que tem mais a ver contigo. Só a versão que escolheres conta no teu plano.</p>
       </div>
       <div class="estudio-relogio" id="estudio-relogio"><span class="ponto"></span><div><b id="estudio-tempo" data-no-i18n>0:00</b><small id="estudio-relogio-sub">A desenhar em paralelo</small></div></div>
     </div>
+    <div class="estudio-plano" id="estudio-plano"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><div><b>Estás no plano Free</b><small>Podes ver todas as versões, mas para usares as outras precisas de um plano pago. O teu site continua como está.</small></div><a class="btn" href="/planos/">Ver planos</a></div>
+    <div class="estudio-sucesso" id="estudio-sucesso"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><div><b>Feito! O teu site já tem o visual novo.</b><small><span>Layout em uso:</span> <span id="estudio-sucesso-nome"></span></small></div><a href="#" target="_blank" rel="noopener" id="estudio-sucesso-link">Ver o site</a></div>
     <div class="variantes" id="variantes"></div>
     <div class="estudio-msg" id="estudio-msg"></div>
-    <div class="estudio-nota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>Podes escolher assim que uma versão ficar pronta. Se saíres, voltas a esta escolha a partir do dashboard.</span></div>
+    <div class="estudio-extra" id="estudio-extra"><button type="button" class="btn secondary" id="btn-gerar-novas" data-texto="Desenhar 3 versões novas">Desenhar 3 versões novas</button><small>Só conta no teu plano a versão que puseres no ar.</small><a class="btn secondary" href="/dashboard/" style="text-decoration:none">Voltar ao dashboard</a></div>
+    <div class="estudio-nota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span id="estudio-nota-texto">Podes escolher assim que uma versão ficar pronta. Se saíres, voltas a esta escolha a partir do dashboard.</span></div>
   </div>
 
   <!-- PRONTO -->
@@ -1044,7 +1091,7 @@ btnGerar.addEventListener('click', function(){
     .then(function(r){
       if (r.status === 'success' && r.response && r.response.site_id) {
         siteIdActual = r.response.site_id;
-        if (r.response.variantes === 3) abrirEstudio(siteIdActual, nome, tipo);
+        if (r.response.variantes === 3) abrirEstudio(siteIdActual, nome, tipo, 'criar');
         else iniciarEspera();
       } else {
         setLoading(btnGerar, false, 'Criar as 3 versões', '');
@@ -1154,12 +1201,17 @@ var EST_IC = {
   info: EST_SVG('<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'),
   caixa: EST_SVG('<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/>'),
   escudo: EST_SVG('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'),
+  cadeado: EST_SVG('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'),
   lapis: EST_SVG('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>')
 };
 var ETAPAS = [[0, 'A ler a tua descrição'], [8, 'A escolher cores e letras'], [20, 'A desenhar as secções'], [40, 'A escrever os textos'], [70, 'A dar os últimos retoques'], [120, 'Quase pronto']];
 var DISPOSITIVOS = { pc: [1280, 800], tablet: [820, 1180], movel: [390, 844] };
 
-var estudio = { siteId: '', nome: '', tipo: '', variantes: [], inicio: 0, poll: null, relogio: null, escolhido: false, visor: -1, dispositivo: 'pc', renderizadas: {} };
+var estudio = { siteId: '', nome: '', tipo: '', modo: 'criar', variantes: [], inicio: 0, poll: null, relogio: null, escolhido: false, trocando: false, actual: null, planoPago: true, cdnUrl: '', visor: -1, dispositivo: 'pc', renderizadas: {} };
+var TEXTOS_MODO = {
+  criar: { eyebrow: 'ESTÚDIO DE LAYOUTS', pre: 'Três direcções para', texto: 'A nossa IA está a desenhar três sites completos e diferentes ao mesmo tempo. Abre cada um, vê no computador e no telemóvel, e escolhe o que tem mais a ver contigo. Só a versão que escolheres conta no teu plano.', nota: 'Podes escolher assim que uma versão ficar pronta. Se saíres, voltas a esta escolha a partir do dashboard.', botao: 'Escolher este', visor: 'Escolher este layout' },
+  mudar: { eyebrow: 'MUDAR DE LAYOUT', pre: 'Um visual novo para', texto: 'Produtos, montra, avaliações, pagamentos, contacto e domínio ficam iguais: só muda o visual, e o link do site continua o mesmo. Atenção: as alterações feitas com o botão Editar ficam no visual antigo.', nota: 'O site continua no ar como está até tu trocares.', botao: 'Usar este', visor: 'Usar este layout' }
+};
 
 function estEsc(t){
   return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -1171,35 +1223,55 @@ function etapaDe(seg){
 }
 function relogioTexto(seg){ var m = Math.floor(seg / 60), s = seg % 60; return m + ':' + (s < 10 ? '0' : '') + s; }
 
-function abrirEstudio(siteId, nome, tipo){
-  estudio.siteId = siteId; estudio.nome = nome || ''; estudio.tipo = tipo || '';
-  estudio.variantes = []; estudio.inicio = Date.now(); estudio.escolhido = false; estudio.renderizadas = {};
+function abrirEstudio(siteId, nome, tipo, modo){
+  estudio.siteId = siteId; estudio.nome = nome || ''; estudio.tipo = tipo || ''; estudio.modo = modo === 'mudar' ? 'mudar' : 'criar';
+  estudio.variantes = []; estudio.escolhido = false; estudio.trocando = false; estudio.actual = null;
+  var tm = TEXTOS_MODO[estudio.modo];
   document.querySelector('.main').classList.add('largo');
+  document.getElementById('estudio-eyebrow').textContent = tm.eyebrow;
+  document.getElementById('estudio-pre').textContent = tm.pre;
+  document.getElementById('estudio-texto').textContent = tm.texto;
+  document.getElementById('estudio-nota-texto').textContent = tm.nota;
+  document.getElementById('visor-escolher').textContent = tm.visor;
   document.getElementById('estudio-nome').textContent = estudio.nome || '...';
   document.getElementById('estudio-msg').textContent = '';
-  var caixa = document.getElementById('variantes');
-  caixa.innerHTML = [1, 2, 3].map(function(n){
-    return '<article class="variante" data-n="' + n + '">'
-      + '<div class="variante-cab"><span class="variante-num">0' + n + '</span><div><div class="variante-nome">A preparar...</div><div class="variante-resumo">&nbsp;</div></div><span class="variante-estado">A desenhar</span></div>'
-      + '<div class="janela"><div class="janela-barra"><i></i><i></i><i></i><span></span></div><div class="janela-corpo">' + plantaHtml() + '</div></div>'
-      + '<div class="variante-meta"><div class="paleta"></div><div class="fontes"></div></div>'
-      + '<div class="variante-accoes"><button type="button" class="btn secondary" data-ver disabled>Ver em grande</button><button type="button" class="btn" data-escolher disabled>Escolher este</button></div>'
-      + '</article>';
-  }).join('');
-  Array.prototype.forEach.call(caixa.querySelectorAll('.variante'), function(card){
-    var n = Number(card.getAttribute('data-n'));
-    card.querySelector('[data-ver]').addEventListener('click', function(){ abrirVisor(n); });
-    card.querySelector('[data-escolher]').addEventListener('click', function(){ escolherVariante(n); });
-  });
+  document.getElementById('estudio-sucesso').style.display = 'none';
+  document.getElementById('estudio-extra').style.display = 'none';
+  estudio.planoPago = true; mostrarAvisoPlano();
   showView('view-estudio');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  try { history.replaceState(null, '', '/criar/?escolher=' + encodeURIComponent(siteId)); } catch (e) {}
+  try { history.replaceState(null, '', '/criar/?' + (estudio.modo === 'mudar' ? 'mudar' : 'escolher') + '=' + encodeURIComponent(siteId)); } catch (e) {}
+  if (estudio.modo === 'mudar') { carregarMudar(); return; }
+  comecarDesenho();
+}
+// Cartões a "desenhar" e o relógio a contar.
+function comecarDesenho(){
+  estudio.inicio = Date.now(); estudio.renderizadas = {}; estudio.variantes = [];
+  document.getElementById('estudio-relogio').style.display = '';
+  document.getElementById('estudio-extra').style.display = 'none';
+  desenharCartoes();
   if (estudio.relogio) clearInterval(estudio.relogio);
   estudio.relogio = setInterval(tiqueRelogio, 1000);
   tiqueRelogio();
   if (estudio.poll) clearInterval(estudio.poll);
   estudio.poll = setInterval(verificarEstudio, 3000);
   verificarEstudio();
+}
+function desenharCartoes(){
+  var caixa = document.getElementById('variantes');
+  caixa.innerHTML = [1, 2, 3].map(function(n){
+    return '<article class="variante" data-n="' + n + '">'
+      + '<div class="variante-cab"><span class="variante-num">0' + n + '</span><div><div class="variante-nome">A preparar...</div><div class="variante-resumo">&nbsp;</div></div><span class="variante-estado">A desenhar</span></div>'
+      + '<div class="janela"><div class="janela-barra"><i></i><i></i><i></i><span></span></div><div class="janela-corpo">' + plantaHtml() + '</div></div>'
+      + '<div class="variante-meta"><div class="paleta"></div><div class="fontes"></div></div>'
+      + '<div class="variante-accoes"><button type="button" class="btn secondary" data-ver disabled>Ver em grande</button><button type="button" class="btn" data-escolher disabled>' + TEXTOS_MODO[estudio.modo].botao + '</button></div>'
+      + '</article>';
+  }).join('');
+  Array.prototype.forEach.call(caixa.querySelectorAll('.variante'), function(card){
+    var n = Number(card.getAttribute('data-n'));
+    card.querySelector('[data-ver]').addEventListener('click', function(){ abrirVisor(n); });
+    card.querySelector('[data-escolher]').addEventListener('click', function(){ escolherVariante(n, this); });
+  });
 }
 function plantaHtml(){
   return '<div class="planta"><div class="l cab"></div><div class="hero"><div class="l"></div><div class="l"></div></div><div class="linha"><div class="l"></div><div class="l"></div><div class="l"></div></div>'
@@ -1231,18 +1303,27 @@ function verificarEstudio(){
     if (res.nome && !estudio.nome) { estudio.nome = res.nome; document.getElementById('estudio-nome').textContent = res.nome; }
     if (res.tipo) estudio.tipo = res.tipo;
     var vs = res.variantes;
-    if (res.estado === 'Pronto' && res.cdn_url) { pararEstudio(); mostrarPronto(res.cdn_url, estudio.tipo); return; }
+    if (res.cdn_url) estudio.cdnUrl = res.cdn_url;
+    if (typeof res.plano_pago === 'boolean') estudio.planoPago = res.plano_pago;
+    if (estudio.modo === 'criar' && res.estado === 'Pronto' && res.cdn_url) { pararEstudio(); mostrarPronto(res.cdn_url, estudio.tipo); return; }
     if (!vs) {
       if (res.estado === 'Erro') { pararEstudio(); fecharEstudio(); showView('view-erro'); }
       return;
     }
     estudio.variantes = vs.variantes;
+    estudio.actual = vs.escolhida || null;
     vs.variantes.forEach(actualizarCartao);
+    marcarActual();
     var algumaPronta = vs.variantes.some(function(v){ return v.estado === 'pronto'; });
     var acabou = vs.variantes.every(function(v){ return v.estado !== 'a gerar'; });
     if (acabou) {
       if (estudio.poll) { clearInterval(estudio.poll); estudio.poll = null; }
       tiqueRelogio();
+      if (estudio.modo === 'mudar') {
+        document.getElementById('estudio-extra').style.display = 'flex';
+        if (!algumaPronta) document.getElementById('estudio-msg').textContent = 'As versões não saíram bem desta vez. O teu site continua igual - podes tentar outra vez.';
+        return;
+      }
       if (!algumaPronta) { pararEstudio(); fecharEstudio(); showView('view-erro'); }
     }
   }).catch(function(){});
@@ -1275,7 +1356,7 @@ function actualizarCartao(v){
     abrir.addEventListener('click', function(){ abrirVisor(v.n); });
     card.querySelector('.janela').appendChild(abrir);
     card.querySelector('[data-ver]').disabled = false;
-    card.querySelector('[data-escolher]').disabled = estudio.escolhido;
+    card.querySelector('[data-escolher]').disabled = estudio.escolhido || estudio.trocando;
   } else if (v.estado === 'erro') {
     if (card.classList.contains('erro')) return;
     card.classList.add('erro');
@@ -1326,7 +1407,11 @@ function abrirVisor(n){
   var i = lista.indexOf(n);
   document.getElementById('visor-ant').disabled = i <= 0;
   document.getElementById('visor-seg').disabled = i === -1 || i >= lista.length - 1;
-  document.getElementById('visor-escolher').disabled = estudio.escolhido;
+  var bv = document.getElementById('visor-escolher');
+  bv.disabled = estudio.escolhido || estudio.trocando || (estudio.modo === 'mudar' && estudio.actual === n);
+  var bloqueadaV = estudio.modo === 'mudar' && !estudio.planoPago && estudio.actual !== n;
+  bv.innerHTML = (estudio.modo === 'mudar' && estudio.actual === n) ? estEsc('Em uso') : (bloqueadaV ? EST_IC.cadeado + estEsc('Desbloquear com um plano') : estEsc(TEXTOS_MODO[estudio.modo].visor));
+  bv.classList.remove('confirmar');
   marcarDispositivo();
   ajustarVisor();
 }
@@ -1367,7 +1452,7 @@ function moverVisor(passo){
 document.getElementById('visor-fechar').addEventListener('click', fecharVisor);
 document.getElementById('visor-ant').addEventListener('click', function(){ moverVisor(-1); });
 document.getElementById('visor-seg').addEventListener('click', function(){ moverVisor(1); });
-document.getElementById('visor-escolher').addEventListener('click', function(){ if (estudio.visor !== -1) escolherVariante(estudio.visor); });
+document.getElementById('visor-escolher').addEventListener('click', function(){ if (estudio.visor !== -1) escolherVariante(estudio.visor, this); });
 Array.prototype.forEach.call(document.querySelectorAll('.dispositivos [data-disp]'), function(b){
   b.addEventListener('click', function(){ estudio.dispositivo = b.getAttribute('data-disp'); marcarDispositivo(); ajustarVisor(); });
 });
@@ -1380,7 +1465,8 @@ document.addEventListener('keydown', function(e){
 });
 
 // ---- Escolher ----
-function escolherVariante(n){
+function escolherVariante(n, botao){
+  if (estudio.modo === 'mudar') { trocarVariante(n, botao); return; }
   if (estudio.escolhido) return;
   estudio.escolhido = true;
   var botoes = document.querySelectorAll('[data-escolher], #visor-escolher');
@@ -1396,17 +1482,154 @@ function escolherVariante(n){
     if (r.status !== 'success') throw new Error(r.message || '');
     pararEstudio();
     fecharVisor();
+    estudio.planoPago = r.response.plano_pago !== false;
+    estudio.outrasProntas = r.response.outras_prontas || 0;
     mostrarPronto(r.response.cdn_url, r.response.tipo || estudio.tipo);
   }).catch(function(e){
     estudio.escolhido = false;
     Array.prototype.forEach.call(botoes, function(b){ b.disabled = false; });
     Array.prototype.forEach.call(document.querySelectorAll('.variante:not(.pronta) [data-escolher]'), function(b){ b.disabled = true; });
     if (doCartao) doCartao.textContent = 'Escolher este';
-    document.getElementById('visor-escolher').textContent = 'Escolher este layout';
+    document.getElementById('visor-escolher').textContent = TEXTOS_MODO.criar.visor;
     document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível escolher esta versão. Tenta novamente.';
   });
 }
 function fecharEstudio(){ document.querySelector('.main').classList.remove('largo'); }
+
+// =====================================================================
+// MUDAR DE LAYOUT - sites já criados: 3 versões novas ou trocar entre as
+// que já existem, sem mudar o link nem perder produtos ou pagamentos.
+// =====================================================================
+function carregarMudar(){
+  document.getElementById('estudio-relogio').style.display = 'none';
+  document.getElementById('variantes').innerHTML = '<div class="estudio-carregar"><i></i></div>';
+  fetch(CONTAINER_URL + '/generate-status', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success' || !r.response) throw new Error(r.message || '');
+    var res = r.response;
+    estudio.nome = res.nome || estudio.nome; estudio.tipo = res.tipo || estudio.tipo; estudio.cdnUrl = res.cdn_url || '';
+    if (typeof res.plano_pago === 'boolean') estudio.planoPago = res.plano_pago;
+    mostrarAvisoPlano();
+    document.getElementById('estudio-nome').textContent = estudio.nome;
+    var vs = res.variantes;
+    if (!vs || !vs.variantes || !vs.variantes.length) { mostrarSemVersoes(); return; }
+    var aGerar = vs.variantes.some(function(v){ return v.estado === 'a gerar'; });
+    if (aGerar) { comecarDesenho(); return; }
+    estudio.variantes = vs.variantes; estudio.actual = vs.escolhida || null; estudio.renderizadas = {};
+    desenharCartoes();
+    vs.variantes.forEach(actualizarCartao);
+    marcarActual();
+    document.getElementById('estudio-extra').style.display = 'flex';
+  }).catch(function(e){
+    document.getElementById('variantes').innerHTML = '';
+    document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível ligar ao servidor.';
+  });
+}
+function mostrarSemVersoes(){
+  document.getElementById('estudio-extra').style.display = 'none';
+  if (!estudio.planoPago) {
+    document.getElementById('variantes').innerHTML = '<div class="estudio-vazio">'
+      + '<div class="estudio-vazio-arte"><span></span><span></span><span></span></div>'
+      + '<h3>Mudar de layout faz parte dos planos pagos</h3>'
+      + '<p>Com um plano pago, a nossa IA desenha três versões novas do teu site e tu trocas quando quiseres, sem perder produtos, pagamentos nem o link.</p>'
+      + '<a class="btn" href="/planos/" style="text-decoration:none">' + EST_IC.cadeado + 'Ver planos</a></div>';
+    return;
+  }
+  document.getElementById('variantes').innerHTML = '<div class="estudio-vazio">'
+    + '<div class="estudio-vazio-arte"><span></span><span></span><span></span></div>'
+    + '<h3>Este site foi criado com uma só versão</h3>'
+    + '<p>A nossa IA desenha agora três versões novas, cada uma com uma direcção de arte diferente. O teu site continua no ar como está até escolheres. Só conta no teu plano a versão que puseres no ar.</p>'
+    + '<button type="button" class="btn" id="btn-gerar-novas-vazio">Desenhar 3 versões novas</button></div>';
+  document.getElementById('btn-gerar-novas-vazio').addEventListener('click', function(){ gerarNovas(this); });
+}
+function gerarNovas(botao){
+  if (!estudio.planoPago) { window.location.href = '/planos/'; return; }
+  if (botao) { botao.disabled = true; botao.textContent = 'A começar...'; }
+  document.getElementById('estudio-msg').textContent = '';
+  document.getElementById('estudio-sucesso').style.display = 'none';
+  fetch(CONTAINER_URL + '/novas-variantes', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success') throw new Error(r.message || '');
+    estudio.actual = null;
+    comecarDesenho();
+  }).catch(function(e){
+    if (botao) { botao.disabled = false; botao.textContent = botao.getAttribute('data-texto') || 'Desenhar 3 versões novas'; }
+    document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível começar as versões novas. Tenta novamente.';
+  });
+}
+document.getElementById('btn-gerar-novas').addEventListener('click', function(){ gerarNovas(this); });
+
+// Marca a versão que está no ar ("Em uso").
+function marcarActual(){
+  if (estudio.modo !== 'mudar') return;
+  Array.prototype.forEach.call(document.querySelectorAll('.variante'), function(card){
+    var n = Number(card.getAttribute('data-n'));
+    var emUso = estudio.actual === n;
+    card.classList.toggle('actual', emUso);
+    var b = card.querySelector('[data-escolher]');
+    if (!card.classList.contains('pronta')) return;
+    var bloqueada = !emUso && !estudio.planoPago;
+    card.classList.toggle('bloqueada', bloqueada);
+    card.querySelector('.variante-estado').textContent = emUso ? 'Em uso' : (bloqueada ? 'Plano pago' : 'Pronto');
+    b.classList.remove('confirmar');
+    b.innerHTML = emUso ? estEsc('Em uso') : (bloqueada ? EST_IC.cadeado + estEsc('Desbloquear') : estEsc(TEXTOS_MODO.mudar.botao));
+    b.disabled = emUso || estudio.trocando;
+  });
+  var extra = document.getElementById('btn-gerar-novas');
+  if (extra) extra.innerHTML = (estudio.planoPago ? '' : EST_IC.cadeado) + estEsc('Desenhar 3 versões novas');
+}
+// Aviso no topo para quem está no Free.
+function mostrarAvisoPlano(){
+  var el = document.getElementById('estudio-plano');
+  if (!el) return;
+  el.style.display = (estudio.modo === 'mudar' && !estudio.planoPago) ? 'flex' : 'none';
+}
+
+// Troca em dois toques: o primeiro avisa, o segundo confirma.
+function trocarVariante(n, botao){
+  if (estudio.trocando || estudio.actual === n) return;
+  if (!estudio.planoPago) { window.location.href = '/planos/'; return; }
+  if (botao && !botao.__armado) {
+    botao.__armado = true;
+    botao.classList.add('confirmar');
+    botao.textContent = 'Confirmar troca';
+    document.getElementById('estudio-msg').textContent = '';
+    clearTimeout(botao.__t);
+    botao.__t = setTimeout(function(){ botao.__armado = false; botao.classList.remove('confirmar'); botao.textContent = botao.id === 'visor-escolher' ? TEXTOS_MODO.mudar.visor : TEXTOS_MODO.mudar.botao; }, 5000);
+    return;
+  }
+  if (botao) { botao.__armado = false; clearTimeout(botao.__t); botao.textContent = 'A trocar...'; }
+  estudio.trocando = true;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-escolher], #visor-escolher'), function(b){ b.disabled = true; });
+  fetch(CONTAINER_URL + '/trocar-variante', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId, variante: n })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success') { var erro = new Error(r.message || ''); erro.codigo = r.codigo; throw erro; }
+    estudio.trocando = false;
+    estudio.actual = n;
+    estudio.cdnUrl = r.response.cdn_url || estudio.cdnUrl;
+    fecharVisor();
+    marcarActual();
+    var v = estudio.variantes.filter(function(x){ return x.n === n; })[0] || {};
+    var suc = document.getElementById('estudio-sucesso');
+    document.getElementById('estudio-sucesso-nome').textContent = (v.direcao && v.direcao.nome) || '';
+    document.getElementById('estudio-sucesso-link').href = estudio.cdnUrl;
+    suc.style.display = 'flex';
+    suc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }).catch(function(e){
+    estudio.trocando = false;
+    if (e.codigo === 'plano') { estudio.planoPago = false; mostrarAvisoPlano(); }
+    marcarActual();
+    var bv = document.getElementById('visor-escolher'); bv.disabled = false; bv.classList.remove('confirmar'); bv.textContent = TEXTOS_MODO.mudar.visor;
+    document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível trocar o layout. Tenta novamente.';
+  });
+}
+
 
 // ---- Site pronto: próximos passos (e o KYC, só para lojas) ----
 function mostrarPronto(url, tipo){
@@ -1423,6 +1646,9 @@ function mostrarPronto(url, tipo){
     passos.push('<div class="proximo kyc" id="proximo-kyc" style="display:none"></div>');
   } else {
     passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Ajusta o que quiseres</b><small>No dashboard, carrega em Editar e pede a alteração em palavras simples.</small></div><a href="/dashboard/">Dashboard</a></div>');
+  }
+  if (estudio.planoPago === false && estudio.outrasProntas) {
+    passos.push('<div class="proximo plano"><span class="ic">' + EST_IC.cadeado + '</span><div><b>As outras versões ficam guardadas</b><small>Desbloqueia-as com um plano pago e troca de layout quando quiseres, sem perder nada.</small></div><a href="/planos/">Ver planos</a></div>');
   }
   caixa.innerHTML = passos.join('');
   showView('view-pronto');
@@ -1447,10 +1673,13 @@ function mostrarKycLoja(){
   }).catch(function(){});
 }
 
-// Voltar a um estúdio a meio (ex: veio do dashboard "Escolher layout").
+// Voltar a um estúdio a meio (dashboard "Escolher layout") ou mudar o
+// layout de um site já criado (dashboard "Mudar layout").
 (function(){
-  var id = new URLSearchParams(window.location.search).get('escolher');
-  if (id && /^[A-Za-z0-9_-]{1,64}$/.test(id)) abrirEstudio(id, '', '');
+  var q = new URLSearchParams(window.location.search);
+  var valido = function(id){ return id && /^[A-Za-z0-9_-]{1,64}$/.test(id); };
+  if (valido(q.get('mudar'))) abrirEstudio(q.get('mudar'), '', '', 'mudar');
+  else if (valido(q.get('escolher'))) abrirEstudio(q.get('escolher'), '', '', 'criar');
 })();
 
 </script>
