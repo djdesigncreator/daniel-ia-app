@@ -826,6 +826,14 @@
         </div>
       </div>
 
+      <div class="quiz-bloco" id="paginas-bloco">
+        <label class="quiz-cab" for="f-multi">
+          <span class="ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="16" rx="2"/><path d="M8 4V2.5A.5.5 0 0 1 8.5 2H20a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-4"/><path d="M6.5 9h6M6.5 13h6M6.5 17h4"/></svg></span>
+          <div><b>Site com várias páginas</b><small>Recomendado. Início, Sobre, Serviços, Contacto e as páginas que fazem sentido para o teu negócio, com menu a ligar todas. Desliga só se quiseres tudo numa página.</small></div>
+          <span class="quiz-int"><input type="checkbox" id="f-multi" checked><i></i></span>
+        </label>
+      </div>
+
       <label>Logótipo (opcional)</label>
       <div class="logo-drop" id="logo-drop">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -1330,6 +1338,7 @@ btnGerar.addEventListener('click', function(){
   if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
   if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
   if (tipo === 'Checkout' && document.getElementById('f-quiz').checked) corpo.quiz = { ativo: true, descricao: document.getElementById('f-quiz-desc').value.trim() };
+  if (!document.getElementById('f-multi').checked) corpo.uma_pagina = true;
   estudio.refThumb = referenciaDataUrl || '';
 
   fetch(CONTAINER_URL + '/generate', {
