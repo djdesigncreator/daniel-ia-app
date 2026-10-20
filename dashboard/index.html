@@ -435,6 +435,13 @@
     padding:12px;font-size:14px;font-family:inherit;background:var(--card-alt);color:var(--text);
   }
   .dominio-erro-msg{color:var(--error);font-size:12px;margin-top:10px;}
+  .dominio-comprar{display:flex;align-items:center;gap:12px;margin:12px 0 4px;padding:14px;border-radius:14px;border:1px solid var(--accent-2);background:linear-gradient(135deg,var(--tint-b),transparent 70%),var(--card-alt);color:var(--text);text-decoration:none;transition:transform .15s,box-shadow .15s;}
+  .dominio-comprar:hover{transform:translateY(-1px);box-shadow:0 0 0 3px var(--accent-glow);}
+  .dominio-comprar .dc-ic{flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--grad-accent);color:var(--on-accent);}
+  .dominio-comprar .dc-ic svg{width:19px;height:19px;}
+  .dominio-comprar b{display:block;font-size:14px;}
+  .dominio-comprar small{display:block;color:var(--text-dim);font-size:12px;line-height:1.4;margin-top:2px;}
+  .dominio-comprar .dc-seta{width:18px;height:18px;margin-left:auto;flex:0 0 18px;color:var(--text-dim);}
   .dominio-cf-separador{
     display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--text-dim);font-size:12px;
     text-transform:uppercase;letter-spacing:.04em;
@@ -670,6 +677,8 @@
 
     <div id="dominio-vista-form">
       <h3>Domínio personalizado</h3>
+      <a class="dominio-comprar" id="dominio-comprar" href="/dominios/"><span class="dc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span><b>Ainda não tens domínio? Compra aqui</b><small>.co.mz, .com, .store e muitos mais. Fica ligado sozinho, com HTTPS.</small></span><svg class="dc-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <p class="sub" style="margin-top:14px">Já tens um domínio? Liga-o aqui:</p>
       <p class="sub">Liga o teu próprio domínio a este site (disponível nos planos Starter, Pro e Business).</p>
       <input type="text" id="dominio-f-dominio" placeholder="Ex: lojamaputo.co.mz">
       <div class="dominio-erro-msg" id="dominio-erro" style="display:none"></div>
@@ -1350,6 +1359,7 @@ function mostrarVistaDominio(nomeVista){
 // a pessoa ficou da última vez.
 function abrirModalDominio(siteId, dominio, estado, hostname){
   dominioSiteIdActual = siteId;
+  try { document.getElementById('dominio-comprar').href = '/dominios/?site=' + encodeURIComponent(siteId); } catch (e) {}
   elDominioErro.style.display = 'none';
   elDominioErro.textContent = '';
   elDominioPendenteErro.style.display = 'none';

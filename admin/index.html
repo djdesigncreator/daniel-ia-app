@@ -295,6 +295,11 @@
   .aviso-pl span{color:var(--text-dim);font-size:13px;}
   .extra-tk{display:block;font-size:11.5px;color:var(--success);margin-top:3px;}
   .layout > *{min-width:0;}
+  .dm-largo{grid-column:1/-1;}
+  .dm-exemplo{font-size:12.5px;color:var(--text-dim);margin:4px 0 10px;}
+  .dm-exemplo b{color:var(--text);}
+  .dm-hist{font-size:11.5px;color:var(--text-dim);margin-top:4px;line-height:1.45;}
+  .dm-erro{font-size:11.5px;color:var(--error);margin-top:4px;max-width:360px;}
   .bloqueio{max-width:440px;margin:100px auto;text-align:center;padding:30px;}
   .bloqueio svg{width:46px;height:46px;color:var(--error);}
   @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr));}.graficos{grid-template-columns:1fr;}}
@@ -349,6 +354,7 @@
     <button type="button" data-sec="sites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Sites</button>
     <button type="button" data-sec="pagamentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pagamentos</button>
     <button type="button" data-sec="planos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>Planos</button>
+    <button type="button" data-sec="dominios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Domínios<span class="badge-n" id="badge-dom"></span></button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
@@ -406,6 +412,26 @@
       <div class="msg" id="pl-msg" style="margin-bottom:12px"></div>
       <div class="cartao" style="margin-bottom:14px"><h3>Planos</h3><p class="sub">Por mês. Do mais barato para o mais caro; o "Pro" leva o selo "Mais popular".</p><div class="tabela-caixa" id="pl-planos" style="border:none"></div></div>
       <div class="cartao"><h3>Recargas de tokens</h3><p class="sub">Para quem gastou os tokens do plano antes do fim do mês. Os tokens recarregados não expiram e são usados depois dos do plano.</p><div class="tabela-caixa" id="pl-pacotes" style="border:none"></div></div>
+    </section>
+
+    <!-- DOMÍNIOS (1.60.0) -->
+    <section class="seccao" id="sec-dominios">
+      <div class="cab"><div><h1>Domínios</h1><p>Comprados pelos clientes na TurboHost. O servidor regista, liga ao site e activa o HTTPS sozinho.</p></div></div>
+      <div id="dm-aviso"></div>
+      <div class="msg" id="dm-msg" style="margin-bottom:12px"></div>
+      <div class="cartao" style="margin-bottom:14px">
+        <h3>Preços</h3>
+        <p class="sub">Preço ao cliente = custo da TurboHost (USD) × câmbio × (1 + margem), arredondado para cima de 10 em 10 MZN.</p>
+        <div class="campos">
+          <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
+          <div class="campo-a"><label for="dm-margem">Margem (%)</label><input class="inp" type="number" min="0" step="1" id="dm-margem"></div>
+          <div class="campo-a dm-largo"><label for="dm-tlds">Extensões à venda (pela ordem em que aparecem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
+          <div class="campo-a dm-largo"><label for="dm-fixos">Preços fixos (opcional): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
+        </div>
+        <div class="dm-exemplo" id="dm-exemplo"></div>
+        <div class="linha-accoes"><button type="button" class="btn-pri" id="dm-guardar">Guardar preços</button><span class="msg" id="dm-cfg-msg"></span></div>
+      </div>
+      <div class="cartao"><h3>Pedidos</h3><p class="sub">Os que estão "Por pagar" não aparecem.</p><div class="tabela-caixa" id="dm-lista" style="border:none"></div></div>
     </section>
 
     <!-- REGISTO -->
@@ -963,7 +989,73 @@
     abrirFormPacote(null);
   });
 
-  var CARREGAR = { planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+  // ======================================================
+  // Domínios (1.60.0)
+  // ======================================================
+  var dadosDom = null;
+  var DM_PILL = { 'Pago': 'aviso', 'A registar': 'aviso', 'A ligar': 'aviso', 'Activo': 'ok', 'Erro': 'erro', 'Expirado': 'erro', 'Cancelado': 'erro' };
+  function carregarDominiosAdmin(){
+    $('dm-lista').innerHTML = '<div class="vazio">A carregar...</div>';
+    post('/admin-dominios', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      dadosDom = r.response;
+      var c = dadosDom.config || {};
+      $('dm-taxa').value = c.taxa || 66; $('dm-margem').value = c.margem != null ? c.margem : 30;
+      $('dm-tlds').value = (c.tlds || []).join(', ');
+      $('dm-fixos').value = Object.keys(c.fixos || {}).map(function(k){ return k + '=' + c.fixos[k]; }).join(', ');
+      exemploDom();
+      $('dm-aviso').innerHTML = dadosDom.activo ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>A venda de domínios está desligada.</b><span>Falta a variável TURBOHOST_KEY no container do Bunny. Os clientes vêem uma mensagem a dizer que ainda não está disponível.</span></div></div>';
+      var erros = (dadosDom.dominios || []).filter(function(d){ return d.estado === 'Erro'; }).length;
+      $('badge-dom').textContent = erros ? erros : '';
+      desenharDominiosAdmin();
+    }).catch(function(e){ $('dm-lista').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
+  }
+  function exemploDom(){
+    var t = Number($('dm-taxa').value) || 0, m = Number($('dm-margem').value) || 0;
+    var v = Math.ceil(10 * t * (1 + m / 100) / 10) * 10;
+    $('dm-exemplo').innerHTML = 'Exemplo: um domínio que custa <b>10 USD</b> fica a <b>' + esc(mzn(v)) + '</b> por ano para o cliente.';
+  }
+  $('dm-taxa').addEventListener('input', exemploDom);
+  $('dm-margem').addEventListener('input', exemploDom);
+  function desenharDominiosAdmin(){
+    var l = dadosDom.dominios || [];
+    $('dm-lista').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Domínio</th><th>Estado</th><th>Titular</th><th class="num">Cliente pagou</th><th class="num">Custo</th><th>Expira</th><th></th></tr></thead><tbody>'
+      + l.map(function(d){
+        var custoMzn = Math.round((d.custo_usd || 0) * (d.taxa || 0));
+        var lucro = d.valor_mzn && custoMzn ? d.valor_mzn - custoMzn : null;
+        var hist = (d.historico || []).slice(-3).map(function(h){ return esc(data(h.quando || h.em || '', true)) + ' · ' + esc(h.estado || h.nota || ''); }).join('<br>');
+        return '<tr><td><b>' + esc(d.dominio) + '</b><div class="dm-hist">' + (d.operacao === 'transferencia' ? 'Transferência · ' : '') + (d.criado ? 'pedido ' + esc(data(d.criado, true)) : 'registo') + '</div>' + (d.erro ? '<div class="dm-erro">' + esc(d.erro) + '</div>' : '') + '</td>'
+          + '<td><span class="pill ' + (DM_PILL[d.estado] || '') + '">' + esc(d.estado) + '</span>' + (hist ? '<div class="dm-hist">' + hist + '</div>' : '') + '</td>'
+          + '<td>' + esc((d.titular && d.titular.nome) || '—') + '<div class="dm-hist">' + esc((d.titular && d.titular.email) || '') + '</div></td>'
+          + '<td class="num">' + esc(mzn(d.valor_mzn)) + '</td>'
+          + '<td class="num">' + (d.custo_usd ? '$' + Number(d.custo_usd).toFixed(2) + '<div class="dm-hist">' + (lucro != null ? 'margem ' + esc(mzn(lucro)) : '') + '</div>' : '—') + '</td>'
+          + '<td>' + (d.expira ? esc(data(d.expira)) : '—') + '</td>'
+          + '<td>' + (d.estado === 'Erro' ? '<button type="button" class="btn-sec btn-peq" data-dom-tentar="' + esc(d.id) + '">Tentar outra vez</button>' : '') + '</td></tr>';
+      }).join('') + '</tbody></table>' : '<div class="vazio">Ainda nenhum cliente comprou um domínio.</div>';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-dom-tentar]'), function(b){
+      b.addEventListener('click', function(){
+        b.disabled = true; b.textContent = 'A tentar...';
+        post('/admin-dominio-tentar', { dominio_id: b.getAttribute('data-dom-tentar') }).then(function(r){
+          if (r.status !== 'success') { b.disabled = false; b.textContent = 'Tentar outra vez'; msg($('dm-msg'), r.message, 'erro'); return; }
+          msg($('dm-msg'), 'Voltou para "' + r.response.estado + '". O servidor tenta já a seguir.', 'ok');
+          setTimeout(carregarDominiosAdmin, 2500);
+        }).catch(function(e){ b.disabled = false; msg($('dm-msg'), e.message, 'erro'); });
+      });
+    });
+  }
+  $('dm-guardar').addEventListener('click', function(){
+    var b = $('dm-guardar'); b.disabled = true; msg($('dm-cfg-msg'), 'A guardar...');
+    var fixos = {};
+    $('dm-fixos').value.split(',').forEach(function(par){ var x = par.split('='); if (x.length === 2 && x[0].trim() && Number(x[1]) > 0) fixos[x[0].trim().replace(/^\./, '')] = Number(x[1]); });
+    post('/admin-dominios-config', { config: { taxa: Number($('dm-taxa').value), margem: Number($('dm-margem').value), tlds: $('dm-tlds').value, fixos: fixos } }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('dm-cfg-msg'), r.message, 'erro'); return; }
+      msg($('dm-cfg-msg'), 'Guardado. Os novos preços valem a partir de agora.', 'ok');
+      carregarDominiosAdmin();
+    }).catch(function(e){ b.disabled = false; msg($('dm-cfg-msg'), e.message, 'erro'); });
+  });
+
+  var CARREGAR = { dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){
