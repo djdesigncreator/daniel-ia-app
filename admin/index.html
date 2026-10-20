@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
+<script id="dia-tema">(function(){var t='claro';try{t=localStorage.getItem('daniel_tema')||'claro';}catch(e){}if(t!=='escuro')document.documentElement.setAttribute('data-theme','light');})();</script>
 <script src="/i18n/i18n.js?v=1"></script>
 <script src="/seguranca/sessao.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -430,9 +431,9 @@
       </div>
       <div class="cartao" style="margin-bottom:14px">
         <h3>Preços</h3>
-        <p class="sub">Preço ao cliente = custo da TurboHost (USD) × câmbio × (1 + margem), arredondado para cima de 10 em 10 MZN.</p>
+        <p class="sub">Preço ao cliente = custo na TurboHost × (1 + margem), arredondado para cima de 10 em 10 MZN. <span id="dm-moeda"></span></p>
         <div class="campos">
-          <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
+          <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD, só se a TurboHost cobrar em USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
           <div class="campo-a"><label for="dm-margem">Margem (%)</label><input class="inp" type="number" min="0" step="1" id="dm-margem"></div>
           <div class="campo-a dm-largo"><label for="dm-tlds">Extensões à venda (pela ordem em que aparecem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
           <div class="campo-a dm-largo"><label for="dm-fixos">Preços fixos (opcional): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
@@ -1012,6 +1013,7 @@
       $('dm-taxa').value = c.taxa || 66; $('dm-margem').value = c.margem != null ? c.margem : 30;
       $('dm-tlds').value = (c.tlds || []).join(', ');
       $('dm-fixos').value = Object.keys(c.fixos || {}).map(function(k){ return k + '=' + c.fixos[k]; }).join(', ');
+      $('dm-moeda').textContent = dadosDom.moeda_turbo === 'MZN' ? 'A tua conta da TurboHost cobra em meticais, por isso o câmbio não é usado.' : (dadosDom.moeda_turbo ? 'A tua conta da TurboHost cobra em ' + dadosDom.moeda_turbo + ': o custo é convertido com o câmbio.' : '');
       exemploDom();
       $('dm-aviso').innerHTML = dadosDom.activo ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>A venda de domínios está desligada.</b><span>Falta a variável TURBOHOST_KEY no container do Bunny. Os clientes vêem uma mensagem a dizer que ainda não está disponível.</span></div></div>';
       $('dm-ultimo-erro').innerHTML = dadosDom.ultimo_erro ? '<p class="dm-ultimo"><b>Último erro da TurboHost</b> (' + esc(data(dadosDom.ultimo_erro.quando, true)) + ', ' + esc(dadosDom.ultimo_erro.rota) + '): ' + esc(dadosDom.ultimo_erro.erro) + '</p>' : '';
@@ -1022,8 +1024,10 @@
   }
   function exemploDom(){
     var t = Number($('dm-taxa').value) || 0, m = Number($('dm-margem').value) || 0;
-    var v = Math.ceil(10 * t * (1 + m / 100) / 10) * 10;
-    $('dm-exemplo').innerHTML = 'Exemplo: um domínio que custa <b>10 USD</b> fica a <b>' + esc(mzn(v)) + '</b> por ano para o cliente.';
+    var emMzn = !dadosDom || dadosDom.moeda_turbo === 'MZN';
+    var custo = emMzn ? 1000 : 10 * t;
+    var v = Math.ceil(custo * (1 + m / 100) / 10) * 10;
+    $('dm-exemplo').innerHTML = 'Exemplo: um domínio que custa <b>' + (emMzn ? '1 000 MZN' : '10 USD') + '</b> na TurboHost fica a <b>' + esc(mzn(v)) + '</b> por ano para o cliente.';
   }
   $('dm-taxa').addEventListener('input', exemploDom);
   $('dm-margem').addEventListener('input', exemploDom);
@@ -1031,14 +1035,14 @@
     var l = dadosDom.dominios || [];
     $('dm-lista').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Domínio</th><th>Estado</th><th>Titular</th><th class="num">Cliente pagou</th><th class="num">Custo</th><th>Expira</th><th></th></tr></thead><tbody>'
       + l.map(function(d){
-        var custoMzn = Math.round((d.custo_usd || 0) * (d.taxa || 0));
+        var custoMzn = d.custo_mzn || 0;
         var lucro = d.valor_mzn && custoMzn ? d.valor_mzn - custoMzn : null;
         var hist = (d.historico || []).slice(-3).map(function(h){ return esc(data(h.quando || h.em || '', true)) + ' · ' + esc(h.estado || h.nota || ''); }).join('<br>');
         return '<tr><td><b>' + esc(d.dominio) + '</b><div class="dm-hist">' + (d.operacao === 'transferencia' ? 'Transferência · ' : '') + (d.criado ? 'pedido ' + esc(data(d.criado, true)) : 'registo') + '</div>' + (d.erro ? '<div class="dm-erro">' + esc(d.erro) + '</div>' : '') + '</td>'
           + '<td><span class="pill ' + (DM_PILL[d.estado] || '') + '">' + esc(d.estado) + '</span>' + (hist ? '<div class="dm-hist">' + hist + '</div>' : '') + '</td>'
           + '<td>' + esc((d.titular && d.titular.nome) || '—') + '<div class="dm-hist">' + esc((d.titular && d.titular.email) || '') + '</div></td>'
           + '<td class="num">' + esc(mzn(d.valor_mzn)) + '</td>'
-          + '<td class="num">' + (d.custo_usd ? '$' + Number(d.custo_usd).toFixed(2) + '<div class="dm-hist">' + (lucro != null ? 'margem ' + esc(mzn(lucro)) : '') + '</div>' : '—') + '</td>'
+          + '<td class="num">' + (custoMzn ? esc(mzn(custoMzn)) + '<div class="dm-hist">' + (lucro != null ? 'margem ' + esc(mzn(lucro)) : '') + '</div>' : '—') + '</td>'
           + '<td>' + (d.expira ? esc(data(d.expira)) : '—') + '</td>'
           + '<td>' + (d.estado === 'Erro' ? '<button type="button" class="btn-sec btn-peq" data-dom-tentar="' + esc(d.id) + '">Tentar outra vez</button>' : '') + '</td></tr>';
       }).join('') + '</tbody></table>' : '<div class="vazio">Ainda nenhum cliente comprou um domínio.</div>';
@@ -1091,5 +1095,29 @@
   }).catch(function(){});
 })();
 </script>
+<script id="dia-tema-fim">(function(){
+  var root = document.documentElement;
+  function sync(){
+    var claro = root.getAttribute('data-theme') === 'light';
+    var m = document.getElementById('icon-moon'), s = document.getElementById('icon-sun');
+    if (m) m.style.display = claro ? 'none' : '';
+    if (s) s.style.display = claro ? '' : 'none';
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', claro ? '#FAF7FC' : '#07030C');
+  }
+  sync();
+  var b = document.getElementById('theme-toggle');
+  if (b) b.addEventListener('click', function(){
+    setTimeout(function(){
+      try { localStorage.setItem('daniel_tema', root.getAttribute('data-theme') === 'light' ? 'claro' : 'escuro'); } catch (e) {}
+      sync();
+    }, 0);
+  });
+  window.addEventListener('storage', function(e){
+    if (e.key !== 'daniel_tema') return;
+    if (e.newValue === 'escuro') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    sync();
+  });
+})();</script>
 </body>
 </html>

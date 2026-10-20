@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
+<script id="dia-tema">(function(){var t='claro';try{t=localStorage.getItem('daniel_tema')||'claro';}catch(e){}if(t!=='escuro')document.documentElement.setAttribute('data-theme','light');})();</script>
 <script src="/i18n/i18n.js?v=1"></script>
 <script src="/seguranca/sessao.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -564,5 +565,29 @@ function escaparHtml(texto){
 }
 </script>
 
+<script id="dia-tema-fim">(function(){
+  var root = document.documentElement;
+  function sync(){
+    var claro = root.getAttribute('data-theme') === 'light';
+    var m = document.getElementById('icon-moon'), s = document.getElementById('icon-sun');
+    if (m) m.style.display = claro ? 'none' : '';
+    if (s) s.style.display = claro ? '' : 'none';
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', claro ? '#FAF7FC' : '#07030C');
+  }
+  sync();
+  var b = document.getElementById('theme-toggle');
+  if (b) b.addEventListener('click', function(){
+    setTimeout(function(){
+      try { localStorage.setItem('daniel_tema', root.getAttribute('data-theme') === 'light' ? 'claro' : 'escuro'); } catch (e) {}
+      sync();
+    }, 0);
+  });
+  window.addEventListener('storage', function(e){
+    if (e.key !== 'daniel_tema') return;
+    if (e.newValue === 'escuro') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    sync();
+  });
+})();</script>
 </body>
 </html>
