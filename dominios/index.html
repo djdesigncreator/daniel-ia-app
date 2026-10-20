@@ -681,7 +681,7 @@ function postContainer(rota, corpo){
       try { return JSON.parse(t); } catch (e) {
         // Resposta que não é JSON: quase sempre é o container antigo, que ainda não tem esta rota
         return { status: 'error', codigo: 'servidor', message: r.status === 404
-          ? 'O servidor ainda não tem a venda de domínios. Falta actualizar o container para a versão 1.61.0.'
+          ? 'O servidor ainda não tem a venda de domínios. Falta actualizar o container para a versão 1.61.1.'
           : 'O servidor respondeu com um erro (' + r.status + '). Tenta outra vez daqui a pouco.' };
       }
     });

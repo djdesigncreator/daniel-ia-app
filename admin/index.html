@@ -296,6 +296,8 @@
   .extra-tk{display:block;font-size:11.5px;color:var(--success);margin-top:3px;}
   .layout > *{min-width:0;}
   .dm-largo{grid-column:1/-1;}
+  .dm-pre{white-space:pre-wrap;word-break:break-word;font:12px/1.5 var(--font-mono);background:var(--card-alt);border:1px solid var(--border);border-radius:12px;padding:14px;max-height:420px;overflow:auto;margin:12px 0 0;}
+  .dm-ultimo{font-size:12.5px;color:var(--error);margin:0 0 10px;word-break:break-word;}
   .dm-exemplo{font-size:12.5px;color:var(--text-dim);margin:4px 0 10px;}
   .dm-exemplo b{color:var(--text);}
   .dm-hist{font-size:11.5px;color:var(--text-dim);margin-top:4px;line-height:1.45;}
@@ -419,6 +421,13 @@
       <div class="cab"><div><h1>Domínios</h1><p>Comprados pelos clientes na TurboHost. O servidor regista, liga ao site e activa o HTTPS sozinho.</p></div></div>
       <div id="dm-aviso"></div>
       <div class="msg" id="dm-msg" style="margin-bottom:12px"></div>
+      <div class="cartao" style="margin-bottom:14px">
+        <h3>Ligação à TurboHost</h3>
+        <p class="sub">Pergunta à TurboHost os preços e a disponibilidade de um domínio de teste, e mostra a resposta tal como vem (sem a chave).</p>
+        <div id="dm-ultimo-erro"></div>
+        <div class="linha-accoes"><button type="button" class="btn-sec" id="dm-testar">Testar a ligação</button><span class="msg" id="dm-teste-msg"></span></div>
+        <pre class="dm-pre" id="dm-teste" hidden></pre>
+      </div>
       <div class="cartao" style="margin-bottom:14px">
         <h3>Preços</h3>
         <p class="sub">Preço ao cliente = custo da TurboHost (USD) × câmbio × (1 + margem), arredondado para cima de 10 em 10 MZN.</p>
@@ -1005,6 +1014,7 @@
       $('dm-fixos').value = Object.keys(c.fixos || {}).map(function(k){ return k + '=' + c.fixos[k]; }).join(', ');
       exemploDom();
       $('dm-aviso').innerHTML = dadosDom.activo ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>A venda de domínios está desligada.</b><span>Falta a variável TURBOHOST_KEY no container do Bunny. Os clientes vêem uma mensagem a dizer que ainda não está disponível.</span></div></div>';
+      $('dm-ultimo-erro').innerHTML = dadosDom.ultimo_erro ? '<p class="dm-ultimo"><b>Último erro da TurboHost</b> (' + esc(data(dadosDom.ultimo_erro.quando, true)) + ', ' + esc(dadosDom.ultimo_erro.rota) + '): ' + esc(dadosDom.ultimo_erro.erro) + '</p>' : '';
       var erros = (dadosDom.dominios || []).filter(function(d){ return d.estado === 'Erro'; }).length;
       $('badge-dom').textContent = erros ? erros : '';
       desenharDominiosAdmin();
@@ -1043,6 +1053,17 @@
       });
     });
   }
+  $('dm-testar').addEventListener('click', function(){
+    var b = $('dm-testar'); b.disabled = true; msg($('dm-teste-msg'), 'A perguntar à TurboHost...');
+    post('/admin-dominios-teste', {}).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('dm-teste-msg'), r.message, 'erro'); return; }
+      var x = r.response;
+      msg($('dm-teste-msg'), x.extensoes_lidas ? 'Ligação OK: ' + x.extensoes_lidas + ' extensões lidas.' : 'A ligação falhou. Vê a resposta em baixo.', x.extensoes_lidas ? 'ok' : 'erro');
+      $('dm-teste').hidden = false;
+      $('dm-teste').textContent = JSON.stringify(x, null, 2);
+    }).catch(function(e){ b.disabled = false; msg($('dm-teste-msg'), e.message, 'erro'); });
+  });
   $('dm-guardar').addEventListener('click', function(){
     var b = $('dm-guardar'); b.disabled = true; msg($('dm-cfg-msg'), 'A guardar...');
     var fixos = {};
