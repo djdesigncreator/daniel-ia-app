@@ -728,6 +728,79 @@
   .paginas-estado .pg.erro i{background:var(--error);animation:none;}
   .paginas-estado small{display:block;color:var(--text-dim);font-size:12px;margin-top:8px;}
   @keyframes pgPulso{50%{opacity:.35;}}
+
+  /* ===== Templates prontos (1.60.0) ===== */
+  .modo-bloco{display:none;margin-top:4px;}
+  .modo-bloco.ver{display:block;}
+  .modos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .modo{position:relative;text-align:left;display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;transition:border-color .18s,box-shadow .18s,background .18s;font:inherit;}
+  .modo:hover{border-color:color-mix(in srgb,var(--accent-2) 55%,var(--border));}
+  .modo .ic{flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--card);border:1px solid var(--border);color:var(--accent-1);}
+  .modo .ic svg{width:19px;height:19px;}
+  .modo b{display:block;font-size:14.5px;margin-bottom:3px;}
+  .modo small{display:block;color:var(--text-dim);font-size:12.5px;line-height:1.45;}
+  .modo[data-modo="template"] b{padding-right:54px;}
+  .modo .novo{position:absolute;top:10px;right:10px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:999px;background:var(--grad-accent);color:var(--on-accent);}
+  .modo.on{border-color:var(--accent-2);background:linear-gradient(160deg,var(--tint-b),transparent 70%),var(--card-alt);box-shadow:0 0 0 3px var(--accent-glow);}
+  .modo.on .ic{background:var(--grad-accent);color:var(--on-accent);border-color:transparent;}
+  .tpl-esc{display:none;margin-top:12px;border:1px dashed var(--border);border-radius:14px;padding:14px;align-items:center;gap:14px;background:var(--card-alt);}
+  .tpl-esc.ver{display:flex;}
+  .tpl-esc .mini{flex:0 0 132px;height:84px;border-radius:10px;overflow:hidden;position:relative;background:var(--card);border:1px solid var(--border);}
+  .tpl-esc .mini iframe{position:absolute;left:0;top:0;width:1280px;height:814px;border:0;transform:scale(.1031);transform-origin:0 0;pointer-events:none;}
+  .tpl-esc .vazio{flex:1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tpl-esc .info{flex:1;min-width:0;}
+  .tpl-esc .info b{display:block;font-size:15px;}
+  .tpl-esc .info small{display:block;color:var(--text-dim);font-size:12.5px;margin-top:2px;}
+  .tpl-esc .accoes{display:flex;gap:8px;flex-wrap:wrap;}
+  .tpl-esc .btn{width:auto;margin:0;padding:10px 14px;font-size:13.5px;}
+  .tpl-galeria,.tpl-ver{position:fixed;inset:0;z-index:9000;display:none;background:var(--bg);color:var(--text);}
+  .tpl-galeria.aberta,.tpl-ver.aberta{display:flex;flex-direction:column;}
+  .tg-topo{display:flex;align-items:center;gap:14px;padding:16px clamp(16px,3vw,32px);border-bottom:1px solid var(--border);background:var(--glass-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);}
+  .tg-topo h3{margin:0;font-family:var(--font-display);font-size:clamp(17px,2.2vw,22px);}
+  .tg-topo p{margin:2px 0 0;color:var(--text-dim);font-size:13px;}
+  .tg-topo .esp{flex:1;}
+  .tg-x{flex:0 0 40px;width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);display:grid;place-items:center;cursor:pointer;}
+  .tg-x svg{width:18px;height:18px;}
+  .tg-corpo{flex:1;overflow:auto;padding:clamp(16px,3vw,32px);}
+  .tg-filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .tg-filtros button{padding:8px 13px;border-radius:999px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);font:600 13px/1 var(--font-body);cursor:pointer;}
+  .tg-filtros button.on{background:var(--grad-accent);color:var(--on-accent);border-color:transparent;}
+  .tg-grelha{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(14px,2vw,22px);max-width:1500px;margin:0 auto;}
+  .tg-cartao{border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--card);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s;}
+  .tg-cartao:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent-2) 50%,var(--border));box-shadow:0 22px 44px -26px rgba(0,0,0,.6);}
+  .tg-cartao.on{border-color:var(--accent-2);box-shadow:0 0 0 3px var(--accent-glow);}
+  .tg-previa{position:relative;aspect-ratio:16/10.5;overflow:hidden;background:linear-gradient(135deg,var(--card-alt),var(--card));cursor:pointer;}
+  .tg-previa iframe{position:absolute;left:0;top:0;width:1280px;height:840px;border:0;transform-origin:0 0;pointer-events:none;opacity:0;transition:opacity .4s;}
+  .tg-previa iframe.ok{opacity:1;}
+  .tg-previa .carregar{position:absolute;inset:0;display:grid;place-items:center;color:var(--text-dim);font-size:12.5px;}
+  .tg-previa .carregar i{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--accent-2);animation:tgGira .9s linear infinite;display:block;margin:0 auto 8px;}
+  @keyframes tgGira{to{transform:rotate(360deg);}}
+  .tg-previa .lupa{position:absolute;right:10px;bottom:10px;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(7,3,12,.78);color:#fff;font-size:12px;font-weight:700;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s;}
+  .tg-previa .lupa svg{width:14px;height:14px;}
+  .tg-cartao:hover .lupa{opacity:1;transform:none;}
+  .tg-info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .tg-nome{display:flex;align-items:center;gap:10px;}
+  .tg-nome b{font-family:var(--font-display);font-size:17px;}
+  .tg-nome span{font-size:11.5px;font-weight:700;color:var(--text-dim);border:1px solid var(--border);border-radius:999px;padding:3px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%;}
+  .tg-cores{display:flex;margin-left:auto;}
+  .tg-cores i{width:16px;height:16px;border-radius:50%;border:2px solid var(--card);margin-left:-5px;box-shadow:0 0 0 1px var(--border);}
+  .tg-info p{margin:0;color:var(--text-dim);font-size:13px;line-height:1.5;}
+  .tg-info .pags{font-size:12px;color:var(--text-dim);}
+  .tg-accoes{display:flex;gap:8px;margin-top:auto;padding-top:4px;}
+  .tg-accoes .btn{flex:1;margin:0;padding:10px 12px;font-size:13.5px;}
+  .tv-barra{display:flex;align-items:center;gap:10px;padding:10px clamp(12px,2vw,20px);border-bottom:1px solid var(--border);background:var(--card);flex-wrap:wrap;}
+  .tv-barra b{font-family:var(--font-display);font-size:16px;}
+  .tv-barra small{color:var(--text-dim);font-size:12.5px;}
+  .tv-pags{display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;}
+  .tv-pags button,.tv-disp button{flex:0 0 auto;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);font:600 12.5px/1 var(--font-body);cursor:pointer;}
+  .tv-pags button.on,.tv-disp button.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .tv-disp{display:flex;gap:6px;}
+  .tv-disp button svg{width:15px;height:15px;vertical-align:-3px;}
+  .tv-barra .btn{width:auto;margin:0;padding:10px 16px;font-size:13.5px;}
+  .tv-palco{flex:1;display:flex;justify-content:center;align-items:stretch;background:var(--bg-alt);padding:14px;overflow:hidden;}
+  .tv-palco iframe{width:100%;height:100%;border:0;border-radius:12px;background:#fff;box-shadow:0 24px 60px -30px rgba(0,0,0,.6);transition:width .3s;}
+  .tv-palco.tel iframe{width:390px;max-width:100%;}
+  @media (max-width:640px){.tg-filtros{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}.tg-filtros button{flex:0 0 auto;}.modos{grid-template-columns:1fr;}.tpl-esc{flex-direction:column;align-items:stretch;}.tpl-esc .mini{flex-basis:auto;width:100%;height:auto;aspect-ratio:16/10;}.tpl-esc .mini iframe{transform:scale(var(--tpl-esc-esc,.25));}.tg-grelha{grid-template-columns:1fr;}.tv-disp{display:none;}.tv-palco{padding:0;}.tv-palco iframe{border-radius:0;}.tv-barra .btn{flex:1;}}
 </style>
 </head>
 <body>
@@ -771,6 +844,15 @@
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Portefólio"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="3" y1="13" x2="21" y2="13"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Portefólio</span><span class="desc">Mostra os teus trabalhos e projectos.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Blog"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Blog</span><span class="desc">Publica artigos, notícias e dicas.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Galeria"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.6"></circle><path d="M21 15l-5-5L5 21"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Galeria de fotos (sites para fotógrafos)</span><span class="desc">Álbuns de fotos e vídeos para mostrar o teu trabalho.</span></button>
+      </div>
+
+      <div class="modo-bloco" id="modo-bloco">
+        <label id="l-modo">Como queres começar?</label>
+        <div class="modos" role="radiogroup" aria-labelledby="l-modo">
+          <button type="button" class="modo" role="radio" aria-checked="false" data-modo="template"><span class="novo">Novo</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span><b>Escolher um template</b><small>Sites desenhados por profissionais. A IA escreve os textos para o teu negócio e junta fotos. Pronto em cerca de 1 minuto.</small></span></button>
+          <button type="button" class="modo on" role="radio" aria-checked="true" data-modo="ia"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><span><b>Criar com a IA</b><small>A IA desenha 3 versões novas, só para ti, e tu escolhes a melhor.</small></span></button>
+        </div>
+        <div class="tpl-esc" id="tpl-esc"></div>
       </div>
 
       <label id="l-idioma">Idioma do site</label>
@@ -860,6 +942,23 @@
 
       <div class="msg" id="msg-form"></div>
     </div>
+  </div>
+
+  <!-- TEMPLATES: GALERIA -->
+  <div class="tpl-galeria" id="tpl-galeria" role="dialog" aria-modal="true" aria-labelledby="tg-titulo">
+    <div class="tg-topo"><div><h3 id="tg-titulo">Templates</h3><p id="tg-sub">Escolhe um. A IA troca os textos e as fotos pelos do teu negócio.</p></div><span class="esp"></span><button type="button" class="tg-x" id="tg-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></div>
+    <div class="tg-corpo"><div class="tg-filtros" id="tg-filtros"></div><div class="tg-grelha" id="tg-grelha"></div></div>
+  </div>
+  <!-- TEMPLATES: VER EM GRANDE -->
+  <div class="tpl-ver" id="tpl-ver" role="dialog" aria-modal="true" aria-labelledby="tv-nome">
+    <div class="tv-barra">
+      <button type="button" class="tg-x" id="tv-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div><b id="tv-nome" data-no-i18n></b> <small id="tv-sector"></small></div>
+      <div class="tv-pags" id="tv-pags"></div>
+      <div class="tv-disp"><button type="button" class="on" data-disp="pc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></svg> Computador</button><button type="button" data-disp="tel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg> Telemóvel</button></div>
+      <button type="button" class="btn" id="tv-usar">Usar este template</button>
+    </div>
+    <div class="tv-palco" id="tv-palco"><iframe id="tv-iframe" title="Pré-visualização do template"></iframe></div>
   </div>
 
   <!-- A GERAR -->
@@ -1303,6 +1402,180 @@ function mostrarReferenciaEstudio(estado){
   document.getElementById('estudio-texto').textContent = 'A nossa IA estudou a tua imagem e está a desenhar três versões a partir dela: uma fiel, uma parecida e uma inspirada. Abre cada uma, vê no computador e no telemóvel, e escolhe a tua. Só a versão que escolheres conta no teu plano.';
 }
 
+
+// ---- Templates prontos (1.60.0) ----
+var TPL = { modo: 'ia', lista: [], escolhido: null, tipoCarregado: '', aVer: null, filtro: '' };
+var TPL_NOMES_TIPO = { 'E-commerce': 'Loja online', 'Checkout': 'Página de venda', 'Landing Page': 'Site', 'Portefólio': 'Portefólio', 'Blog': 'Blog', 'Galeria': 'Galeria de fotos' };
+function tplEsc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(ch){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]; }); }
+function tplUrl(t, ficheiro){ return CONTAINER_URL + '/template/' + encodeURIComponent(t.id) + '/' + (ficheiro || 'index.html') + '?dia_previa=1'; }
+function tplMostrarModo(){
+  var tipo = campoTipo.value;
+  document.getElementById('modo-bloco').classList.toggle('ver', !!tipo);
+  document.querySelectorAll('.modo').forEach(function(b){ var on = b.getAttribute('data-modo') === TPL.modo; b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
+  var comTpl = TPL.modo === 'template';
+  // Com template: sem imagem de referência, sem "uma página só" e sem imagens anexadas (as fotos vêm sozinhas).
+  ['ref-bloco', 'paginas-bloco'].forEach(function(id){ var el = document.getElementById(id); if (el) el.style.display = comTpl ? 'none' : ''; });
+  ['imagens-drop', 'imagens-grid'].forEach(function(id){ var el = document.getElementById(id); if (el) el.style.display = comTpl ? 'none' : ''; });
+  var lblImg = document.getElementById('imagens-drop'); if (lblImg && lblImg.previousElementSibling && lblImg.previousElementSibling.tagName === 'LABEL') lblImg.previousElementSibling.style.display = comTpl ? 'none' : '';
+  tplDesenharEscolhido();
+  tplTextoBotao();
+}
+function tplTextoBotao(){
+  var b = document.getElementById('btn-gerar');
+  if (b.disabled) return;
+  b.textContent = TPL.modo === 'template' ? (TPL.escolhido ? 'Criar o meu site com o template ' + TPL.escolhido.nome : 'Escolhe um template') : 'Criar as 3 versões';
+}
+function tplDesenharEscolhido(){
+  var caixa = document.getElementById('tpl-esc');
+  if (TPL.modo !== 'template') { caixa.classList.remove('ver'); return; }
+  caixa.classList.add('ver');
+  var t = TPL.escolhido;
+  if (!t) {
+    caixa.innerHTML = '<div class="vazio"><div class="info"><b>Ainda não escolheste o template</b><small>Há 15 templates para ' + tplEsc(TPL_NOMES_TIPO[campoTipo.value] || 'este tipo') + ', cada um com várias páginas.</small></div><div class="accoes"><button type="button" class="btn" id="tpl-abrir">Ver os templates</button></div></div>';
+  } else {
+    caixa.innerHTML = '<div class="mini"><iframe src="' + tplUrl(t) + '" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><div class="info"><b data-no-i18n>' + tplEsc(t.nome) + '</b><small>' + tplEsc(t.sector) + ' · ' + (t.paginas || []).length + ' páginas</small></div><div class="accoes"><button type="button" class="btn secondary" id="tpl-ver-esc">Ver</button><button type="button" class="btn secondary" id="tpl-abrir">Trocar</button></div>';
+    var mini = caixa.querySelector('.mini');
+    var iframe = mini.querySelector('iframe');
+    var esc = function(){ var w = mini.clientWidth || 132; iframe.style.transform = 'scale(' + (w / 1280) + ')'; iframe.style.height = Math.ceil(mini.clientHeight / (w / 1280)) + 'px'; };
+    esc(); setTimeout(esc, 50);
+    document.getElementById('tpl-ver-esc').onclick = function(){ tplVer(t); };
+  }
+  document.getElementById('tpl-abrir').onclick = tplAbrirGaleria;
+}
+document.querySelectorAll('.modo').forEach(function(b){
+  b.addEventListener('click', function(){
+    TPL.modo = b.getAttribute('data-modo');
+    tplMostrarModo();
+    if (TPL.modo === 'template' && !TPL.escolhido) tplAbrirGaleria();
+  });
+});
+document.querySelectorAll('.tipo').forEach(function(t){
+  t.addEventListener('click', function(){
+    if (TPL.escolhido && TPL.escolhido.tipo !== campoTipo.value) TPL.escolhido = null;
+    tplMostrarModo();
+  });
+});
+function tplCarregar(tipo){
+  if (TPL.tipoCarregado === tipo && TPL.lista.length) return Promise.resolve(TPL.lista);
+  return fetch(CONTAINER_URL + '/templates?tipo=' + encodeURIComponent(tipo)).then(function(r){ return r.json(); }).then(function(r){
+    TPL.lista = (r && r.response && r.response.templates) || [];
+    TPL.tipoCarregado = tipo;
+    return TPL.lista;
+  });
+}
+var tplObservador = null;
+function tplAbrirGaleria(){
+  var tipo = campoTipo.value;
+  if (!tipo) { showMessage('Escolhe primeiro o que queres criar.'); return; }
+  var g = document.getElementById('tpl-galeria');
+  document.getElementById('tg-titulo').textContent = 'Templates para ' + (TPL_NOMES_TIPO[tipo] || tipo);
+  document.getElementById('tg-grelha').innerHTML = '<p style="color:var(--text-dim)">A carregar os templates...</p>';
+  document.getElementById('tg-filtros').innerHTML = '';
+  g.classList.add('aberta'); document.body.style.overflow = 'hidden';
+  tplCarregar(tipo).then(function(lista){
+    if (!lista.length) { document.getElementById('tg-grelha').innerHTML = '<p style="color:var(--text-dim)">Ainda não há templates para este tipo.</p>'; return; }
+    TPL.filtro = '';
+    tplDesenharGaleria();
+  }).catch(function(){ document.getElementById('tg-grelha').innerHTML = '<p style="color:var(--error)">Não foi possível carregar os templates. Verifica a tua ligação.</p>'; });
+}
+function tplDesenharGaleria(){
+  var lista = TPL.lista.filter(function(t){ return !TPL.filtro || t.sector === TPL.filtro; });
+  var grelha = document.getElementById('tg-grelha');
+  grelha.innerHTML = lista.map(function(t){
+    var on = TPL.escolhido && TPL.escolhido.id === t.id;
+    return '<article class="tg-cartao' + (on ? ' on' : '') + '" data-id="' + tplEsc(t.id) + '">'
+      + '<div class="tg-previa" data-ver="' + tplEsc(t.id) + '" role="button" tabindex="0" aria-label="Ver ' + tplEsc(t.nome) + '"><span class="carregar"><span><i></i>A preparar a pré-visualização...</span></span><iframe data-src="' + tplUrl(t) + '" tabindex="-1" aria-hidden="true" title=""></iframe><span class="lupa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>Ver em grande</span></div>'
+      + '<div class="tg-info"><div class="tg-nome"><b data-no-i18n>' + tplEsc(t.nome) + '</b><span>' + tplEsc(t.sector) + '</span><span class="tg-cores">' + (t.cores || []).map(function(c){ return '<i style="background:' + tplEsc(c) + '"></i>'; }).join('') + '</span></div>'
+      + '<p>' + tplEsc(t.resumo) + '</p><div class="pags">' + (t.paginas || []).map(tplEsc).join(' · ') + '</div>'
+      + '<div class="tg-accoes"><button type="button" class="btn secondary" data-ver="' + tplEsc(t.id) + '">Ver</button><button type="button" class="btn" data-usar="' + tplEsc(t.id) + '">' + (on ? 'Escolhido' : 'Usar este') + '</button></div></div></article>';
+  }).join('');
+  // As pré-visualizações só carregam quando aparecem no ecrã.
+  if (tplObservador) tplObservador.disconnect();
+  var carregar = function(fr){
+    if (fr.src) return;
+    var caixa = fr.parentNode;
+    var esc = caixa.clientWidth / 1280;
+    fr.style.transform = 'scale(' + esc + ')';
+    fr.style.height = Math.ceil(caixa.clientHeight / esc) + 'px';
+    fr.addEventListener('load', function(){ fr.classList.add('ok'); var c = caixa.querySelector('.carregar'); if (c) c.remove(); });
+    fr.src = fr.getAttribute('data-src');
+  };
+  var frames = grelha.querySelectorAll('iframe[data-src]');
+  if ('IntersectionObserver' in window) {
+    tplObservador = new IntersectionObserver(function(entradas){ entradas.forEach(function(e){ if (e.isIntersecting) { carregar(e.target); tplObservador.unobserve(e.target); } }); }, { root: document.querySelector('.tg-corpo'), rootMargin: '300px' });
+    frames.forEach(function(f){ tplObservador.observe(f); });
+  } else frames.forEach(carregar);
+  grelha.querySelectorAll('[data-ver]').forEach(function(b){
+    var abrir = function(ev){ ev.stopPropagation(); tplVer(tplPorId(b.getAttribute('data-ver'))); };
+    b.addEventListener('click', abrir);
+    b.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abrir(ev); } });
+  });
+  grelha.querySelectorAll('[data-usar]').forEach(function(b){ b.addEventListener('click', function(){ tplUsar(tplPorId(b.getAttribute('data-usar'))); }); });
+  // Filtro por sector (só quando há sectores repetidos não faz sentido: mostra "Todos" + cada sector)
+  var sectores = [];
+  TPL.lista.forEach(function(t){ if (t.sector && sectores.indexOf(t.sector) < 0) sectores.push(t.sector); });
+  document.getElementById('tg-sub').textContent = TPL.lista.length + ' templates. Escolhe um: a IA troca os textos e as fotos pelos do teu negócio.';
+  // Filtros só quando há sectores repetidos (com 15 sectores diferentes não ajudam).
+  if (sectores.length >= TPL.lista.length) { document.getElementById('tg-filtros').innerHTML = ''; return; }
+  document.getElementById('tg-filtros').innerHTML = '<button type="button" class="' + (TPL.filtro ? '' : 'on') + '" data-filtro="">Todos</button>' + sectores.map(function(s){ return '<button type="button" class="' + (TPL.filtro === s ? 'on' : '') + '" data-filtro="' + tplEsc(s) + '">' + tplEsc(s) + '</button>'; }).join('');
+  document.querySelectorAll('#tg-filtros [data-filtro]').forEach(function(b){ b.addEventListener('click', function(){ TPL.filtro = b.getAttribute('data-filtro'); tplDesenharGaleria(); }); });
+}
+function tplPorId(id){ for (var i = 0; i < TPL.lista.length; i++) if (TPL.lista[i].id === id) return TPL.lista[i]; return null; }
+function tplFecharGaleria(){ document.getElementById('tpl-galeria').classList.remove('aberta'); if (!document.getElementById('tpl-ver').classList.contains('aberta')) document.body.style.overflow = ''; if (tplObservador) tplObservador.disconnect(); }
+document.getElementById('tg-fechar').addEventListener('click', tplFecharGaleria);
+function tplVer(t){
+  if (!t) return;
+  TPL.aVer = t;
+  var v = document.getElementById('tpl-ver');
+  document.getElementById('tv-nome').textContent = t.nome;
+  document.getElementById('tv-sector').textContent = t.sector;
+  var fic = (t.ficheiros && t.ficheiros.length) ? t.ficheiros : [{ nav: 'Início', ficheiro: 'index.html' }];
+  document.getElementById('tv-pags').innerHTML = fic.map(function(p, i){ return '<button type="button" class="' + (i ? '' : 'on') + '" data-fic="' + tplEsc(p.ficheiro) + '">' + tplEsc(p.nav) + '</button>'; }).join('');
+  document.querySelectorAll('#tv-pags [data-fic]').forEach(function(b){ b.addEventListener('click', function(){
+    document.querySelectorAll('#tv-pags [data-fic]').forEach(function(x){ x.classList.toggle('on', x === b); });
+    document.getElementById('tv-iframe').src = tplUrl(t, b.getAttribute('data-fic'));
+  }); });
+  document.getElementById('tv-iframe').src = tplUrl(t);
+  document.getElementById('tv-usar').textContent = (TPL.escolhido && TPL.escolhido.id === t.id) ? 'Escolhido' : 'Usar este template';
+  v.classList.add('aberta'); document.body.style.overflow = 'hidden';
+}
+document.getElementById('tv-voltar').addEventListener('click', function(){ document.getElementById('tpl-ver').classList.remove('aberta'); document.getElementById('tv-iframe').src = 'about:blank'; if (!document.getElementById('tpl-galeria').classList.contains('aberta')) document.body.style.overflow = ''; });
+document.querySelectorAll('.tv-disp [data-disp]').forEach(function(b){ b.addEventListener('click', function(){
+  document.querySelectorAll('.tv-disp [data-disp]').forEach(function(x){ x.classList.toggle('on', x === b); });
+  document.getElementById('tv-palco').classList.toggle('tel', b.getAttribute('data-disp') === 'tel');
+}); });
+document.getElementById('tv-usar').addEventListener('click', function(){ tplUsar(TPL.aVer); });
+function tplUsar(t){
+  if (!t) return;
+  TPL.escolhido = t; TPL.modo = 'template';
+  document.getElementById('tpl-ver').classList.remove('aberta'); document.getElementById('tv-iframe').src = 'about:blank';
+  tplFecharGaleria();
+  document.body.style.overflow = '';
+  tplMostrarModo();
+  hideMessage();
+  document.getElementById('modo-bloco').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+document.addEventListener('keydown', function(ev){
+  if (ev.key !== 'Escape') return;
+  if (document.getElementById('tpl-ver').classList.contains('aberta')) document.getElementById('tv-voltar').click();
+  else if (document.getElementById('tpl-galeria').classList.contains('aberta')) tplFecharGaleria();
+});
+// Link directo: /criar/?template=lp-brasa
+(function(){
+  var m = /[?&]template=([a-z0-9-]+)/.exec(location.search);
+  if (!m) return;
+  fetch(CONTAINER_URL + '/templates').then(function(r){ return r.json(); }).then(function(r){
+    var lista = (r && r.response && r.response.templates) || [];
+    var t = lista.filter(function(x){ return x.id === m[1]; })[0];
+    if (!t) return;
+    var cartao = document.querySelector('.tipo[data-tipo="' + t.tipo + '"]');
+    if (cartao) cartao.click();
+    TPL.lista = lista.filter(function(x){ return x.tipo === t.tipo; }); TPL.tipoCarregado = t.tipo;
+    tplUsar(t);
+  }).catch(function(){});
+})();
+tplMostrarModo();
+
 // ---- Submeter o formulário ----
 var btnGerar = document.getElementById('btn-gerar');
 
@@ -1326,12 +1599,18 @@ btnGerar.addEventListener('click', function(){
     return;
   }
 
-  if (refPreview.classList.contains('a-ler')) {
+  if (TPL.modo === 'template' && !TPL.escolhido) {
+    showMessage('Escolhe um template, ou muda para "Criar com a IA".');
+    tplAbrirGaleria();
+    return;
+  }
+  if (TPL.modo !== 'template' && refPreview.classList.contains('a-ler')) {
     showMessage('A imagem de referência ainda está a carregar. Espera um segundo.');
     return;
   }
 
-  setLoading(btnGerar, true, 'Criar as 3 versões', 'A iniciar...');
+  var textoBotao = TPL.modo === 'template' ? btnGerar.textContent : 'Criar as 3 versões';
+  setLoading(btnGerar, true, textoBotao, 'A iniciar...');
 
   var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt, idioma: document.getElementById('f-idioma').value || 'pt', variantes: 3 };
   if (logoDataUrl) corpo.logo_data_url = logoDataUrl;
@@ -1339,6 +1618,13 @@ btnGerar.addEventListener('click', function(){
   if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
   if (tipo === 'Checkout' && document.getElementById('f-quiz').checked) corpo.quiz = { ativo: true, descricao: document.getElementById('f-quiz-desc').value.trim() };
   if (!document.getElementById('f-multi').checked) corpo.uma_pagina = true;
+  if (TPL.modo === 'template' && TPL.escolhido) {
+    corpo.template_id = TPL.escolhido.id;
+    corpo.variantes = 1;
+    delete corpo.referencia_data_url; delete corpo.imagens_data_url; delete corpo.uma_pagina;
+    document.querySelector('#view-progress h2').textContent = 'A preparar o teu site...';
+    document.querySelector('#view-progress p').textContent = 'A IA está a escrever os textos do template ' + TPL.escolhido.nome + ' para o teu negócio e a juntar as fotos. Costuma demorar cerca de 1 minuto — não feches esta página.';
+  }
   estudio.refThumb = referenciaDataUrl || '';
 
   fetch(CONTAINER_URL + '/generate', {
@@ -1352,13 +1638,13 @@ btnGerar.addEventListener('click', function(){
         if (r.response.variantes === 3) abrirEstudio(siteIdActual, nome, tipo, 'criar');
         else iniciarEspera();
       } else {
-        setLoading(btnGerar, false, 'Criar as 3 versões', '');
+        setLoading(btnGerar, false, textoBotao, '');
         showMessage(r.message || 'Não foi possível iniciar a geração. Tenta novamente.');
         if (r.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('msg-form'));
       }
     })
     .catch(function(){
-      setLoading(btnGerar, false, 'Criar as 3 versões', '');
+      setLoading(btnGerar, false, textoBotao, '');
       showMessage('Não foi possível ligar ao servidor. Verifica a tua ligação e tenta novamente.');
     });
 });
@@ -1394,6 +1680,12 @@ function verificarEstado(){
     .then(function(r){
       if (r.status !== 'success' || !r.response) return;
 
+      if (r.response.estado === 'Pronto' && TPL.modo === 'template') {
+        pararEspera();
+        estudio.siteId = siteIdActual;
+        mostrarPronto(r.response.cdn_url, campoTipo.value);
+        return;
+      }
       if (r.response.estado === 'Pronto') {
         pararEspera();
         var link = document.getElementById('link-site');
