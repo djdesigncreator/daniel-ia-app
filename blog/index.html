@@ -510,6 +510,28 @@
   }
   :root[data-theme="light"] .topbar::after{background:linear-gradient(90deg,transparent 0%,rgba(67,9,96,.35) 50%,transparent 100%);}
 </style>
+<style id="dia-tema-css">
+  /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
+     se destacarem, texto secundário mais escuro (AA/AAA), bordas e campos visíveis,
+     cores de erro/aviso/sucesso legíveis em fundo claro. */
+  :root[data-theme="light"]{
+    --bg:#EEE9F4; --bg-alt:#E7E1EF; --card:#FFFFFF; --card-alt:#F6F2FA; --border:#D3C8E0;
+    --text:#160A22; --text-dim:#4F4062; --accent-1:#5E1585; --accent-2:#430960; --accent-glow:rgba(67,9,96,.22);
+    --success:#3B6A00; --error:#B0123A; --warning:#8A5300;
+    --glass-bg:rgba(255,255,255,.88); --glass-border:rgba(22,10,34,.16);
+    --tint-a:rgba(67,9,96,.08); --tint-b:rgba(137,200,4,.16);
+  }
+  :root[data-theme="light"] body{background:var(--bg);color:var(--text);}
+  :root[data-theme="light"] .bg-base{background:linear-gradient(180deg,#E6DDF0 0%,#EEE9F4 38%,#EEE9F4 100%)!important;}
+  :root[data-theme="light"] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),
+  :root[data-theme="light"] textarea,
+  :root[data-theme="light"] select{background-color:#FFFFFF;border-color:#9A8CAD!important;color:var(--text);}
+  :root[data-theme="light"] ::placeholder{color:#6B5C7E;opacity:1;}
+  :root[data-theme="light"] :focus-visible{outline:3px solid #5E1585;outline-offset:2px;}
+  @media (prefers-contrast: more){
+    :root[data-theme="light"]{--text-dim:#2E2140;--border:#8F80A3;}
+  }
+</style>
 </head>
 <body>
 
