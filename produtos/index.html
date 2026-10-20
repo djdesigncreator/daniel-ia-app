@@ -590,6 +590,45 @@
   :root[data-theme="light"] .tema-op.activo{border-color:var(--accent-2);background:rgba(67,9,96,.06);}
   .tema-nota{display:block;margin-top:8px;}
 
+  /* Quiz (1.60.0) */
+  .qz-topo{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px;}
+  .qz-topo h3{margin:0 0 4px;font-size:20px;}
+  .qz-topo p{margin:0;color:var(--text-dim);font-size:13.5px;max-width:560px;line-height:1.5;}
+  .qz-gerar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;margin-bottom:16px;}
+  .qz-gerar textarea{min-height:56px;}
+  .qz-titulo{font-size:15px;margin:22px 0 10px;display:flex;align-items:center;gap:10px;}
+  .qz-titulo small{font-family:var(--font-body);font-weight:600;color:var(--text-dim);font-size:12.5px;}
+  .qz-pergunta,.qz-resultado{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;}
+  .qz-p-topo,.qz-r-topo{display:flex;align-items:center;gap:8px;}
+  .qz-num{flex:0 0 28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--grad-accent);color:var(--on-accent);font-weight:800;font-size:13px;}
+  .qz-pergunta input[type=text],.qz-resultado input[type=text],.qz-resultado textarea{flex:1;min-width:0;width:100%;background:var(--card-alt);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:14px;outline:none;font-family:inherit;}
+  .qz-resultado textarea{min-height:64px;resize:vertical;margin:8px 0;}
+  .qz-pergunta input:focus,.qz-resultado input:focus,.qz-resultado textarea:focus{border-color:var(--lime);}
+  .qz-p-topo input[data-campo]{font-weight:700;}
+  .qz-opcoes{display:grid;gap:6px;margin:10px 0 8px 36px;}
+  .qz-opcao{display:flex;align-items:center;gap:8px;}
+  .qz-opcao b{flex:0 0 26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--card-alt);border:1px solid var(--border);font-size:12px;color:var(--text-dim);}
+  .qz-pts,.qz-desde{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);font-weight:700;white-space:nowrap;}
+  .qz-pts input,.qz-desde input{width:72px;background:var(--card-alt);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 8px;font-size:14px;text-align:center;outline:none;font-family:var(--font-mono);}
+  .qz-add-op{margin-left:36px;padding:7px 12px;}
+  .qz-pergunta .btn-x:disabled{opacity:.35;cursor:default;}
+  .qz-opcoes .btn-x,.qz-p-topo .btn-x,.qz-r-topo .btn-x{width:32px;height:32px;flex:0 0 32px;}
+  .qz-opcoes .btn-x svg,.qz-p-topo .btn-x svg,.qz-r-topo .btn-x svg{width:14px;height:14px;}
+  .qz-config{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:4px;}
+  .qz-config .linha-toggle{margin:0;}
+  .qz-config select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:7px 9px;font:600 13px var(--font-body);}
+  .qz-modal{position:fixed;inset:0;z-index:950;display:none;align-items:center;justify-content:center;background:rgba(7,3,12,.6);backdrop-filter:blur(4px);padding:16px;}
+  .qz-modal.aberto{display:flex;}
+  .qz-modal .caixa{width:100%;max-width:860px;max-height:86vh;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;}
+  .qz-modal .topo{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);}
+  .qz-modal .topo h3{margin:0;font-size:17px;}
+  .qz-modal .topo small{color:var(--text-dim);font-size:12.5px;}
+  .qz-modal .corpo{overflow:auto;padding:12px 18px 18px;}
+  .qz-tab{width:100%;border-collapse:collapse;font-size:13px;}
+  .qz-tab th{text-align:left;color:var(--text-dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;padding:8px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);}
+  .qz-tab td{padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .qz-tab .num{text-align:right;font-family:var(--font-mono);}
+  @media (max-width:640px){.qz-gerar{grid-template-columns:1fr;}.qz-opcoes{margin-left:0;}.qz-add-op{margin-left:0;}.qz-r-topo{flex-wrap:wrap;}.qz-desde{width:100%;}}
 </style>
 </head>
 <body>
@@ -621,6 +660,7 @@
     <button class="tab activa" data-painel="p-produtos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Produtos</button>
     <button class="tab" data-painel="p-categorias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>Categorias</button>
     <button class="tab" data-painel="p-montra"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5" rx="1.5"/><rect x="3" y="10" width="8" height="11" rx="1.5"/><rect x="13" y="10" width="8" height="5" rx="1.5"/><rect x="13" y="17" width="8" height="4" rx="1.5"/></svg>Montra</button>
+    <button class="tab" data-painel="p-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4"/><path d="M9 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><rect x="9" y="2" width="6" height="4" rx="1"/></svg>Quiz</button>
     <button class="tab" data-painel="p-capa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5-9 9"/></svg>Capa</button>
     <button class="tab" data-painel="p-avaliacoes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>Avaliações<span class="contador" id="contador-aval"></span></button>
     <button class="tab" data-painel="p-pagamentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Pagamentos</button>
@@ -725,6 +765,46 @@
   </section>
 
   <!-- PAGAMENTOS -->
+  <!-- QUIZ (1.60.0) -->
+  <section class="painel" id="p-quiz">
+    <div class="qz-topo">
+      <div><h3>Quiz antes da compra</h3><p>Perguntas com pontos que aquecem o cliente. No fim aparece o resultado e só depois a oferta. Fica no topo da página inicial, antes dos produtos.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-sec" id="quiz-ver-site" href="#" target="_blank" rel="noopener" style="display:none">Ver no site</a><button type="button" class="btn btn-sec" id="quiz-ver-respostas">Respostas <span class="contador" id="quiz-total"></span></button></div>
+    </div>
+    <div class="linha-toggle"><div><b>Quiz ligado</b><small>Quando está desligado, a página mostra logo os produtos.</small></div><label class="interruptor"><input type="checkbox" id="quiz-ativo"><span class="trilho"></span></label></div>
+    <div class="cartao" style="margin-bottom:16px">
+      <div class="qz-gerar">
+        <div class="campo" style="margin:0"><label for="quiz-descricao">Criar com a IA</label><textarea id="quiz-descricao" maxlength="800" placeholder="Ex: 6 perguntas sobre a experiência da pessoa com bicicletas e o uso que lhe vai dar"></textarea></div>
+        <button type="button" class="btn btn-principal" id="quiz-gerar">Criar com a IA</button>
+      </div>
+      <div class="msg" id="quiz-gerar-msg"></div>
+      <div class="duas" style="margin-top:14px">
+        <div class="campo"><label for="quiz-etiqueta">Etiqueta</label><input type="text" id="quiz-etiqueta" maxlength="40" placeholder="Quiz de 1 minuto"></div>
+        <div class="campo"><label for="quiz-botao_iniciar">Botão para começar</label><input type="text" id="quiz-botao_iniciar" maxlength="40" placeholder="Começar"></div>
+      </div>
+      <div class="campo"><label for="quiz-titulo">Título</label><input type="text" id="quiz-titulo" maxlength="140" placeholder="Descobre em 1 minuto o ideal para ti"></div>
+      <div class="campo"><label for="quiz-subtitulo">Frase por baixo</label><input type="text" id="quiz-subtitulo" maxlength="300" placeholder="Responde a algumas perguntas e vê o teu resultado."></div>
+      <div class="campo"><label for="quiz-cta">Botão final (quando o resultado não tem botão próprio)</label><input type="text" id="quiz-cta" maxlength="40" placeholder="Ver a oferta"></div>
+      <div class="qz-config">
+        <div class="linha-toggle"><div><b>Esconder a oferta até acabar</b><small>Os produtos aparecem só no fim.</small></div><label class="interruptor"><input type="checkbox" id="quiz-bloquear"><span class="trilho"></span></label></div>
+        <div class="linha-toggle"><div><b>Mostrar os pontos</b><small>A pessoa vê os pontos a subir.</small></div><label class="interruptor"><input type="checkbox" id="quiz-pontos"><span class="trilho"></span></label></div>
+        <div class="linha-toggle"><div><b>Pedir contacto</b><small>Nome e WhatsApp antes do resultado.</small></div><select id="quiz-captar"><option value="nao">Não</option><option value="opcional">Opcional</option><option value="obrigatorio">Obrigatório</option></select></div>
+      </div>
+    </div>
+    <h4 class="qz-titulo">Perguntas <small>cada resposta vale pontos</small></h4>
+    <div id="quiz-perguntas"><p class="sub">A carregar o quiz...</p></div>
+    <button type="button" class="btn-ligeiro" id="quiz-add-pergunta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Pergunta</button>
+    <h4 class="qz-titulo">Resultados <small>pontuação máxima: <b id="quiz-max">0</b></small></h4>
+    <div id="quiz-resultados"></div>
+    <button type="button" class="btn-ligeiro" id="quiz-add-resultado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Resultado</button>
+    <div class="barra-guardar">
+      <span class="pendente" id="quiz-pendente" style="display:none">Alterações por guardar</span>
+      <div class="msg" id="quiz-msg"></div>
+      <span class="espaco"></span>
+      <button type="button" class="btn btn-principal" id="quiz-guardar">Guardar quiz</button>
+    </div>
+  </section>
+
   <section class="painel" id="p-pagamentos">
     <div class="modos">
       <button class="modo" data-modo="daniel">
@@ -762,6 +842,7 @@
 
 <!-- Gaveta: novo / editar produto -->
 <div class="fundo" id="fundo"></div>
+<div class="qz-modal" id="qz-modal" role="dialog" aria-modal="true"><div class="caixa"><div class="topo"><div><h3>Respostas do quiz</h3><small id="qz-resumo"></small></div><span style="flex:1"></span><button type="button" class="btn btn-sec" id="qz-csv">Descarregar (CSV)</button><button class="btn-x" id="qz-modal-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></div><div class="corpo" id="qz-tabela"></div></div></div>
 <aside class="gaveta" id="gaveta" aria-hidden="true">
   <div class="gaveta-topo"><h2 id="gaveta-titulo">Novo produto</h2><button class="btn-x" id="gaveta-fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></div>
   <div class="gaveta-corpo">
@@ -1341,6 +1422,8 @@
     catalogo: ['Catálogo', 'Filtros ao lado: categorias, preço, avaliação'],
     vitrine: ['Vitrine', 'Um produto em grande, preço ao lado, miniaturas'],
     bento: ['Bento', 'Mosaico pastel, cantos redondos, alegre'],
+    fresco: ['Fresco', 'Mercearia: ofertas, categorias com foto, botão Adicionar'],
+    sabor: ['Sabor', 'Restaurante: capa escura, prato em destaque, mais pedidos'],
     classico: ['Clássico', 'A montra original do Daniel IA']
   };
   var BLOCOS_TEMA = {
@@ -1350,7 +1433,9 @@
     moda: [['capa'], ['categorias'], ['fila', 'novidades'], ['fila', 'promocoes'], ['catalogo'], ['vistos']],
     catalogo: [['capa'], ['filtros'], ['vistos']],
     vitrine: [['capa'], ['catalogo'], ['vistos']],
-    bento: [['capa'], ['categorias'], ['fila', 'destaques'], ['catalogo'], ['vistos']]
+    bento: [['capa'], ['categorias'], ['fila', 'destaques'], ['catalogo'], ['vistos']],
+    fresco: [['capa'], ['categorias'], ['fila', 'promocoes'], ['fila', 'destaques'], ['catalogo'], ['vistos']],
+    sabor: [['capa'], ['categorias'], ['fila', 'mais_vendidos'], ['catalogo'], ['vistos']]
   };
   function temaEfectivo(estilo){
     var t = (estilo && estilo.tema) || '';
@@ -2339,6 +2424,183 @@
     seguinte(0);
   });
   renderLote();
+
+  // ======================================================
+  // Quiz antes da compra (1.60.0)
+  // ======================================================
+  function cada(l, f){ Array.prototype.forEach.call(l, f); }
+  var quiz = null, quizCarregado = false, quizSujo = false;
+  var QUIZ_VAZIO = { ativo: false, bloquear: true, mostrar_pontos: true, captar: 'opcional', etiqueta: '', titulo: '', subtitulo: '', botao_iniciar: '', cta: '', perguntas: [], resultados: [] };
+  var QIC = {
+    cima: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+    baixo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+    mais: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
+  };
+  function quizMarcarSujo(){ quizSujo = true; $('quiz-pendente').style.display = ''; }
+  function quizMax(){
+    return (quiz.perguntas || []).reduce(function(s, p){
+      return s + Math.max.apply(null, (p.opcoes || []).map(function(o){ return Number(o.pontos) || 0; }).concat([0]));
+    }, 0);
+  }
+  function quizPreencher(){
+    $('quiz-ativo').checked = !!quiz.ativo;
+    $('quiz-bloquear').checked = quiz.bloquear !== false;
+    $('quiz-pontos').checked = quiz.mostrar_pontos !== false;
+    $('quiz-captar').value = quiz.captar || 'opcional';
+    ['etiqueta', 'titulo', 'subtitulo', 'botao_iniciar', 'cta'].forEach(function(k){ $('quiz-' + k).value = quiz[k] || ''; });
+    quizRenderPerguntas();
+    quizRenderResultados();
+  }
+  function quizRenderPerguntas(){
+    var caixa = $('quiz-perguntas');
+    if (!quiz.perguntas.length) {
+      caixa.innerHTML = '<p class="sub" style="margin:0 0 10px">Ainda não há perguntas. Junta a primeira ou deixa a IA criar o quiz.</p>';
+    } else {
+      caixa.innerHTML = quiz.perguntas.map(function(p, i){
+        return '<div class="qz-pergunta" data-p="' + i + '">'
+          + '<div class="qz-p-topo"><span class="qz-num">' + (i + 1) + '</span><input type="text" maxlength="220" data-campo="texto" placeholder="Pergunta" value="' + esc(p.texto || '') + '">'
+          + '<button type="button" class="btn-x" data-acc="cima" title="Subir" aria-label="Subir"' + (i === 0 ? ' disabled' : '') + '>' + QIC.cima + '</button>'
+          + '<button type="button" class="btn-x" data-acc="baixo" title="Descer" aria-label="Descer"' + (i === quiz.perguntas.length - 1 ? ' disabled' : '') + '>' + QIC.baixo + '</button>'
+          + '<button type="button" class="btn-x" data-acc="apagar" title="Apagar pergunta" aria-label="Apagar pergunta">' + QIC.x + '</button></div>'
+          + '<div class="qz-opcoes">' + (p.opcoes || []).map(function(o, j){
+            return '<div class="qz-opcao" data-o="' + j + '"><b>' + 'ABCDEF'[j] + '</b><input type="text" maxlength="140" data-ocampo="texto" placeholder="Resposta" value="' + esc(o.texto || '') + '">'
+              + '<label class="qz-pts"><input type="number" min="-100" max="100" step="1" data-ocampo="pontos" value="' + (Number(o.pontos) || 0) + '"><span>pts</span></label>'
+              + '<button type="button" class="btn-x" data-oapagar title="Tirar" aria-label="Tirar"' + (p.opcoes.length <= 2 ? ' disabled' : '') + '>' + QIC.x + '</button></div>';
+          }).join('') + '</div>'
+          + (p.opcoes.length < 6 ? '<button type="button" class="btn-ligeiro qz-add-op" data-acc="opcao">' + QIC.mais + 'Resposta</button>' : '')
+          + '</div>';
+      }).join('');
+    }
+    $('quiz-max').textContent = quizMax();
+    cada($('quiz-perguntas').querySelectorAll('.qz-pergunta'), function(el){
+      var i = Number(el.getAttribute('data-p')), p = quiz.perguntas[i];
+      el.querySelector('[data-campo="texto"]').addEventListener('input', function(){ p.texto = this.value; quizMarcarSujo(); });
+      cada(el.querySelectorAll('.qz-opcao'), function(oe){
+        var o = p.opcoes[Number(oe.getAttribute('data-o'))];
+        oe.querySelector('[data-ocampo="texto"]').addEventListener('input', function(){ o.texto = this.value; quizMarcarSujo(); });
+        oe.querySelector('[data-ocampo="pontos"]').addEventListener('input', function(){ o.pontos = Math.max(-100, Math.min(100, parseInt(this.value, 10) || 0)); $('quiz-max').textContent = quizMax(); quizMarcarSujo(); });
+        oe.querySelector('[data-oapagar]').addEventListener('click', function(){ p.opcoes.splice(p.opcoes.indexOf(o), 1); quizMarcarSujo(); quizRenderPerguntas(); });
+      });
+      cada(el.querySelectorAll('[data-acc]'), function(b){
+        b.addEventListener('click', function(){
+          var a = b.getAttribute('data-acc');
+          if (a === 'apagar') quiz.perguntas.splice(i, 1);
+          else if (a === 'cima' && i > 0) quiz.perguntas.splice(i - 1, 0, quiz.perguntas.splice(i, 1)[0]);
+          else if (a === 'baixo' && i < quiz.perguntas.length - 1) quiz.perguntas.splice(i + 1, 0, quiz.perguntas.splice(i, 1)[0]);
+          else if (a === 'opcao') p.opcoes.push({ texto: '', pontos: 0 });
+          quizMarcarSujo(); quizRenderPerguntas();
+        });
+      });
+    });
+  }
+  function quizRenderResultados(){
+    var caixa = $('quiz-resultados');
+    caixa.innerHTML = quiz.resultados.length ? quiz.resultados.map(function(r, i){
+      return '<div class="qz-resultado" data-r="' + i + '">'
+        + '<div class="qz-r-topo"><label class="qz-desde"><span>A partir de</span><input type="number" min="-1000" max="10000" step="1" data-rcampo="min" value="' + (Number(r.min) || 0) + '"><span>pts</span></label>'
+        + '<input type="text" maxlength="100" data-rcampo="titulo" placeholder="Título do resultado" value="' + esc(r.titulo || '') + '">'
+        + '<button type="button" class="btn-x" data-rapagar title="Apagar resultado" aria-label="Apagar resultado">' + QIC.x + '</button></div>'
+        + '<textarea maxlength="600" data-rcampo="texto" placeholder="O que a pessoa lê neste resultado e porque a tua oferta é para ela">' + esc(r.texto || '') + '</textarea>'
+        + '<input type="text" maxlength="40" data-rcampo="botao" placeholder="Texto do botão (ex: Ver a minha oferta)" value="' + esc(r.botao || '') + '">'
+        + '</div>';
+    }).join('') : '<p class="sub" style="margin:0 0 10px">Junta pelo menos um resultado: é o que a pessoa vê no fim, antes da oferta.</p>';
+    cada(caixa.querySelectorAll('.qz-resultado'), function(el){
+      var r = quiz.resultados[Number(el.getAttribute('data-r'))];
+      cada(el.querySelectorAll('[data-rcampo]'), function(inp){
+        inp.addEventListener('input', function(){ var k = inp.getAttribute('data-rcampo'); r[k] = k === 'min' ? (parseInt(inp.value, 10) || 0) : inp.value; quizMarcarSujo(); });
+      });
+      el.querySelector('[data-rapagar]').addEventListener('click', function(){ quiz.resultados.splice(quiz.resultados.indexOf(r), 1); quizMarcarSujo(); quizRenderResultados(); });
+    });
+  }
+  function carregarQuiz(){
+    return post('/quiz-config', { site_id: SITE_ID }).then(function(r){
+      if (r.status !== 'success') { msg($('quiz-msg'), r.message || 'Não foi possível ler o quiz.', 'erro'); return; }
+      quiz = r.response.quiz ? JSON.parse(JSON.stringify(r.response.quiz)) : JSON.parse(JSON.stringify(QUIZ_VAZIO));
+      $('quiz-total').textContent = r.response.total_respostas || '';
+      if (r.response.cdn_url) { $('quiz-ver-site').href = r.response.cdn_url; $('quiz-ver-site').style.display = ''; }
+      quizCarregado = true; quizSujo = false; $('quiz-pendente').style.display = 'none';
+      quizPreencher();
+    }).catch(function(){ msg($('quiz-msg'), 'Não foi possível ligar ao servidor.', 'erro'); });
+  }
+  $('quiz-ativo').addEventListener('change', function(){ quiz.ativo = this.checked; quizMarcarSujo(); });
+  $('quiz-bloquear').addEventListener('change', function(){ quiz.bloquear = this.checked; quizMarcarSujo(); });
+  $('quiz-pontos').addEventListener('change', function(){ quiz.mostrar_pontos = this.checked; quizMarcarSujo(); });
+  $('quiz-captar').addEventListener('change', function(){ quiz.captar = this.value; quizMarcarSujo(); });
+  ['etiqueta', 'titulo', 'subtitulo', 'botao_iniciar', 'cta'].forEach(function(k){ $('quiz-' + k).addEventListener('input', function(){ quiz[k] = this.value; quizMarcarSujo(); }); });
+  $('quiz-add-pergunta').addEventListener('click', function(){
+    if (quiz.perguntas.length >= 15) { msg($('quiz-msg'), 'No máximo 15 perguntas.', 'erro'); return; }
+    quiz.perguntas.push({ texto: '', opcoes: [{ texto: '', pontos: 0 }, { texto: '', pontos: 5 }, { texto: '', pontos: 10 }] });
+    quizMarcarSujo(); quizRenderPerguntas();
+  });
+  $('quiz-add-resultado').addEventListener('click', function(){
+    if (quiz.resultados.length >= 6) return;
+    var ultimo = quiz.resultados[quiz.resultados.length - 1];
+    quiz.resultados.push({ min: ultimo ? (Number(ultimo.min) || 0) + 10 : 0, titulo: '', texto: '', botao: '' });
+    quizMarcarSujo(); quizRenderResultados();
+  });
+  $('quiz-gerar').addEventListener('click', function(){
+    var b = this;
+    b.disabled = true;
+    msg($('quiz-gerar-msg'), 'A IA está a criar o quiz... (15 a 40 segundos)');
+    post('/quiz-gerar', { site_id: SITE_ID, descricao: $('quiz-descricao').value.trim() }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('quiz-gerar-msg'), r.message || 'Não foi possível criar o quiz.', 'erro'); return; }
+      var novo = r.response.quiz;
+      novo.ativo = true;
+      quiz = novo;
+      quizPreencher(); quizMarcarSujo();
+      msg($('quiz-gerar-msg'), 'Quiz criado. Revê as perguntas e carrega em Guardar quiz.', 'ok');
+    }).catch(function(){ b.disabled = false; msg($('quiz-gerar-msg'), 'Não foi possível ligar ao servidor.', 'erro'); });
+  });
+  $('quiz-guardar').addEventListener('click', function(){
+    var b = this;
+    var faltam = quiz.perguntas.filter(function(p){ return !String(p.texto || '').trim() || (p.opcoes || []).filter(function(o){ return String(o.texto || '').trim(); }).length < 2; }).length;
+    if (quiz.ativo && faltam) { msg($('quiz-msg'), faltam === 1 ? '1 pergunta sem texto ou com menos de 2 respostas.' : faltam + ' perguntas sem texto ou com menos de 2 respostas.', 'erro'); return; }
+    b.disabled = true;
+    msg($('quiz-msg'), 'A guardar...');
+    post('/quiz-guardar', { site_id: SITE_ID, quiz: quiz }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('quiz-msg'), r.message || 'Não foi possível guardar.', 'erro'); return; }
+      quiz = r.response.quiz; quizPreencher();
+      quizSujo = false; $('quiz-pendente').style.display = 'none';
+      msg($('quiz-msg'), quiz.ativo ? 'Quiz guardado. Já aparece na tua página.' : 'Quiz guardado (desligado).', 'ok');
+    }).catch(function(){ b.disabled = false; msg($('quiz-msg'), 'Não foi possível ligar ao servidor.', 'erro'); });
+  });
+  // Respostas
+  var quizRespostas = [];
+  function fecharRespostas(){ $('qz-modal').classList.remove('aberto'); }
+  $('qz-modal-fechar').addEventListener('click', fecharRespostas);
+  $('qz-modal').addEventListener('click', function(e){ if (e.target === this) fecharRespostas(); });
+  $('quiz-ver-respostas').addEventListener('click', function(){
+    $('qz-modal').classList.add('aberto');
+    $('qz-tabela').innerHTML = '<p class="sub">A carregar as respostas...</p>';
+    post('/quiz-respostas', { site_id: SITE_ID }).then(function(r){
+      if (r.status !== 'success') { $('qz-tabela').innerHTML = '<p class="sub">' + esc(r.message || 'Não foi possível ler as respostas.') + '</p>'; return; }
+      quizRespostas = r.response.respostas || [];
+      $('qz-resumo').textContent = r.response.total === 1 ? '1 resposta' : r.response.total + ' respostas';
+      $('qz-tabela').innerHTML = quizRespostas.length ? '<table class="qz-tab"><thead><tr><th>Data</th><th>Nome</th><th>Contacto</th><th class="num">Pontos</th><th>Resultado</th></tr></thead><tbody>'
+        + quizRespostas.map(function(x){
+          var d = new Date(x.data);
+          return '<tr><td>' + esc(isNaN(d) ? '' : d.toLocaleString('pt-PT', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })) + '</td><td>' + esc(x.nome || '—') + '</td><td>' + esc(x.contacto || '—') + '</td><td class="num">' + esc(x.pontos) + '</td><td>' + esc(x.resultado || '') + '</td></tr>';
+        }).join('') + '</tbody></table>' : '<p class="sub">Ainda ninguém respondeu ao quiz.</p>';
+    }).catch(function(){ $('qz-tabela').innerHTML = '<p class="sub">Não foi possível ligar ao servidor.</p>'; });
+  });
+  $('qz-csv').addEventListener('click', function(){
+    if (!quizRespostas.length) return;
+    var max = quizRespostas.reduce(function(m, x){ return Math.max(m, (x.respostas || []).length); }, 0);
+    var cab = ['Data', 'Nome', 'Contacto', 'Pontos', 'Resultado'];
+    for (var i = 1; i <= max; i++) cab.push('Pergunta ' + i);
+    var linhas = [cab].concat(quizRespostas.map(function(x){ return [x.data, x.nome, x.contacto, x.pontos, x.resultado].concat(x.respostas || []); }));
+    var csv = linhas.map(function(l){ return l.map(function(v){ v = String(v == null ? '' : v); return /[",;\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(';'); }).join('\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'respostas-quiz.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  // Carrega quando se abre o separador
+  cada(document.querySelectorAll('.tab[data-painel="p-quiz"]'), function(t){ t.addEventListener('click', function(){ if (!quizCarregado) carregarQuiz(); }); });
+  if (location.hash === '#p-quiz') carregarQuiz();
 
   carregarLoja();
   carregarProdutos();

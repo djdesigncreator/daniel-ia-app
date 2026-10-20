@@ -701,6 +701,33 @@
   .estudio-ref b{display:block;font-size:13.5px;color:var(--text);}
   .estudio-ref small{display:block;font-size:12px;color:var(--text-dim);margin-top:2px;}
   .estudio-ref.a-analisar b::after{content:'';display:inline-block;width:10px;height:10px;margin-left:8px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--accent-2);animation:refGira .8s linear infinite;vertical-align:-1px;}
+
+  /* Quiz antes da compra (1.60.0) */
+  .quiz-bloco{margin-top:16px;border:1px solid var(--border);border-radius:16px;padding:16px;background:linear-gradient(135deg,var(--tint-a),transparent 55%),var(--card-alt);}
+  .quiz-cab{display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin:0;}
+  .quiz-cab b{display:block;font-family:var(--font-display);font-size:15px;color:var(--text);}
+  .quiz-cab small{display:block;font-size:12.5px;color:var(--text-dim);margin-top:3px;line-height:1.45;font-weight:500;}
+  .quiz-int{margin-left:auto;flex:0 0 auto;position:relative;width:44px;height:26px;}
+  .quiz-int input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1;}
+  .quiz-int i{position:absolute;inset:0;border-radius:999px;background:var(--border);transition:background .2s;}
+  .quiz-int i::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;}
+  .quiz-int input:checked + i{background:var(--accent-2);}
+  .quiz-int input:checked + i::after{transform:translateX(18px);}
+  .quiz-mais{display:none;margin-top:12px;}
+  .quiz-mais.ver{display:block;}
+  .quiz-mais textarea{width:100%;min-height:80px;}
+  .quiz-mais small{display:block;color:var(--text-dim);font-size:12px;margin-top:6px;line-height:1.45;}
+  /* Páginas a nascer depois de escolher (1.60.0) */
+  .paginas-estado{display:none;margin:4px auto 18px;max-width:520px;text-align:left;border:1px solid var(--border);background:var(--card-alt);border-radius:14px;padding:14px 16px;}
+  .paginas-estado.ver{display:block;}
+  .paginas-estado b{font-size:13.5px;display:block;margin-bottom:8px;}
+  .paginas-estado .lista{display:flex;flex-wrap:wrap;gap:6px;}
+  .paginas-estado .pg{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--border);font-size:12.5px;font-weight:700;color:var(--text);}
+  .paginas-estado .pg i{width:8px;height:8px;border-radius:50%;background:var(--warning);animation:pgPulso 1.2s ease-in-out infinite;}
+  .paginas-estado .pg.pronto i{background:var(--success);animation:none;}
+  .paginas-estado .pg.erro i{background:var(--error);animation:none;}
+  .paginas-estado small{display:block;color:var(--text-dim);font-size:12px;margin-top:8px;}
+  @keyframes pgPulso{50%{opacity:.35;}}
 </style>
 </head>
 <body>
@@ -787,6 +814,18 @@
         </div>
       </div>
 
+      <div class="quiz-bloco" id="quiz-bloco" style="display:none">
+        <label class="quiz-cab" for="f-quiz">
+          <span class="ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2 2 4-4"/><path d="M9 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><rect x="9" y="2" width="6" height="4" rx="1"/></svg></span>
+          <div><b>Quiz antes da compra</b><small>Perguntas com pontos: no fim aparece o resultado e só depois a oferta. Ideal para cursos, serviços e produtos que precisam de convencer.</small></div>
+          <span class="quiz-int"><input type="checkbox" id="f-quiz"><i></i></span>
+        </label>
+        <div class="quiz-mais" id="quiz-mais">
+          <textarea id="f-quiz-desc" maxlength="800" placeholder="Sobre o que são as perguntas? (opcional) Ex: perguntas sobre a experiência da pessoa e o que ela quer aprender"></textarea>
+          <small>A IA cria as perguntas, os pontos e os resultados. Depois podes mudar tudo no Gerir loja, no separador Quiz.</small>
+        </div>
+      </div>
+
       <label>Logótipo (opcional)</label>
       <div class="logo-drop" id="logo-drop">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -853,6 +892,7 @@
       <h2>O teu site está pronto!</h2>
       <p>Já podes abrir e ver o resultado.</p>
       <a href="#" target="_blank" class="link-site" id="link-site"></a>
+      <div class="paginas-estado" id="paginas-estado"></div>
       <div class="proximos" id="proximos"></div>
       <div class="btn-row">
         <button class="btn secondary" id="btn-outro">Criar outro</button>
@@ -1139,6 +1179,15 @@ function renderImagensGrid(){
   imagensDrop.classList.toggle('disabled', imagensDataUrls.length >= MAX_IMAGENS);
 }
 
+// ---- Quiz antes da compra (1.60.0): só na página de venda ----
+function mostrarQuizBloco(){
+  var ver = campoTipo.value === 'Checkout';
+  document.getElementById('quiz-bloco').style.display = ver ? '' : 'none';
+}
+document.querySelectorAll('.tipo').forEach(function(t){ t.addEventListener('click', mostrarQuizBloco); });
+document.getElementById('f-quiz').addEventListener('change', function(){ document.getElementById('quiz-mais').classList.toggle('ver', this.checked); });
+mostrarQuizBloco();
+
 // ---- Imagem de referência: criar parecido com ela (1.59.0) ----
 var referenciaDataUrl = '';
 var refDrop = document.getElementById('ref-drop');
@@ -1280,6 +1329,7 @@ btnGerar.addEventListener('click', function(){
   if (logoDataUrl) corpo.logo_data_url = logoDataUrl;
   if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
   if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
+  if (tipo === 'Checkout' && document.getElementById('f-quiz').checked) corpo.quiz = { ativo: true, descricao: document.getElementById('f-quiz-desc').value.trim() };
   estudio.refThumb = referenciaDataUrl || '';
 
   fetch(CONTAINER_URL + '/generate', {
@@ -1485,7 +1535,7 @@ function tiqueRelogio(){
   if (!acabou) document.getElementById('estudio-tempo').textContent = relogioTexto(seg);
   r.classList.toggle('feito', !!acabou);
   document.getElementById('estudio-relogio-sub').textContent = acabou ? 'Versões prontas' : 'A desenhar em paralelo';
-  Array.prototype.forEach.call(document.querySelectorAll('.variante [data-etapa]'), function(el){ el.textContent = estudio.refAnalisar ? 'A estudar a tua imagem...' : etapaDe(seg); });
+  Array.prototype.forEach.call(document.querySelectorAll('.variante [data-etapa]'), function(el){ el.textContent = estudio.refAnalisar ? 'A estudar a tua imagem...' : (estudio.preparando ? 'A preparar as páginas e as fotos...' : etapaDe(seg)); });
   Array.prototype.forEach.call(document.querySelectorAll('.variante [data-tempo]'), function(el){ el.textContent = relogioTexto(seg); });
 }
 function pararEstudio(){
@@ -1513,6 +1563,7 @@ function verificarEstudio(){
     }
     estudio.variantes = vs.variantes;
     if (vs.referencia) mostrarReferenciaEstudio(vs.referencia);
+    estudio.preparando = vs.preparacao === 'a preparar';
     estudio.actual = vs.escolhida || null;
     vs.variantes.forEach(actualizarCartao);
     marcarActual();
@@ -1848,14 +1899,36 @@ function mostrarPronto(url, tipo){
     passos.push('<div class="proximo"><span class="ic">' + EST_IC.caixa + '</span><div><b>Adiciona os teus produtos</b><small>Fotos, preços, opções e stock. A loja arruma-se sozinha.</small></div><a href="/produtos/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir loja</a></div>');
     passos.push('<div class="proximo kyc" id="proximo-kyc" style="display:none"></div>');
   } else {
-    passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Ajusta o que quiseres</b><small>No dashboard, carrega em Editar e pede a alteração em palavras simples.</small></div><a href="/dashboard/">Dashboard</a></div>');
+    passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Ajusta o que quiseres</b><small>Clica em qualquer texto ou imagem do site e muda-o, ou pede à IA.</small></div><a href="/editor/?site=' + encodeURIComponent(estudio.siteId) + '">Editar no site</a></div>');
   }
   if (estudio.planoPago === false && estudio.outrasProntas) {
     passos.push('<div class="proximo plano"><span class="ic">' + EST_IC.cadeado + '</span><div><b>As outras versões ficam guardadas</b><small>Desbloqueia-as com um plano pago e troca de layout quando quiseres, sem perder nada.</small></div><a href="/planos/">Ver planos</a></div>');
   }
   caixa.innerHTML = passos.join('');
   showView('view-pronto');
+  seguirPaginas(estudio.siteId);
   if (ehLoja) mostrarKycLoja();
+}
+// Sites com várias páginas (1.60.0): as outras páginas nascem depois de escolher.
+var seguirPaginasT = null;
+function seguirPaginas(siteId){
+  clearTimeout(seguirPaginasT);
+  var caixa = document.getElementById('paginas-estado');
+  if (!siteId) { caixa.classList.remove('ver'); return; }
+  fetch(CONTAINER_URL + '/generate-status', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER, site_id: siteId }) })
+    .then(function(r){ return r.json(); })
+    .then(function(r){
+      var pg = r && r.response && r.response.paginas;
+      if (!pg || !pg.lista || pg.lista.length < 2) { caixa.classList.remove('ver'); return; }
+      var menu = pg.lista.filter(function(p){ return p.menu !== false; });
+      var feitas = menu.filter(function(p){ return p.estado === 'pronto'; }).length;
+      var acabou = menu.every(function(p){ return p.estado === 'pronto' || p.estado === 'erro'; });
+      caixa.innerHTML = '<b>' + (acabou ? 'As páginas do teu site' : 'A criar as outras páginas do site (' + feitas + ' de ' + menu.length + ')') + '</b><div class="lista">'
+        + menu.map(function(p){ return '<span class="pg ' + (p.estado === 'pronto' ? 'pronto' : (p.estado === 'erro' ? 'erro' : '')) + '"><i></i><span data-no-i18n>' + estEsc(p.nav || p.titulo) + '</span></span>'; }).join('')
+        + '</div><small>' + (acabou ? 'O menu do site já leva a cada uma.' : 'Já podes abrir o site: as páginas aparecem à medida que ficam prontas.') + '</small>';
+      caixa.classList.add('ver');
+      if (!acabou) seguirPaginasT = setTimeout(function(){ seguirPaginas(siteId); }, 4000);
+    }).catch(function(){ seguirPaginasT = setTimeout(function(){ seguirPaginas(siteId); }, 6000); });
 }
 // KYC: só aparece aqui (criar loja) e no Gerir loja - nunca no resto da app.
 function mostrarKycLoja(){

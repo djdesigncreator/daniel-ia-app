@@ -615,7 +615,7 @@
   <div class="dia-modal-editar">
 
     <div id="editar-vista-form">
-      <h3>Editar <span id="editar-nome-site"></span></h3>
+      <h3>Editar com IA <span id="editar-nome-site"></span></h3>
       <p class="sub">Descreve a alteração que queres. A IA aplica só isso, mantendo o resto do site igual.</p>
       <textarea id="editar-prompt" maxlength="500" placeholder="Ex: muda a cor do botão principal para verde, e troca o título do topo para &quot;Bem-vindos à nossa loja&quot;"></textarea>
       <div class="editar-contagem"><span id="editar-prompt-count">0</span>/500</div>
@@ -941,7 +941,9 @@ function acaoSite(site){
     html = '<button class="btn-ver btn-dominio-site" data-site-id="' + site.id + '" data-dominio="' + (site.dominio || '').replace(/"/g, '&quot;') + '" data-dominio-estado="' + (site.dominio_estado || '').replace(/"/g, '&quot;') + '" data-dominio-hostname="' + (site.dominio_hostname || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnDominio + '</button>' + html;
     var textoBtnContacto = site.email_contacto ? 'Contacto ✓' : 'Contacto';
     html = '<button class="btn-ver btn-contacto-site" data-site-id="' + site.id + '" data-email-contacto="' + (site.email_contacto || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnContacto + '</button>' + html;
-    html = '<button class="btn-ver btn-editar-site" data-site-id="' + site.id + '" data-nome="' + (site.nome || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">Editar</button>' + html;
+    html = '<button class="btn-ver btn-editar-site" data-site-id="' + site.id + '" data-nome="' + (site.nome || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">Editar com IA</button>' + html;
+    // Editor visual (1.60.0): clicar no site e mudar o texto, as imagens e as secções.
+    html = '<a class="btn-ver btn-editor-site" href="/editor/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Editar no site</a>' + html;
     // Mudar de layout: 3 versões novas ou trocar entre as que já existem (o link não muda).
     html = '<a class="btn-ver btn-mudar-layout" href="/criar/?mudar=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Mudar layout</a>' + html;
     // Só os projectos de E-commerce ou Checkout têm produtos para gerir.
