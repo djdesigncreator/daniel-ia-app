@@ -552,6 +552,25 @@
   @media (max-width:640px){.kyc-banner{flex-wrap:wrap;}.kyc-btn{width:100%;text-align:center;}}
   .link-recarga{display:inline-flex;align-items:center;gap:6px;margin-left:8px;font-weight:800;color:var(--accent-2);text-decoration:none;white-space:nowrap;}
   .link-recarga:hover{text-decoration:underline;}
+
+  /* ---- Resumo das estatísticas (1.62.0) ---- */
+  .resumo-est{margin:0 0 32px;--serie-1:#A35BE0;--serie-2:#70A800;}
+  :root[data-theme="light"] .resumo-est{--serie-1:#6A2BA0;--serie-2:#5E9100;}
+  .resumo-est-cab{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+  .resumo-est-cab h2{font-size:18px;margin:0;}
+  .resumo-est-cab p{margin:3px 0 0;font-size:13px;color:var(--text-dim);}
+  .resumo-est-link{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:13.5px;color:var(--accent-1);text-decoration:none;padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);}
+  .resumo-est-link svg{width:16px;height:16px;}
+  .resumo-est-link:hover{border-color:var(--accent-1);}
+  .resumo-est-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+  .resumo-kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;min-width:0;}
+  .resumo-kpi .r{font-size:12.5px;font-weight:700;color:var(--text-dim);}
+  .resumo-kpi .v{font:800 24px/1.15 var(--font-display);margin:6px 0 4px;letter-spacing:-.02em;}
+  .resumo-kpi .v small{font:700 12px var(--font-body);color:var(--text-dim);margin-left:4px;}
+  .resumo-kpi .d{font-size:12px;color:var(--text-dim);}
+  .resumo-kpi .d b.sobe{color:var(--success);} .resumo-kpi .d b.desce{color:var(--error);}
+  .resumo-kpi svg{display:block;width:100%;height:30px;margin-top:6px;}
+  @media (max-width:760px){.resumo-est-kpis{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -617,6 +636,14 @@
   </div>
 
 
+
+  <section class="resumo-est" id="resumo-est" hidden>
+    <div class="resumo-est-cab">
+      <div><h2>Últimos 30 dias</h2><p>Visitas e vendas de todos os teus sites.</p></div>
+      <a class="resumo-est-link" href="/estatisticas/">Ver estatísticas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="resumo-est-kpis" id="resumo-est-kpis"></div>
+  </section>
   <!-- O KYC já não aparece aqui: só no Gerir loja e quando se cria uma loja. -->
 
   <div class="sites-header">
@@ -969,6 +996,7 @@ function pillEstado(estado){
 function acaoSite(site){
   if (site.estado === 'Pronto' && site.cdn_url) {
     var html = '<a class="btn-ver" href="' + site.cdn_url + '" target="_blank" rel="noopener">Ver site</a>';
+    html = '<a class="btn-ver btn-estatisticas" href="/estatisticas/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Estatísticas</a>' + html;
     var textoBtnDominio = (site.dominio_estado === 'Activo') ? 'Domínio ✓' : 'Domínio';
     html = '<button class="btn-ver btn-dominio-site" data-site-id="' + site.id + '" data-dominio="' + (site.dominio || '').replace(/"/g, '&quot;') + '" data-dominio-estado="' + (site.dominio_estado || '').replace(/"/g, '&quot;') + '" data-dominio-hostname="' + (site.dominio_hostname || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnDominio + '</button>' + html;
     var textoBtnContacto = site.email_contacto ? 'Contacto ✓' : 'Contacto';
@@ -1136,6 +1164,45 @@ function carregarSites(){
 }
 
 carregarSites();
+
+// ======================================================
+// Resumo dos últimos 30 dias (1.62.0)
+// ======================================================
+function resumoEstNum(n){ return Number(n || 0).toLocaleString('pt-PT'); }
+function resumoEstDelta(a, b){
+  if (!b && !a) return '';
+  if (!b) return '<b class="sobe">▲ novo</b>';
+  var p = Math.round(((a - b) / b) * 100);
+  return '<b class="' + (p > 0 ? 'sobe' : p < 0 ? 'desce' : '') + '">' + (p > 0 ? '▲ ' : p < 0 ? '▼ ' : '= ') + Math.abs(p) + '%</b> <span>vs 30 dias anteriores</span>';
+}
+function resumoEstLinha(serie, chave, cor){
+  var max = Math.max.apply(null, serie.map(function(p){ return p[chave] || 0; })) || 1;
+  var n = serie.length, W = 200, H = 30;
+  var pts = serie.map(function(p, i){ return (i * W / Math.max(1, n - 1)).toFixed(1) + ',' + (H - 3 - (p[chave] || 0) / max * (H - 6)).toFixed(1); });
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true"><polyline points="' + pts.join(' ') + '" fill="none" stroke="var(' + cor + ')" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>';
+}
+function carregarResumoEst(){
+  fetch(CONTAINER_URL + '/estatisticas', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: 'todos', dias: 30, resumo: true })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (!r || r.status !== 'success' || !r.response.sites.length) return;
+    var x = r.response, t = x.totais, a = x.anteriores;
+    var caixa = document.getElementById('resumo-est-kpis');
+    var html = '<div class="resumo-kpi"><div class="r">Visitas</div><div class="v">' + resumoEstNum(t.visitas) + '</div><div class="d">' + resumoEstDelta(t.visitas, a.visitas) + '</div>' + resumoEstLinha(x.serie, 'visitas', '--serie-1') + '</div>'
+      + '<div class="resumo-kpi"><div class="r">Visitantes</div><div class="v">' + resumoEstNum(t.visitantes) + '</div><div class="d">' + resumoEstDelta(t.visitantes, a.visitantes) + '</div>' + resumoEstLinha(x.serie, 'visitantes', '--serie-2') + '</div>';
+    if (x.tem_loja) {
+      html += '<div class="resumo-kpi"><div class="r">Encomendas</div><div class="v">' + resumoEstNum(t.encomendas) + '</div><div class="d">' + resumoEstDelta(t.encomendas, a.encomendas) + '</div>' + resumoEstLinha(x.serie, 'encomendas', '--serie-2') + '</div>'
+        + '<div class="resumo-kpi"><div class="r">Valor das encomendas</div><div class="v">' + resumoEstNum(t.valor) + '<small>MZN</small></div><div class="d">' + resumoEstDelta(t.valor, a.valor) + '</div>' + resumoEstLinha(x.serie, 'vendas', '--serie-2') + '</div>';
+    } else {
+      html += '<div class="resumo-kpi"><div class="r">Cliques no WhatsApp</div><div class="v">' + resumoEstNum(t.whatsapp) + '</div><div class="d">' + resumoEstDelta(t.whatsapp, a.whatsapp) + '</div></div>'
+        + '<div class="resumo-kpi"><div class="r">Contactos</div><div class="v">' + resumoEstNum(t.contactos) + '</div><div class="d">' + resumoEstDelta(t.contactos, a.contactos) + '</div></div>';
+    }
+    caixa.innerHTML = html;
+    document.getElementById('resumo-est').hidden = false;
+  }).catch(function(){});
+}
+carregarResumoEst();
 
 // ======================================================
 // Modal "Editar" - aplica uma alteração a um site já gerado

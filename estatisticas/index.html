@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<script id="dia-tema">(function(){var t='claro';try{t=localStorage.getItem('daniel_tema')||'claro';}catch(e){}if(t!=='escuro')document.documentElement.setAttribute('data-theme','light');})();</script>
+<script src="/i18n/i18n.js?v=1"></script>
+<script src="/seguranca/sessao.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estatísticas · Daniel IA</title>
+<meta name="theme-color" content="#07030C">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%23430960%22%2F%3E%3Cg%20transform%3D%22translate%2811.52%2011.52%29%20scale%280.16384%29%20translate%28-111%20-492.5%29%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M148.0%20738.1C142.7%20737.4%20139.2%20736.1%20135.6%20733.7C128.3%20728.8%20123.9%20721.8%20122.6%20713.1C122.1%20709.4%20122.1%20707.5%20122.7%20704.0C123.8%20697.6%20126.3%20692.6%20130.6%20688.3C133.2%20685.6%20136.0%20683.8%20141.9%20680.7C150.6%20676.1%20156.0%20672.8%20160.9%20669.2C172.2%20660.9%20180.7%20651.9%20187.8%20640.6C188.3%20639.9%20188.8%20639.4%20189.0%20639.4C189.4%20639.4%20189.5%20702.5%20189.0%20705.6C187.7%20714.1%20184.5%20720.7%20178.6%20726.7C172.9%20732.7%20168.0%20735.6%20160.8%20737.5C158.3%20738.2%20157.3%20738.3%20154.1%20738.4C151.7%20738.4%20149.5%20738.4%20148.0%20738.1ZM183.5%20737.9C183.5%20737.7%20184.1%20737.1%20184.9%20736.6C189.2%20733.9%20194.3%20728.3%20197.4%20723.0C202.1%20715.1%20203.7%20708.5%20203.7%20698.0C203.7%20694.3%20203.8%20692.7%20204.1%20692.4C204.3%20692.1%20206.1%20692.0%20222.0%20691.9C238.3%20691.8%20239.9%20691.8%20243.0%20691.3C254.0%20689.6%20263.9%20685.6%20273.4%20679.0C281.6%20673.4%20288.9%20665.8%20294.0%20657.5C298.3%20650.5%20301.7%20642.5%20303.3%20635.4C306.8%20619.6%20305.5%20604.6%20299.3%20589.3C296.5%20582.2%20293.0%20576.6%20286.9%20569.6C282.9%20564.8%20279.8%20562.0%20274.4%20558.1C264.1%20550.6%20251.7%20545.8%20240.8%20545.0C238.8%20544.8%20228.4%20544.8%20215.6%20544.8L193.8%20544.9L192.7%20545.6C191.4%20546.5%20190.1%20548.2%20189.7%20549.4C189.5%20550.1%20189.4%20555.5%20189.4%20571.2C189.4%20582.6%20189.3%20592.1%20189.2%20592.2C188.9%20592.4%20188.0%20591.4%20188.0%20590.9C188.0%20590.0%20185.1%20584.4%20182.5%20580.6C179.3%20575.7%20171.4%20568.0%20165.1%20563.7C161.4%20561.2%20152.2%20556.2%20143.4%20551.9C134.1%20547.4%20130.6%20544.8%20127.0%20540.0C124.6%20536.8%20123.4%20533.6%20122.6%20529.1C122.2%20526.2%20122.2%20523.9%20122.6%20520.6C123.1%20517.2%20123.8%20514.9%20125.2%20512.1C128.5%20505.5%20134.2%20500.8%20141.6%20498.7C146.7%20497.2%20146.0%20497.2%20196.5%20497.3C246.4%20497.4%20244.5%20497.4%20253.4%20498.8C268.8%20501.2%20287.7%20509.1%20301.3%20518.9C312.8%20527.0%20323.6%20538.1%20330.9%20549.1C335.2%20555.5%20337.8%20560.2%20340.5%20566.0C344.7%20575.1%20347.2%20582.3%20349.5%20592.4C351.4%20600.7%20352.0%20605.8%20352.2%20615.9C352.4%20628.3%20351.3%20638.6%20348.6%20648.9C345.6%20660.5%20339.4%20674.8%20333.6%20684.0C323.4%20700.1%20309.0%20713.7%20292.2%20723.3C282.4%20728.9%20271.5%20733.1%20261.5%20735.3C248.6%20738.2%20247.4%20738.2%20211.8%20738.2C186.7%20738.2%20183.5%20738.2%20183.5%20737.9Z%22%2F%3E%3Ccircle%20fill%3D%22%2389C804%22%20cx%3D%22149.1%22%20cy%3D%22612.7%22%20r%3D%2229.7%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ===== Identidade Daniel IA - roxo profundo + verde-lima (14/10/2026) ===== */
+    --bg:#07030C;
+    --bg-alt:#0B0612;
+    --card:#110A1B;
+    --card-alt:#170E25;
+    --border:#2A1B3D;
+    --text:#F6F2FB;
+    --text-dim:#A89BBA;
+    --accent-1:#B4F02B;
+    --accent-2:#89C804;
+    --accent-solid:#89C804;
+    --accent-glow:rgba(137,200,4,0.30);
+    --error:#FF5C7A;
+    --success:#89C804;
+    --warning:#F5A623;
+    --glass-bg:rgba(17,10,27,0.6);
+    --glass-border:rgba(255,255,255,0.08);
+    --purple:#430960;
+    --purple-bright:#A35BE0;
+    --lime:#89C804;
+    --lime-bright:#B4F02B;
+    --on-accent:#140620;
+    --logo-ink:#FFFFFF;
+    --grad-accent:linear-gradient(135deg,#C8F84A 0%,#89C804 100%);
+    --tint-a:rgba(67,9,96,0.45);
+    --tint-b:rgba(137,200,4,0.07);
+    --font-display:"Sora","Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --font-body:"Manrope","Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;
+    --bg-alt:#F8F5FB;
+    --card:#FFFFFF;
+    --card-alt:#F5F0FA;
+    --border:#EAE2F2;
+    --text:#1A0A27;
+    --text-dim:#6F5E81;
+    --accent-1:#5E1585;
+    --accent-2:#430960;
+    --accent-glow:rgba(67,9,96,0.16);
+    --success:#5E9100;
+    --glass-bg:rgba(255,255,255,0.72);
+    --glass-border:rgba(26,10,39,0.08);
+    --logo-ink:#430960;
+    --tint-a:rgba(67,9,96,0.07);
+    --tint-b:rgba(137,200,4,0.10);
+  }
+  *{box-sizing:border-box;}
+  html{background:transparent;}
+  body{
+    margin:0;
+    font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+    transition:color .2s;
+  }
+  /* ---- Fundo: degradê violeta->preto, sempre de ponta a ponta ---- */
+  .bg-base{
+    position:fixed;inset:0;z-index:-2;
+    background:linear-gradient(180deg, #3A0855 0%, #22053A 22%, #14041F 42%, #07030C 70%);
+  }
+  :root[data-theme="light"] .bg-base{
+    background:linear-gradient(180deg, #EFE3F7 0%, #F5EEFA 22%, #FAF7FC 42%, #FFFFFF 70%);
+  }
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.8;
+    background-image:
+      linear-gradient(rgba(137,200,4,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(137,200,4,0.09) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+    mask-image:linear-gradient(180deg, black 0%, transparent 78%);
+  }
+  :root[data-theme="light"] .bg-grid{opacity:.35;}
+  .topbar{
+    position:sticky;top:0;z-index:500;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(135deg,var(--tint-a),var(--tint-b)), var(--glass-bg);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:var(--grad-accent);
+    box-shadow:0 0 20px var(--accent-glow);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .logo-mark svg{width:17px;height:17px;}
+  .brand .wordmark{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .brand .wordmark .ia{
+    background:var(--grad-accent);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .top-actions{display:flex;align-items:center;gap:12px;}
+  .theme-toggle{
+    width:36px;height:36px;border-radius:10px;
+    background:var(--glass-bg);border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;color:var(--text-dim);
+  }
+  .theme-toggle:hover{color:var(--text);}
+  .theme-toggle svg{width:17px;height:17px;}
+  .btn-sair,.btn-voltar{
+    background:transparent;border:1px solid var(--glass-border);color:var(--text-dim);
+    font-size:13px;font-weight:600;padding:9px 16px;border-radius:10px;cursor:pointer;
+  }
+  .btn-sair:hover,.btn-voltar:hover{color:var(--text);border-color:var(--accent-2);}
+
+  .main{max-width:980px;margin:0 auto;padding:40px 24px 80px;}
+  .main h1{font-size:26px;margin:0 0 6px 0;}
+  .main p.sub{font-size:14.5px;color:var(--text-dim);margin:0 0 32px 0;}
+
+  .plano-actual{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:14px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    padding:18px 22px;margin-bottom:36px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  }
+  .plano-actual .rotulo{font-size:12px;color:var(--text-dim);margin-bottom:4px;}
+  .plano-actual .nome{font-size:18px;font-weight:700;}
+
+  .planos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .plano-card{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:24px 20px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    display:flex;flex-direction:column;position:relative;
+  }
+  .plano-card.actual{border-color:var(--accent-2);}
+  .plano-card.popular{border-color:var(--accent-2);box-shadow:0 14px 34px var(--accent-glow);}
+  .plano-selo{
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--grad-accent);color:var(--on-accent);font-size:10.5px;font-weight:700;
+    padding:4px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .plano-nome{font-size:14.5px;font-weight:700;color:var(--text-dim);margin-bottom:6px;}
+  .plano-preco{font-size:26px;font-weight:800;margin-bottom:2px;}
+  .plano-preco .periodo{font-size:12px;font-weight:500;color:var(--text-dim);}
+  .plano-lista{list-style:none;margin:16px 0 22px 0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .plano-lista li{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.4;color:var(--text);}
+  .plano-lista svg{width:15px;height:15px;color:var(--accent-2);flex-shrink:0;margin-top:1px;}
+  .btn-plano{
+    width:100%;text-align:center;background:var(--card-alt);border:1px solid var(--border);color:var(--text);
+    font-size:13.5px;font-weight:700;padding:11px;border-radius:10px;cursor:pointer;transition:border-color .15s;
+  }
+  .btn-plano:hover{border-color:var(--accent-2);}
+  .btn-plano.principal{
+    background:var(--grad-accent);color:var(--on-accent);border:none;
+    box-shadow:0 8px 22px var(--accent-glow);
+  }
+  .btn-plano:disabled{opacity:.55;cursor:default;}
+
+  .msg-pagina{font-size:13.5px;margin-top:18px;}
+  .msg-pagina.erro{color:var(--error);}
+  .msg-pagina.ok{color:var(--success);}
+
+  /* ---- Modal de pagamento ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal{
+    background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
+    padding:26px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;
+    backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"] .modal{
+    box-shadow:0 30px 70px rgba(26,10,39,.08);
+  }
+  .modal h3{margin:0 0 4px 0;font-size:17px;}
+  .modal p.sub{margin:0 0 20px 0;color:var(--text-dim);font-size:13px;}
+  .campo{margin-bottom:16px;}
+  .campo label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--text-dim);}
+  .campo input{
+    width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:10px;
+    padding:11px 12px;font-size:14px;font-family:inherit;background:var(--card-alt);color:var(--text);
+  }
+  .metodos{display:flex;gap:8px;flex-wrap:wrap;}
+  .metodo-tile{
+    flex:1;min-width:100px;text-align:center;border:1px solid var(--border);border-radius:10px;
+    padding:12px 8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s;
+    background:var(--card-alt);
+  }
+  .metodo-tile.seleccionado{border-color:var(--accent-2);background:rgba(137,200,4,0.1);color:var(--text);}
+  .erro-modal{color:var(--error);font-size:12.5px;margin-top:10px;min-height:16px;}
+  .acoes-modal{display:flex;gap:10px;margin-top:18px;}
+  .btn-fechar{
+    background:transparent;border:1px solid var(--border);color:var(--text);
+    font-size:13.5px;font-weight:600;padding:12px 18px;border-radius:10px;cursor:pointer;
+  }
+
+  .estado-pagamento{text-align:center;padding:20px 0;}
+  .spinner-grande{
+    width:34px;height:34px;border-radius:50%;border:3px solid var(--border);
+    border-top-color:var(--accent-2);animation:girar .8s linear infinite;margin:0 auto 16px auto;
+  }
+  @keyframes girar{to{transform:rotate(360deg);}}
+  .estado-pagamento p{font-size:14px;color:var(--text);margin:0;line-height:1.5;}
+
+  @media (max-width:900px){
+    .planos-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:600px){
+    .planos-grid{grid-template-columns:1fr;}
+  }
+
+  /* =====================================================================
+     IDENTIDADE DANIEL IA - v1 (14/10/2026)
+     Roxo profundo #430960 + verde-lima #89C804. Tipos: Sora (títulos),
+     Manrope (texto), JetBrains Mono (dados). Logótipo vectorial inline.
+     ===================================================================== */
+  body{font-family:var(--font-body);-webkit-font-smoothing:antialiased;}
+  button,input,select,textarea{font-family:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-0.025em;}
+  code,kbd,pre,.mono{font-family:var(--font-mono);}
+  .brand-logo{height:30px;width:auto;display:block;overflow:visible;}
+  .brand-logo .bl-ink{fill:var(--logo-ink);transition:fill .2s;}
+  .brand-logo .bl-lime{fill:var(--lime);transition:filter .25s;}
+  .brand:hover .brand-logo .bl-lime{filter:drop-shadow(0 0 7px rgba(180,240,43,.85));}
+  .footer-brand .brand-logo{height:24px;}
+  @media (max-width:600px){.brand-logo{height:24px;}}
+  @media (max-width:640px){.site-actions{display:flex;flex-wrap:wrap;gap:8px;max-width:100%;}.site-actions > *{margin:0 !important;}}
+  ::selection{background:var(--lime);color:var(--on-accent);}
+  :focus-visible{outline:2px solid var(--lime-bright);outline-offset:2px;}
+  html{scrollbar-color:var(--border) transparent;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;border:2px solid transparent;background-clip:padding-box;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--purple-bright);background-clip:padding-box;}
+  /* Atmosfera: aurora roxa no topo, brilho verde-lima no canto, base quase preta */
+  .bg-base{background:
+    radial-gradient(1100px 640px at 10% -14%, rgba(67,9,96,0.95) 0%, rgba(67,9,96,0) 62%),
+    radial-gradient(900px 540px at 108% 6%, rgba(137,200,4,0.11) 0%, rgba(137,200,4,0) 60%),
+    radial-gradient(800px 520px at 50% 115%, rgba(67,9,96,0.50) 0%, rgba(67,9,96,0) 70%),
+    linear-gradient(180deg,#12041D 0%,#0A0512 45%,#07030C 100%) !important;}
+  :root[data-theme="light"] .bg-base{background:
+    radial-gradient(1100px 640px at 10% -14%, rgba(67,9,96,0.13) 0%, rgba(67,9,96,0) 62%),
+    radial-gradient(900px 540px at 108% 6%, rgba(137,200,4,0.16) 0%, rgba(137,200,4,0) 60%),
+    linear-gradient(180deg,#FBF8FD 0%,#FFFFFF 60%) !important;}
+  .bg-grid{background-image:
+    linear-gradient(rgba(180,240,43,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180,240,43,0.055) 1px, transparent 1px) !important;}
+  :root[data-theme="light"] .bg-grid{background-image:
+    linear-gradient(rgba(67,9,96,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67,9,96,0.10) 1px, transparent 1px) !important;}
+  body::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+  }
+  :root[data-theme="light"] body::after{opacity:.025;mix-blend-mode:multiply;}
+  /* Topo: vidro com um fio de luz verde-lima por baixo */
+  .topbar::after{
+    content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;pointer-events:none;
+    background:linear-gradient(90deg,transparent 0%,rgba(180,240,43,.55) 50%,transparent 100%);opacity:.55;
+  }
+  :root[data-theme="light"] .topbar::after{background:linear-gradient(90deg,transparent 0%,rgba(67,9,96,.35) 50%,transparent 100%);}
+  /* =====================================================================
+     TOKENS, RECARGAS E CARTÃO DENTRO DA PÁGINA (1.59.0)
+     ===================================================================== */
+  .mono{font-family:var(--font-mono);}
+  .plano-actual{align-items:stretch;}
+  .conta-lado{display:flex;flex-direction:column;justify-content:center;}
+  .conta-tokens{flex:1;min-width:240px;max-width:420px;display:flex;flex-direction:column;gap:7px;}
+  .tk-linha{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--text-dim);}
+  .tk-linha b{color:var(--text);font-size:13px;}
+  .tk-barra{height:8px;border-radius:99px;background:var(--card-alt);overflow:hidden;border:1px solid var(--border);}
+  .tk-barra i{display:block;height:100%;background:var(--grad-accent);border-radius:99px;}
+  .conta-tokens.quase .tk-barra i{background:var(--warning);}
+  .conta-tokens.acabou .tk-barra i{background:var(--error);}
+  .tk-aviso{margin:2px 0 0;font-size:12.5px;color:var(--error);font-weight:700;}
+  .btn-recarga{align-self:center;display:inline-flex;align-items:center;gap:8px;background:var(--card-alt);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:800;padding:11px 15px;border-radius:11px;cursor:pointer;white-space:nowrap;}
+  .btn-recarga:hover{border-color:var(--accent-2);}
+  .btn-recarga svg{width:16px;height:16px;color:var(--accent-2);}
+  .recarga{margin-top:56px;scroll-margin-top:90px;}
+  .recarga-eti{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--accent-2);margin-bottom:8px;}
+  .recarga h2{font-size:22px;margin:0 0 6px;}
+  .recarga > p{font-size:14px;color:var(--text-dim);margin:0 0 26px;max-width:620px;line-height:1.55;}
+  .recarga-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .pacote{position:relative;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;padding:22px 20px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:8px;}
+  .pacote.melhor{border-color:var(--accent-2);box-shadow:0 14px 34px var(--accent-glow);}
+  .pacote-topo{display:flex;align-items:center;gap:10px;}
+  .pacote-icone{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);}
+  .pacote-icone svg{width:17px;height:17px;}
+  .pacote-nome{font-size:13.5px;font-weight:700;color:var(--text-dim);}
+  .pacote-tokens{font-size:28px;font-weight:800;font-family:var(--font-display);letter-spacing:-.02em;}
+  .pacote-tokens span{font-size:13px;font-weight:600;color:var(--text-dim);font-family:var(--font-body);letter-spacing:0;}
+  .pacote-preco{font-size:17px;font-weight:800;}
+  .pacote-unit{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
+  .pacote .btn-plano{margin-top:auto;}
+  .metodo-tile small{display:block;font-size:10.5px;font-weight:600;color:var(--text-dim);margin-top:3px;}
+  .periodo-modal{color:var(--text-dim);}
+  /* janela do cartão */
+  .modal.modal-cartao{max-width:580px;padding:0;display:flex;flex-direction:column;height:min(780px,92vh);overflow:hidden;}
+  .cartao-topo{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);}
+  .cartao-topo .cadeado{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);flex-shrink:0;}
+  .cartao-topo .cadeado svg{width:18px;height:18px;}
+  .cartao-topo b{display:block;font-size:14.5px;}
+  .cartao-topo small{display:block;font-size:12px;color:var(--text-dim);margin-top:2px;}
+  .cartao-topo .valor{margin-left:auto;font-weight:800;font-size:15px;white-space:nowrap;}
+  .btn-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .btn-x svg{width:16px;height:16px;}
+  .cartao-palco{position:relative;flex:1;background:#fff;min-height:0;}
+  .cartao-palco iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
+  .cartao-carregar{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:var(--bg-alt);z-index:1;transition:opacity .3s;}
+  .cartao-carregar p{color:var(--text-dim);font-size:13.5px;margin:0;}
+  .cartao-palco.carregado .cartao-carregar{opacity:0;pointer-events:none;}
+  .cartao-fora{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;background:var(--bg-alt);color:var(--text);}
+  .cartao-fora-ic{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(137,200,4,.14);color:var(--accent-2);margin-bottom:16px;}
+  .cartao-fora-ic svg{width:24px;height:24px;}
+  .cartao-fora h4{margin:0 0 8px;font-size:17px;}
+  .cartao-fora p{margin:0 0 20px;color:var(--text-dim);font-size:13.5px;line-height:1.55;max-width:360px;}
+  .cartao-fora .btn-plano{width:auto;padding:13px 22px;text-decoration:none;}
+  .cartao-rodape{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-dim);}
+  .cartao-rodape .ponto{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:8px;animation:pulsar 1.4s ease-in-out infinite;}
+  .cartao-rodape a{color:var(--text-dim);}
+  @keyframes pulsar{50%{opacity:.35;}}
+  @media (max-width:440px){.top-actions{gap:6px;}.btn-sair,.btn-voltar{padding:8px 10px !important;font-size:12.5px !important;}}
+  @media (max-width:600px){
+    .overlay.overlay-cartao{padding:0;align-items:stretch;}
+    .modal.modal-cartao{max-width:none;height:100%;max-height:none;border-radius:0;}
+    .plano-actual{flex-direction:column;align-items:stretch;}
+    .conta-tokens{max-width:none;}
+    .btn-recarga{align-self:stretch;justify-content:center;}
+  }
+
+  /* ===== Estatísticas (1.62.0) ===== */
+  .est [hidden],.est-dica[hidden]{display:none!important;}
+  .main.est{max-width:1180px;}
+  .est{--serie-1:#A35BE0;--serie-2:#70A800;--grelha:#2A1B3D;--eixo:#3A2952;--sup:var(--card);}
+  :root[data-theme="light"] .est{--serie-1:#6A2BA0;--serie-2:#5E9100;--grelha:#E6E0EE;--eixo:#C9BDD8;}
+  .est-eti{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.16em;color:var(--accent-1);margin-bottom:10px;}
+  .est-eti .pt{width:7px;height:7px;border-radius:50%;background:var(--accent-1);box-shadow:0 0 0 4px var(--accent-glow);}
+  .est-cab h1{font-size:clamp(28px,4.2vw,40px)!important;letter-spacing:-.035em;margin-bottom:6px!important;}
+  .est-cab .sub{max-width:640px;margin-bottom:0!important;}
+  .est-filtros{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 18px;}
+  .est-campo{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--text-dim);}
+  .est-campo select{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:9px 34px 9px 12px;font:700 13.5px var(--font-body);max-width:260px;}
+  .est-periodo{display:inline-flex;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:3px;gap:2px;}
+  .est-periodo button{border:0;background:transparent;color:var(--text-dim);font:700 13px var(--font-body);padding:8px 14px;border-radius:9px;cursor:pointer;}
+  .est-periodo button:hover{color:var(--text);background:var(--tint-a);}
+  .est-periodo button.on{background:var(--accent-2);color:#fff;}
+  :root:not([data-theme="light"]) .est-periodo button.on{background:var(--grad-accent);color:var(--on-accent);}
+  .est-actual{font-size:12px;color:var(--text-dim);margin-left:auto;}
+  .est-aviso{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--card);margin-bottom:16px;font-size:13.5px;line-height:1.5;}
+  .est-aviso svg{width:20px;height:20px;flex:0 0 20px;color:var(--accent-1);margin-top:1px;}
+  .est-aviso b{display:block;}
+  .est-corpo{transition:opacity .2s;}
+  .est-corpo.a-carregar{opacity:.45;pointer-events:none;}
+  .est-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px;}
+  .est-kpi{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;min-width:0;}
+  .est-kpi-rot{font-size:12.5px;font-weight:700;color:var(--text-dim);display:flex;align-items:center;gap:7px;}
+  .est-kpi-rot svg{width:15px;height:15px;flex:0 0 15px;}
+  .est-kpi-val{font:800 clamp(24px,2.6vw,30px)/1.1 var(--font-display);margin:8px 0 6px;letter-spacing:-.02em;color:var(--text);overflow-wrap:anywhere;}
+  .est-kpi-val small{font:700 13px var(--font-body);color:var(--text-dim);margin-left:4px;letter-spacing:0;}
+  .est-kpi-sub{font-size:12px;color:var(--text-dim);line-height:1.45;}
+  .est-delta{display:inline-flex;align-items:center;gap:3px;font-weight:800;margin-right:4px;}
+  .est-delta.sobe{color:var(--success);}
+  .est-delta.desce{color:var(--error);}
+  .est-delta.igual{color:var(--text-dim);}
+  .est-grelha{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+  .est-cartao{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px 20px;min-width:0;}
+  .est-largo{grid-column:1/-1;}
+  .est-cartao > header{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+  .est-cartao > header > div:first-child{flex:1;min-width:180px;}
+  .est-cartao h2{font-size:16px;margin:0;letter-spacing:-.01em;}
+  .est-cartao header p{font-size:12.5px;color:var(--text-dim);margin:3px 0 0;}
+  .est-sub{font-size:13px;margin:20px 0 10px;color:var(--text);}
+  .est-legenda{display:flex;gap:14px;align-items:center;font-size:12.5px;color:var(--text-dim);flex-wrap:wrap;}
+  .est-legenda span{display:inline-flex;align-items:center;gap:6px;}
+  .est-legenda i{display:inline-block;width:14px;height:2px;border-radius:2px;}
+  .est-legenda i.bloco{height:10px;width:10px;border-radius:3px;}
+  .est-tabela-btn{border:1px solid var(--border);background:transparent;color:var(--text);font:700 12px var(--font-body);padding:6px 10px;border-radius:8px;cursor:pointer;}
+  .est-tabela-btn:hover{background:var(--tint-a);}
+  .est-grafico{position:relative;width:100%;}
+  .est-grafico svg{display:block;width:100%;overflow:visible;}
+  .est-grafico text{font:11.5px var(--font-body);fill:var(--text-dim);font-variant-numeric:tabular-nums;}
+  .est-grafico .grelha{stroke:var(--grelha);stroke-width:1;}
+  .est-grafico .base{stroke:var(--eixo);stroke-width:1;}
+  .est-grafico .mira{stroke:var(--text-dim);stroke-width:1;}
+  .est-grafico .alvo{fill:transparent;cursor:crosshair;outline:none;}
+  .est-grafico .alvo:focus-visible{stroke:var(--accent-1);stroke-width:2;}
+  .est-grafico .barra-alvo{fill:transparent;cursor:pointer;outline:none;}
+  .est-grafico .barra.activa{filter:brightness(1.18);}
+  .est-tabela{max-height:320px;overflow:auto;border:1px solid var(--border);border-radius:12px;}
+  .est-tabela table{width:100%;border-collapse:collapse;font-size:13px;}
+  .est-tabela th,.est-tabela td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+  .est-tabela th{position:sticky;top:0;background:var(--card-alt);font-size:12px;color:var(--text-dim);}
+  .est-tabela td.n,.est-tabela th.n{text-align:right;font-variant-numeric:tabular-nums;}
+  .est-barras{display:grid;gap:10px;}
+  .est-barra-linha{display:grid;grid-template-columns:minmax(90px,38%) minmax(0,1fr);gap:10px;align-items:center;font-size:13px;}
+  .est-barra-nome{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);}
+  .est-barra-trilho{display:flex;align-items:center;gap:8px;min-width:0;}
+  .est-barra-trilho i{display:block;height:14px;border-radius:0 4px 4px 0;background:var(--serie-1);min-width:3px;}
+  .est-barra-trilho b{font-size:12.5px;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .est-barra-trilho b small{color:var(--text-dim);font-weight:600;margin-left:4px;}
+  .est-disp{display:flex;height:18px;gap:2px;border-radius:5px;overflow:hidden;margin:6px 0 10px;}
+  .est-disp i{display:block;height:100%;}
+  .est-disp-leg{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--text);}
+  .est-disp-leg span{display:inline-flex;align-items:center;gap:7px;}
+  .est-disp-leg i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .est-disp-leg small{color:var(--text-dim);font-weight:600;}
+  .est-contactos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .est-contacto{border:1px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
+  .est-contacto svg{width:18px;height:18px;flex:0 0 18px;color:var(--accent-1);}
+  .est-contacto b{display:block;font:800 18px var(--font-display);color:var(--text);}
+  .est-contacto small{display:block;font-size:12px;color:var(--text-dim);}
+  .est-vazio{font-size:13px;color:var(--text-dim);padding:18px 4px;text-align:center;}
+  .est-dica{position:fixed;z-index:60;pointer-events:none;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:9px 11px;box-shadow:0 12px 30px -12px rgba(0,0,0,.45);font-size:12.5px;min-width:150px;}
+  .est-dica .t{font-weight:700;color:var(--text-dim);margin-bottom:5px;font-size:12px;}
+  .est-dica .l{display:flex;align-items:center;gap:8px;line-height:1.7;}
+  .est-dica .l i{width:12px;height:2px;border-radius:2px;display:inline-block;}
+  .est-dica .l i.bloco{width:9px;height:9px;border-radius:2px;}
+  .est-dica .l b{font-variant-numeric:tabular-nums;color:var(--text);}
+  .est-dica .l span{color:var(--text-dim);}
+  @media (max-width:820px){.est-grelha{grid-template-columns:1fr;}.est-actual{margin-left:0;width:100%;}}
+  @media (max-width:520px){
+    .est-kpis{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .est-kpi{padding:14px;}
+    .est-cartao{padding:16px 14px;}
+    .est-contactos{grid-template-columns:1fr 1fr;}
+    .est-campo{width:100%;}.est-campo select{flex:1;max-width:none;}
+  }
+
+</style>
+<style id="dia-tema-css">
+  /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
+     se destacarem, texto secundário mais escuro (AA/AAA), bordas e campos visíveis,
+     cores de erro/aviso/sucesso legíveis em fundo claro. */
+  :root[data-theme="light"]{
+    --bg:#EEE9F4; --bg-alt:#E7E1EF; --card:#FFFFFF; --card-alt:#F6F2FA; --border:#D3C8E0;
+    --text:#160A22; --text-dim:#4F4062; --accent-1:#5E1585; --accent-2:#430960; --accent-glow:rgba(67,9,96,.22);
+    --success:#3B6A00; --error:#B0123A; --warning:#8A5300;
+    --glass-bg:rgba(255,255,255,.88); --glass-border:rgba(22,10,34,.16);
+    --tint-a:rgba(67,9,96,.08); --tint-b:rgba(137,200,4,.16);
+  }
+  :root[data-theme="light"] body{background:var(--bg);color:var(--text);}
+  :root[data-theme="light"] .bg-base{background:linear-gradient(180deg,#E6DDF0 0%,#EEE9F4 38%,#EEE9F4 100%)!important;}
+  :root[data-theme="light"] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),
+  :root[data-theme="light"] textarea,
+  :root[data-theme="light"] select{background-color:#FFFFFF;border-color:#9A8CAD!important;color:var(--text);}
+  :root[data-theme="light"] ::placeholder{color:#6B5C7E;opacity:1;}
+  :root[data-theme="light"] :focus-visible{outline:3px solid #5E1585;outline-offset:2px;}
+  @media (prefers-contrast: more){
+    :root[data-theme="light"]{--text-dim:#2E2140;--border:#8F80A3;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-base"></div>
+<div class="bg-grid"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <svg class="brand-logo" viewBox="112 489 1060 257" role="img" aria-label="Daniel IA" xmlns="http://www.w3.org/2000/svg"><path class="bl-ink" d="M148.0 738.1C142.7 737.4 139.2 736.1 135.6 733.7C128.3 728.8 123.9 721.8 122.6 713.1C122.1 709.4 122.1 707.5 122.7 704.0C123.8 697.6 126.3 692.6 130.6 688.3C133.2 685.6 136.0 683.8 141.9 680.7C150.6 676.1 156.0 672.8 160.9 669.2C172.2 660.9 180.7 651.9 187.8 640.6C188.3 639.9 188.8 639.4 189.0 639.4C189.4 639.4 189.5 702.5 189.0 705.6C187.7 714.1 184.5 720.7 178.6 726.7C172.9 732.7 168.0 735.6 160.8 737.5C158.3 738.2 157.3 738.3 154.1 738.4C151.7 738.4 149.5 738.4 148.0 738.1ZM183.5 737.9C183.5 737.7 184.1 737.1 184.9 736.6C189.2 733.9 194.3 728.3 197.4 723.0C202.1 715.1 203.7 708.5 203.7 698.0C203.7 694.3 203.8 692.7 204.1 692.4C204.3 692.1 206.1 692.0 222.0 691.9C238.3 691.8 239.9 691.8 243.0 691.3C254.0 689.6 263.9 685.6 273.4 679.0C281.6 673.4 288.9 665.8 294.0 657.5C298.3 650.5 301.7 642.5 303.3 635.4C306.8 619.6 305.5 604.6 299.3 589.3C296.5 582.2 293.0 576.6 286.9 569.6C282.9 564.8 279.8 562.0 274.4 558.1C264.1 550.6 251.7 545.8 240.8 545.0C238.8 544.8 228.4 544.8 215.6 544.8L193.8 544.9L192.7 545.6C191.4 546.5 190.1 548.2 189.7 549.4C189.5 550.1 189.4 555.5 189.4 571.2C189.4 582.6 189.3 592.1 189.2 592.2C188.9 592.4 188.0 591.4 188.0 590.9C188.0 590.0 185.1 584.4 182.5 580.6C179.3 575.7 171.4 568.0 165.1 563.7C161.4 561.2 152.2 556.2 143.4 551.9C134.1 547.4 130.6 544.8 127.0 540.0C124.6 536.8 123.4 533.6 122.6 529.1C122.2 526.2 122.2 523.9 122.6 520.6C123.1 517.2 123.8 514.9 125.2 512.1C128.5 505.5 134.2 500.8 141.6 498.7C146.7 497.2 146.0 497.2 196.5 497.3C246.4 497.4 244.5 497.4 253.4 498.8C268.8 501.2 287.7 509.1 301.3 518.9C312.8 527.0 323.6 538.1 330.9 549.1C335.2 555.5 337.8 560.2 340.5 566.0C344.7 575.1 347.2 582.3 349.5 592.4C351.4 600.7 352.0 605.8 352.2 615.9C352.4 628.3 351.3 638.6 348.6 648.9C345.6 660.5 339.4 674.8 333.6 684.0C323.4 700.1 309.0 713.7 292.2 723.3C282.4 728.9 271.5 733.1 261.5 735.3C248.6 738.2 247.4 738.2 211.8 738.2C186.7 738.2 183.5 738.2 183.5 737.9Z"/><circle class="bl-lime" cx="149.1" cy="612.7" r="29.7"/><path class="bl-ink" d="M583.7 695.1C577.0 694.2 572.3 692.2 567.6 688.5C561.0 683.2 557.4 673.0 558.6 663.1C559.4 656.8 561.1 652.6 564.5 648.3C567.6 644.6 571.5 642.0 577.4 639.7C580.8 638.4 581.6 638.1 585.4 637.3C591.0 636.0 596.6 635.5 608.5 635.3C614.7 635.2 619.0 635.1 619.2 634.9C619.4 634.8 619.5 633.9 619.5 632.5C619.5 625.7 617.7 621.5 613.8 618.7C610.5 616.5 606.0 615.2 601.4 615.2C598.3 615.2 596.0 615.8 593.1 617.1C589.4 618.9 587.1 621.5 585.5 625.7C584.8 627.6 584.5 627.8 583.1 627.7C581.5 627.5 576.4 626.8 574.1 626.5C572.5 626.2 566.0 625.3 564.0 625.1C562.2 624.9 562.0 624.8 562.0 624.1C562.0 623.1 563.0 619.4 563.8 617.0C565.5 612.6 568.3 608.5 571.9 605.4C573.6 603.9 576.3 602.0 576.7 602.0C576.8 602.0 577.0 601.8 577.2 601.7C578.0 600.9 581.6 599.2 584.1 598.4C590.2 596.3 595.4 595.5 602.5 595.5C616.5 595.5 627.3 599.3 635.0 607.0C639.5 611.5 641.5 615.3 643.3 622.5L643.9 624.9L643.9 659.2L643.9 693.6L632.7 693.7C622.5 693.7 621.5 693.7 621.0 693.3C620.5 692.9 620.5 692.6 620.5 687.1C620.4 684.0 620.4 681.2 620.3 681.1C620.1 680.4 619.5 680.8 617.7 683.1C615.1 686.3 614.3 687.2 612.5 688.6C609.1 691.3 605.3 693.1 600.4 694.5C596.9 695.4 588.4 695.8 583.7 695.1ZM853.4 695.1C849.2 694.6 845.0 693.5 840.4 691.6C832.6 688.3 826.5 683.4 822.1 676.7C820.0 673.5 817.6 669.2 816.8 667.1C815.3 663.1 814.4 659.3 813.7 654.6C813.3 651.3 813.2 650.1 813.3 644.1C813.4 637.0 813.6 635.6 814.9 630.6C815.5 628.4 816.9 624.2 817.5 622.9C820.4 616.5 823.3 612.2 827.7 608.0C833.0 602.8 839.6 599.2 847.5 597.1C859.0 594.2 871.8 595.1 881.2 599.7C889.1 603.5 895.4 609.2 899.6 616.4C902.9 622.0 905.4 630.2 906.0 637.2C906.1 638.8 906.2 642.6 906.2 645.5C906.2 650.1 906.2 651.0 905.9 651.3C905.6 651.5 899.0 651.6 872.4 651.5C840.3 651.5 839.3 651.5 838.9 652.0C838.5 652.4 838.5 652.7 838.8 654.9C839.2 658.9 840.9 663.5 842.9 666.3C846.2 670.7 852.0 674.2 858.0 675.3C860.2 675.7 864.7 675.6 867.0 675.2C871.8 674.1 876.0 671.7 878.7 668.4C879.7 667.1 881.3 664.3 881.6 663.3C881.8 662.2 882.1 662.2 889.6 664.2C900.7 667.0 903.5 667.8 903.8 668.3C904.2 668.9 902.1 673.8 899.8 677.4C897.5 681.0 892.8 685.8 889.1 688.2C885.3 690.7 879.8 693.0 874.4 694.2C869.4 695.4 859.5 695.8 853.4 695.1ZM430.3 693.3C429.9 692.5 429.9 561.5 430.3 561.1C430.7 560.7 482.3 560.6 487.3 561.0C492.7 561.4 498.2 562.6 505.7 565.2C508.2 566.0 513.4 568.4 514.9 569.4C515.3 569.7 516.6 570.5 517.8 571.3C526.0 576.6 531.8 583.4 536.7 593.1C540.0 599.7 541.8 605.0 543.2 612.9C545.1 623.1 544.8 638.6 542.4 647.9C539.5 659.3 533.8 669.5 526.3 676.8C522.2 680.7 521.1 681.7 517.5 683.8C510.6 687.9 504.6 690.3 496.7 692.0C488.9 693.6 489.4 693.6 458.6 693.7C430.8 693.8 430.5 693.8 430.3 693.3ZM663.9 693.4C663.4 693.1 663.4 692.2 663.4 645.6C663.4 598.5 663.4 598.2 663.9 597.8C664.3 597.5 666.0 597.5 675.9 597.5C683.0 597.6 687.5 597.7 687.7 597.9C687.9 598.1 688.0 599.4 688.1 604.2C688.2 611.5 688.2 611.5 690.3 608.6C695.1 601.8 703.7 596.8 712.4 595.8C715.6 595.4 720.8 595.4 723.9 595.9C732.9 597.2 741.5 602.4 746.0 609.2C748.5 613.0 749.9 616.2 751.1 621.0C752.6 626.6 752.5 625.9 752.6 660.7C752.7 692.0 752.7 692.8 752.3 693.2C751.8 693.7 751.2 693.7 740.0 693.7C729.3 693.8 728.1 693.7 727.7 693.3C727.3 692.9 727.2 691.9 727.2 664.8C727.2 646.1 727.2 635.7 727.0 633.8C726.4 627.8 724.1 623.2 720.6 620.7C717.2 618.4 713.5 617.2 709.0 617.2C703.2 617.2 698.2 619.4 694.2 623.7C691.3 626.8 689.4 631.5 688.8 637.3C688.6 638.9 688.5 648.8 688.5 666.5C688.5 681.6 688.4 693.3 688.3 693.4C688.2 693.4 682.7 693.6 676.2 693.6C666.2 693.8 664.3 693.7 663.9 693.4ZM772.1 693.3C771.8 693.0 771.8 687.9 771.8 645.5C771.8 603.7 771.8 598.0 772.1 597.8C772.4 597.5 775.2 597.5 784.5 597.5C795.8 597.6 796.6 597.7 796.9 598.1C797.2 598.5 797.2 606.7 797.2 645.8C797.3 688.7 797.2 693.0 796.9 693.4C796.5 693.7 795.1 693.8 784.5 693.7C774.1 693.7 772.5 693.7 772.1 693.3ZM922.8 693.4C922.4 693.0 922.2 561.6 922.6 561.1C922.8 560.8 924.9 560.8 935.1 560.7C943.9 560.7 947.4 560.8 947.6 561.0C948.2 561.4 948.1 692.4 947.6 693.2L947.2 693.8L935.1 693.8C925.6 693.8 923.0 693.7 922.8 693.4ZM604.4 675.8C608.3 674.7 611.3 672.9 614.3 669.8C617.0 667.0 618.6 663.7 619.2 660.0C619.6 657.4 619.7 652.3 619.3 652.0C618.4 651.5 604.6 651.6 600.2 652.1C597.6 652.5 593.5 653.3 592.1 653.8C587.7 655.3 584.6 657.9 583.5 661.2C582.7 663.4 582.9 668.0 583.7 669.9C584.9 672.5 587.0 674.4 590.1 675.5C592.5 676.3 593.8 676.5 598.2 676.4C601.5 676.3 602.8 676.2 604.4 675.8ZM486.9 670.3C495.8 668.6 501.6 665.8 506.8 660.4C510.0 657.1 513.1 652.2 514.4 648.1C515.5 645.1 516.7 639.3 517.1 635.6C517.6 631.5 517.5 622.1 517.0 618.5C514.5 601.5 506.4 590.5 492.7 586.0C487.4 584.3 485.4 584.0 474.9 583.7C462.7 583.4 456.6 583.5 456.2 584.0C456.1 584.2 456.0 600.8 456.0 627.4C456.0 661.5 456.1 670.5 456.3 670.7C456.6 671.0 459.5 671.0 470.4 670.9C482.9 670.8 484.4 670.8 486.9 670.3ZM882.0 634.8C882.3 634.3 882.1 633.0 881.4 630.3C880.3 626.3 877.5 622.1 874.0 619.4C868.1 614.8 858.4 613.9 851.3 617.2C847.5 619.0 844.6 621.6 842.4 625.0C841.1 627.0 840.5 628.3 839.6 631.1C838.9 633.4 838.8 634.9 839.3 635.1C839.5 635.2 849.1 635.2 860.7 635.2C881.2 635.2 881.7 635.2 882.0 634.8ZM782.2 583.2C778.2 582.6 774.0 579.9 771.9 576.5C769.8 573.2 769.3 567.7 770.6 563.1C773.2 554.3 784.5 550.4 792.5 555.5C795.7 557.6 798.2 561.2 799.0 564.8C799.5 566.9 799.2 571.7 798.5 573.6C797.3 576.9 794.3 580.4 791.2 581.8C788.5 583.1 785.0 583.7 782.2 583.2Z"/><path class="bl-lime" d="M999.8 693.4C999.4 692.9 999.4 561.8 999.8 561.2C1000.1 560.8 1001.4 560.8 1012.7 560.7C1019.6 560.7 1025.3 560.8 1025.5 560.9C1025.7 561.0 1025.8 580.3 1025.8 626.8C1025.8 683.3 1025.7 692.7 1025.4 693.1C1025.1 693.6 1024.6 693.6 1012.6 693.7C1002.0 693.8 1000.0 693.7 999.8 693.4ZM1039.6 693.6C1039.4 693.5 1039.2 693.2 1039.2 693.0C1039.2 692.5 1041.1 686.8 1041.5 685.9C1041.6 685.6 1041.9 684.9 1042.1 684.2C1042.3 683.6 1043.0 681.7 1043.6 679.9C1045.8 673.7 1046.5 671.6 1047.5 668.8C1048.0 667.2 1048.9 664.6 1049.5 663.0C1050.1 661.4 1050.7 659.5 1051.0 658.8C1051.3 658.0 1051.9 656.1 1052.5 654.5C1053.5 651.9 1054.1 650.2 1056.5 643.2C1056.9 642.1 1058.0 638.9 1059.0 636.1C1061.4 629.1 1063.3 623.7 1065.6 617.1C1066.3 615.3 1067.1 612.9 1067.5 611.6C1067.9 610.4 1068.7 608.4 1069.1 607.2C1069.6 606.1 1070.3 603.9 1070.8 602.5C1071.3 601.1 1072.4 597.9 1073.2 595.5C1074.1 593.1 1075.2 590.0 1075.6 588.6C1076.1 587.2 1076.8 585.3 1077.2 584.4C1077.6 583.4 1078.2 581.6 1078.6 580.4C1079.5 577.4 1080.3 575.0 1081.1 572.9C1082.3 569.7 1082.8 568.4 1083.6 565.9C1084.6 562.9 1085.4 561.1 1085.7 560.9C1085.9 560.8 1093.2 560.7 1102.0 560.7C1116.7 560.7 1118.1 560.8 1118.5 561.2C1118.8 561.4 1119.0 561.7 1119.0 561.9C1119.0 562.1 1119.7 564.2 1120.5 566.7C1121.3 569.1 1122.1 571.5 1122.2 572.0C1122.4 572.8 1123.6 576.1 1125.3 580.8C1125.6 581.5 1126.2 583.4 1126.7 585.0C1127.3 586.6 1128.4 589.8 1129.2 592.1C1130.0 594.5 1131.2 597.8 1131.7 599.5C1132.3 601.2 1133.1 603.5 1133.5 604.5C1135.0 608.5 1138.0 617.1 1140.0 622.9C1141.1 626.2 1142.6 630.7 1143.4 632.9C1144.1 635.1 1145.8 639.9 1147.1 643.6C1148.4 647.3 1150.1 652.2 1150.9 654.4C1152.3 658.3 1154.8 665.7 1160.6 682.6C1162.2 687.3 1163.7 691.5 1163.9 692.1C1164.2 692.7 1164.2 693.1 1164.1 693.3C1163.9 693.6 1160.9 693.6 1150.4 693.7C1137.8 693.8 1137.1 693.8 1136.6 693.3C1136.2 693.0 1135.3 690.7 1133.4 684.9C1132.0 680.5 1130.2 675.2 1129.6 673.2C1128.9 671.3 1128.0 668.6 1127.6 667.4C1127.3 666.1 1126.8 664.7 1126.5 664.2L1126.1 663.4L1123.6 663.2C1122.2 663.1 1111.2 663.0 1099.1 663.0C1077.3 663.0 1077.0 663.0 1076.5 663.5C1076.2 663.8 1076.0 664.2 1076.0 664.4C1076.0 664.7 1073.0 673.9 1071.3 678.9C1070.4 681.4 1069.4 684.3 1068.9 685.8C1068.6 686.6 1068.0 688.4 1067.6 689.6C1066.7 692.7 1066.5 693.2 1066.2 693.4C1065.8 693.6 1040.1 693.8 1039.6 693.6ZM1119.4 641.6C1119.6 641.2 1118.2 636.6 1116.2 631.1C1115.4 628.6 1114.6 626.1 1112.0 618.1C1109.8 611.4 1108.3 606.4 1107.1 602.6C1106.5 600.4 1105.4 596.9 1104.7 594.9C1104.0 592.8 1103.2 590.2 1102.9 589.1C1102.5 587.6 1102.3 587.1 1101.9 587.0C1101.3 586.9 1101.0 587.4 1101.0 588.4C1101.0 588.8 1100.2 591.4 1099.2 594.3C1097.2 600.3 1092.6 613.9 1091.6 617.1C1090.7 620.0 1089.0 625.3 1086.9 631.5C1084.4 638.7 1083.6 641.5 1084.0 641.8C1084.2 641.9 1092.2 642.0 1101.8 642.0C1117.3 642.0 1119.3 642.0 1119.4 641.6Z"/></svg>
+  </div>
+  <div class="top-actions">
+    <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+      <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </div>
+    <button class="btn-voltar" id="btn-voltar">Dashboard</button>
+    <button class="btn-sair" id="btn-sair">Sair</button>
+  </div>
+</div>
+
+<div class="main est">
+  <div class="est-cab">
+    <div class="est-eti"><span class="pt"></span>ESTATÍSTICAS</div>
+    <h1>Como estão os teus sites</h1>
+    <p class="sub">Quantas pessoas visitam, de onde vêm, o que vêem e quanto vendes. Os números actualizam-se ao minuto.</p>
+  </div>
+
+  <div class="est-filtros">
+    <label class="est-campo" for="est-site"><span>Site</span>
+      <select id="est-site"><option value="todos">Todos os sites</option></select>
+    </label>
+    <div class="est-periodo" role="group" aria-label="Período" id="est-periodo">
+      <button type="button" data-dias="7">7 dias</button>
+      <button type="button" data-dias="30" class="on" aria-pressed="true">30 dias</button>
+      <button type="button" data-dias="90">90 dias</button>
+    </div>
+    <span class="est-actual" id="est-actual"></span>
+  </div>
+
+  <div class="est-aviso" id="est-aviso" hidden></div>
+
+  <div class="est-corpo" id="est-corpo">
+    <section class="est-kpis" id="est-kpis" aria-label="Resumo"></section>
+
+    <section class="est-grelha">
+      <article class="est-cartao est-largo">
+        <header>
+          <div><h2>Visitas por dia</h2><p>Cada abertura de uma página conta como visita; cada pessoa conta uma vez por dia como visitante.</p></div>
+          <div class="est-legenda" id="leg-visitas"></div>
+          <button type="button" class="est-tabela-btn" data-tabela="visitas">Ver tabela</button>
+        </header>
+        <div class="est-grafico" id="g-visitas"></div>
+        <div class="est-tabela" id="t-visitas" hidden></div>
+      </article>
+
+      <article class="est-cartao est-largo" id="cartao-vendas">
+        <header>
+          <div><h2>Vendas por dia</h2><p>Valor das encomendas recebidas na loja, pagas ou por pagar.</p></div>
+          <button type="button" class="est-tabela-btn" data-tabela="vendas">Ver tabela</button>
+        </header>
+        <div class="est-grafico" id="g-vendas"></div>
+        <div class="est-tabela" id="t-vendas" hidden></div>
+      </article>
+
+      <article class="est-cartao">
+        <header><div><h2>De onde vêm as visitas</h2><p>Google, redes sociais, WhatsApp ou link directo.</p></div></header>
+        <div id="g-origens"></div>
+      </article>
+
+      <article class="est-cartao">
+        <header><div><h2>Telemóvel ou computador</h2><p>Em que aparelho as pessoas vêem o site.</p></div></header>
+        <div id="g-disp"></div>
+        <h3 class="est-sub">Contactos recebidos</h3>
+        <div class="est-contactos" id="g-contactos"></div>
+      </article>
+
+      <article class="est-cartao">
+        <header><div><h2>Páginas mais vistas</h2></div></header>
+        <div id="g-paginas"></div>
+      </article>
+
+      <article class="est-cartao" id="cartao-pvistos">
+        <header><div><h2>Produtos mais vistos</h2></div></header>
+        <div id="g-pvistos"></div>
+      </article>
+
+      <article class="est-cartao est-largo" id="cartao-pvendidos">
+        <header><div><h2>Produtos mais vendidos</h2></div></header>
+        <div id="g-pvendidos"></div>
+      </article>
+    </section>
+  </div>
+
+  <div class="msg-pagina" id="msg-pagina"></div>
+</div>
+<div class="est-dica" id="est-dica" role="status" aria-live="polite" hidden></div>
+
+<!-- MODAL DE PAGAMENTO -->
+<div class="overlay" id="overlay-pagar" style="display:none">
+  <div class="modal" id="modal-pagar">
+
+    <div id="vista-form">
+      <h3 id="titulo-plano">Mudar para <span id="pagar-nome-plano" data-no-i18n></span></h3>
+      <h3 id="titulo-recarga" style="display:none">Recarregar <span id="pagar-tokens" data-no-i18n></span> tokens</h3>
+      <p class="sub">Valor: <strong id="pagar-valor"></strong> <span id="periodo-mes">MZN/mês</span><span id="periodo-unico" style="display:none">MZN · pagamento único</span></p>
+
+      <div class="campo" id="campo-telefone" style="display:none">
+        <label>Telefone (M-Pesa / e-Mola)</label>
+        <input type="text" id="pagar-telefone" maxlength="20" placeholder="84xxxxxxx">
+      </div>
+
+      <div class="campo">
+        <label>Método de pagamento</label>
+        <div class="metodos">
+          <div class="metodo-tile" data-metodo="mpesa">M-Pesa</div>
+          <div class="metodo-tile" data-metodo="emola">e-Mola</div>
+          <div class="metodo-tile" data-metodo="cartao">Cartão<small>Visa · Mastercard</small></div>
+        </div>
+      </div>
+
+      <div class="erro-modal" id="pagar-erro"></div>
+
+      <div class="acoes-modal">
+        <button class="btn-plano principal" id="btn-pagar" style="flex:1;">Pagar</button>
+        <button class="btn-fechar" id="btn-cancelar-pagar">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="vista-espera" style="display:none">
+      <div class="estado-pagamento">
+        <div class="spinner-grande"></div>
+        <p id="espera-texto">Confirma o pagamento no teu telemóvel...</p>
+        <div class="acoes-modal" style="justify-content:center"><button class="btn-fechar" id="btn-espera-fechar">Fechar</button></div>
+      </div>
+    </div>
+
+    <div id="vista-cartao" style="display:none;flex-direction:column;flex:1;min-height:0">
+      <div class="cartao-topo">
+        <span class="cadeado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+        <div><b>Pagamento seguro</b><small>Visa · Mastercard</small></div>
+        <span class="valor" id="cartao-valor" data-no-i18n></span>
+        <button type="button" class="btn-x" id="btn-cartao-fechar" aria-label="Fechar" title="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button>
+      </div>
+      <div class="cartao-palco" id="cartao-palco"></div>
+      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">Não aparece? Abrir numa janela nova</a></div>
+    </div>
+
+    <div id="vista-sucesso" style="display:none">
+      <div class="estado-pagamento">
+        <p><strong>Pagamento confirmado!</strong><br><span id="sucesso-plano">O teu plano já está actualizado.</span><span id="sucesso-recarga" style="display:none"><span id="sucesso-tokens" data-no-i18n></span> <span>tokens já estão na tua conta.</span></span></p>
+        <div class="acoes-modal">
+          <button class="btn-plano principal" id="btn-fechar-sucesso" style="flex:1;">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/*
+  PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - ver explicação completa
+  no login.html. O OWNER vem do que o login.html guardou no localStorage
+  deste browser depois de entrar. Se não houver nada guardado, a pessoa
+  não está autenticada - manda-a de volta para o login.
+*/
+var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
+var OWNER = localStorage.getItem('daniel_owner');
+if (!OWNER) {
+  window.location.href = '/';
+}
+
+function chamarWorkflow(nome, dados){
+  return fetch(API_ROOT + nome, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(dados || {})
+  }).then(function(res){
+    return res.json().then(function(json){
+      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
+    });
+  });
+}
+
+// ---- Tema claro/escuro ----
+var themeToggle = document.getElementById('theme-toggle');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun = document.getElementById('icon-sun');
+themeToggle.addEventListener('click', function(){
+  var root = document.documentElement;
+  var isLight = root.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    root.removeAttribute('data-theme');
+    iconMoon.style.display = '';
+    iconSun.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = '';
+  }
+});
+
+// ---- Navegação: já vive aqui ao lado do dashboard.html, navega a sério ----
+document.getElementById('btn-voltar').addEventListener('click', function(){
+  window.location.href = '/dashboard/';
+});
+document.getElementById('btn-sair').addEventListener('click', function(){
+  localStorage.removeItem('daniel_owner');
+  localStorage.removeItem('daniel_token');
+  window.location.href = '/';
+});
+
+function escaparHtml(t){
+  var d = document.createElement('div');
+  d.textContent = (t == null ? '' : String(t));
+  return d.innerHTML;
+}
+
+function mostrarMsgPagina(texto, tipo){
+  var el = document.getElementById('msg-pagina');
+  el.textContent = texto;
+  el.className = 'msg-pagina' + (tipo ? ' ' + tipo : '');
+}
+
+// ======================================================
+// Estatísticas (1.62.0): visitas, origens, vendas - gráficos em SVG próprio
+// ======================================================
+function fmt(n){ return Number(n || 0).toLocaleString('pt-PT'); }
+function postContainer(rota, corpo){
+  corpo = corpo || {};
+  if (!corpo.owner) corpo.owner = OWNER;
+  return fetch(CONTAINER_URL + rota, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(corpo)
+  }).then(function(r){
+    return r.text().then(function(t){
+      try { return JSON.parse(t); } catch (e) {
+        return { status: 'error', message: r.status === 404
+          ? 'O servidor ainda não tem as estatísticas. Falta actualizar o container para a versão 1.62.0.'
+          : 'O servidor respondeu com um erro (' + r.status + '). Tenta outra vez daqui a pouco.' };
+      }
+    });
+  });
+}
+// O pagamento desta página não é usado; estas funções existem para o código partilhado.
+function carregarPlanoActual(){}
+
+var estDados = null;
+var estDias = 30;
+var estSite = 'todos';
+var estPrimeira = true;
+function estEl(id){ return document.getElementById(id); }
+function estIdioma(){
+  var l = 'pt';
+  try { l = localStorage.getItem('daniel_idioma') || document.documentElement.lang || 'pt'; } catch (e) {}
+  return ({ en: 'en-GB', fr: 'fr-FR', es: 'es-ES' })[String(l).slice(0, 2)] || 'pt-PT';
+}
+function estData(dia, longo){
+  var d = new Date(dia + 'T12:00:00Z');
+  try { return new Intl.DateTimeFormat(estIdioma(), longo ? { weekday: 'short', day: 'numeric', month: 'short' } : { day: 'numeric', month: 'short' }).format(d); }
+  catch (e) { return dia.slice(8) + '/' + dia.slice(5, 7); }
+}
+function estCompacto(n){
+  try { return new Intl.NumberFormat(estIdioma(), { notation: 'compact', maximumFractionDigits: 1 }).format(n); }
+  catch (e) { return fmt(n); }
+}
+function estCor(nome){ return getComputedStyle(document.querySelector('.est')).getPropertyValue(nome).trim(); }
+var EST_IC = {
+  olho: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+  pessoas: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  saco: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+  dinheiro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  alvo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+  whats: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+  tel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+  carta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+  form: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+// ---- Dica (tooltip) partilhada ----
+var estDica = null;
+function dicaMostrar(titulo, linhas, x, y){
+  estDica = estDica || estEl('est-dica');
+  estDica.innerHTML = '';
+  var t = document.createElement('div'); t.className = 't'; t.textContent = titulo; estDica.appendChild(t);
+  linhas.forEach(function(l){
+    var row = document.createElement('div'); row.className = 'l';
+    var i = document.createElement('i'); if (l.bloco) i.className = 'bloco'; i.style.background = l.cor; row.appendChild(i);
+    var b = document.createElement('b'); b.textContent = l.valor; row.appendChild(b);
+    var s = document.createElement('span'); s.textContent = l.nome; row.appendChild(s);
+    estDica.appendChild(row);
+  });
+  estDica.hidden = false;
+  var w = estDica.offsetWidth, h = estDica.offsetHeight;
+  var px = x + 14, py = y - h - 12;
+  if (px + w > window.innerWidth - 8) px = x - w - 14;
+  if (px < 8) px = 8;
+  if (py < 8) py = y + 16;
+  estDica.style.left = px + 'px'; estDica.style.top = py + 'px';
+}
+function dicaEsconder(){ if (estDica) estDica.hidden = true; }
+
+function niceMax(v){
+  if (v <= 4) return 4;
+  var e = Math.pow(10, Math.floor(Math.log10(v)));
+  var f = v / e;
+  var n = f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10;
+  return n * e;
+}
+function svgEl(nome, attrs){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', nome);
+  Object.keys(attrs || {}).forEach(function(k){ el.setAttribute(k, attrs[k]); });
+  return el;
+}
+function eixosBase(svg, W, H, m, max, n){
+  for (var i = 0; i <= 4; i++) {
+    var v = max * i / 4, y = m.t + (H - m.t - m.b) * (1 - i / 4);
+    svg.appendChild(svgEl('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, 'class': i === 0 ? 'base' : 'grelha' }));
+    var t = svgEl('text', { x: m.l - 8, y: y + 4, 'text-anchor': 'end' }); t.textContent = estCompacto(v); svg.appendChild(t);
+  }
+}
+function rotulosX(svg, serie, xDe, H, m){
+  var n = serie.length, passo = Math.max(1, Math.ceil(n / (window.innerWidth < 600 ? 4 : 7)));
+  for (var i = 0; i < n; i += passo) {
+    if (i === n - 1 || xDe(n - 1) - xDe(i) < 56) continue;
+    var t = svgEl('text', { x: xDe(i), y: H - 8, 'text-anchor': i === 0 ? 'start' : 'middle' }); t.textContent = estData(serie[i].dia); svg.appendChild(t);
+  }
+  var u = svgEl('text', { x: xDe(n - 1), y: H - 8, 'text-anchor': 'end' }); u.textContent = estData(serie[n - 1].dia); svg.appendChild(u);
+}
+
+// ---- Linhas com mira (visitas e visitantes) ----
+function graficoLinhas(el, serie, chaves){
+  el.innerHTML = '';
+  var W = el.clientWidth || 600, H = window.innerWidth < 600 ? 210 : 250, m = { l: 44, r: 14, t: 12, b: 30 };
+  var max = 0;
+  serie.forEach(function(p){ chaves.forEach(function(c){ max = Math.max(max, p[c.k] || 0); }); });
+  max = niceMax(max);
+  var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, height: H, role: 'img', 'aria-label': chaves.map(function(c){ return c.nome; }).join(' / ') });
+  var n = serie.length;
+  var xDe = function(i){ return m.l + (n === 1 ? (W - m.l - m.r) / 2 : (W - m.l - m.r) * i / (n - 1)); };
+  var yDe = function(v){ return m.t + (H - m.t - m.b) * (1 - v / max); };
+  eixosBase(svg, W, H, m, max);
+  rotulosX(svg, serie, xDe, H, m);
+  chaves.forEach(function(c, ci){
+    var cor = estCor(c.cor);
+    var pts = serie.map(function(p, i){ return [xDe(i), yDe(p[c.k] || 0)]; });
+    var d = pts.map(function(p, i){ return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    if (ci === 0) {
+      svg.appendChild(svgEl('path', { d: d + ' L' + xDe(n - 1) + ' ' + yDe(0) + ' L' + xDe(0) + ' ' + yDe(0) + ' Z', fill: cor, 'fill-opacity': '0.1', stroke: 'none' }));
+    }
+    svg.appendChild(svgEl('path', { d: d, fill: 'none', stroke: cor, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+    var u = pts[n - 1];
+    svg.appendChild(svgEl('circle', { cx: u[0], cy: u[1], r: 4, fill: cor, stroke: estCor('--sup') || '#fff', 'stroke-width': 2 }));
+  });
+  var mira = svgEl('line', { y1: m.t, y2: H - m.b, 'class': 'mira', visibility: 'hidden' });
+  svg.appendChild(mira);
+  var pontos = chaves.map(function(c){ var p = svgEl('circle', { r: 4, fill: estCor(c.cor), stroke: estCor('--sup') || '#fff', 'stroke-width': 2, visibility: 'hidden' }); svg.appendChild(p); return p; });
+  var alvo = svgEl('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, 'class': 'alvo', tabindex: 0 });
+  alvo.setAttribute('aria-label', 'Explorar o gráfico com as setas');
+  svg.appendChild(alvo);
+  var actual = n - 1;
+  function mostrar(i, cx, cy){
+    actual = Math.max(0, Math.min(n - 1, i));
+    var x = xDe(actual);
+    mira.setAttribute('x1', x); mira.setAttribute('x2', x); mira.setAttribute('visibility', 'visible');
+    chaves.forEach(function(c, ci){ pontos[ci].setAttribute('cx', x); pontos[ci].setAttribute('cy', yDe(serie[actual][c.k] || 0)); pontos[ci].setAttribute('visibility', 'visible'); });
+    var r = svg.getBoundingClientRect();
+    dicaMostrar(estData(serie[actual].dia, true), chaves.map(function(c){ return { cor: estCor(c.cor), valor: fmt(serie[actual][c.k]), nome: c.nome }; }),
+      cx != null ? cx : r.left + x * (r.width / W), cy != null ? cy : r.top + 20);
+  }
+  function esconder(){ mira.setAttribute('visibility', 'hidden'); pontos.forEach(function(p){ p.setAttribute('visibility', 'hidden'); }); dicaEsconder(); }
+  alvo.addEventListener('pointermove', function(e){
+    var r = svg.getBoundingClientRect(); var x = (e.clientX - r.left) * (W / r.width);
+    mostrar(Math.round((x - m.l) / ((W - m.l - m.r) / Math.max(1, n - 1))), e.clientX, e.clientY);
+  });
+  alvo.addEventListener('pointerleave', esconder);
+  alvo.addEventListener('blur', esconder);
+  alvo.addEventListener('focus', function(){ mostrar(actual); });
+  alvo.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft') { mostrar(actual - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { mostrar(actual + 1); e.preventDefault(); }
+  });
+  el.appendChild(svg);
+}
+
+// ---- Colunas (vendas por dia) ----
+function graficoColunas(el, serie, chave, cor, nome, formato, extra){
+  el.innerHTML = '';
+  var W = el.clientWidth || 600, H = window.innerWidth < 600 ? 200 : 230, m = { l: 48, r: 10, t: 12, b: 30 };
+  var max = niceMax(Math.max.apply(null, serie.map(function(p){ return p[chave] || 0; })));
+  var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, height: H, role: 'img', 'aria-label': nome });
+  var n = serie.length, banda = (W - m.l - m.r) / n;
+  var larg = Math.max(2, Math.min(24, banda - 2));
+  var xDe = function(i){ return m.l + banda * i + banda / 2; };
+  var yDe = function(v){ return m.t + (H - m.t - m.b) * (1 - v / max); };
+  eixosBase(svg, W, H, m, max);
+  rotulosX(svg, serie, xDe, H, m);
+  var c = estCor(cor);
+  serie.forEach(function(p, i){
+    var v = p[chave] || 0;
+    var x = xDe(i) - larg / 2, y = yDe(v), base = yDe(0), h = base - y;
+    if (h > 0.5) {
+      var r = Math.min(4, larg / 2, h);
+      var d = 'M' + x + ' ' + base + ' L' + x + ' ' + (y + r) + ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y + ' L' + (x + larg - r) + ' ' + y + ' Q' + (x + larg) + ' ' + y + ' ' + (x + larg) + ' ' + (y + r) + ' L' + (x + larg) + ' ' + base + ' Z';
+      var b = svgEl('path', { d: d, fill: c, 'class': 'barra' }); b.setAttribute('data-i', i); svg.appendChild(b);
+    }
+    var hit = svgEl('rect', { x: m.l + banda * i, y: m.t, width: banda, height: H - m.t - m.b, 'class': 'barra-alvo', tabindex: v > 0 ? 0 : -1 });
+    var mostrar = function(ev){
+      var barra = svg.querySelector('.barra[data-i="' + i + '"]');
+      svg.querySelectorAll('.barra.activa').forEach(function(x){ x.classList.remove('activa'); });
+      if (barra) barra.classList.add('activa');
+      var rr = hit.getBoundingClientRect();
+      var linhas = [{ cor: c, bloco: true, valor: formato(v), nome: nome }];
+      if (extra) linhas.push(extra(p));
+      dicaMostrar(estData(p.dia, true), linhas, ev && ev.clientX != null ? ev.clientX : rr.left + rr.width / 2, ev && ev.clientY != null ? ev.clientY : rr.top + 30);
+    };
+    hit.addEventListener('pointermove', mostrar);
+    hit.addEventListener('focus', function(){ mostrar(null); });
+    hit.addEventListener('pointerleave', function(){ dicaEsconder(); svg.querySelectorAll('.barra.activa').forEach(function(x){ x.classList.remove('activa'); }); });
+    hit.addEventListener('blur', dicaEsconder);
+    svg.appendChild(hit);
+  });
+  el.appendChild(svg);
+}
+
+// ---- Barras horizontais (origens, páginas, produtos) ----
+function barrasHorizontais(el, lista, opcoes){
+  el.innerHTML = '';
+  if (!lista || !lista.length) { el.innerHTML = '<div class="est-vazio"></div>'; el.firstChild.textContent = (opcoes && opcoes.vazio) || 'Ainda sem dados neste período.'; return; }
+  var max = Math.max.apply(null, lista.map(function(x){ return x.n; })) || 1;
+  var total = lista.reduce(function(s, x){ return s + x.n; }, 0) || 1;
+  var caixa = document.createElement('div'); caixa.className = 'est-barras';
+  lista.forEach(function(x){
+    var linha = document.createElement('div'); linha.className = 'est-barra-linha';
+    var nome = document.createElement('div'); nome.className = 'est-barra-nome'; nome.textContent = opcoes && opcoes.nome ? opcoes.nome(x) : x.nome; nome.title = nome.textContent;
+    if (opcoes && opcoes.semTraduzir) nome.setAttribute('data-no-i18n', '');
+    var trilho = document.createElement('div'); trilho.className = 'est-barra-trilho';
+    var i = document.createElement('i'); i.style.width = Math.max(2, (x.n / max) * 78) + '%';
+    var b = document.createElement('b'); b.textContent = fmt(x.n);
+    var s = document.createElement('small'); s.textContent = Math.round(x.n / total * 100) + '%'; b.appendChild(s);
+    trilho.appendChild(i); trilho.appendChild(b);
+    linha.appendChild(nome); linha.appendChild(trilho);
+    caixa.appendChild(linha);
+  });
+  el.appendChild(caixa);
+}
+
+// ---- Tabelas (alternativa aos gráficos) ----
+function tabela(el, cabecalhos, linhas){
+  var t = document.createElement('table');
+  var th = document.createElement('tr');
+  cabecalhos.forEach(function(c, i){ var x = document.createElement('th'); x.textContent = c; if (i) x.className = 'n'; th.appendChild(x); });
+  var thead = document.createElement('thead'); thead.appendChild(th); t.appendChild(thead);
+  var tb = document.createElement('tbody');
+  linhas.forEach(function(l){
+    var tr = document.createElement('tr');
+    l.forEach(function(v, i){ var td = document.createElement('td'); td.textContent = v; if (i) td.className = 'n'; tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  el.innerHTML = ''; el.appendChild(t);
+}
+
+// ---- Indicadores do topo ----
+function kpi(icone, rotulo, valor, unidade, actual, anterior, subRot, subVal){
+  var d = document.createElement('div'); d.className = 'est-kpi';
+  var r = document.createElement('div'); r.className = 'est-kpi-rot'; r.innerHTML = icone;
+  var rt = document.createElement('span'); rt.textContent = rotulo; r.appendChild(rt);
+  var v = document.createElement('div'); v.className = 'est-kpi-val'; v.textContent = valor;
+  if (unidade) { var u = document.createElement('small'); u.textContent = unidade; v.appendChild(u); }
+  var s = document.createElement('div'); s.className = 'est-kpi-sub';
+  if (anterior != null) {
+    var delta = document.createElement('span');
+    if (!anterior && !actual) { delta.className = 'est-delta igual'; delta.textContent = '—'; }
+    else if (!anterior) { delta.className = 'est-delta sobe'; delta.textContent = '▲ novo'; }
+    else {
+      var p = Math.round(((actual - anterior) / anterior) * 100);
+      delta.className = 'est-delta ' + (p > 0 ? 'sobe' : p < 0 ? 'desce' : 'igual');
+      delta.textContent = (p > 0 ? '▲ ' : p < 0 ? '▼ ' : '= ') + Math.abs(p) + '%';
+    }
+    s.appendChild(delta);
+    var vs = document.createElement('span'); vs.textContent = 'vs período anterior'; s.appendChild(vs);
+  } else if (subRot) {
+    var a = document.createElement('span'); a.textContent = subRot; s.appendChild(a);
+    var b = document.createElement('b'); b.textContent = ' ' + subVal; b.setAttribute('data-no-i18n', ''); s.appendChild(b);
+  }
+  d.appendChild(r); d.appendChild(v); d.appendChild(s);
+  return d;
+}
+
+function estAviso(html){
+  var a = estEl('est-aviso');
+  if (!html) { a.hidden = true; a.innerHTML = ''; return; }
+  a.innerHTML = EST_IC.info + '<div>' + html + '</div>';
+  a.hidden = false;
+}
+
+function renderEstatisticas(){
+  var x = estDados; if (!x) return;
+  var t = x.totais, a = x.anteriores, loja = x.tem_loja;
+  // site seleccionado
+  var sel = estEl('est-site');
+  if (sel.options.length <= 1) {
+    x.sites.forEach(function(s){ var o = document.createElement('option'); o.value = s.id; o.textContent = s.nome; o.setAttribute('data-no-i18n', ''); sel.appendChild(o); });
+    sel.value = estSite;
+  }
+  estEl('est-actual').textContent = estData(x.inicio) + ' – ' + estData(x.fim);
+  estEl('est-actual').setAttribute('data-no-i18n', '');
+  estAviso(x.a_comecar ? '<b>As estatísticas começam a contar a partir de agora.</b><span>Os sites passaram a medir as visitas. Volta daqui a umas horas para veres os primeiros números.</span>' : '');
+  // indicadores
+  var k = estEl('est-kpis'); k.innerHTML = '';
+  k.appendChild(kpi(EST_IC.olho, 'Visitas', fmt(t.visitas), '', t.visitas, a.visitas));
+  k.appendChild(kpi(EST_IC.pessoas, 'Visitantes', fmt(t.visitantes), '', t.visitantes, a.visitantes));
+  if (loja) {
+    k.appendChild(kpi(EST_IC.saco, 'Encomendas', fmt(t.encomendas), '', t.encomendas, a.encomendas));
+    k.appendChild(kpi(EST_IC.dinheiro, 'Valor das encomendas', fmt(t.valor), 'MZN', null, null, 'Pago online:', fmt(t.pago) + ' MZN'));
+    k.appendChild(kpi(EST_IC.alvo, 'Conversão', String(t.conversao).replace('.', ','), '%', null, null, 'Encomendas por cada 100 visitantes', ''));
+  }
+  k.appendChild(kpi(EST_IC.whats, 'Cliques no WhatsApp', fmt(t.whatsapp), '', t.whatsapp, a.whatsapp));
+  // visitas
+  var cs = [{ k: 'visitas', nome: 'Visitas', cor: '--serie-1' }, { k: 'visitantes', nome: 'Visitantes', cor: '--serie-2' }];
+  estEl('leg-visitas').innerHTML = cs.map(function(c){ return '<span><i style="background:' + estCor(c.cor) + '"></i>' + c.nome + '</span>'; }).join('');
+  graficoLinhas(estEl('g-visitas'), x.serie, cs);
+  tabela(estEl('t-visitas'), ['Dia', 'Visitas', 'Visitantes'], x.serie.slice().reverse().map(function(p){ return [estData(p.dia, true), fmt(p.visitas), fmt(p.visitantes)]; }));
+  // vendas
+  estEl('cartao-vendas').hidden = !loja;
+  estEl('cartao-pvistos').hidden = !loja;
+  estEl('cartao-pvendidos').hidden = !loja;
+  if (loja) {
+    graficoColunas(estEl('g-vendas'), x.serie, 'vendas', '--serie-2', 'MZN em encomendas', function(v){ return fmt(v) + ' MZN'; },
+      function(p){ return { cor: 'transparent', valor: fmt(p.encomendas), nome: 'encomendas' }; });
+    tabela(estEl('t-vendas'), ['Dia', 'Encomendas', 'Valor (MZN)'], x.serie.slice().reverse().map(function(p){ return [estData(p.dia, true), fmt(p.encomendas), fmt(p.vendas)]; }));
+    barrasHorizontais(estEl('g-pvistos'), x.produtos_vistos, { semTraduzir: true, vazio: 'Ainda ninguém abriu um produto neste período.' });
+    var pv = estEl('g-pvendidos');
+    if (x.produtos_vendidos && x.produtos_vendidos.length) {
+      tabela(pv, ['Produto', 'Quantidade', 'Valor (MZN)'], x.produtos_vendidos.map(function(p){ return [p.nome, fmt(p.qtd), fmt(p.valor)]; }));
+      pv.querySelectorAll('tbody td:first-child').forEach(function(td){ td.setAttribute('data-no-i18n', ''); });
+      pv.firstChild.style.fontSize = '13.5px';
+      pv.className = 'est-tabela';
+      pv.style.maxHeight = 'none';
+    } else { pv.className = ''; pv.innerHTML = '<div class="est-vazio">Ainda sem vendas neste período.</div>'; }
+  }
+  // origens e páginas
+  barrasHorizontais(estEl('g-origens'), x.origens);
+  barrasHorizontais(estEl('g-paginas'), (x.paginas || []).map(function(p){ return { nome: p.nome, n: p.n }; }), {
+    semTraduzir: true,
+    nome: function(p){ return p.nome === 'index.html' ? '/' : '/' + p.nome.replace(/\.html$/, ''); }
+  });
+  // dispositivos
+  var di = x.dispositivos || { telemovel: 0, computador: 0 }, dt = di.telemovel + di.computador;
+  var gd = estEl('g-disp');
+  if (!dt) { gd.innerHTML = '<div class="est-vazio">Ainda sem dados neste período.</div>'; }
+  else {
+    var pt = Math.round(di.telemovel / dt * 100), pc = 100 - pt;
+    var c1 = estCor('--serie-1'), c2 = estCor('--serie-2');
+    gd.innerHTML = '<div class="est-disp" role="img" aria-label="' + pt + '% / ' + pc + '%">'
+      + (pt ? '<i style="width:' + pt + '%;background:' + c1 + '"></i>' : '') + (pc ? '<i style="width:' + pc + '%;background:' + c2 + '"></i>' : '') + '</div>'
+      + '<div class="est-disp-leg"><span><i style="background:' + c1 + '"></i><b>' + pt + '%</b> <em>Telemóvel</em> <small>(' + fmt(di.telemovel) + ')</small></span>'
+      + '<span><i style="background:' + c2 + '"></i><b>' + pc + '%</b> <em>Computador</em> <small>(' + fmt(di.computador) + ')</small></span></div>';
+    gd.querySelectorAll('em').forEach(function(e){ e.style.fontStyle = 'normal'; });
+  }
+  // contactos
+  var ct = x.contactos || {};
+  var cc = estEl('g-contactos'); cc.innerHTML = '';
+  [[EST_IC.whats, ct.whatsapp, 'WhatsApp'], [EST_IC.tel, ct.telefone, 'Chamadas'], [EST_IC.form, ct.formulario, 'Mensagens'], [EST_IC.carta, ct.email, 'Emails']].forEach(function(c){
+    var d = document.createElement('div'); d.className = 'est-contacto'; d.innerHTML = c[0];
+    var w = document.createElement('div');
+    var b = document.createElement('b'); b.textContent = fmt(c[1] || 0); w.appendChild(b);
+    var s = document.createElement('small'); s.textContent = c[2]; w.appendChild(s);
+    d.appendChild(w); cc.appendChild(d);
+  });
+}
+
+function carregarEstatisticas(){
+  var corpo = estEl('est-corpo');
+  if (!estPrimeira) corpo.classList.add('a-carregar');
+  return postContainer('/estatisticas', { site_id: estSite, dias: estDias }).then(function(r){
+    corpo.classList.remove('a-carregar');
+    if (r.status !== 'success') { mostrarMsgPagina(r.message || 'Não foi possível ler as estatísticas.', 'erro'); return; }
+    mostrarMsgPagina('', '');
+    estDados = r.response;
+    estPrimeira = false;
+    renderEstatisticas();
+  }).catch(function(){
+    corpo.classList.remove('a-carregar');
+    mostrarMsgPagina('Sem ligação. Tenta outra vez.', 'erro');
+  });
+}
+
+function iniciarEstatisticas(){
+  var pedido = (/[?&]site=([A-Za-z0-9_-]+)/.exec(location.search) || [])[1];
+  if (pedido) estSite = pedido;
+  var d = Number((/[?&]dias=(\d+)/.exec(location.search) || [])[1]);
+  if ([7, 30, 90].indexOf(d) >= 0) estDias = d;
+  document.querySelectorAll('#est-periodo button').forEach(function(b){
+    var on = Number(b.getAttribute('data-dias')) === estDias;
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.addEventListener('click', function(){
+      estDias = Number(b.getAttribute('data-dias'));
+      document.querySelectorAll('#est-periodo button').forEach(function(x){ x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      carregarEstatisticas();
+    });
+  });
+  estEl('est-site').addEventListener('change', function(){
+    estSite = this.value;
+    try { history.replaceState(null, '', estSite === 'todos' ? '/estatisticas/' : '/estatisticas/?site=' + encodeURIComponent(estSite)); } catch (e) {}
+    carregarEstatisticas();
+  });
+  document.querySelectorAll('[data-tabela]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var nome = b.getAttribute('data-tabela');
+      var t = estEl('t-' + nome), g = estEl('g-' + nome);
+      var abrir = t.hidden;
+      t.hidden = !abrir; g.hidden = abrir;
+      b.textContent = abrir ? 'Ver gráfico' : 'Ver tabela';
+    });
+  });
+  var tempo = null;
+  window.addEventListener('resize', function(){ clearTimeout(tempo); tempo = setTimeout(renderEstatisticas, 150); });
+  // quando o tema muda, as cores dos gráficos mudam
+  try { new MutationObserver(function(){ renderEstatisticas(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); } catch (e) {}
+  carregarEstatisticas();
+  setInterval(function(){ if (!document.hidden) carregarEstatisticas(); }, 5 * 60 * 1000);
+}
+
+var elOverlay = document.getElementById('overlay-pagar');
+var elModal = document.getElementById('modal-pagar');
+var elCampoTelefone = document.getElementById('campo-telefone');
+var elTelefone = document.getElementById('pagar-telefone');
+var elPagarErro = document.getElementById('pagar-erro');
+var btnPagar = document.getElementById('btn-pagar');
+var CONTAINER_ORIGEM = CONTAINER_URL.replace(/\/+$/, '');
+
+var pedido = null;            // { tipo: 'plano'|'recarga', id, nome, valor, tokens }
+var metodoSeleccionado = '';
+var assinaturaActualId = '';
+var esperaTimer = null;
+var tentativasEspera = 0;
+var modoEspera = '';
+var fundoTimer = null;
+
+function mostrarVistaModal(nome){
+  ['form', 'espera', 'cartao', 'sucesso'].forEach(function(v){
+    document.getElementById('vista-' + v).style.display = (v === nome) ? (v === 'cartao' ? 'flex' : '') : 'none';
+  });
+  elModal.classList.toggle('modal-cartao', nome === 'cartao');
+  elOverlay.classList.toggle('overlay-cartao', nome === 'cartao');
+  if (nome !== 'cartao') document.getElementById('cartao-palco').innerHTML = '';
+}
+
+function abrirMudancaPlano(planoId, nomePlano, precoMzn){
+  mostrarMsgPagina('', '');
+  if (precoMzn <= 0) {
+    if (!confirm('Mudar para o plano ' + nomePlano + '?')) return;
+    postContainer('/assinatura-iniciar', { plano_id: planoId }).then(function(r){
+      if (r.status === 'success') {
+        mostrarMsgPagina('Plano actualizado para ' + nomePlano + '.', 'ok');
+        carregarPlanoActual();
+      } else {
+        mostrarMsgPagina(r.message || 'Não foi possível mudar de plano.', 'erro');
+      }
+    }).catch(function(){
+      mostrarMsgPagina('Não foi possível ligar ao servidor.', 'erro');
+    });
+    return;
+  }
+  abrirPagamento({ tipo: 'plano', id: planoId, nome: nomePlano, valor: precoMzn });
+}
+
+function abrirPagamento(p){
+  mostrarMsgPagina('', '');
+  pararEspera();
+  pedido = p;
+  assinaturaActualId = '';
+  metodoSeleccionado = '';
+  elTelefone.value = '';
+  elPagarErro.textContent = '';
+  var ehPlano = p.tipo === 'plano';
+  document.getElementById('titulo-plano').style.display = ehPlano ? '' : 'none';
+  document.getElementById('titulo-recarga').style.display = ehPlano ? 'none' : '';
+  document.getElementById('pagar-nome-plano').textContent = p.nome;
+  document.getElementById('pagar-tokens').textContent = fmt(p.tokens);
+  document.getElementById('pagar-valor').textContent = Number(p.valor).toLocaleString('pt-PT');
+  document.getElementById('periodo-mes').style.display = ehPlano ? '' : 'none';
+  document.getElementById('periodo-unico').style.display = ehPlano ? 'none' : '';
+  elCampoTelefone.style.display = 'none';
+  document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
+  btnPagar.disabled = false;
+  btnPagar.textContent = 'Pagar';
+  mostrarVistaModal('form');
+  elOverlay.style.display = 'flex';
+}
+
+document.querySelectorAll('.metodo-tile').forEach(function(tile){
+  tile.addEventListener('click', function(){
+    document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
+    tile.classList.add('seleccionado');
+    metodoSeleccionado = tile.getAttribute('data-metodo');
+    elCampoTelefone.style.display = (metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') ? '' : 'none';
+  });
+});
+
+function fecharModal(){
+  var pendente = !!assinaturaActualId && modoEspera !== '';
+  elOverlay.style.display = 'none';
+  pararEspera();
+  mostrarVistaModal('form');
+  if (pendente) confirmarEmFundo();
+}
+document.getElementById('btn-cancelar-pagar').addEventListener('click', fecharModal);
+document.getElementById('btn-cartao-fechar').addEventListener('click', fecharModal);
+document.getElementById('btn-espera-fechar').addEventListener('click', fecharModal);
+document.getElementById('btn-fechar-sucesso').addEventListener('click', function(){
+  elOverlay.style.display = 'none';
+  pararEspera();
+  mostrarVistaModal('form');
+  carregarPlanoActual();
+});
+
+btnPagar.addEventListener('click', function(){
+  elPagarErro.textContent = '';
+  if (!pedido) return;
+  if (!metodoSeleccionado) {
+    elPagarErro.textContent = 'Escolhe um método de pagamento.';
+    return;
+  }
+  var telefone = elTelefone.value.trim();
+  if ((metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') && !telefone) {
+    elPagarErro.textContent = 'Escreve o teu número de telefone.';
+    return;
+  }
+
+  btnPagar.disabled = true;
+  btnPagar.textContent = 'A processar...';
+
+  var inicio = pedido.tipo === 'plano'
+    ? postContainer('/assinatura-iniciar', { plano_id: pedido.id })
+    : postContainer('/recarga-iniciar', { pacote_id: pedido.id });
+
+  inicio.then(function(rIniciar){
+    if (rIniciar.status !== 'success') {
+      throw new Error(rIniciar.message || 'Não foi possível iniciar o pagamento.');
+    }
+    if (rIniciar.response.gratis) {
+      mostrarSucesso();
+      return null;
+    }
+    assinaturaActualId = rIniciar.response.assinatura_id;
+    var corpo = { assinatura_id: assinaturaActualId, metodo: metodoSeleccionado };
+    if (telefone) corpo.telefone = telefone;
+    return postContainer('/assinatura-pagar', corpo);
+  }).then(function(rPagar){
+    if (!rPagar) return;
+    if (rPagar.status !== 'success') {
+      throw new Error(rPagar.message || 'Não foi possível iniciar o pagamento.');
+    }
+    if (rPagar.response.tipo === 'cartao') {
+      abrirCartao(rPagar.response);
+      return;
+    }
+    // M-Pesa / e-Mola: fica aqui a aguardar a confirmação no telemóvel.
+    mostrarVistaModal('espera');
+    iniciarEsperaPagamento('mobile');
+  }).catch(function(erro){
+    btnPagar.disabled = false;
+    btnPagar.textContent = 'Pagar';
+    elPagarErro.textContent = erro.message || 'Algo correu mal. Tenta novamente.';
+  });
+});
+
+// ---- Cartão dentro da página ----
+var ICONE_CADEADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+function abrirCartao(resp){
+  mostrarVistaModal('cartao');
+  document.getElementById('cartao-valor').textContent = Number(pedido.valor).toLocaleString('pt-PT') + ' MZN';
+  var palco = document.getElementById('cartao-palco');
+  var linkFora = document.getElementById('cartao-abrir-fora');
+  linkFora.href = resp.checkout_url;
+  palco.classList.remove('carregado');
+  if (resp.embutivel === false) {
+    palco.innerHTML = '<div class="cartao-fora"><span class="cartao-fora-ic">' + ICONE_CADEADO + '</span>'
+      + '<h4>O banco abre o pagamento numa janela segura</h4>'
+      + '<p>Toca no botão, paga com o teu cartão e volta para aqui. Esta página confirma o pagamento sozinha.</p>'
+      + '<a class="btn-plano principal" id="cartao-fora-btn" href="#" target="_blank" rel="noopener">Abrir pagamento seguro</a></div>';
+    document.getElementById('cartao-fora-btn').href = resp.checkout_url;
+    palco.classList.add('carregado');
+    linkFora.style.display = 'none';
+  } else {
+    palco.innerHTML = '<div class="cartao-carregar"><div class="spinner-grande"></div><p>A abrir o pagamento seguro...</p></div>';
+    var fr = document.createElement('iframe');
+    fr.title = 'Pagamento com cartão';
+    fr.setAttribute('allow', 'payment');
+    // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.
+    fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox');
+    fr.addEventListener('load', function(){ palco.classList.add('carregado'); });
+    fr.src = resp.checkout_url;
+    palco.appendChild(fr);
+    linkFora.style.display = '';
+  }
+  iniciarEsperaPagamento('cartao');
+}
+
+// A página de "obrigado" (dentro da janela do cartão) avisa quando o banco a devolve.
+window.addEventListener('message', function(e){
+  if (e.origin !== CONTAINER_ORIGEM || !e.data || e.data.daniel !== 'pagamento') return;
+  if (!assinaturaActualId || !modoEspera) return;
+  document.getElementById('cartao-estado-texto').textContent = 'Pagamento recebido. A confirmar...';
+  if (esperaTimer) clearTimeout(esperaTimer);
+  verificarEsperaPagamento();
+});
+
+// ---- Esperar a confirmação ----
+function iniciarEsperaPagamento(modo){
+  pararEspera();
+  modoEspera = modo;
+  tentativasEspera = 0;
+  document.getElementById('espera-texto').textContent = 'Confirma o pagamento no teu telemóvel...';
+  document.getElementById('cartao-estado-texto').textContent = 'À espera da confirmação do pagamento...';
+  esperaTimer = setTimeout(verificarEsperaPagamento, modo === 'cartao' ? 5000 : 3000);
+}
+
+function pararEspera(){
+  if (esperaTimer) clearTimeout(esperaTimer);
+  esperaTimer = null;
+  modoEspera = '';
+}
+
+function verificarEsperaPagamento(){
+  var modo = modoEspera;
+  if (!modo || !assinaturaActualId) return;
+  postContainer('/assinatura-estado', { assinatura_id: assinaturaActualId }).then(function(r){
+    if (modoEspera !== modo) return;
+    if (r.status === 'success' && r.response.estado === 'Pago') {
+      mostrarSucesso();
+      return;
+    }
+    proximaTentativa(modo);
+  }).catch(function(){
+    if (modoEspera === modo) proximaTentativa(modo);
+  });
+}
+
+function proximaTentativa(modo){
+  tentativasEspera++;
+  if (modo === 'mobile' && tentativasEspera >= 20) {
+    document.getElementById('espera-texto').textContent = 'Ainda a confirmar. Se já pagaste, aguarda mais um pouco e verifica o teu plano novamente.';
+    esperaTimer = setTimeout(verificarEsperaPagamento, 8000);
+    return;
+  }
+  if (modo === 'cartao' && tentativasEspera === 60) {
+    document.getElementById('cartao-estado-texto').textContent = 'Ainda à espera. Se já pagaste, a confirmação pode demorar um pouco.';
+  }
+  if (tentativasEspera >= 400) return; // ~20 minutos
+  esperaTimer = setTimeout(verificarEsperaPagamento, 3000);
+}
+
+function mostrarSucesso(){
+  pararEspera();
+  var recarga = pedido && pedido.tipo === 'recarga';
+  document.getElementById('sucesso-plano').style.display = recarga ? 'none' : '';
+  document.getElementById('sucesso-recarga').style.display = recarga ? '' : 'none';
+  document.getElementById('sucesso-tokens').textContent = recarga ? fmt(pedido.tokens) : '';
+  mostrarVistaModal('sucesso');
+  assinaturaActualId = '';
+  carregarPlanoActual();
+}
+
+// Fechou a janela antes da confirmação: continua a verificar por trás
+// durante uns minutos e avisa quando entrar.
+function confirmarEmFundo(){
+  var id = assinaturaActualId, era = pedido, voltas = 0;
+  if (!id) return;
+  mostrarMsgPagina('Se concluíste o pagamento, a tua conta actualiza-se sozinha em instantes.', '');
+  if (fundoTimer) clearTimeout(fundoTimer);
+  function ver(){
+    postContainer('/assinatura-estado', { assinatura_id: id }).then(function(r){
+      if (r.status === 'success' && r.response.estado === 'Pago') {
+        mostrarMsgPagina(era && era.tipo === 'recarga' ? 'Recarga confirmada! Os tokens já estão na tua conta.' : 'Pagamento confirmado! O teu plano já está actualizado.', 'ok');
+        carregarPlanoActual();
+        return;
+      }
+      if (++voltas < 60) fundoTimer = setTimeout(ver, 5000);
+    }).catch(function(){ if (++voltas < 60) fundoTimer = setTimeout(ver, 5000); });
+  }
+  fundoTimer = setTimeout(ver, 3000);
+}
+
+iniciarEstatisticas();
+</script>
+
+<script id="dia-tema-fim">(function(){
+  var root = document.documentElement;
+  function sync(){
+    var claro = root.getAttribute('data-theme') === 'light';
+    var m = document.getElementById('icon-moon'), s = document.getElementById('icon-sun');
+    if (m) m.style.display = claro ? 'none' : '';
+    if (s) s.style.display = claro ? '' : 'none';
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', claro ? '#FAF7FC' : '#07030C');
+  }
+  sync();
+  var b = document.getElementById('theme-toggle');
+  if (b) b.addEventListener('click', function(){
+    setTimeout(function(){
+      try { localStorage.setItem('daniel_tema', root.getAttribute('data-theme') === 'light' ? 'claro' : 'escuro'); } catch (e) {}
+      sync();
+    }, 0);
+  });
+  window.addEventListener('storage', function(e){
+    if (e.key !== 'daniel_tema') return;
+    if (e.newValue === 'escuro') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'light');
+    sync();
+  });
+})();</script>
+</body>
+</html>
