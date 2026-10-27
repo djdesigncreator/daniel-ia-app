@@ -572,6 +572,20 @@
   .resumo-kpi svg{display:block;width:100%;height:30px;margin-top:6px;}
   @media (max-width:760px){.resumo-est-kpis{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
+<style>
+  /* Comunidade (28/10/2026) */
+  .com-banner{display:flex;align-items:center;gap:16px;margin:0 0 28px;padding:18px 20px;border-radius:18px;text-decoration:none;color:var(--text);border:1px solid var(--glass-border);background:radial-gradient(120% 160% at 100% 0%,rgba(137,200,4,.18) 0%,transparent 55%),var(--glass-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .15s,border-color .15s;}
+  .com-banner:hover{transform:translateY(-1px);border-color:var(--accent-2);}
+  .com-banner-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--grad-accent);color:var(--on-accent);flex-shrink:0;box-shadow:0 10px 24px var(--accent-glow);}
+  .com-banner-ic svg{width:22px;height:22px;}
+  .com-banner-txt{flex:1;min-width:0;}
+  .com-banner-txt b{display:block;font-size:15.5px;margin-bottom:3px;}
+  .com-banner-txt span{display:block;font-size:13.5px;color:var(--text-dim);line-height:1.45;}
+  .com-banner-txt small{display:block;margin-top:5px;font:600 12px var(--font-mono,monospace);color:var(--accent-2);}
+  .com-banner-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:12px;background:var(--grad-accent);color:var(--on-accent);font-weight:800;font-size:13.5px;flex-shrink:0;}
+  .com-banner-btn svg{width:15px;height:15px;}
+  @media (max-width:600px){.com-banner{flex-wrap:wrap;}.com-banner-btn{width:100%;justify-content:center;}}
+</style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
      se destacarem, texto secundário mais escuro (AA/AAA), bordas e campos visíveis,
@@ -645,6 +659,12 @@
     <div class="resumo-est-kpis" id="resumo-est-kpis"></div>
   </section>
   <!-- O KYC já não aparece aqui: só no Gerir loja e quando se cria uma loja. -->
+
+  <a class="com-banner" href="/comunidade/">
+    <span class="com-banner-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+    <span class="com-banner-txt"><b>Comunidade Daniel IA</b><span>Tira dúvidas, mostra o teu site e aprende com outros empreendedores.</span><small id="com-banner-num" data-no-i18n></small></span>
+    <span class="com-banner-btn">Entrar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+  </a>
 
   <div class="sites-header">
     <h2>Os teus sites</h2>
@@ -1759,6 +1779,20 @@ btnContactoGuardar.addEventListener('click', function(){
     sync();
   });
 })();</script>
+<script>
+// Comunidade: números ao vivo no cartão do dashboard (se falhar, o cartão fica só com o texto)
+(function(){
+  try {
+    var o = localStorage.getItem('daniel_owner'); if (!o) return;
+    fetch('https://mc-8oxfde5o71.bunny.run/comunidade', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: o }) })
+      .then(function(r){ return r.json(); }).then(function(r){
+        if (!r || r.status !== 'success') return;
+        var x = r.response, el = document.getElementById('com-banner-num');
+        if (el && x.total_posts) el.textContent = Number(x.total_posts).toLocaleString('pt-PT') + ' publicações · ' + Number(x.membros).toLocaleString('pt-PT') + ' membros';
+      }).catch(function(){});
+  } catch (e) {}
+})();
+</script>
 <script src="/suporte/whatsapp.js?v=1" data-mensagem="Olá! Preciso de ajuda com a minha conta na Daniel IA." defer></script>
 </body>
 </html>

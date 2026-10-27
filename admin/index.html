@@ -381,6 +381,7 @@
     <button type="button" data-sec="levantamentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 13h2"/><path d="M6 6V5a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1"/></svg>Levantamentos<span class="badge-n" id="badge-lev"></span></button>
     <button type="button" data-sec="planos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>Planos</button>
     <button type="button" data-sec="dominios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Domínios<span class="badge-n" id="badge-dom"></span></button>
+    <button type="button" data-sec="comunidade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1.3 0-2.6-.2-3.7-.6L3 20l1.5-4C3.6 14.7 3 13.1 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/></svg>Comunidade<span class="badge-n" id="badge-com"></span></button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
@@ -489,6 +490,18 @@
         <div class="linha-accoes"><button type="button" class="btn-pri" id="dm-guardar">Guardar preços</button><span class="msg" id="dm-cfg-msg"></span></div>
       </div>
       <div class="cartao"><h3>Pedidos</h3><p class="sub">Os que estão "Por pagar" não aparecem.</p><div class="tabela-caixa" id="dm-lista" style="border:none"></div></div>
+    </section>
+
+    <!-- COMUNIDADE (1.64.0) -->
+    <section class="seccao" id="sec-comunidade">
+      <div class="cab"><div><h1>Comunidade</h1><p>Modera publicações e respostas. Com 3 denúncias, uma publicação esconde-se sozinha até decidires.</p></div>
+        <div class="linha-accoes" style="margin:0"><a class="btn-sec" href="/comunidade/" target="_blank" rel="noopener" style="text-decoration:none">Abrir a comunidade</a><button type="button" class="btn-sec" data-actualizar="comunidade">Actualizar</button></div></div>
+      <div class="kpis" id="cm-kpis"></div>
+      <div class="msg" id="cm-msg" style="margin-bottom:12px"></div>
+      <div class="cartao">
+        <div class="chips" id="cm-filtro"><button type="button" class="chip on" data-cm="denunciados">Denunciados</button><button type="button" class="chip" data-cm="ocultos">Escondidos</button><button type="button" class="chip" data-cm="publicacoes">Publicações</button><button type="button" class="chip" data-cm="todos">Tudo</button></div>
+        <div class="tabela-caixa" id="cm-lista" style="border:none"></div>
+      </div>
     </section>
 
     <!-- REGISTO -->
@@ -1236,7 +1249,63 @@
     }).catch(function(e){ b.disabled = false; msg($('lv-cfg-msg'), e.message, 'erro'); });
   });
 
-  var CARREGAR = { levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+  // ======================================================
+  // Comunidade (1.64.0) - moderação
+  // ======================================================
+  var filtroCm = 'denunciados';
+  var CM_CAT = { geral: 'Geral', duvidas: 'Dúvidas', mostra: 'Mostra o teu site', dicas: 'Dicas e truques', vendas: 'Vendas e marketing', sugestoes: 'Sugestões' };
+  function carregarComunidadeAdmin(){
+    $('cm-lista').innerHTML = '<div class="vazio">A carregar...</div>';
+    post('/admin-comunidade', { filtro: filtroCm }).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      var x = r.response, k = x.resumo || {};
+      $('badge-com').textContent = k.denunciados ? String(k.denunciados) : '';
+      $('cm-kpis').innerHTML = kpi(IC.estrela, 'Publicações', num(k.publicacoes)) + kpi(IC.dinheiro, 'Respostas', num(k.respostas)) + kpi(IC.globo, 'Membros', num(k.membros))
+        + kpi(IC.cadeado, 'Por decidir', num(k.denunciados), k.ocultos ? num(k.ocultos) + ' escondidos' : 'nada escondido');
+      var l = x.itens || [];
+      $('cm-lista').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Conteúdo</th><th>Autor</th><th>Estado</th><th class="num">Denúncias</th><th>Data</th><th></th></tr></thead><tbody>'
+        + l.map(function(i){
+          var ehPost = i.tipo === 'post';
+          var titulo = ehPost ? i.titulo : 'Resposta em "' + (i.post_titulo || '') + '"';
+          var link = '/comunidade/#post=' + encodeURIComponent(ehPost ? i.id : i.post);
+          var b = [];
+          b.push('<a class="btn-sec btn-peq" href="' + link + '" target="_blank" rel="noopener" style="text-decoration:none">Ver</a>');
+          if (i.estado === 'Oculto') b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="mostrar" data-cm-id="' + esc(i.id) + '">Mostrar</button>');
+          else b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="ocultar" data-cm-id="' + esc(i.id) + '">Esconder</button>');
+          if (ehPost) b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="' + (i.fixado ? 'desafixar' : 'fixar') + '" data-cm-id="' + esc(i.id) + '">' + (i.fixado ? 'Desafixar' : 'Fixar') + '</button>');
+          if (i.denuncias && i.estado !== 'Oculto') b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="limpar" data-cm-id="' + esc(i.id) + '">Ignorar denúncias</button>');
+          b.push('<button type="button" class="btn-perigo btn-peq" data-cm-acc="apagar" data-cm-id="' + esc(i.id) + '">Apagar</button>');
+          return '<tr><td style="max-width:360px"><b>' + esc(titulo) + '</b><div class="dim" style="margin-top:3px;white-space:normal">' + esc(i.texto) + '</div><div class="dim" style="margin-top:3px;font-size:12px">' + esc(CM_CAT[i.categoria] || i.categoria) + (i.fixado ? ' · fixado' : '') + (i.resolvido ? ' · resolvido' : '') + ' · ' + num(i.gostos) + ' gostos' + (ehPost ? ' · ' + num(i.respostas) + ' respostas' : '') + '</div></td>'
+            + '<td>' + esc(i.autor.nome) + (i.autor.equipa ? ' <span class="pill roxo">Equipa</span>' : '') + '</td>'
+            + '<td>' + (i.estado === 'Oculto' ? '<span class="pill aviso">Escondido</span>' : '<span class="pill ok">Visível</span>') + '</td>'
+            + '<td class="num">' + (i.denuncias ? '<b style="color:var(--error)">' + num(i.denuncias) + '</b>' : '0') + '</td>'
+            + '<td class="dim">' + esc(data(i.criado, true)) + '</td>'
+            + '<td><div class="linha-accoes" style="margin:0;flex-wrap:wrap;gap:6px">' + b.join('') + '</div></td></tr>';
+        }).join('') + '</tbody></table>'
+        : '<div class="vazio">' + (filtroCm === 'denunciados' ? 'Nenhuma denúncia por decidir. Tudo em ordem.' : (filtroCm === 'ocultos' ? 'Nada escondido.' : 'Ainda sem publicações.')) + '</div>';
+      Array.prototype.forEach.call(document.querySelectorAll('[data-cm-acc]'), function(b){
+        var accao = b.getAttribute('data-cm-acc');
+        var fazer = function(){
+          b.disabled = true;
+          post('/admin-comunidade-accao', { id: b.getAttribute('data-cm-id'), accao: accao }).then(function(r){
+            if (r.status !== 'success') { b.disabled = false; msg($('cm-msg'), r.message, 'erro'); return; }
+            msg($('cm-msg'), { ocultar: 'Escondido.', mostrar: 'Visível outra vez.', fixar: 'Fixado no topo.', desafixar: 'Desafixado.', apagar: 'Apagado.', limpar: 'Denúncias ignoradas.' }[accao] || 'Feito.', 'ok');
+            carregarComunidadeAdmin();
+          }).catch(function(e){ b.disabled = false; msg($('cm-msg'), e.message, 'erro'); });
+        };
+        if (accao === 'apagar') doisToques(b, 'Apagar mesmo?', fazer); else b.addEventListener('click', fazer);
+      });
+    }).catch(function(e){ $('cm-lista').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-cm]'), function(b){
+    b.addEventListener('click', function(){
+      filtroCm = b.getAttribute('data-cm');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-cm]'), function(x){ x.classList.toggle('on', x === b); });
+      carregarComunidadeAdmin();
+    });
+  });
+
+  var CARREGAR = { comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){
@@ -1248,6 +1317,8 @@
     carregarResumo();
     carregadas.levantamentos = true;
     carregarLevantamentosAdmin(); // para o número de pendentes aparecer logo no menu
+    carregadas.comunidade = true;
+    carregarComunidadeAdmin(); // denúncias por decidir aparecem logo no menu
     var inicial = (location.hash || '').slice(1);
     if (inicial && CARREGAR[inicial] && inicial !== 'resumo') irPara(inicial);
   }).catch(function(){});
