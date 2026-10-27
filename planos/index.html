@@ -315,10 +315,10 @@
   .campo-dica{display:block;font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.45;}
   .campo-dica.aviso{color:var(--warning);font-weight:600;}
   .campo-dica.ok{color:var(--accent-2);font-weight:600;}
-  /* checkout M-Pesa / e-Mola: janela de 400 x 400 */
+  /* checkout M-Pesa / e-Mola: janela de 400 x 320 */
   .modal.modal-cartao.movel{max-width:440px;height:auto;max-height:96vh;}
-  .modal.modal-cartao.movel .cartao-palco{flex:none;width:400px;max-width:100%;height:400px;margin:0 auto;}
-  .modal.modal-cartao.movel .cartao-palco iframe{width:400px;max-width:100%;height:400px;}
+  .modal.modal-cartao.movel .cartao-palco{flex:none;width:400px;max-width:100%;height:320px;margin:0 auto;}
+  .modal.modal-cartao.movel .cartao-palco iframe{width:400px;max-width:100%;height:320px;}
   @media (max-width:600px){
     .overlay.overlay-cartao.movel{padding:12px;align-items:center;}
     .modal.modal-cartao.movel{height:auto;border-radius:16px;}
@@ -981,7 +981,7 @@ function abrirCartao(resp){
     palco.innerHTML = '<div class="cartao-carregar"><div class="spinner-grande"></div><p>A abrir o pagamento seguro...</p></div>';
     var fr = document.createElement('iframe');
     fr.title = movel ? 'Pagamento M-Pesa / e-Mola' : 'Pagamento com cartão';
-    if (movel) { fr.width = '400'; fr.height = '400'; }
+    if (movel) { fr.width = '400'; fr.height = '320'; }
     fr.setAttribute('allow', 'payment');
     // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.
     fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox');
