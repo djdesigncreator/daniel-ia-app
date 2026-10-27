@@ -208,6 +208,57 @@
   .bloco-modo{display:none;}
   .bloco-modo.activo{display:block;}
   .fixo-rodape{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;align-items:center;}
+  /* ---- Levantar dinheiro (B2C) ---- */
+  .lev{position:relative;overflow:hidden;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:22px;margin-bottom:22px;}
+  .lev::before{content:'';position:absolute;inset:0 auto 0 0;width:5px;background:var(--grad-accent);}
+  .lev-topo{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .lev-cofre{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:var(--grad-accent);color:var(--on-accent);flex-shrink:0;box-shadow:0 10px 24px var(--accent-glow);}
+  .lev-cofre svg{width:24px;height:24px;}
+  .lev-saldo{flex:1;min-width:180px;}
+  .lev-saldo span{display:block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);}
+  .lev-saldo b{display:block;font-family:var(--font-display);font-size:34px;line-height:1.1;letter-spacing:-.02em;margin-top:4px;}
+  .lev-saldo b small{font-size:15px;font-weight:700;color:var(--text-dim);letter-spacing:0;}
+  .lev-saldo em{display:block;font-style:normal;font-size:12.5px;color:var(--text-dim);margin-top:4px;}
+  .lev-numeros{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px;}
+  .lev-num{background:var(--card-alt);border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
+  .lev-num span{display:block;font-size:11.5px;font-weight:700;color:var(--text-dim);}
+  .lev-num b{display:block;font-size:16px;margin-top:4px;font-family:var(--font-mono);}
+  .lev-nota{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:12px 14px;border-radius:14px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);font-size:13px;line-height:1.5;}
+  .lev-nota svg{width:18px;height:18px;flex-shrink:0;color:var(--warning);margin-top:1px;}
+  .lev-nota a{color:var(--text);font-weight:800;}
+  .lev-form{margin-top:18px;padding-top:18px;border-top:1px dashed var(--border);}
+  .lev-ops{display:flex;gap:8px;}
+  .lev-op{flex:1;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--card-alt);color:var(--text);font-weight:800;font-size:13.5px;cursor:pointer;}
+  .lev-op.activo{border-color:var(--lime);box-shadow:0 0 0 4px rgba(137,200,4,.14);}
+  .lev-valor{display:flex;gap:8px;}
+  .lev-valor input{flex:1;}
+  .lev-valor button{white-space:nowrap;}
+  .lev-confirmar{margin-top:14px;padding:16px;border-radius:14px;background:var(--card-alt);border:1.5px solid var(--lime);font-size:14px;line-height:1.55;}
+  .lev-confirmar b{font-family:var(--font-mono);}
+  .lev-accoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center;}
+  .lev-accoes .msg{margin:0;flex:1;min-width:180px;}
+  .lev-hist{margin-top:18px;}
+  .lev-hist h4{margin:0 0 8px;font-size:13px;color:var(--text-dim);font-weight:800;}
+  .lev-linha{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
+  .lev-linha:last-child{border-bottom:0;}
+  .lev-linha .quando{color:var(--text-dim);font-size:12px;min-width:92px;}
+  .lev-linha .para{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lev-linha .quanto{font-family:var(--font-mono);font-weight:800;}
+  .lev-estado{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+  .lev-estado.pago{background:rgba(137,200,4,.15);color:var(--success);}
+  .lev-estado.espera{background:rgba(245,166,35,.14);color:var(--warning);}
+  .lev-estado.falhou{background:rgba(255,92,122,.12);color:var(--error);}
+  @media (max-width:640px){
+    .lev-numeros{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .lev-topo .btn{width:100%;}
+    .lev-saldo b{font-size:28px;}
+    .lev-linha{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;}
+    .lev-linha .quando{min-width:0;grid-column:1;grid-row:1;}
+    .lev-linha .lev-estado{grid-column:2;grid-row:1;justify-self:end;}
+    .lev-linha .para{grid-column:1;grid-row:2;}
+    .lev-linha .quanto{grid-column:2;grid-row:2;justify-self:end;}
+  }
+
   .fixo-rodape .msg{margin:0 auto 0 0;}
   @media (max-width:760px){
     .slides,.modos{grid-template-columns:1fr;}
@@ -829,6 +880,46 @@
   </section>
 
   <section class="painel" id="p-pagamentos">
+    <!-- Levantar dinheiro: o que os clientes pagaram pelo Daniel IA vai para o teu M-Pesa / e-Mola -->
+    <div class="lev" id="lev" style="display:none">
+      <div class="lev-topo">
+        <span class="lev-cofre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 13h2"/><path d="M6 6V5a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1"/></svg></span>
+        <div class="lev-saldo">
+          <span>Disponível para levantar</span>
+          <b><span class="mono" id="lev-disponivel" data-no-i18n>0</span> <small>MZN</small></b>
+          <em>Só conta o que os clientes pagaram pelo Daniel IA (M-Pesa, e-Mola ou cartão).</em>
+        </div>
+        <button type="button" class="btn btn-principal" id="lev-abrir" disabled>Levantar dinheiro</button>
+      </div>
+      <div class="lev-numeros">
+        <div class="lev-num"><span>Vendido</span><b id="lev-vendido" data-no-i18n>0</b></div>
+        <div class="lev-num"><span id="lev-comissao-rot">Comissão</span><b id="lev-comissao" data-no-i18n>0%</b></div>
+        <div class="lev-num"><span>Já levantado</span><b id="lev-levantado" data-no-i18n>0</b></div>
+        <div class="lev-num"><span>Em curso</span><b id="lev-emcurso" data-no-i18n>0</b></div>
+      </div>
+      <div class="lev-nota" id="lev-nota" style="display:none"></div>
+
+      <div class="lev-form" id="lev-form" style="display:none">
+        <div class="duas">
+          <div class="campo"><label for="lev-numero">Número que vai receber</label><input type="tel" inputmode="numeric" id="lev-numero" maxlength="20" placeholder="84 123 4567"><small id="lev-numero-dica">84/85 = M-Pesa · 86/87 = e-Mola</small></div>
+          <div class="campo"><label>Operadora</label><div class="lev-ops"><button type="button" class="lev-op" data-op="mpesa">M-Pesa</button><button type="button" class="lev-op" data-op="emola">e-Mola</button></div></div>
+        </div>
+        <div class="duas">
+          <div class="campo"><label for="lev-titular">Nome do titular do número</label><input type="text" id="lev-titular" maxlength="80" placeholder="Nome completo, como está no M-Pesa/e-Mola"></div>
+          <div class="campo"><label for="lev-valor">Valor (MZN)</label><div class="lev-valor"><input type="number" id="lev-valor" min="1" step="1" placeholder="0"><button type="button" class="btn btn-sec" id="lev-tudo">Tudo</button></div><small id="lev-limites" data-no-i18n></small></div>
+        </div>
+        <div class="lev-confirmar" id="lev-confirmar" style="display:none"></div>
+        <div class="lev-accoes">
+          <div class="msg" id="lev-msg"></div>
+          <button type="button" class="btn btn-sec" id="lev-cancelar">Cancelar</button>
+          <button type="button" class="btn btn-principal" id="lev-continuar">Continuar</button>
+          <button type="button" class="btn btn-principal" id="lev-enviar" style="display:none">Confirmar e enviar</button>
+        </div>
+      </div>
+
+      <div class="lev-hist" id="lev-hist" style="display:none"><h4>Últimos levantamentos</h4><div id="lev-lista"></div></div>
+    </div>
+
     <div class="modos">
       <button class="modo" data-modo="daniel">
         <span class="marca" id="marca-kyc"></span>
@@ -1049,6 +1140,203 @@
       msg($('msg-pag'), 'Guardado. A loja já está a usar este modo.', 'ok');
     }).catch(function(){ btn.disabled = false; msg($('msg-pag'), 'Não foi possível ligar ao servidor.', 'erro'); });
   });
+
+
+  // ======================================================
+  // Levantar dinheiro (B2C) - envio instantâneo para M-Pesa / e-Mola.
+  // Só para contas que activamos no painel de administração.
+  // ======================================================
+  var lev = null, levOp = '', levPronto = null;
+  var IC_AVISO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  var WHATSAPP_SUPORTE = 'https://wa.me/258851711177?text=' + encodeURIComponent('Olá! Quero activar os levantamentos da minha loja na Daniel IA.');
+  function levNum(n){ return Number(n || 0).toLocaleString('pt-PT'); }
+  function levNumero(n){
+    var d = String(n || '').replace(/\D/g, '');
+    if (d.length === 12 && d.indexOf('258') === 0) d = d.slice(3);
+    if (d.length === 14 && d.indexOf('00258') === 0) d = d.slice(5);
+    return /^8[2-7]\d{7}$/.test(d) ? d : '';
+  }
+  function levOperadora(n){
+    var d = levNumero(n);
+    if (/^8[45]/.test(d)) return 'mpesa';
+    if (/^8[67]/.test(d)) return 'emola';
+    return '';
+  }
+  function levNomeOp(op){ return op === 'emola' ? 'e-Mola' : 'M-Pesa'; }
+  function levData(iso){
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' }) + ' ' + d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+  }
+  function levEscolherOp(op){
+    levOp = op;
+    Array.prototype.forEach.call(document.querySelectorAll('.lev-op'), function(b){ b.classList.toggle('activo', b.getAttribute('data-op') === op); });
+  }
+
+  function carregarLevantamentos(){
+    post('/levantamentos', {}).then(function(r){
+      if (r.status !== 'success' || !r.response) return;
+      lev = r.response;
+      desenharLevantamentos();
+    }).catch(function(){});
+  }
+
+  function desenharLevantamentos(){
+    var s = lev.saldo || {};
+    var caixa = $('lev');
+    // Sem vendas pelo Daniel IA e sem levantamentos activos: não ocupa espaço.
+    if (!lev.habilitado && !s.vendido && !(lev.historico || []).length) { caixa.style.display = 'none'; return; }
+    caixa.style.display = '';
+    $('lev-disponivel').textContent = levNum(s.disponivel);
+    $('lev-vendido').textContent = levNum(s.vendido) + ' MZN';
+    $('lev-comissao').textContent = (Number(s.comissao) || 0) + '%';
+    $('lev-levantado').textContent = levNum(s.levantado) + ' MZN';
+    $('lev-emcurso').textContent = levNum(s.em_curso) + ' MZN';
+    var nota = $('lev-nota'), podeLevantar = false;
+    nota.style.background = ''; nota.style.borderColor = '';
+    if (!lev.habilitado) {
+      nota.innerHTML = IC_AVISO + '<span>Os levantamentos ainda não estão activos na tua conta. <a href="' + WHATSAPP_SUPORTE + '" target="_blank" rel="noopener">Fala connosco no WhatsApp</a> para activarmos.</span>';
+      nota.style.display = 'flex';
+    } else if (!lev.kyc) {
+      nota.innerHTML = IC_AVISO + '<span>Para levantar dinheiro precisas da tua identidade verificada. <a href="/kyc/">Verificar agora</a></span>';
+      nota.style.display = 'flex';
+    } else if (Number(s.disponivel) < Number(lev.minimo)) {
+      nota.innerHTML = IC_AVISO + '<span>O mínimo por levantamento é ' + levNum(lev.minimo) + ' MZN. Assim que o teu saldo chegar lá, podes levantar.</span>';
+      nota.style.display = 'flex';
+    } else {
+      nota.style.display = 'none';
+      podeLevantar = true;
+    }
+    pintarAvisoLev();
+    $('lev-abrir').disabled = !podeLevantar;
+    if (!podeLevantar) $('lev-form').style.display = 'none';
+    $('lev-limites').textContent = 'Mín. ' + levNum(lev.minimo) + ' · Máx. ' + levNum(Math.min(lev.maximo, s.disponivel || 0) || lev.maximo) + ' MZN';
+    var hist = lev.historico || [];
+    $('lev-hist').style.display = hist.length ? '' : 'none';
+    $('lev-lista').innerHTML = hist.slice(0, 8).map(function(h){
+      var cls = h.estado === 'Pago' ? 'pago' : (h.estado === 'Falhou' ? 'falhou' : 'espera');
+      var rot = h.estado === 'Pago' ? 'Enviado' : (h.estado === 'Falhou' ? 'Falhou' : 'A confirmar');
+      return '<div class="lev-linha"><span class="quando">' + esc(levData(h.criado)) + '</span>'
+        + '<span class="para">' + esc(levNomeOp(h.metodo)) + ' · ' + esc(h.telefone) + '</span>'
+        + '<span class="quanto">' + levNum(h.valor) + ' MZN</span>'
+        + '<span class="lev-estado ' + cls + '">' + rot + '</span></div>';
+    }).join('');
+  }
+
+  function levVoltarAoForm(){
+    levPronto = null;
+    $('lev-confirmar').style.display = 'none';
+    $('lev-enviar').style.display = 'none';
+    $('lev-continuar').style.display = '';
+    ['lev-numero', 'lev-titular', 'lev-valor'].forEach(function(id){ $(id).disabled = false; });
+  }
+
+  $('lev-abrir').addEventListener('click', function(){
+    var f = $('lev-form');
+    if (f.style.display !== 'none') { f.style.display = 'none'; return; }
+    levVoltarAoForm();
+    msg($('lev-msg'), '');
+    if (!$('lev-titular').value) $('lev-titular').value = lev.titular_sugerido || '';
+    if (!$('lev-numero').value && estadoLoja && estadoLoja.config) {
+      var c = estadoLoja.config;
+      $('lev-numero').value = c.mpesa || c.emola || '';
+    }
+    var op = levOperadora($('lev-numero').value);
+    if (op) levEscolherOp(op);
+    f.style.display = '';
+    $('lev-numero').focus();
+  });
+  $('lev-cancelar').addEventListener('click', function(){ levVoltarAoForm(); $('lev-form').style.display = 'none'; });
+  Array.prototype.forEach.call(document.querySelectorAll('.lev-op'), function(b){
+    b.addEventListener('click', function(){ levEscolherOp(b.getAttribute('data-op')); levVoltarAoForm(); });
+  });
+  $('lev-numero').addEventListener('input', function(){
+    var op = levOperadora(this.value);
+    if (op) levEscolherOp(op);
+    $('lev-numero-dica').textContent = op ? ('Número ' + levNomeOp(op) + ' ✓') : '84/85 = M-Pesa · 86/87 = e-Mola';
+    levVoltarAoForm();
+  });
+  $('lev-tudo').addEventListener('click', function(){
+    if (!lev) return;
+    $('lev-valor').value = Math.min(Number(lev.maximo) || 0, Number(lev.saldo.disponivel) || 0);
+    levVoltarAoForm();
+  });
+
+  $('lev-continuar').addEventListener('click', function(){
+    msg($('lev-msg'), '');
+    var numero = levNumero($('lev-numero').value);
+    var op = levOperadora(numero);
+    var titular = $('lev-titular').value.trim().replace(/\s+/g, ' ');
+    var valor = Math.floor(Number($('lev-valor').value));
+    if (!numero) return msg($('lev-msg'), 'Escreve um número válido (ex: 84 123 4567).', 'erro');
+    if (!op) return msg($('lev-msg'), 'Este número não é M-Pesa (84/85) nem e-Mola (86/87).', 'erro');
+    if (!levOp) levEscolherOp(op);
+    if (levOp !== op) return msg($('lev-msg'), 'Este número é ' + levNomeOp(op) + '. Escolhe ' + levNomeOp(op) + '.', 'erro');
+    if (titular.split(' ').length < 2) return msg($('lev-msg'), 'Escreve o nome completo do titular do número.', 'erro');
+    if (!(valor > 0)) return msg($('lev-msg'), 'Escreve o valor a levantar.', 'erro');
+    if (valor < lev.minimo) return msg($('lev-msg'), 'O valor mínimo é ' + levNum(lev.minimo) + ' MZN.', 'erro');
+    if (valor > lev.maximo) return msg($('lev-msg'), 'O valor máximo por levantamento é ' + levNum(lev.maximo) + ' MZN.', 'erro');
+    if (valor > lev.saldo.disponivel) return msg($('lev-msg'), 'Só tens ' + levNum(lev.saldo.disponivel) + ' MZN disponíveis.', 'erro');
+    levPronto = { metodo: op, telefone: numero, titular: titular, valor: valor };
+    var c = $('lev-confirmar');
+    c.innerHTML = 'Vais receber <b>' + levNum(valor) + ' MZN</b> no ' + levNomeOp(op) + ' <b>' + esc(numero.replace(/^(\d{2})(\d{3})(\d{4})$/, '$1 $2 $3')) + '</b> em nome de <b>' + esc(titular) + '</b>.<br>Confirma que o número e o nome estão certos: o envio é imediato e não dá para desfazer.';
+    c.style.display = '';
+    ['lev-numero', 'lev-titular', 'lev-valor'].forEach(function(id){ $(id).disabled = true; });
+    $('lev-continuar').style.display = 'none';
+    $('lev-enviar').style.display = '';
+  });
+
+  $('lev-enviar').addEventListener('click', function(){
+    if (!levPronto) return;
+    var btn = this, pedido = levPronto;
+    btn.disabled = true;
+    $('lev-cancelar').disabled = true;
+    msg($('lev-msg'), 'A enviar...');
+    post('/levantamento-pedir', pedido).then(function(r){
+      btn.disabled = false;
+      $('lev-cancelar').disabled = false;
+      var estado = r.response && r.response.estado;
+      if (r.status === 'success' && estado === 'Pago') {
+        levVoltarAoForm();
+        $('lev-valor').value = '';
+        $('lev-form').style.display = 'none';
+        msg($('lev-msg'), '');
+        mostrarAvisoLev('ok', 'Enviado! ' + levNum(pedido.valor) + ' MZN já estão no teu ' + levNomeOp(pedido.metodo) + '.');
+      } else if (r.status === 'success') {
+        levVoltarAoForm();
+        $('lev-valor').value = '';
+        $('lev-form').style.display = 'none';
+        mostrarAvisoLev('pendente', 'Pedido registado. Estamos a confirmar o envio com a operadora e avisamos-te por email. O valor fica reservado até lá.');
+      } else {
+        levVoltarAoForm();
+        msg($('lev-msg'), r.message || 'Não foi possível levantar agora.', 'erro');
+      }
+      carregarLevantamentos();
+    }).catch(function(){
+      btn.disabled = false;
+      $('lev-cancelar').disabled = false;
+      levVoltarAoForm();
+      msg($('lev-msg'), 'Sem ligação. Antes de tentares outra vez, actualiza a página e vê se o levantamento já aparece na lista.', 'erro');
+      carregarLevantamentos();
+    });
+  });
+
+  // Mensagem do último levantamento: fica visível uns segundos mesmo depois de o saldo actualizar.
+  var levAviso = null;
+  function mostrarAvisoLev(tipo, texto){
+    levAviso = { tipo: tipo, texto: texto, ate: Date.now() + 15000 };
+    pintarAvisoLev();
+    setTimeout(function(){ levAviso = null; if (lev) desenharLevantamentos(); }, 15100);
+  }
+  function pintarAvisoLev(){
+    if (!levAviso || Date.now() > levAviso.ate) return false;
+    var nota = $('lev-nota'), ok = levAviso.tipo === 'ok';
+    nota.style.display = 'flex';
+    nota.style.background = ok ? 'rgba(137,200,4,.10)' : '';
+    nota.style.borderColor = ok ? 'rgba(137,200,4,.4)' : '';
+    nota.innerHTML = (ok ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:var(--success)"><polyline points="20 6 9 17 4 12"/></svg>' : IC_AVISO) + '<span id="lev-aviso-texto">' + esc(levAviso.texto) + '</span>';
+    return true;
+  }
 
   // ======================================================
   // Capa
@@ -2626,6 +2914,7 @@
   if (location.hash === '#p-quiz') carregarQuiz();
 
   carregarLoja();
+  carregarLevantamentos();
   carregarProdutos();
   carregarAvaliacoes();
   carregarCategorias();

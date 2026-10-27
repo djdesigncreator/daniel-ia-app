@@ -309,6 +309,17 @@
   .pacote-unit{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
   .pacote .btn-plano{margin-top:auto;}
   .metodo-tile small{display:block;font-size:10.5px;font-weight:600;color:var(--text-dim);margin-top:3px;}
+  .campo-dica{display:block;font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.45;}
+  .campo-dica.aviso{color:var(--warning);font-weight:600;}
+  .campo-dica.ok{color:var(--accent-2);font-weight:600;}
+  /* checkout M-Pesa / e-Mola: janela de 400 x 450 */
+  .modal.modal-cartao.movel{max-width:440px;height:auto;max-height:96vh;}
+  .modal.modal-cartao.movel .cartao-palco{flex:none;width:400px;max-width:100%;height:450px;margin:0 auto;}
+  .modal.modal-cartao.movel .cartao-palco iframe{width:400px;max-width:100%;height:450px;}
+  @media (max-width:600px){
+    .overlay.overlay-cartao.movel{padding:12px;align-items:center;}
+    .modal.modal-cartao.movel{height:auto;border-radius:16px;}
+  }
   .periodo-modal{color:var(--text-dim);}
   /* janela do cartão */
   .modal.modal-cartao{max-width:580px;padding:0;display:flex;flex-direction:column;height:min(780px,92vh);overflow:hidden;}
@@ -423,9 +434,10 @@
       <h3 id="titulo-recarga" style="display:none">Recarregar <span id="pagar-tokens" data-no-i18n></span> tokens</h3>
       <p class="sub">Valor: <strong id="pagar-valor"></strong> <span id="periodo-mes">MZN/mês</span><span id="periodo-unico" style="display:none">MZN · pagamento único</span></p>
 
-      <div class="campo" id="campo-telefone" style="display:none">
-        <label>Telefone (M-Pesa / e-Mola)</label>
-        <input type="text" id="pagar-telefone" maxlength="20" placeholder="84xxxxxxx">
+      <div class="campo" id="campo-telefone">
+        <label for="pagar-telefone">O teu número M-Pesa ou e-Mola</label>
+        <input type="tel" inputmode="numeric" autocomplete="tel" id="pagar-telefone" maxlength="20" placeholder="84 123 4567">
+        <small class="campo-dica" id="telefone-dica">Escreve primeiro o teu número e depois escolhe M-Pesa ou e-Mola. Para pagar com cartão não é preciso.</small>
       </div>
 
       <div class="campo">
@@ -456,12 +468,12 @@
     <div id="vista-cartao" style="display:none;flex-direction:column;flex:1;min-height:0">
       <div class="cartao-topo">
         <span class="cadeado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
-        <div><b>Pagamento seguro</b><small>Visa · Mastercard</small></div>
+        <div><b>Pagamento seguro</b><small id="cartao-rotulo">Visa · Mastercard</small></div>
         <span class="valor" id="cartao-valor" data-no-i18n></span>
         <button type="button" class="btn-x" id="btn-cartao-fechar" aria-label="Fechar" title="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button>
       </div>
       <div class="cartao-palco" id="cartao-palco"></div>
-      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">Não aparece? Abrir numa janela nova</a></div>
+      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">A página não aparece? Abrir num separador novo</a></div>
     </div>
 
     <div id="vista-sucesso" style="display:none">
@@ -730,7 +742,11 @@ function mostrarVistaModal(nome){
   });
   elModal.classList.toggle('modal-cartao', nome === 'cartao');
   elOverlay.classList.toggle('overlay-cartao', nome === 'cartao');
-  if (nome !== 'cartao') document.getElementById('cartao-palco').innerHTML = '';
+  if (nome !== 'cartao') {
+    document.getElementById('cartao-palco').innerHTML = '';
+    elModal.classList.remove('movel');
+    elOverlay.classList.remove('movel');
+  }
 }
 
 function abrirMudancaPlano(planoId, nomePlano, precoMzn){
@@ -768,7 +784,8 @@ function abrirPagamento(p){
   document.getElementById('pagar-valor').textContent = Number(p.valor).toLocaleString('pt-PT');
   document.getElementById('periodo-mes').style.display = ehPlano ? '' : 'none';
   document.getElementById('periodo-unico').style.display = ehPlano ? 'none' : '';
-  elCampoTelefone.style.display = 'none';
+  elCampoTelefone.style.display = '';
+  dicaTelefone('', '');
   document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
   btnPagar.disabled = false;
   btnPagar.textContent = 'Pagar';
@@ -781,8 +798,62 @@ document.querySelectorAll('.metodo-tile').forEach(function(tile){
     document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
     tile.classList.add('seleccionado');
     metodoSeleccionado = tile.getAttribute('data-metodo');
-    elCampoTelefone.style.display = (metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') ? '' : 'none';
+    verificarTelefone();
   });
+});
+
+// ---- Número M-Pesa / e-Mola ----
+// 84/85 = M-Pesa (Vodacom) · 86/87 = e-Mola (Movitel)
+var TEXTO_DICA = 'Escreve primeiro o teu número e depois escolhe M-Pesa ou e-Mola. Para pagar com cartão não é preciso.';
+function numeroMovel(n){
+  var d = String(n || '').replace(/\D/g, '');
+  if (d.length === 12 && d.indexOf('258') === 0) d = d.slice(3);
+  if (d.length === 14 && d.indexOf('00258') === 0) d = d.slice(5);
+  return /^8[2-7]\d{7}$/.test(d) ? d : '';
+}
+function operadoraDe(n){
+  var d = numeroMovel(n);
+  if (/^8[45]/.test(d)) return 'mpesa';
+  if (/^8[67]/.test(d)) return 'emola';
+  return '';
+}
+function dicaTelefone(texto, tipo){
+  var el = document.getElementById('telefone-dica');
+  if (!el) return;
+  el.textContent = texto || TEXTO_DICA;
+  el.className = 'campo-dica' + (tipo ? ' ' + tipo : '');
+}
+function seleccionarMetodo(m){
+  document.querySelectorAll('.metodo-tile').forEach(function(t){
+    t.classList.toggle('seleccionado', t.getAttribute('data-metodo') === m);
+  });
+  metodoSeleccionado = m;
+}
+// Devolve a mensagem de erro (ou '' se estiver tudo bem) e mostra a dica certa.
+function verificarTelefone(){
+  if (metodoSeleccionado === 'cartao') { dicaTelefone('Com cartão não precisas do número.', ''); return ''; }
+  var v = elTelefone.value.trim();
+  if (!v) { dicaTelefone('', ''); return 'Escreve primeiro o teu número M-Pesa ou e-Mola.'; }
+  var n = numeroMovel(v), op = operadoraDe(v);
+  if (!n) {
+    if (v.replace(/\D/g, '').length >= 9) { dicaTelefone('Este número não parece válido. Ex: 84 123 4567', 'aviso'); }
+    else { dicaTelefone('', ''); }
+    return 'Escreve um número de telemóvel válido (ex: 84 123 4567).';
+  }
+  if (!op) { dicaTelefone('Este número não é M-Pesa (84/85) nem e-Mola (86/87).', 'aviso'); return 'Este número não é M-Pesa (84/85) nem e-Mola (86/87).'; }
+  if (metodoSeleccionado && metodoSeleccionado !== op) {
+    var msg = op === 'mpesa' ? 'Este número é M-Pesa (84/85). Escolhe M-Pesa.' : 'Este número é e-Mola (86/87). Escolhe e-Mola.';
+    dicaTelefone(msg, 'aviso');
+    return msg;
+  }
+  dicaTelefone(op === 'mpesa' ? 'Número M-Pesa ✓' : 'Número e-Mola ✓', 'ok');
+  return '';
+}
+elTelefone.addEventListener('input', function(){
+  var op = operadoraDe(elTelefone.value);
+  // escolhe a operadora sozinho pelo prefixo (não mexe se a pessoa escolheu cartão)
+  if (op && metodoSeleccionado !== 'cartao') seleccionarMetodo(op);
+  verificarTelefone();
 });
 
 function fecharModal(){
@@ -809,10 +880,11 @@ btnPagar.addEventListener('click', function(){
     elPagarErro.textContent = 'Escolhe um método de pagamento.';
     return;
   }
-  var telefone = elTelefone.value.trim();
-  if ((metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') && !telefone) {
-    elPagarErro.textContent = 'Escreve o teu número de telefone.';
-    return;
+  var telefone = '';
+  if (metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') {
+    var erroTel = verificarTelefone();
+    if (erroTel) { elPagarErro.textContent = erroTel; elTelefone.focus(); return; }
+    telefone = numeroMovel(elTelefone.value);
   }
 
   btnPagar.disabled = true;
@@ -839,7 +911,8 @@ btnPagar.addEventListener('click', function(){
     if (rPagar.status !== 'success') {
       throw new Error(rPagar.message || 'Não foi possível iniciar o pagamento.');
     }
-    if (rPagar.response.tipo === 'cartao') {
+    if (rPagar.response.tipo === 'cartao' || rPagar.response.tipo === 'checkout') {
+      // cartão, ou M-Pesa/e-Mola pela alternativa nova: a página de pagamento abre aqui dentro
       abrirCartao(rPagar.response);
       return;
     }
@@ -856,24 +929,34 @@ btnPagar.addEventListener('click', function(){
 // ---- Cartão dentro da página ----
 var ICONE_CADEADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
 function abrirCartao(resp){
+  var movel = resp.tipo === 'checkout';
   mostrarVistaModal('cartao');
+  elModal.classList.toggle('movel', movel);
+  elOverlay.classList.toggle('movel', movel);
+  document.getElementById('cartao-rotulo').textContent = movel ? (resp.metodo === 'emola' ? 'e-Mola' : 'M-Pesa') : 'Visa · Mastercard';
   document.getElementById('cartao-valor').textContent = Number(pedido.valor).toLocaleString('pt-PT') + ' MZN';
   var palco = document.getElementById('cartao-palco');
   var linkFora = document.getElementById('cartao-abrir-fora');
   linkFora.href = resp.checkout_url;
   palco.classList.remove('carregado');
   if (resp.embutivel === false) {
-    palco.innerHTML = '<div class="cartao-fora"><span class="cartao-fora-ic">' + ICONE_CADEADO + '</span>'
-      + '<h4>O banco abre o pagamento numa janela segura</h4>'
-      + '<p>Toca no botão, paga com o teu cartão e volta para aqui. Esta página confirma o pagamento sozinha.</p>'
-      + '<a class="btn-plano principal" id="cartao-fora-btn" href="#" target="_blank" rel="noopener">Abrir pagamento seguro</a></div>';
+    palco.innerHTML = movel
+      ? '<div class="cartao-fora"><span class="cartao-fora-ic">' + ICONE_CADEADO + '</span>'
+        + '<h4>A página de pagamento abre num separador novo</h4>'
+        + '<p>Toca no botão, confirma o pagamento no teu telemóvel e volta para aqui. Esta janela fecha sozinha quando o pagamento entrar.</p>'
+        + '<a class="btn-plano principal" id="cartao-fora-btn" href="#" target="_blank" rel="noopener">Abrir a página de pagamento</a></div>'
+      : '<div class="cartao-fora"><span class="cartao-fora-ic">' + ICONE_CADEADO + '</span>'
+        + '<h4>O banco abre o pagamento numa janela segura</h4>'
+        + '<p>Toca no botão, paga com o teu cartão e volta para aqui. Esta página confirma o pagamento sozinha.</p>'
+        + '<a class="btn-plano principal" id="cartao-fora-btn" href="#" target="_blank" rel="noopener">Abrir pagamento seguro</a></div>';
     document.getElementById('cartao-fora-btn').href = resp.checkout_url;
     palco.classList.add('carregado');
     linkFora.style.display = 'none';
   } else {
     palco.innerHTML = '<div class="cartao-carregar"><div class="spinner-grande"></div><p>A abrir o pagamento seguro...</p></div>';
     var fr = document.createElement('iframe');
-    fr.title = 'Pagamento com cartão';
+    fr.title = movel ? 'Pagamento M-Pesa / e-Mola' : 'Pagamento com cartão';
+    if (movel) { fr.width = '400'; fr.height = '450'; }
     fr.setAttribute('allow', 'payment');
     // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.
     fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox');
@@ -947,7 +1030,21 @@ function mostrarSucesso(){
   document.getElementById('sucesso-tokens').textContent = recarga ? fmt(pedido.tokens) : '';
   mostrarVistaModal('sucesso');
   assinaturaActualId = '';
+  fecharSucessoSozinho();
   carregarPlanoActual();
+}
+
+// Pagamento confirmado: a janela fecha sozinha passados uns segundos.
+var sucessoTimer = null;
+function fecharSucessoSozinho(){
+  if (sucessoTimer) clearTimeout(sucessoTimer);
+  sucessoTimer = setTimeout(function(){
+    sucessoTimer = null;
+    if (elOverlay.style.display !== 'none' && document.getElementById('vista-sucesso').style.display !== 'none') {
+      document.getElementById('btn-fechar-sucesso').click();
+      mostrarMsgPagina('Pagamento confirmado!', 'ok');
+    }
+  }, 3500);
 }
 
 // Fechou a janela antes da confirmação: continua a verificar por trás
