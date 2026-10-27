@@ -1,6 +1,17 @@
 /* Daniel IA - dicionário en (gerado) */
 window.__danielI18nRegistar("en",
 {
+"Só com plano pago": "Paid plans only",
+"As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Top-ups are for paid plans. Choose a plan above - then, whenever your tokens run out, top up here without changing plans.",
+"Subir de plano →": "Upgrade plan →",
+"Ver planos →": "See plans →",
+"Os tokens do plano Free acabaram. Sobe de plano para continuares a criar e editar.": "Your Free plan tokens have run out. Upgrade to keep creating and editing.",
+"Os tokens do teu plano acabaram. Recarrega para continuares - continuas no mesmo plano.": "Your plan's tokens have run out. Top up to continue - you stay on the same plan.",
+"As recargas são para planos pagos. Escolhe um plano para continuares a criar e editar.": "Top-ups are for paid plans. Choose a plan to keep creating and editing.",
+"Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira, só é usada depois dos tokens do plano e": "Your plan's tokens renew every month. If they run out sooner, buy a top-up: it's added instantly, never expires, is only used after your plan's tokens, and",
+"continuas no mesmo plano": "you stay on the same plan",
+"Os tokens do plano Free acabaram. Sobe para um plano pago para continuares a criar e editar - nos planos pagos podes recarregar tokens sempre que acabarem.": "Your Free plan tokens have run out. Upgrade to a paid plan to keep creating and editing - on paid plans you can top up tokens whenever they run out.",
+"As recargas de tokens são para quem tem um plano pago. Escolhe um plano primeiro - depois podes recarregar sempre que os tokens acabarem, sem mudar de plano.": "Token top-ups are for paid plans. Choose a plan first - then you can top up whenever your tokens run out, without changing plans.",
 "Este número não é M-Pesa (84/85) nem e-Mola (86/87).": "This number is not M-Pesa (84/85) or e-Mola (86/87).",
 "Este número é M-Pesa (84/85). Escolhe M-Pesa.": "This is an M-Pesa number (84/85). Choose M-Pesa.",
 "Este número é e-Mola (86/87). Escolhe e-Mola.": "This is an e-Mola number (86/87). Choose e-Mola.",

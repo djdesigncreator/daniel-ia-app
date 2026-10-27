@@ -1,6 +1,17 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"Só com plano pago": "Forfaits payants uniquement",
+"As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Les recharges sont réservées aux forfaits payants. Choisissez un forfait ci-dessus - ensuite, dès que vos tokens sont épuisés, rechargez ici sans changer de forfait.",
+"Subir de plano →": "Changer de forfait →",
+"Ver planos →": "Voir les forfaits →",
+"Os tokens do plano Free acabaram. Sobe de plano para continuares a criar e editar.": "Les tokens du forfait Free sont épuisés. Passez à un forfait payant pour continuer à créer et modifier.",
+"Os tokens do teu plano acabaram. Recarrega para continuares - continuas no mesmo plano.": "Les tokens de votre forfait sont épuisés. Rechargez pour continuer - vous gardez le même forfait.",
+"As recargas são para planos pagos. Escolhe um plano para continuares a criar e editar.": "Les recharges sont réservées aux forfaits payants. Choisissez un forfait pour continuer à créer et modifier.",
+"Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira, só é usada depois dos tokens do plano e": "Les tokens de votre forfait se renouvellent chaque mois. S'ils s'épuisent avant, achetez une recharge : elle est ajoutée immédiatement, n'expire pas, n'est utilisée qu'après les tokens du forfait et",
+"continuas no mesmo plano": "vous gardez le même forfait",
+"Os tokens do plano Free acabaram. Sobe para um plano pago para continuares a criar e editar - nos planos pagos podes recarregar tokens sempre que acabarem.": "Les tokens du forfait Free sont épuisés. Passez à un forfait payant pour continuer - avec un forfait payant, vous pouvez recharger vos tokens à tout moment.",
+"As recargas de tokens são para quem tem um plano pago. Escolhe um plano primeiro - depois podes recarregar sempre que os tokens acabarem, sem mudar de plano.": "Les recharges de tokens sont réservées aux forfaits payants. Choisissez d'abord un forfait - vous pourrez ensuite recharger à tout moment, sans changer de forfait.",
 "Este número não é M-Pesa (84/85) nem e-Mola (86/87).": "Ce numéro n'est ni M-Pesa (84/85) ni e-Mola (86/87).",
 "Este número é M-Pesa (84/85). Escolhe M-Pesa.": "C'est un numéro M-Pesa (84/85). Choisissez M-Pesa.",
 "Este número é e-Mola (86/87). Escolhe e-Mola.": "C'est un numéro e-Mola (86/87). Choisissez e-Mola.",

@@ -1,6 +1,17 @@
 /* Daniel IA - dicionário es (gerado) */
 window.__danielI18nRegistar("es",
 {
+"Só com plano pago": "Solo con plan de pago",
+"As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Las recargas son para planes de pago. Elige un plan arriba; después, cuando se acaben los tokens, recargas aquí sin cambiar de plan.",
+"Subir de plano →": "Mejorar plan →",
+"Ver planos →": "Ver planes →",
+"Os tokens do plano Free acabaram. Sobe de plano para continuares a criar e editar.": "Se acabaron los tokens del plan Free. Mejora tu plan para seguir creando y editando.",
+"Os tokens do teu plano acabaram. Recarrega para continuares - continuas no mesmo plano.": "Se acabaron los tokens de tu plan. Recarga para continuar: sigues en el mismo plan.",
+"As recargas são para planos pagos. Escolhe um plano para continuares a criar e editar.": "Las recargas son para planes de pago. Elige un plan para seguir creando y editando.",
+"Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira, só é usada depois dos tokens do plano e": "Los tokens de tu plan se renuevan cada mes. Si se acaban antes, compra una recarga: entra al momento, no caduca, solo se usa después de los tokens del plan y",
+"continuas no mesmo plano": "sigues en el mismo plan",
+"Os tokens do plano Free acabaram. Sobe para um plano pago para continuares a criar e editar - nos planos pagos podes recarregar tokens sempre que acabarem.": "Se acabaron los tokens del plan Free. Pasa a un plan de pago para seguir creando y editando; en los planes de pago puedes recargar tokens cuando se acaben.",
+"As recargas de tokens são para quem tem um plano pago. Escolhe um plano primeiro - depois podes recarregar sempre que os tokens acabarem, sem mudar de plano.": "Las recargas de tokens son para planes de pago. Elige primero un plan; después podrás recargar cuando se acaben los tokens, sin cambiar de plan.",
 "Este número não é M-Pesa (84/85) nem e-Mola (86/87).": "Este número no es M-Pesa (84/85) ni e-Mola (86/87).",
 "Este número é M-Pesa (84/85). Escolhe M-Pesa.": "Este número es M-Pesa (84/85). Elige M-Pesa.",
 "Este número é e-Mola (86/87). Escolhe e-Mola.": "Este número es e-Mola (86/87). Elige e-Mola.",

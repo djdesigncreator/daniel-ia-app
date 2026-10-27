@@ -1068,7 +1068,7 @@
     m.className = 'ed-msg'; m.innerHTML = '<span class="ed-progresso"><i></i>' + esc(T('A IA está a mudar a página. Pode demorar 1 a 2 minutos...')) + '</span>';
     carregar(true, T('A IA está a mudar a página...'));
     post('/editar', { site_id: SITE_ID, pagina: pagina, prompt: pedido }).then(function(r){
-      if (r.status !== 'success') throw Object.assign(new Error(r.message || T('Não foi possível começar.')), { codigo: r.codigo });
+      if (r.status !== 'success') throw Object.assign(new Error(r.message || T('Não foi possível começar.')), { codigo: r.codigo, plano_pago: r.plano_pago });
       var gid = r.response.generation_id;
       return new Promise(function(resolve, reject){
         var n = 0;
@@ -1092,7 +1092,7 @@
       if (mm) {
         mm.className = 'ed-msg erro';
         mm.textContent = e.message;
-        if (e.codigo === 'tokens') { var a = document.createElement('a'); a.href = '/planos/#recarregar'; a.textContent = ' ' + T('Recarregar tokens →'); mm.appendChild(a); }
+        if (e.codigo === 'tokens') { var a = document.createElement('a'); a.href = e.plano_pago === false ? '/planos/' : '/planos/#recarregar'; a.textContent = ' ' + (e.plano_pago === false ? T('Ver planos →') : T('Recarregar tokens →')); mm.appendChild(a); }
       }
     });
   }

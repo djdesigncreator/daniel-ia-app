@@ -945,9 +945,14 @@ fetch(CONTAINER_URL + '/account', {
       capExtra.style.display = '';
       capExtra.textContent = '+ ' + extra.toLocaleString('pt-PT') + ' tokens recarregados (não expiram)';
     }
+    // Free: não há recargas - a ligação leva aos planos.
+    var linkRec = document.getElementById('link-recarregar');
+    if (d.plano_pago === false) { linkRec.href = '/planos/'; linkRec.textContent = 'Subir de plano →'; }
     if (incluidos > 0 && usados >= incluidos && extra <= 0) {
       document.getElementById('bar-tokens').style.background = 'var(--error)';
-      document.getElementById('caption-tokens').textContent = 'Os tokens do teu plano acabaram. Recarrega para continuares a criar e editar.';
+      document.getElementById('caption-tokens').textContent = d.plano_pago === false
+        ? 'Os tokens do plano Free acabaram. Sobe de plano para continuares a criar e editar.'
+        : 'Os tokens do teu plano acabaram. Recarrega para continuares - continuas no mesmo plano.';
     }
   } else {
     document.getElementById('welcome-title').textContent = 'Bem-vindo';
@@ -958,13 +963,14 @@ fetch(CONTAINER_URL + '/account', {
   document.getElementById('welcome-sub').textContent = 'Não foi possível ligar ao servidor.';
 });
 
-// Tokens acabaram (1.59.0): junta a ligação para recarregar à mensagem.
-function juntarLigacaoRecarga(el){
+// Tokens acabaram: nos planos pagos, recarregar (não muda o plano);
+// no Free, subir de plano (as recargas são só para planos pagos).
+function juntarLigacaoRecarga(el, pago){
   if (!el || el.querySelector('.link-recarga')) return;
   var a = document.createElement('a');
   a.className = 'link-recarga';
-  a.href = '/planos/#recarregar';
-  a.textContent = 'Recarregar tokens →';
+  a.href = pago === false ? '/planos/' : '/planos/#recarregar';
+  a.textContent = pago === false ? 'Ver planos →' : 'Recarregar tokens →';
   el.appendChild(document.createTextNode(' '));
   el.appendChild(a);
 }
@@ -1356,7 +1362,7 @@ btnEditarAplicar.addEventListener('click', function(){
         btnEditarAplicar.disabled = false;
         btnEditarAplicar.textContent = 'Aplicar alteração';
         elEditarErro.textContent = r.message || 'Não foi possível iniciar a alteração. Tenta novamente.';
-        if (r.codigo === 'tokens') juntarLigacaoRecarga(elEditarErro);
+        if (r.codigo === 'tokens') juntarLigacaoRecarga(elEditarErro, r.plano_pago);
         elEditarErro.style.display = 'block';
       }
     })
@@ -1753,5 +1759,6 @@ btnContactoGuardar.addEventListener('click', function(){
     sync();
   });
 })();</script>
+<script src="/suporte/whatsapp.js?v=1" data-mensagem="Olá! Preciso de ajuda com a minha conta na Daniel IA." defer></script>
 </body>
 </html>

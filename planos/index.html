@@ -309,6 +309,9 @@
   .pacote-unit{font-size:12px;color:var(--text-dim);margin-bottom:10px;}
   .pacote .btn-plano{margin-top:auto;}
   .metodo-tile small{display:block;font-size:10.5px;font-weight:600;color:var(--text-dim);margin-top:3px;}
+  .recarga-fechada{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;padding:13px 16px;border-radius:14px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.32);font-size:13.5px;line-height:1.5;}
+  .recarga-fechada svg{width:18px;height:18px;flex-shrink:0;color:var(--warning);margin-top:1px;}
+  .recarga.fechada .pacote{opacity:.6;}
   .campo-dica{display:block;font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.45;}
   .campo-dica.aviso{color:var(--warning);font-weight:600;}
   .campo-dica.ok{color:var(--accent-2);font-weight:600;}
@@ -420,7 +423,8 @@
   <section class="recarga" id="recarregar" style="display:none">
     <div class="recarga-eti">RECARGAS</div>
     <h2>Os tokens acabaram? Recarrega.</h2>
-    <p>Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira e só é usada depois dos tokens do plano.</p>
+    <p>Os tokens do teu plano renovam-se todos os meses. Se acabarem antes, compra uma recarga: entra na hora, não expira, só é usada depois dos tokens do plano e <b>continuas no mesmo plano</b>.</p>
+    <div class="recarga-fechada" id="recarga-fechada" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span>As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.</span></div>
     <div class="recarga-grid" id="recarga-grid"></div>
   </section>
 </div>
@@ -559,6 +563,7 @@ function mostrarMsgPagina(texto, tipo){
 // Conta: plano actual e tokens (do plano + recarregados)
 // ======================================================
 var nomePlanoActual = '';
+var avisoFreeMostrado = false;
 var conta = null;
 function fmt(n){ return Number(n || 0).toLocaleString('pt-PT'); }
 function postContainer(rota, corpo){
@@ -586,6 +591,13 @@ function carregarPlanoActual(){
 
 function desenharConta(){
   document.getElementById('plano-actual-nome').textContent = nomePlanoActual || '—';
+  var btnRec = document.getElementById('btn-ir-recarga');
+  if (btnRec) btnRec.style.display = planoEhFree() ? 'none' : '';
+  if (pacotesCache.length) renderPacotes();
+  if (planoEhFree() && location.hash === '#recarregar' && !avisoFreeMostrado) {
+    avisoFreeMostrado = true;
+    mostrarMsgPagina('As recargas são para planos pagos. Escolhe um plano para continuares a criar e editar.', 'erro');
+  }
   var el = document.getElementById('conta-tokens');
   if (!conta) { el.innerHTML = ''; return; }
   var inc = Number(conta.tokens_incluidos || 0), us = Number(conta.tokens_usados || 0), ex = Number(conta.tokens_extra || 0);
@@ -670,6 +682,7 @@ function renderPlanos(){
 // Recargas de tokens
 // ======================================================
 var pacotesCache = [];
+var jaRolouRecarga = false;
 var ICONE_RAIO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>';
 function carregarPacotes(){
   postContainer('/pacotes', {}).then(function(r){
@@ -677,11 +690,16 @@ function carregarPacotes(){
     renderPacotes();
   }).catch(function(){ pacotesCache = []; renderPacotes(); });
 }
+// Free (ou sem plano): as recargas ficam fechadas. Só se sabe depois de ler a conta.
+function planoEhFree(){ return !!conta && conta.plano_pago === false; }
 function renderPacotes(){
   var sec = document.getElementById('recarregar');
   var grelha = document.getElementById('recarga-grid');
   if (!pacotesCache.length) { sec.style.display = 'none'; return; }
   sec.style.display = '';
+  var fechado = planoEhFree();
+  sec.classList.toggle('fechada', fechado);
+  document.getElementById('recarga-fechada').style.display = fechado ? 'flex' : 'none';
   var custos = pacotesCache.map(function(p){ return p.preco_mzn / (p.tokens / 1000); });
   var minimo = Math.min.apply(null, custos);
   var maisBarato = pacotesCache.length > 1 && custos.filter(function(c){ return c === minimo; }).length === 1 ? custos.indexOf(minimo) : -1;
@@ -693,7 +711,7 @@ function renderPacotes(){
       + '<div class="pacote-tokens"><b class="mono">' + fmt(p.tokens) + '</b> <span>tokens</span></div>'
       + '<div class="pacote-preco">' + fmt(p.preco_mzn) + ' MZN</div>'
       + '<div class="pacote-unit"><span class="mono">' + custos[i].toFixed(1).replace('.', ',') + '</span> <span>MZN por cada 1 000 tokens</span></div>'
-      + '<button class="btn-plano' + (melhor ? ' principal' : '') + '" data-pacote="' + escaparHtml(p.id) + '">Recarregar</button>'
+      + (fechado ? '<button class="btn-plano" disabled>Só com plano pago</button>' : '<button class="btn-plano' + (melhor ? ' principal' : '') + '" data-pacote="' + escaparHtml(p.id) + '">Recarregar</button>')
       + '</div>';
   }).join('');
   grelha.querySelectorAll('[data-pacote]').forEach(function(b){
@@ -702,8 +720,9 @@ function renderPacotes(){
       if (p) abrirPagamento({ tipo: 'recarga', id: p.id, nome: p.nome, valor: p.preco_mzn, tokens: p.tokens });
     });
   });
-  if (location.hash === '#recarregar') {
-    setTimeout(function(){ sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
+  if (location.hash === '#recarregar' && conta && !jaRolouRecarga) {
+    jaRolouRecarga = true;
+    setTimeout(function(){ (fechado ? document.getElementById('planos-grid') : sec).scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150);
   }
 }
 document.getElementById('btn-ir-recarga').addEventListener('click', function(){
@@ -1095,5 +1114,6 @@ carregarPacotes();
     sync();
   });
 })();</script>
+<script src="/suporte/whatsapp.js?v=1" data-mensagem="Olá! Preciso de ajuda com a minha conta na Daniel IA." defer></script>
 </body>
 </html>

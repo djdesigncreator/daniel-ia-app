@@ -1091,13 +1091,14 @@ function showView(id){
   document.getElementById(id).classList.add('active');
 }
 
-// Tokens acabaram (1.59.0): junta a ligação para recarregar à mensagem.
-function juntarLigacaoRecarga(el){
+// Tokens acabaram: nos planos pagos, recarregar (não muda o plano);
+// no Free, subir de plano (as recargas são só para planos pagos).
+function juntarLigacaoRecarga(el, pago){
   if (!el || el.querySelector('.link-recarga')) return;
   var a = document.createElement('a');
   a.className = 'link-recarga';
-  a.href = '/planos/#recarregar';
-  a.textContent = 'Recarregar tokens →';
+  a.href = pago === false ? '/planos/' : '/planos/#recarregar';
+  a.textContent = pago === false ? 'Ver planos →' : 'Recarregar tokens →';
   el.appendChild(document.createTextNode(' '));
   el.appendChild(a);
 }
@@ -1663,7 +1664,7 @@ btnGerar.addEventListener('click', function(){
       } else {
         setLoading(btnGerar, false, textoBotao, '');
         showMessage(r.message || 'Não foi possível iniciar a geração. Tenta novamente.');
-        if (r.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('msg-form'));
+        if (r.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('msg-form'), r.plano_pago);
       }
     })
     .catch(function(){
@@ -2130,13 +2131,13 @@ function gerarNovas(botao){
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
   }).then(function(r){ return r.json(); }).then(function(r){
-    if (r.status !== 'success') { var er = new Error(r.message || ''); er.codigo = r.codigo; throw er; }
+    if (r.status !== 'success') { var er = new Error(r.message || ''); er.codigo = r.codigo; er.plano_pago = r.plano_pago; throw er; }
     estudio.actual = null;
     comecarDesenho();
   }).catch(function(e){
     if (botao) { botao.disabled = false; botao.textContent = botao.getAttribute('data-texto') || 'Desenhar 3 versões novas'; }
     document.getElementById('estudio-msg').textContent = e.message || 'Não foi possível começar as versões novas. Tenta novamente.';
-    if (e.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('estudio-msg'));
+    if (e.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('estudio-msg'), e.plano_pago);
   });
 }
 document.getElementById('btn-gerar-novas').addEventListener('click', function(){ gerarNovas(this); });
@@ -2187,7 +2188,7 @@ function trocarVariante(n, botao){
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId, variante: n })
   }).then(function(r){ return r.json(); }).then(function(r){
-    if (r.status !== 'success') { var erro = new Error(r.message || ''); erro.codigo = r.codigo; throw erro; }
+    if (r.status !== 'success') { var erro = new Error(r.message || ''); erro.codigo = r.codigo; erro.plano_pago = r.plano_pago; throw erro; }
     estudio.trocando = false;
     estudio.actual = n;
     estudio.cdnUrl = r.response.cdn_url || estudio.cdnUrl;
@@ -2308,5 +2309,6 @@ function mostrarKycLoja(){
     sync();
   });
 })();</script>
+<script src="/suporte/whatsapp.js?v=1" data-mensagem="Olá! Preciso de ajuda com a minha conta na Daniel IA." defer></script>
 </body>
 </html>
