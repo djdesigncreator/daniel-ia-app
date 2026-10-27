@@ -1,6 +1,7 @@
 /* Daniel IA - dicionário es (gerado) */
 window.__danielI18nRegistar("es",
 {
+"As recargas de tokens estão a ser preparadas. Fala connosco pelo botão Suporte e juntamos tokens à tua conta já, sem mudar o teu plano.": "Las recargas de tokens se están preparando. Habla con nosotros con el botón Soporte y añadimos tokens a tu cuenta ya, sin cambiar tu plan.",
 "Só com plano pago": "Solo con plan de pago",
 "As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Las recargas son para planes de pago. Elige un plan arriba; después, cuando se acaben los tokens, recargas aquí sin cambiar de plan.",
 "Subir de plano →": "Mejorar plan →",

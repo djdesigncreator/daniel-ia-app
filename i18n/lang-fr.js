@@ -1,6 +1,7 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"As recargas de tokens estão a ser preparadas. Fala connosco pelo botão Suporte e juntamos tokens à tua conta já, sem mudar o teu plano.": "Les recharges de tokens sont en préparation. Contactez-nous via le bouton Aide et nous ajoutons des tokens à votre compte tout de suite, sans changer de forfait.",
 "Só com plano pago": "Forfaits payants uniquement",
 "As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Les recharges sont réservées aux forfaits payants. Choisissez un forfait ci-dessus - ensuite, dès que vos tokens sont épuisés, rechargez ici sans changer de forfait.",
 "Subir de plano →": "Changer de forfait →",

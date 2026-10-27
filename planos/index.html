@@ -728,8 +728,14 @@ function renderPacotes(){
 document.getElementById('btn-ir-recarga').addEventListener('click', function(){
   var sec = document.getElementById('recarregar');
   if (sec.style.display === 'none') {
-    mostrarMsgPagina('As recargas ainda não estão disponíveis. Sobe de plano para teres mais tokens por mês.', 'erro');
-    document.getElementById('planos-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Sem recargas à venda: no Free manda escolher plano; nos pagos, falar connosco (nunca "sobe de plano" a quem já paga).
+    if (planoEhFree()) {
+      mostrarMsgPagina('As recargas são para planos pagos. Escolhe um plano para continuares a criar e editar.', 'erro');
+      document.getElementById('planos-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      mostrarMsgPagina('As recargas de tokens estão a ser preparadas. Fala connosco pelo botão Suporte e juntamos tokens à tua conta já, sem mudar o teu plano.', 'erro');
+      carregarPacotes();
+    }
     return;
   }
   sec.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -1,6 +1,7 @@
 /* Daniel IA - dicionário en (gerado) */
 window.__danielI18nRegistar("en",
 {
+"As recargas de tokens estão a ser preparadas. Fala connosco pelo botão Suporte e juntamos tokens à tua conta já, sem mudar o teu plano.": "Token top-ups are being set up. Talk to us via the Support button and we'll add tokens to your account right away, without changing your plan.",
 "Só com plano pago": "Paid plans only",
 "As recargas são para quem tem um plano pago. Escolhe um plano acima - depois, sempre que os tokens acabarem, recarregas aqui sem mudar de plano.": "Top-ups are for paid plans. Choose a plan above - then, whenever your tokens run out, top up here without changing plans.",
 "Subir de plano →": "Upgrade plan →",
