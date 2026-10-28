@@ -315,10 +315,10 @@
   .campo-dica{display:block;font-size:12px;color:var(--text-dim);margin-top:6px;line-height:1.45;}
   .campo-dica.aviso{color:var(--warning);font-weight:600;}
   .campo-dica.ok{color:var(--accent-2);font-weight:600;}
-  /* checkout M-Pesa / e-Mola: janela de 400 x 320 */
+  /* checkout M-Pesa / e-Mola: janela de 400 x 450 */
   .modal.modal-cartao.movel{max-width:440px;height:auto;max-height:96vh;}
-  .modal.modal-cartao.movel .cartao-palco{flex:none;width:400px;max-width:100%;height:320px;margin:0 auto;}
-  .modal.modal-cartao.movel .cartao-palco iframe{width:400px;max-width:100%;height:320px;}
+  .modal.modal-cartao.movel .cartao-palco{flex:none;width:400px;max-width:100%;height:450px;margin:0 auto;overflow:hidden;}
+  .modal.modal-cartao.movel .cartao-palco iframe{width:400px;max-width:100%;height:450px;}
   @media (max-width:600px){
     .overlay.overlay-cartao.movel{padding:12px;align-items:center;}
     .modal.modal-cartao.movel{height:auto;border-radius:16px;}
@@ -348,6 +348,10 @@
   .cartao-rodape{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 18px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-dim);}
   .cartao-rodape .ponto{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:8px;animation:pulsar 1.4s ease-in-out infinite;}
   .cartao-rodape a{color:var(--text-dim);}
+  .cartao-rodape-accoes{display:flex;gap:8px;width:100%;}
+  .btn-rodape{flex:1;height:42px;border-radius:12px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);font:700 13.5px/1 inherit;cursor:pointer;}
+  .btn-rodape:hover{border-color:var(--accent-2);}
+  #cartao-ja-paguei{background:var(--grad-accent);color:var(--on-accent);border-color:transparent;}
   @keyframes pulsar{50%{opacity:.35;}}
   @media (max-width:440px){.top-actions{gap:6px;}.btn-sair,.btn-voltar{padding:8px 10px !important;font-size:12.5px !important;}}
   @media (max-width:600px){
@@ -439,9 +443,9 @@
       <p class="sub">Valor: <strong id="pagar-valor"></strong> <span id="periodo-mes">MZN/mês</span><span id="periodo-unico" style="display:none">MZN · pagamento único</span></p>
 
       <div class="campo" id="campo-telefone">
-        <label for="pagar-telefone">O teu número M-Pesa ou e-Mola</label>
+        <label for="pagar-telefone">O teu número de telemóvel (obrigatório)</label>
         <input type="tel" inputmode="numeric" autocomplete="tel" id="pagar-telefone" maxlength="20" placeholder="84 123 4567">
-        <small class="campo-dica" id="telefone-dica">Escreve primeiro o teu número e depois escolhe M-Pesa ou e-Mola. Para pagar com cartão não é preciso.</small>
+        <small class="campo-dica" id="telefone-dica">Obrigatório para pagar. Se for M-Pesa (84/85) ou e-Mola (86/87), a operadora escolhe-se sozinha.</small>
       </div>
 
       <div class="campo">
@@ -477,7 +481,7 @@
         <button type="button" class="btn-x" id="btn-cartao-fechar" aria-label="Fechar" title="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button>
       </div>
       <div class="cartao-palco" id="cartao-palco"></div>
-      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">A página não aparece? Abrir num separador novo</a></div>
+      <div class="cartao-rodape"><span><span class="ponto"></span><span id="cartao-estado-texto">À espera da confirmação do pagamento...</span></span><a href="#" target="_blank" rel="noopener" id="cartao-abrir-fora">A página não aparece? Abrir num separador novo</a><div class="cartao-rodape-accoes"><button type="button" class="btn-rodape" id="cartao-ja-paguei">Já paguei</button><button type="button" class="btn-rodape" id="cartao-fechar-baixo">Fechar</button></div></div>
     </div>
 
     <div id="vista-sucesso" style="display:none">
@@ -812,8 +816,8 @@ function abrirPagamento(p){
   elCampoTelefone.style.display = '';
   dicaTelefone('', '');
   document.querySelectorAll('.metodo-tile').forEach(function(t){ t.classList.remove('seleccionado'); });
-  btnPagar.disabled = false;
   btnPagar.textContent = 'Pagar';
+  actualizarBotaoPagar();
   mostrarVistaModal('form');
   elOverlay.style.display = 'flex';
 }
@@ -829,7 +833,7 @@ document.querySelectorAll('.metodo-tile').forEach(function(tile){
 
 // ---- Número M-Pesa / e-Mola ----
 // 84/85 = M-Pesa (Vodacom) · 86/87 = e-Mola (Movitel)
-var TEXTO_DICA = 'Escreve primeiro o teu número e depois escolhe M-Pesa ou e-Mola. Para pagar com cartão não é preciso.';
+var TEXTO_DICA = 'Obrigatório para pagar. Se for M-Pesa (84/85) ou e-Mola (86/87), a operadora escolhe-se sozinha.';
 function numeroMovel(n){
   var d = String(n || '').replace(/\D/g, '');
   if (d.length === 12 && d.indexOf('258') === 0) d = d.slice(3);
@@ -856,7 +860,16 @@ function seleccionarMetodo(m){
 }
 // Devolve a mensagem de erro (ou '' se estiver tudo bem) e mostra a dica certa.
 function verificarTelefone(){
-  if (metodoSeleccionado === 'cartao') { dicaTelefone('Com cartão não precisas do número.', ''); return ''; }
+  // O número é sempre obrigatório (também no cartão).
+  if (metodoSeleccionado === 'cartao') {
+    var vc = elTelefone.value.trim();
+    if (!numeroMovel(vc)) {
+      dicaTelefone(vc.replace(/\D/g, '').length >= 9 ? 'Este número não parece válido. Ex: 84 123 4567' : '', vc ? 'aviso' : '');
+      return 'Escreve o teu número de telemóvel (ex: 84 123 4567).';
+    }
+    dicaTelefone('Número ✓', 'ok');
+    return '';
+  }
   var v = elTelefone.value.trim();
   if (!v) { dicaTelefone('', ''); return 'Escreve primeiro o teu número M-Pesa ou e-Mola.'; }
   var n = numeroMovel(v), op = operadoraDe(v);
@@ -879,7 +892,10 @@ elTelefone.addEventListener('input', function(){
   // escolhe a operadora sozinho pelo prefixo (não mexe se a pessoa escolheu cartão)
   if (op && metodoSeleccionado !== 'cartao') seleccionarMetodo(op);
   verificarTelefone();
+  actualizarBotaoPagar();
 });
+// "Pagar" só fica activo com um número de telemóvel válido escrito.
+function actualizarBotaoPagar(){ btnPagar.disabled = !numeroMovel(elTelefone.value); }
 
 function fecharModal(){
   var pendente = !!assinaturaActualId && modoEspera !== '';
@@ -890,6 +906,19 @@ function fecharModal(){
 }
 document.getElementById('btn-cancelar-pagar').addEventListener('click', fecharModal);
 document.getElementById('btn-cartao-fechar').addEventListener('click', fecharModal);
+document.getElementById('cartao-fechar-baixo').addEventListener('click', fecharModal);
+// "Já paguei": verifica já, sem esperar pela próxima volta.
+document.getElementById('cartao-ja-paguei').addEventListener('click', function(){
+  if (!assinaturaActualId || !modoEspera) return;
+  document.getElementById('cartao-estado-texto').textContent = 'A verificar o pagamento...';
+  if (esperaTimer) clearTimeout(esperaTimer);
+  verificarEsperaPagamento();
+  setTimeout(function(){
+    if (modoEspera && document.getElementById('vista-cartao').style.display !== 'none') {
+      document.getElementById('cartao-estado-texto').textContent = 'Ainda não recebemos a confirmação. Se já confirmaste no telemóvel, aguarda uns segundos.';
+    }
+  }, 4000);
+});
 document.getElementById('btn-espera-fechar').addEventListener('click', fecharModal);
 document.getElementById('btn-fechar-sucesso').addEventListener('click', function(){
   elOverlay.style.display = 'none';
@@ -905,12 +934,10 @@ btnPagar.addEventListener('click', function(){
     elPagarErro.textContent = 'Escolhe um método de pagamento.';
     return;
   }
-  var telefone = '';
-  if (metodoSeleccionado === 'mpesa' || metodoSeleccionado === 'emola') {
-    var erroTel = verificarTelefone();
-    if (erroTel) { elPagarErro.textContent = erroTel; elTelefone.focus(); return; }
-    telefone = numeroMovel(elTelefone.value);
-  }
+  // Número obrigatório em todos os métodos
+  var erroTel = verificarTelefone();
+  if (erroTel) { elPagarErro.textContent = erroTel; elTelefone.focus(); return; }
+  var telefone = numeroMovel(elTelefone.value);
 
   btnPagar.disabled = true;
   btnPagar.textContent = 'A processar...';
@@ -981,7 +1008,13 @@ function abrirCartao(resp){
     palco.innerHTML = '<div class="cartao-carregar"><div class="spinner-grande"></div><p>A abrir o pagamento seguro...</p></div>';
     var fr = document.createElement('iframe');
     fr.title = movel ? 'Pagamento M-Pesa / e-Mola' : 'Pagamento com cartão';
-    if (movel) { fr.width = '400'; fr.height = '320'; }
+    if (movel) {
+      // Esconde o bloco do topo da página de pagamento (nome da empresa e total):
+      // o iframe sobe "corte" px dentro da moldura. Afina-se no painel (Pagamentos).
+      var alt = Number(resp.altura) || 450, corte = Math.max(0, Number(resp.corte) || 0);
+      palco.style.height = alt + 'px';
+      fr.style.top = (-corte) + 'px'; fr.style.bottom = 'auto'; fr.style.height = (alt + corte) + 'px';
+    } else { palco.style.height = ''; }
     fr.setAttribute('allow', 'payment');
     // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.
     fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox');

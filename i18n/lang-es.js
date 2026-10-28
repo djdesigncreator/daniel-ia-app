@@ -1,6 +1,13 @@
 /* Daniel IA - dicionário es (gerado) */
 window.__danielI18nRegistar("es",
 {
+"O teu número de telemóvel (obrigatório)": "Tu número de móvil (obligatorio)",
+"Obrigatório para pagar. Se for M-Pesa (84/85) ou e-Mola (86/87), a operadora escolhe-se sozinha.": "Obligatorio para pagar. Si es M-Pesa (84/85) o e-Mola (86/87), el operador se elige solo.",
+"Escreve o teu número de telemóvel (ex: 84 123 4567).": "Escribe tu número de móvil (ej.: 84 123 4567).",
+"Número ✓": "Número ✓",
+"Já paguei": "Ya pagué",
+"A verificar o pagamento...": "Comprobando el pago...",
+"Ainda não recebemos a confirmação. Se já confirmaste no telemóvel, aguarda uns segundos.": "Aún no hemos recibido la confirmación. Si ya confirmaste en el móvil, espera unos segundos.",
 "COMUNIDADE": "COMUNIDAD",
 "Aprende, partilha e cresce com quem também vende online.": "Aprende, comparte y crece con quienes también venden online.",
 "Tira dúvidas, mostra o teu site e descobre o que está a resultar para outros empreendedores da Daniel IA.": "Resuelve dudas, muestra tu sitio y descubre lo que funciona a otros emprendedores de Daniel IA.",

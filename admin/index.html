@@ -289,6 +289,12 @@
   .registo time{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);}
   .registo small{display:block;color:var(--text-dim);font-size:12.5px;margin-top:2px;}
   .btn-peq{padding:7px 12px;font-size:12.5px;}
+  .ck-grelha{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:22px;align-items:start;}
+  .ck-previa-rot{font-size:12px;color:var(--text-dim);font-weight:700;margin-bottom:8px;}
+  .ck-previa{position:relative;width:400px;max-width:100%;height:450px;overflow:hidden;border-radius:14px;border:1px solid var(--border);background:#fff;}
+  .ck-previa iframe{position:absolute;left:0;width:100%;border:0;background:#fff;}
+  .ck-vazio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:#6F5E81;font-size:13px;}
+  @media (max-width:1000px){.ck-grelha{grid-template-columns:1fr;}}
   .aviso-pl{display:flex;align-items:center;gap:14px;margin-bottom:14px;border-color:rgba(245,166,35,.45);background:linear-gradient(180deg,rgba(245,166,35,.08),var(--card));flex-wrap:wrap;}
   .aviso-pl svg{width:22px;height:22px;color:var(--warning);flex-shrink:0;}
   .aviso-pl div{flex:1;min-width:200px;}
@@ -427,6 +433,21 @@
     <!-- PAGAMENTOS -->
     <section class="seccao" id="sec-pagamentos">
       <div class="cab"><div><h1>Pagamentos</h1><p>Assinaturas dos planos e encomendas das lojas.</p></div><button type="button" class="btn-sec" data-actualizar="pagamentos">Actualizar</button></div>
+      <div class="cartao" style="margin-bottom:14px">
+        <h3>Checkout M-Pesa / e-Mola</h3>
+        <p class="sub">A página da MozPayment traz em cima um bloco com o nome da empresa e o total. Aqui escondes esse topo: o pagamento sobe dentro da moldura. Vale para planos, domínios e lojas.</p>
+        <div class="ck-grelha">
+          <div>
+            <div class="campos">
+              <div class="campo-a"><label for="ck-altura">Altura visível (px)</label><input class="inp" type="number" min="250" max="900" step="10" id="ck-altura"></div>
+              <div class="campo-a"><label for="ck-corte">Esconder do topo (px)</label><input class="inp" type="number" min="0" max="800" step="10" id="ck-corte"></div>
+            </div>
+            <div class="campo-a"><label for="ck-link">Link de um checkout para pré-visualizar (opcional)</label><input class="inp" type="url" id="ck-link" placeholder="https://paysuite.tech/checkout/..."><small class="dim" style="display:block;margin-top:6px;font-size:12px">Começa um pagamento, carrega em "A página não aparece? Abrir num separador novo" e copia o endereço. Ajusta até a moldura mostrar só a parte do pagamento.</small></div>
+            <div class="linha-accoes"><button type="button" class="btn-pri" id="ck-guardar">Guardar</button><button type="button" class="btn-sec" id="ck-padrao">Repor padrão</button><span class="msg" id="ck-msg"></span></div>
+          </div>
+          <div class="ck-previa-caixa"><div class="ck-previa-rot">Pré-visualização (400 px de largura)</div><div class="ck-previa" id="ck-previa"><div class="ck-vazio">Cola um link de checkout para veres aqui.</div></div></div>
+        </div>
+      </div>
       <div class="cartao" style="margin-bottom:14px"><h3>Assinaturas</h3><p class="sub">As mais recentes primeiro. "Manual" são os planos atribuídos aqui no painel.</p><div class="tabela-caixa" id="p-assinaturas" style="border:none"></div></div>
       <div class="cartao"><h3>Encomendas das lojas</h3><p class="sub">Todas as lojas da plataforma, as mais recentes primeiro.</p><div class="tabela-caixa" id="p-encomendas" style="border:none"></div></div>
     </section>
@@ -514,6 +535,18 @@
     <section class="seccao" id="sec-sistema">
       <div class="cab"><div><h1>Sistema</h1><p>Estado do servidor e da configuração.</p></div></div>
       <div class="kpis" id="sis-kpis"></div>
+      <div class="cartao" id="seg-cartao" style="margin-bottom:14px">
+        <h3>Segurança dos pagamentos</h3>
+        <p class="sub">Pagamentos marcados como pagos sem passar pela MozPayment nem pelo painel, o registo dos avisos (webhooks) recebidos e um teste ao que alguém <b>sem login</b> consegue fazer na base de dados do Bubble.</p>
+        <div id="seg-chave"></div>
+        <h4 style="margin:16px 0 8px">Pagamentos não verificados</h4>
+        <div class="tabela-caixa" id="seg-nao-ver" style="border:none"><div class="vazio">A carregar...</div></div>
+        <h4 style="margin:18px 0 8px">Base de dados do Bubble (sem login)</h4>
+        <div class="linha-accoes" style="margin-top:0"><button type="button" class="btn-pri" id="seg-sondar">Testar agora</button><span class="msg" id="seg-msg">Lê 1 registo, escreve o mesmo valor que já lá está e tenta criar um registo de teste (apagado logo a seguir).</span></div>
+        <div class="tabela-caixa" id="seg-sonda" style="border:none"></div>
+        <h4 style="margin:18px 0 8px">Últimos avisos recebidos (webhooks)</h4>
+        <div class="tabela-caixa" id="seg-webhooks" style="border:none"></div>
+      </div>
       <div class="cartao"><h3>Configuração do container</h3><p class="sub">Variáveis definidas no Bunny. Um X vermelho quer dizer que essa parte não funciona.</p><div class="config" id="sis-config"></div></div>
     </section>
   </main>
@@ -643,7 +676,8 @@
         kpi(IC.pessoas, 'Utilizadores', num(x.utilizadores.total), '<b>+' + num(x.utilizadores.novos7) + '</b> esta semana · +' + num(x.utilizadores.novos30) + ' em 30 dias')
         + kpi(IC.globo, 'Sites criados', num(x.sites.total), '<b>+' + num(x.sites.novos7) + '</b> esta semana')
         + kpi(IC.escudo, 'KYC por aprovar', num(x.kyc.pendentes), num(x.kyc.aprovados) + ' aprovados', x.kyc.pendentes ? ' alerta clicavel" data-ir="kyc' : ' clicavel" data-ir="kyc')
-        + kpi(IC.dinheiro, 'Receita: planos e recargas (30 dias)', num(x.receita.assinaturas30) + '<small>MZN</small>', num(x.receita.n_assinaturas30) + ' pagamentos', ' clicavel" data-ir="planos')
+        + (x.receita.suspeitos ? kpi(IC.cadeado, 'Pagamentos NÃO verificados', num(x.receita.suspeitos_valor) + '<small>MZN</small>', num(x.receita.suspeitos) + ' marcados como pagos sem MozPayment nem painel - ver Segurança', ' alerta clicavel" data-ir="sistema') : '')
+        + kpi(IC.dinheiro, 'Receita verificada: planos e recargas (30 dias)', num(x.receita.assinaturas30) + '<small>MZN</small>', num(x.receita.n_assinaturas30) + ' pagamentos (MozPayment ou painel)', ' clicavel" data-ir="pagamentos')
         + kpi(IC.saco, 'Vendas das lojas (30 dias)', num(x.lojas.volume30) + '<small>MZN</small>', num(x.lojas.pagas30) + ' pagas de ' + num(x.lojas.encomendas30) + ' encomendas')
         + kpi(IC.chip, 'Tokens de IA este mês', num(x.tokens_mes), 'somados de todas as contas')
         + kpi(IC.raio, 'Gerações agora', num(x.geracoes.activas) + '<small>/ ' + x.geracoes.maximo + '</small>', num(x.geracoes.em_fila) + ' em fila')
@@ -686,7 +720,53 @@
       return '<div class="' + (ok ? 'sim' : 'nao') + '">' + (ok ? IC.sim : IC.nao) + '<span>' + esc(nomes[k]) + '</span></div>';
     }).join('');
   }
-  function carregarSistema(){ if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
+
+  // ======================================================
+  // Segurança dos pagamentos (1.64.5)
+  // ======================================================
+  function ligarAnular(caixa, depois){
+    Array.prototype.forEach.call(caixa.querySelectorAll('[data-anular]'), function(b){
+      doisToques(b, 'Anular mesmo?', function(){
+        b.disabled = true;
+        post('/admin-pagamento-anular', { assinatura_id: b.getAttribute('data-anular') }).then(function(r){
+          if (r.status !== 'success') { b.disabled = false; msg($('seg-msg'), r.message, 'erro'); return; }
+          carregadas.resumo = false; depois();
+        }).catch(function(){ b.disabled = false; });
+      });
+    });
+  }
+  function simNao(v, perigo){
+    if (v === null || v === undefined) return '<span class="pill">inconclusivo</span>';
+    return v ? '<span class="pill ' + (perigo ? 'erro' : 'aviso') + '">SIM</span>' : '<span class="pill ok">não</span>';
+  }
+  function carregarSeguranca(sondar){
+    if (sondar) { $('seg-sondar').disabled = true; msg($('seg-msg'), 'A testar... pode demorar uns segundos.'); }
+    post('/admin-seguranca', { sondar: !!sondar }).then(function(r){
+      $('seg-sondar').disabled = false;
+      if (r.status !== 'success') throw new Error(r.message);
+      var x = r.response;
+      $('seg-chave').innerHTML = x.webhook_chave
+        ? '<p class="msg ok" style="margin:0">Webhooks protegidos com WEBHOOK_CHAVE.</p>'
+        : '<div class="cartao aviso-pl" style="margin:0">' + IC.cadeado + '<div><b>Os webhooks não têm chave.</b><span>Junta a variável WEBHOOK_CHAVE no Bunny (uma palavra longa e aleatória) e acrescenta ?k=ESSA_CHAVE ao endereço do webhook configurado na MozPayment.</span></div></div>';
+      var nv = x.nao_verificados || [];
+      $('seg-nao-ver').innerHTML = nv.length ? '<table class="tabela"><thead><tr><th>Criado</th><th>Alterado</th><th>Tipo</th><th class="num">Valor</th><th>Método</th><th>Referência</th><th>Transacção</th><th>Webhook</th><th>Conta</th><th></th></tr></thead><tbody>'
+        + nv.map(function(a){ return '<tr><td class="dim">' + esc(data(a.criado, true)) + '</td><td class="dim">' + esc(data(a.mudado, true)) + '</td><td>' + esc(a.tipo) + '</td><td class="num">' + esc(mzn(a.valor)) + '</td><td>' + esc(a.metodo || '—') + '</td><td class="dim">' + esc(a.referencia || '—') + '</td><td class="dim">' + esc(a.transacao || '—') + '</td><td>' + (a.webhook ? 'sim' : 'não') + '</td><td class="dim"><code>' + esc(a.user || '—') + '</code></td><td><button type="button" class="btn-perigo btn-peq" data-anular="' + esc(a.id) + '">Anular</button></td></tr>'; }).join('') + '</tbody></table>'
+        : '<div class="vazio">Nenhum. Todos os pagamentos vieram da MozPayment ou do painel.</div>';
+      ligarAnular($('seg-nao-ver'), function(){ carregarSeguranca(false); });
+      if (x.sonda) {
+        var perigos = x.sonda.filter(function(t){ return t.criar || t.alterar || (t.ler && ['assinatura', 'encomenda', 'user', 'kyc', 'levantamento'].indexOf(t.tipo) >= 0); }).length;
+        msg($('seg-msg'), perigos ? 'ATENÇÃO: há ' + perigos + ' tipo(s) abertos a quem não tem login. Fecha as regras de privacidade no Bubble.' : 'Tudo fechado: sem login não se lê, cria nem altera nada sensível.', perigos ? 'erro' : 'ok');
+        $('seg-sonda').innerHTML = '<table class="tabela"><thead><tr><th>Tipo</th><th>Ler sem login</th><th>Alterar sem login</th><th>Criar sem login</th><th>Notas</th></tr></thead><tbody>'
+          + x.sonda.map(function(t){ return '<tr><td><b>' + esc(t.tipo) + '</b></td><td>' + simNao(t.ler, ['assinatura', 'encomenda', 'user', 'kyc', 'levantamento'].indexOf(t.tipo) >= 0) + (t.ler ? ' <span class="dim">' + num(t.registos_lidos) + '</span>' : '') + '</td><td>' + simNao(t.alterar, true) + '</td><td>' + (t.tipo === 'user' ? '<span class="dim">—</span>' : simNao(t.criar, true)) + '</td><td class="dim">' + esc((t.notas || []).join(' · ')) + '</td></tr>'; }).join('') + '</tbody></table>';
+      }
+      var w = x.webhooks || [];
+      $('seg-webhooks').innerHTML = w.length ? '<table class="tabela"><thead><tr><th>Quando</th><th>Rota</th><th>IP</th><th>Estado</th><th>Referência</th><th class="num">Valor</th><th>Chave</th><th>Resultado</th></tr></thead><tbody>'
+        + w.map(function(e){ var mau = /recusado|suspeito/.test(e.resultado); return '<tr' + (mau ? ' style="background:rgba(255,92,122,.06)"' : '') + '><td class="dim">' + esc(data(e.quando, true)) + '</td><td>' + esc(e.rota) + '</td><td><code>' + esc(e.ip) + '</code></td><td>' + esc(e.status || '—') + '</td><td class="dim">' + esc(e.ref || '—') + '</td><td class="num">' + esc(e.valor == null ? '—' : e.valor) + '</td><td>' + esc(e.chave) + '</td><td>' + (/aplicado/.test(e.resultado) ? '<span class="pill ok">' : (mau ? '<span class="pill erro">' : '<span class="pill">')) + esc(e.resultado) + '</span></td></tr>'; }).join('') + '</tbody></table>'
+        : '<div class="vazio">Ainda não chegou nenhum aviso desde esta versão.</div>';
+    }).catch(function(e){ $('seg-sondar').disabled = false; msg($('seg-msg'), e.message || 'Não foi possível verificar.', 'erro'); });
+  }
+  $('seg-sondar').addEventListener('click', function(){ carregarSeguranca(true); });
+  function carregarSistema(){ carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
 
   // ======================================================
   // Utilizadores
@@ -911,17 +991,58 @@
   // ======================================================
   // Pagamentos
   // ======================================================
+
+  // ======================================================
+  // Checkout M-Pesa / e-Mola: moldura que esconde o topo (1.64.4)
+  // ======================================================
+  var ckPadrao = { altura: 450, corte: 240 };
+  function ckPrevia(){
+    var alt = Math.max(250, Number($('ck-altura').value) || 450), corte = Math.max(0, Number($('ck-corte').value) || 0);
+    var caixa = $('ck-previa'), link = $('ck-link').value.trim();
+    caixa.style.height = alt + 'px';
+    var fr = caixa.querySelector('iframe');
+    if (!/^https:\/\/[^\s]+$/.test(link)) { if (fr) fr.remove(); if (!caixa.querySelector('.ck-vazio')) caixa.innerHTML = '<div class="ck-vazio">Cola um link de checkout para veres aqui.</div>'; return; }
+    var v = caixa.querySelector('.ck-vazio'); if (v) v.remove();
+    if (!fr) { fr = document.createElement('iframe'); fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin'); caixa.appendChild(fr); }
+    if (fr.getAttribute('src') !== link) fr.src = link;
+    fr.style.top = (-corte) + 'px'; fr.style.height = (alt + corte) + 'px';
+  }
+  function carregarCheckoutConfig(){
+    post('/admin-checkout-config', {}).then(function(r){
+      if (r.status !== 'success') return;
+      ckPadrao = r.response.padrao || ckPadrao;
+      $('ck-altura').value = r.response.altura; $('ck-corte').value = r.response.corte;
+      ckPrevia();
+    }).catch(function(){});
+  }
+  ['ck-altura', 'ck-corte', 'ck-link'].forEach(function(id){ $(id).addEventListener('input', ckPrevia); });
+  $('ck-padrao').addEventListener('click', function(){ $('ck-altura').value = ckPadrao.altura; $('ck-corte').value = ckPadrao.corte; ckPrevia(); });
+  $('ck-guardar').addEventListener('click', function(){
+    var b = this; b.disabled = true; msg($('ck-msg'), 'A guardar...');
+    post('/admin-checkout-config', { guardar: true, altura: Number($('ck-altura').value), corte: Number($('ck-corte').value) }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('ck-msg'), r.message, 'erro'); return; }
+      msg($('ck-msg'), 'Guardado. Os próximos pagamentos já abrem assim.', 'ok');
+    }).catch(function(e){ b.disabled = false; msg($('ck-msg'), e.message, 'erro'); });
+  });
   function carregarPagamentos(forcar){
+    carregarCheckoutConfig();
     $('p-assinaturas').innerHTML = '<div class="vazio">A carregar...</div>'; $('p-encomendas').innerHTML = '';
     post('/admin-pagamentos', { actualizar: !!forcar }).then(function(r){
       if (r.status !== 'success') throw new Error(r.message);
       var a = r.response.assinaturas, e = r.response.encomendas;
-      $('p-assinaturas').innerHTML = a.length ? '<table class="tabela"><thead><tr><th>Cliente</th><th>Plano ou recarga</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Data</th></tr></thead><tbody>'
-        + a.map(function(x){ return '<tr><td>' + esc(x.email) + '</td><td>' + esc(x.plano) + '</td><td class="num">' + esc(mzn(x.valor)) + '</td><td class="dim">' + esc(x.metodo || '—') + '</td><td>' + pillEstado(x.estado) + '</td><td class="dim">' + esc(data(x.criado, true)) + '</td></tr>'; }).join('') + '</tbody></table>'
+      $('p-assinaturas').innerHTML = a.length ? '<table class="tabela"><thead><tr><th>Cliente</th><th>Plano ou recarga</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Origem</th><th>Data</th><th></th></tr></thead><tbody>'
+        + a.map(function(x){
+          var org = x.origem === 'webhook' ? '<span class="pill ok" title="' + esc('Ref: ' + x.referencia + ' · Transacção: ' + (x.transacao || '—')) + '">MozPayment</span>'
+            : (x.origem === 'manual' ? '<span class="pill roxo" title="' + esc(x.transacao) + '">Painel (à mão)</span>'
+            : (x.origem === 'nao-verificado' ? '<span class="pill erro" title="' + esc('Ref: ' + (x.referencia || '—') + ' · Transacção: ' + (x.transacao || '—') + ' · Webhook: ' + (x.webhook ? 'sim' : 'não') + ' · Alterado: ' + data(x.mudado, true)) + '">NÃO verificado</span>' : '<span class="dim">—</span>'));
+          return '<tr' + (x.origem === 'nao-verificado' ? ' style="background:rgba(255,92,122,.06)"' : '') + '><td>' + (x.email ? esc(x.email) : '<span class="pill erro">' + (x.user_existe ? 'sem email' : 'conta inexistente') + '</span>') + '</td><td>' + esc(x.plano) + '</td><td class="num">' + esc(mzn(x.valor)) + '</td><td class="dim">' + esc(x.metodo || '—') + '</td><td>' + pillEstado(x.estado) + '</td><td>' + org + '</td><td class="dim">' + esc(data(x.criado, true)) + '</td>'
+            + '<td>' + (x.origem === 'nao-verificado' ? '<button type="button" class="btn-perigo btn-peq" data-anular="' + esc(x.id) + '">Anular</button>' : '') + '</td></tr>'; }).join('') + '</tbody></table>'
         : '<div class="vazio">Ainda sem assinaturas.</div>';
       $('p-encomendas').innerHTML = e.length ? '<table class="tabela"><thead><tr><th>Loja</th><th>Cliente</th><th class="num">Valor</th><th>Método</th><th>Estado</th><th>Data</th></tr></thead><tbody>'
         + e.map(function(x){ return '<tr><td>' + esc(x.loja) + '</td><td>' + esc(x.cliente) + '</td><td class="num">' + esc(mzn(x.valor)) + '</td><td class="dim">' + esc(x.metodo || '—') + '</td><td>' + pillEstado(x.estado) + '</td><td class="dim">' + esc(data(x.criado, true)) + '</td></tr>'; }).join('') + '</tbody></table>'
         : '<div class="vazio">Ainda sem encomendas.</div>';
+      ligarAnular($('p-assinaturas'), function(){ carregarPagamentos(true); });
     }).catch(function(err){ $('p-assinaturas').innerHTML = '<div class="vazio">' + esc(err.message || 'Não foi possível carregar.') + '</div>'; });
   }
 
