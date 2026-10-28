@@ -218,6 +218,9 @@
     border:1px solid var(--border);
     color:var(--text);
   }
+  .aceito{display:flex;gap:10px;align-items:flex-start;margin:14px 0 4px;font-size:13px;line-height:1.5;color:var(--text-dim);cursor:pointer;text-align:left;}
+  .aceito input{width:18px;height:18px;margin:1px 0 0;flex-shrink:0;accent-color:#89C804;}
+  .aceito a{color:var(--accent-2);font-weight:700;}
   .links{
     display:flex;
     justify-content:space-between;
@@ -386,6 +389,7 @@
       <label for="su-pass">Password</label>
       <input type="password" id="su-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
 
+      <label class="aceito" for="su-aceito"><input type="checkbox" id="su-aceito"><span>Li e aceito os <a href="/legal/termos/" target="_blank" rel="noopener">Termos de Utilização</a> e a <a href="/legal/privacidade/" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label>
       <button class="btn" id="btn-signup">Criar conta</button>
 
       <div class="msg" id="msg-signup"></div>
@@ -604,6 +608,7 @@ if (/[?&]sessao=expirou/.test(location.search)) {
 
 // ---- Navegação entre vistas ----
 document.getElementById('go-signup').addEventListener('click', function(){ showView('view-signup'); });
+if (/[?&]criar=1/.test(location.search)) showView('view-signup');
 document.getElementById('go-login-1').addEventListener('click', function(){ showView('view-login'); });
 document.getElementById('go-login-2').addEventListener('click', function(){ showView('view-login'); });
 document.getElementById('go-forgot').addEventListener('click', function(){ showView('view-forgot'); });
@@ -669,6 +674,10 @@ document.getElementById('btn-signup').addEventListener('click', function(){
   var pass = document.getElementById('su-pass').value;
   if (!nome || !email || !pass) {
     showMessage('view-signup', 'Preenche todos os campos.', 'error');
+    return;
+  }
+  if (!document.getElementById('su-aceito').checked) {
+    showMessage('view-signup', 'Para criar conta tens de aceitar os Termos de Utilização e a Política de Privacidade.', 'error');
     return;
   }
   if (pass.length < 6) {
@@ -849,5 +858,6 @@ document.getElementById('btn-forgot').addEventListener('click', function(){
     sync();
   });
 })();</script>
+<script src="/suporte/cookies.js?v=1" data-rodape=".wrap" defer></script>
 </body>
 </html>

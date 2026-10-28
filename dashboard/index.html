@@ -1023,6 +1023,8 @@ function acaoSite(site){
   if (site.estado === 'Pronto' && site.cdn_url) {
     var html = '<a class="btn-ver" href="' + site.cdn_url + '" target="_blank" rel="noopener">Ver site</a>';
     html = '<a class="btn-ver btn-estatisticas" href="/estatisticas/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Estatísticas</a>' + html;
+    // 1.70.0: privacidade, termos e cookies do site
+    html = '<a class="btn-ver btn-privacidade-site" href="/legal-site/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Privacidade</a>' + html;
     var textoBtnDominio = (site.dominio_estado === 'Activo') ? 'Domínio ✓' : 'Domínio';
     html = '<button class="btn-ver btn-dominio-site" data-site-id="' + site.id + '" data-dominio="' + (site.dominio || '').replace(/"/g, '&quot;') + '" data-dominio-estado="' + (site.dominio_estado || '').replace(/"/g, '&quot;') + '" data-dominio-hostname="' + (site.dominio_hostname || '').replace(/"/g, '&quot;') + '" style="margin-right:8px;">' + textoBtnDominio + '</button>' + html;
     var textoBtnContacto = site.email_contacto ? 'Contacto ✓' : 'Contacto';
@@ -1799,5 +1801,6 @@ btnContactoGuardar.addEventListener('click', function(){
 </script>
 <script src="/suporte/free-editar.js?v=1" defer></script>
 <script src="/suporte/whatsapp.js?v=1" data-mensagem="Olá! Preciso de ajuda com a minha conta na Daniel IA." defer></script>
+<script src="/suporte/cookies.js?v=1" data-rodape="1" defer></script>
 </body>
 </html>

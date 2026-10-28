@@ -351,6 +351,11 @@
   .em-escolhido b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .btn-pri.confirmar{background:var(--warning);color:#1A0A27;}
   .em-progresso:empty{display:none;}
+  .em-confirmar:empty{display:none;}
+  .em-confirmar{margin-top:14px;padding:16px;border-radius:14px;border:1.5px solid var(--warning);background:rgba(245,166,35,.08);}
+  .em-confirmar b{display:block;font-size:14.5px;margin-bottom:4px;}
+  .em-confirmar p{margin:0 0 12px;font-size:13px;color:var(--text-dim);line-height:1.5;}
+  .em-confirmar .linha-accoes{margin-top:0;}
   .em-progresso{margin-top:12px;}
   .em-barra{height:10px;border-radius:99px;background:var(--card-alt);border:1px solid var(--border);overflow:hidden;}
   .em-barra i{display:block;height:100%;width:0;background:var(--grad-accent);transition:width .4s ease;}
@@ -578,6 +583,7 @@
           <div class="campos"><div class="campo-a"><label for="em-btn-texto">Botão (opcional)</label><input class="inp" id="em-btn-texto" maxlength="40" placeholder="ex: Ver os templates"></div>
             <div class="campo-a"><label for="em-btn-url">Link do botão</label><input class="inp" id="em-btn-url" placeholder="https://app.daniel-ia.pro/criar/"></div></div>
           <div class="linha-accoes"><button type="button" class="btn-sec" id="em-teste">Enviar teste para mim</button><button type="button" class="btn-pri" id="em-enviar">Enviar</button></div>
+          <div class="em-confirmar" id="em-confirmar"></div>
           <div class="msg" id="em-msg" style="margin-top:10px"></div>
           <div class="em-progresso" id="em-progresso"></div>
         </div>
@@ -1615,7 +1621,8 @@
       var h = r.response.historico || [];
       $('em-historico').innerHTML = h.length ? '<table class="tabela"><thead><tr><th>Data</th><th>Assunto</th><th>Para</th><th class="num">Enviados</th><th class="num">Falharam</th><th>Estado</th></tr></thead><tbody>'
         + h.map(function(x){
-          var estado = x.estado === 'enviado' ? '<span class="pill ok">Enviado</span>' : (x.estado === 'a enviar' ? '<span class="pill aviso">A enviar</span>' : '<span class="pill">' + esc(x.estado) + '</span>');
+          var estado = (x.estado === 'enviado' ? '<span class="pill ok">Enviado</span>' : (x.estado === 'a enviar' ? '<span class="pill aviso">A enviar</span>' : '<span class="pill">' + esc(x.estado) + '</span>'))
+            + (x.erro && x.falhados ? '<div class="dim" style="font-size:11.5px;margin-top:4px;max-width:260px;white-space:normal">' + esc(x.erro) + '</div>' : '');
           return '<tr><td class="dim">' + esc(data(x.quando, true)) + '</td><td><b>' + esc(x.assunto) + '</b></td><td>' + esc(x.destino === 'um' ? x.para : (EM_DESTINO[x.destino] || x.destino)) + '</td><td class="num">' + num(x.enviados) + '</td><td class="num">' + (x.falhados ? '<b style="color:var(--error)">' + num(x.falhados) + '</b>' : '0') + '</td><td>' + estado + '</td></tr>';
         }).join('') + '</tbody></table>'
         : '<div class="vazio">Ainda não enviaste nenhum email por aqui.</div>';
@@ -1625,7 +1632,8 @@
     clearTimeout(em.poll);
     post('/admin-email-estado', { envio_id: id }).then(function(r){
       var e = r.status === 'success' && r.response.envio;
-      if (!e) return;
+      if (!e) { em.falhasPoll = (em.falhasPoll || 0) + 1; if (em.falhasPoll < 30) em.poll = setTimeout(function(){ emProgresso(id); }, 3000); return; }
+      em.falhasPoll = 0;
       var feitos = e.enviados + e.falhados, pct = e.total ? Math.round(feitos / e.total * 100) : 100;
       $('em-progresso').innerHTML = '<div class="em-barra"><i style="width:' + pct + '%"></i></div><small>' + num(e.enviados) + ' de ' + num(e.total) + ' enviados' + (e.falhados ? ' · ' + num(e.falhados) + ' falharam' : '') + '</small>';
       if (e.estado === 'a enviar') { em.poll = setTimeout(function(){ emProgresso(id); }, 2000); return; }
@@ -1644,14 +1652,17 @@
       corpo.user_id = em.user.id;
     }
     var grupo = destino !== 'teste' && destino !== 'um';
+    // 1.69.1: confirmação numa caixa clara, sem prazo (antes eram 2 toques em 6 segundos)
     if (destino !== 'teste' && !botao.__armado) {
-      botao.__armado = true;
-      botao.classList.add('confirmar');
-      botao.textContent = grupo ? 'Confirmar: enviar a ' + num(em.contagens[destino]) + ' pessoas' : 'Confirmar envio';
-      clearTimeout(botao.__t);
-      botao.__t = setTimeout(emReporEnviar, 6000);
+      var quem = grupo ? num(em.contagens[destino]) + ' pessoas (' + EM_DESTINO[destino] + ')' : (em.user.nome || em.user.email) + ' (' + em.user.email + ')';
+      $('em-confirmar').innerHTML = '<b>Enviar agora?</b><p>Vais enviar "' + esc(corpo.assunto) + '" a ' + esc(quem) + '. Depois de enviado não dá para desfazer.</p>'
+        + '<div class="linha-accoes"><button type="button" class="btn-pri" id="em-sim">Sim, enviar agora</button><button type="button" class="btn-sec" id="em-nao">Cancelar</button></div>';
+      $('em-confirmar').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      $('em-nao').addEventListener('click', function(){ $('em-confirmar').innerHTML = ''; });
+      $('em-sim').addEventListener('click', function(){ $('em-confirmar').innerHTML = ''; botao.__armado = true; emEnviar(destino, botao); });
       return;
     }
+    $('em-confirmar').innerHTML = '';
     if (grupo) corpo.confirmar_total = em.contagens[destino];
     clearTimeout(botao.__t);
     var textoAntes = botao.textContent;
@@ -1727,5 +1738,6 @@
     sync();
   });
 })();</script>
+<script src="/suporte/cookies.js?v=1" defer></script>
 </body>
 </html>
