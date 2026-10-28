@@ -331,6 +331,33 @@
     .brand-logo{height:24px;}
   }
 
+  /* Emails (1.68.0) */
+  .em-grelha{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start;}
+  .em-grelha .campo-a{margin-bottom:12px;}
+  .em-grelha .campos{margin-bottom:0;}
+  .em-dica{display:block;color:var(--text-dim);font-size:12px;margin-top:7px;line-height:1.55;}
+  #em-texto{width:100%;min-height:220px;resize:vertical;line-height:1.55;}
+  .em-previa{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#F4F0F8;}
+  .em-previa iframe{display:block;width:100%;height:660px;border:0;background:#F4F0F8;}
+  .em-previa-caixa{position:sticky;top:84px;}
+  .chip span{color:var(--text-dim);font-weight:600;}
+  .em-resultados{display:flex;flex-direction:column;gap:6px;margin:-4px 0 12px;}
+  .em-resultados:empty{display:none;}
+  .em-resultados button{display:flex;justify-content:space-between;gap:10px;align-items:center;text-align:left;width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;font:inherit;font-size:13px;}
+  .em-resultados button:hover{border-color:var(--lime);}
+  .em-resultados small{color:var(--text-dim);}
+  .em-escolhido:empty{display:none;}
+  .em-escolhido{display:flex;align-items:center;gap:10px;margin:-4px 0 12px;padding:10px 12px;border-radius:12px;background:rgba(137,200,4,.12);border:1px solid var(--lime);font-size:13.5px;}
+  .em-escolhido b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .btn-pri.confirmar{background:var(--warning);color:#1A0A27;}
+  .em-progresso:empty{display:none;}
+  .em-progresso{margin-top:12px;}
+  .em-barra{height:10px;border-radius:99px;background:var(--card-alt);border:1px solid var(--border);overflow:hidden;}
+  .em-barra i{display:block;height:100%;width:0;background:var(--grad-accent);transition:width .4s ease;}
+  .em-progresso small{display:block;margin-top:6px;color:var(--text-dim);font-size:12.5px;}
+  .ia-mult{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin:16px 0 6px;padding-top:14px;border-top:1px dashed var(--border);}
+  @media (max-width:1000px){.em-grelha{grid-template-columns:1fr;}.em-previa-caixa{position:static;}.em-previa iframe{height:520px;}}
+
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -388,6 +415,7 @@
     <button type="button" data-sec="planos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>Planos</button>
     <button type="button" data-sec="dominios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Domínios<span class="badge-n" id="badge-dom"></span></button>
     <button type="button" data-sec="comunidade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1.3 0-2.6-.2-3.7-.6L3 20l1.5-4C3.6 14.7 3 13.1 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/></svg>Comunidade<span class="badge-n" id="badge-com"></span></button>
+    <button type="button" data-sec="emails"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>Emails</button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
@@ -525,6 +553,42 @@
       </div>
     </section>
 
+    <!-- EMAILS (1.68.0) -->
+    <section class="seccao" id="sec-emails">
+      <div class="cab"><div><h1>Emails</h1><p>Escreve só o texto. O Daniel IA arruma o layout e envia pelo Resend.</p></div><button type="button" class="btn-sec" data-actualizar="emails">Actualizar</button></div>
+      <div class="em-grelha">
+        <div class="cartao">
+          <h3>Nova mensagem</h3>
+          <p class="sub">Para quem?</p>
+          <div class="chips" id="em-destino">
+            <button type="button" class="chip on" data-em="todos">Todos <span id="em-n-todos"></span></button>
+            <button type="button" class="chip" data-em="free">Só Free <span id="em-n-free"></span></button>
+            <button type="button" class="chip" data-em="pagos">Só planos pagos <span id="em-n-pagos"></span></button>
+            <button type="button" class="chip" data-em="um">Um utilizador</button>
+          </div>
+          <div id="em-um" style="display:none">
+            <div class="campo-a"><label for="em-pesquisa">Procura pelo nome ou pelo email</label><input class="inp" id="em-pesquisa" autocomplete="off" placeholder="ex: ana@gmail.com"></div>
+            <div class="em-resultados" id="em-resultados"></div>
+            <div class="em-escolhido" id="em-escolhido"></div>
+          </div>
+          <div class="campo-a"><label for="em-assunto">Assunto</label><input class="inp" id="em-assunto" maxlength="150" placeholder="ex: Novidade: templates profissionais na Daniel IA"></div>
+          <div class="campo-a"><label for="em-titulo">Título grande no topo do email (opcional)</label><input class="inp" id="em-titulo" maxlength="90" placeholder="ex: Há novidades para o teu site"></div>
+          <div class="campo-a"><label for="em-texto">Mensagem</label><textarea class="inp" id="em-texto" maxlength="8000" placeholder="Escreve como se fosse uma mensagem normal.&#10;&#10;Deixa uma linha em branco entre parágrafos.&#10;- linhas começadas por traço&#10;- viram uma lista"></textarea>
+            <small class="em-dica">Linha em branco = parágrafo novo · linhas com <b>-</b> no início viram lista · <b>**assim**</b> fica a negrito · os links ficam clicáveis · <b>{nome}</b> põe o nome da pessoa. A saudação "Olá, Nome!" e a assinatura já vão sozinhas.</small></div>
+          <div class="campos"><div class="campo-a"><label for="em-btn-texto">Botão (opcional)</label><input class="inp" id="em-btn-texto" maxlength="40" placeholder="ex: Ver os templates"></div>
+            <div class="campo-a"><label for="em-btn-url">Link do botão</label><input class="inp" id="em-btn-url" placeholder="https://app.daniel-ia.pro/criar/"></div></div>
+          <div class="linha-accoes"><button type="button" class="btn-sec" id="em-teste">Enviar teste para mim</button><button type="button" class="btn-pri" id="em-enviar">Enviar</button></div>
+          <div class="msg" id="em-msg" style="margin-top:10px"></div>
+          <div class="em-progresso" id="em-progresso"></div>
+        </div>
+        <div class="cartao em-previa-caixa">
+          <h3>Como vai ficar</h3><p class="sub">Pré-visualização com o teu nome. Cada pessoa recebe com o nome dela.</p>
+          <div class="em-previa"><iframe id="em-previa" title="Pré-visualização do email" sandbox=""></iframe></div>
+        </div>
+      </div>
+      <div class="cartao" style="margin-top:14px"><h3>Enviados</h3><p class="sub">Os últimos envios (os testes não ficam aqui).</p><div class="tabela-caixa" id="em-historico" style="border:none"></div></div>
+    </section>
+
     <!-- REGISTO -->
     <section class="seccao" id="sec-registo">
       <div class="cab"><div><h1>Registo</h1><p>Tudo o que foi feito neste painel desde o último arranque do servidor. Fica também nos registos do Bunny.</p></div><button type="button" class="btn-sec" data-actualizar="registo">Actualizar</button></div>
@@ -547,6 +611,11 @@
           <div class="campo-a"><label for="ia-p-imagem">USD por imagem</label><input class="inp" type="number" min="0" step="0.001" id="ia-p-imagem"></div>
         </div>
         <div class="linha-accoes"><button type="button" class="btn-pri" id="ia-guardar">Guardar preços</button><span class="msg" id="ia-msg"></span></div>
+        <div class="ia-mult">
+          <div class="campo-a" style="width:200px"><label for="ia-mult">Multiplicador de tokens</label><input class="inp" type="number" min="1" max="5" step="0.1" id="ia-mult"></div>
+          <p class="dim" style="font-size:12.5px;margin:0;line-height:1.5;flex:1;min-width:220px">Cada token gasto na OpenAI desconta este número de tokens do plano do cliente. <b>1</b> = igual ao custo real · <b>1,5</b> = os tokens acabam 50% mais depressa · <b>2</b> = duas vezes mais depressa. Vale para os planos pagos (o Free já gasta tudo ao criar).</p>
+          <button type="button" class="btn-sec" id="ia-mult-guardar">Guardar multiplicador</button><span class="msg" id="ia-mult-msg"></span>
+        </div>
         <div id="ia-config" class="dim" style="font-size:12.5px;margin:10px 0 12px"></div>
         <div class="tabela-caixa" id="ia-dias" style="border:none"></div>
       </div>
@@ -799,6 +868,7 @@
         + kpi(IC.cadeado, 'Saldo mínimo a manter', usd(x.saldo_minimo), x.recarga_quando == null ? '7 dias de gasto' : 'carregamento automático abaixo de ' + usd(x.recarga_quando))
         + kpi(IC.raio, 'Imagens IA hoje', num(hoje.imagens || 0), num(hoje.erros || 0) + ' pedidos com erro hoje', (hoje.erros ? ' alerta' : ''));
       var c = x.config || {};
+      if (document.activeElement !== $('ia-mult')) $('ia-mult').value = c.multiplicador != null ? c.multiplicador : '';
       $('ia-config').innerHTML = 'Modelo principal: <b>' + esc(c.modelo) + '</b> · Modelo para tarefas pequenas: <b>' + (c.modelo_rapido ? esc(c.modelo_rapido) : 'vazio - usa o principal (põe OPENAI_MODEL_RAPIDO no Bunny para poupar)') + '</b> · Fotos IA: ' + (c.fotos_ia ? (c.fotos_ia_free ? 'todos os planos' : 'só planos pagos') + ' (máx. ' + c.fotos_ia_max + ' por site)' : 'desligadas') + ' · Versões no Free: ' + c.versoes_free;
       $('ia-dias').innerHTML = x.dias.length ? '<table class="tabela"><thead><tr><th>Dia</th><th class="num">Pedidos</th><th class="num">Entrada</th><th class="num">Da cache</th><th class="num">Saída</th><th class="num">Imagens</th><th class="num">Erros</th><th class="num">Custo</th></tr></thead><tbody>'
         + x.dias.map(function(d){ return '<tr><td>' + esc(d.dia) + '</td><td class="num">' + num(d.pedidos) + '</td><td class="num">' + num(d.entrada) + '</td><td class="num">' + num(d.cache) + (d.entrada ? ' <span class="dim">(' + Math.round(d.cache / d.entrada * 100) + '%)</span>' : '') + '</td><td class="num">' + num(d.saida) + '</td><td class="num">' + num(d.imagens) + '</td><td class="num">' + (d.erros ? '<b style="color:var(--error)">' + num(d.erros) + '</b>' : '0') + '</td><td class="num">' + usd(d.custo) + '</td></tr>'; }).join('') + '</tbody></table>'
@@ -806,6 +876,16 @@
       if (precos) msg($('ia-msg'), 'Guardado.', 'ok');
     }).catch(function(e){ msg($('ia-msg'), e.message || 'Não foi possível carregar.', 'erro'); });
   }
+  $('ia-mult-guardar').addEventListener('click', function(){
+    var b = this, m = Number($('ia-mult').value);
+    if (!(m >= 1 && m <= 5)) { msg($('ia-mult-msg'), 'Põe um número entre 1 e 5.', 'erro'); return; }
+    b.disabled = true;
+    post('/admin-uso-ia', { multiplicador: m }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msg($('ia-mult-msg'), r.message, 'erro'); return; }
+      msg($('ia-mult-msg'), 'Guardado: cada token real desconta ' + String(r.response.config.multiplicador).replace('.', ',') + '.', 'ok');
+    }).catch(function(e){ b.disabled = false; msg($('ia-mult-msg'), e.message, 'erro'); });
+  });
   $('ia-guardar').addEventListener('click', function(){
     carregarUsoIA({ entrada: Number($('ia-p-entrada').value) || 0, cache: Number($('ia-p-cache').value) || 0, saida: Number($('ia-p-saida').value) || 0, imagem: Number($('ia-p-imagem').value) || 0 });
   });
@@ -1479,7 +1559,131 @@
     });
   });
 
-  var CARREGAR = { comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+  // ======================================================
+  // Emails (1.68.0)
+  // ======================================================
+  var em = { destino: 'todos', user: null, contagens: {}, poll: null, previaT: null, pesqT: null };
+  var EM_DESTINO = { todos: 'Todos', free: 'Só Free', pagos: 'Só planos pagos', um: 'Um utilizador' };
+  function emCorpo(){ return { assunto: $('em-assunto').value, titulo: $('em-titulo').value, texto: $('em-texto').value, botao_texto: $('em-btn-texto').value, botao_url: $('em-btn-url').value }; }
+  function emPrevia(){
+    clearTimeout(em.previaT);
+    em.previaT = setTimeout(function(){
+      post('/admin-email-previa', emCorpo()).then(function(r){ if (r.status === 'success') $('em-previa').srcdoc = r.response.html; });
+    }, 450);
+  }
+  function emTextoEnviar(){
+    if (em.destino === 'um') return em.user ? 'Enviar a ' + (em.user.nome || em.user.email).split(' ')[0] : 'Enviar';
+    var n = em.contagens[em.destino];
+    return 'Enviar a ' + (n == null ? '...' : num(n)) + (n === 1 ? ' pessoa' : ' pessoas');
+  }
+  function emReporEnviar(){ var b = $('em-enviar'); b.__armado = false; clearTimeout(b.__t); b.classList.remove('confirmar'); b.disabled = false; b.textContent = emTextoEnviar(); }
+  ['em-assunto', 'em-titulo', 'em-texto', 'em-btn-texto', 'em-btn-url'].forEach(function(id){ $(id).addEventListener('input', function(){ emPrevia(); emReporEnviar(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-em]'), function(b){
+    b.addEventListener('click', function(){
+      em.destino = b.getAttribute('data-em');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-em]'), function(x){ x.classList.toggle('on', x === b); });
+      $('em-um').style.display = em.destino === 'um' ? '' : 'none';
+      if (em.destino === 'um') setTimeout(function(){ $('em-pesquisa').focus(); }, 50);
+      emReporEnviar();
+    });
+  });
+  function emEscolher(u){
+    em.user = u;
+    $('em-resultados').innerHTML = '';
+    $('em-pesquisa').value = '';
+    $('em-escolhido').innerHTML = u ? '<b>' + esc(u.nome || u.email) + ' · ' + esc(u.email) + '</b><span class="pill ' + (u.pago ? 'ok' : '') + '">' + esc(u.plano) + '</span><button type="button" class="btn-sec btn-peq" id="em-trocar">Trocar</button>' : '';
+    if (u) $('em-trocar').addEventListener('click', function(){ emEscolher(null); $('em-pesquisa').focus(); });
+    emReporEnviar();
+  }
+  $('em-pesquisa').addEventListener('input', function(){
+    clearTimeout(em.pesqT);
+    var q = $('em-pesquisa').value.trim();
+    if (q.length < 2) { $('em-resultados').innerHTML = ''; return; }
+    em.pesqT = setTimeout(function(){
+      post('/admin-email-destinatarios', { pesquisa: q }).then(function(r){
+        if (r.status !== 'success') return;
+        var l = r.response.resultados || [];
+        $('em-resultados').innerHTML = l.length ? l.map(function(u, i){ return '<button type="button" data-em-u="' + i + '"><span><b>' + esc(u.nome || '(sem nome)') + '</b><br><small>' + esc(u.email) + '</small></span><small>' + esc(u.plano) + '</small></button>'; }).join('')
+          : '<div class="dim" style="font-size:13px">Ninguém encontrado.</div>';
+        Array.prototype.forEach.call(document.querySelectorAll('[data-em-u]'), function(b){ b.addEventListener('click', function(){ emEscolher(l[Number(b.getAttribute('data-em-u'))]); }); });
+      });
+    }, 300);
+  });
+  function emHistorico(){
+    post('/admin-email-estado', {}).then(function(r){
+      if (r.status !== 'success') return;
+      var h = r.response.historico || [];
+      $('em-historico').innerHTML = h.length ? '<table class="tabela"><thead><tr><th>Data</th><th>Assunto</th><th>Para</th><th class="num">Enviados</th><th class="num">Falharam</th><th>Estado</th></tr></thead><tbody>'
+        + h.map(function(x){
+          var estado = x.estado === 'enviado' ? '<span class="pill ok">Enviado</span>' : (x.estado === 'a enviar' ? '<span class="pill aviso">A enviar</span>' : '<span class="pill">' + esc(x.estado) + '</span>');
+          return '<tr><td class="dim">' + esc(data(x.quando, true)) + '</td><td><b>' + esc(x.assunto) + '</b></td><td>' + esc(x.destino === 'um' ? x.para : (EM_DESTINO[x.destino] || x.destino)) + '</td><td class="num">' + num(x.enviados) + '</td><td class="num">' + (x.falhados ? '<b style="color:var(--error)">' + num(x.falhados) + '</b>' : '0') + '</td><td>' + estado + '</td></tr>';
+        }).join('') + '</tbody></table>'
+        : '<div class="vazio">Ainda não enviaste nenhum email por aqui.</div>';
+    });
+  }
+  function emProgresso(id){
+    clearTimeout(em.poll);
+    post('/admin-email-estado', { envio_id: id }).then(function(r){
+      var e = r.status === 'success' && r.response.envio;
+      if (!e) return;
+      var feitos = e.enviados + e.falhados, pct = e.total ? Math.round(feitos / e.total * 100) : 100;
+      $('em-progresso').innerHTML = '<div class="em-barra"><i style="width:' + pct + '%"></i></div><small>' + num(e.enviados) + ' de ' + num(e.total) + ' enviados' + (e.falhados ? ' · ' + num(e.falhados) + ' falharam' : '') + '</small>';
+      if (e.estado === 'a enviar') { em.poll = setTimeout(function(){ emProgresso(id); }, 2000); return; }
+      msg($('em-msg'), e.estado === 'enviado' ? 'Pronto! Enviado para ' + num(e.enviados) + ' pessoas.' : 'O envio parou: ' + (e.erro || e.estado), e.estado === 'enviado' ? 'ok' : 'erro');
+      emReporEnviar();
+      emHistorico();
+    }).catch(function(){ em.poll = setTimeout(function(){ emProgresso(id); }, 4000); });
+  }
+  function emEnviar(destino, botao){
+    var corpo = emCorpo();
+    corpo.destino = destino;
+    if (!corpo.assunto.trim()) { msg($('em-msg'), 'Escreve o assunto.', 'erro'); $('em-assunto').focus(); return; }
+    if (corpo.texto.trim().length < 5) { msg($('em-msg'), 'Escreve a mensagem.', 'erro'); $('em-texto').focus(); return; }
+    if (destino === 'um') {
+      if (!em.user) { msg($('em-msg'), 'Escolhe primeiro o utilizador.', 'erro'); $('em-pesquisa').focus(); return; }
+      corpo.user_id = em.user.id;
+    }
+    var grupo = destino !== 'teste' && destino !== 'um';
+    if (destino !== 'teste' && !botao.__armado) {
+      botao.__armado = true;
+      botao.classList.add('confirmar');
+      botao.textContent = grupo ? 'Confirmar: enviar a ' + num(em.contagens[destino]) + ' pessoas' : 'Confirmar envio';
+      clearTimeout(botao.__t);
+      botao.__t = setTimeout(emReporEnviar, 6000);
+      return;
+    }
+    if (grupo) corpo.confirmar_total = em.contagens[destino];
+    clearTimeout(botao.__t);
+    var textoAntes = botao.textContent;
+    botao.disabled = true; botao.classList.remove('confirmar'); botao.__armado = false; botao.textContent = 'A enviar...';
+    msg($('em-msg'), '');
+    post('/admin-email-enviar', corpo).then(function(r){
+      if (r.status !== 'success') {
+        if (r.codigo === 'confirmar') { em.contagens[destino] = r.total; $('em-n-' + destino).textContent = '(' + num(r.total) + ')'; }
+        botao.disabled = false; botao.textContent = destino === 'teste' ? textoAntes : emTextoEnviar();
+        msg($('em-msg'), r.message || 'Não foi possível enviar.', 'erro');
+        return;
+      }
+      if (r.response.envio_id) { botao.textContent = 'A enviar...'; emProgresso(r.response.envio_id); return; }
+      botao.disabled = false; botao.textContent = destino === 'teste' ? 'Enviar teste para mim' : emTextoEnviar();
+      msg($('em-msg'), 'Enviado para ' + r.response.para + '.', 'ok');
+      if (destino === 'um') emHistorico();
+    }).catch(function(e){ botao.disabled = false; botao.textContent = destino === 'teste' ? 'Enviar teste para mim' : emTextoEnviar(); msg($('em-msg'), e.message || 'Sem ligação.', 'erro'); });
+  }
+  $('em-teste').addEventListener('click', function(){ emEnviar('teste', this); });
+  $('em-enviar').addEventListener('click', function(){ emEnviar(em.destino, this); });
+  function carregarEmails(){
+    post('/admin-email-destinatarios', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      em.contagens = r.response.contagens || {};
+      ['todos', 'free', 'pagos'].forEach(function(k){ $('em-n-' + k).textContent = '(' + num(em.contagens[k]) + ')'; });
+      emReporEnviar();
+    }).catch(function(e){ msg($('em-msg'), e.message || 'Não foi possível ler os utilizadores.', 'erro'); });
+    emHistorico();
+    emPrevia();
+  }
+
+  var CARREGAR = { emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){
