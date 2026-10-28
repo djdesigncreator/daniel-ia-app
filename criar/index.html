@@ -481,6 +481,8 @@
   .tipo .desc{font-size:12px;color:var(--text-dim);line-height:1.45;}
   .tipo .visto{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:opacity .18s,transform .18s;}
   .tipo .visto svg{width:12px;height:12px;}
+  .tipo .selo{position:absolute;top:10px;right:10px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;background:var(--tint-a);color:var(--text-dim);}
+  .tipo.on .selo{display:none;}
   .tipo.on{border-color:var(--accent-2);background:linear-gradient(160deg,var(--tint-b),transparent 70%),var(--card-alt);box-shadow:0 0 0 3px var(--accent-glow);}
   .tipo.on .ic{background:var(--grad-accent);color:var(--on-accent);}
   .tipo.on .visto{opacity:1;transform:none;}
@@ -888,6 +890,7 @@
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Portefólio"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="3" y1="13" x2="21" y2="13"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Portefólio</span><span class="desc">Mostra os teus trabalhos e projectos.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Blog"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Blog</span><span class="desc">Publica artigos, notícias e dicas.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Galeria"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.6"></circle><path d="M21 15l-5-5L5 21"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Galeria de fotos (sites para fotógrafos)</span><span class="desc">Álbuns de fotos e vídeos para mostrar o teu trabalho.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Agendamento"><span class="selo">Planos pagos</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M9 16l2 2 4-4"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">App de agendamento</span><span class="desc">Os clientes marcam a hora no teu site: serviços, equipa, horário e pagamento do sinal.</span></button>
       </div>
 
       <div class="modo-bloco" id="modo-bloco">
@@ -1211,11 +1214,17 @@ var EXEMPLOS_PROMPT = {
   'Landing Page': 'Ex: Uma padaria artesanal em Maputo, com os nossos produtos, sobre nós e contacto. Tom acolhedor, cores quentes.',
   'Portefólio': 'Ex: Sou designer gráfico na Beira. Quero mostrar logótipos e cartazes que fiz. Estilo simples e limpo.',
   'Blog': 'Ex: Blog sobre agricultura em Moçambique, com dicas para pequenos produtores. Visual natural, verde.',
-  'Galeria': 'Ex: Fotógrafo de casamentos em Maputo. Quero um site elegante para mostrar os meus álbuns.'
+  'Galeria': 'Ex: Fotógrafo de casamentos em Maputo. Quero um site elegante para mostrar os meus álbuns.',
+  'Agendamento': 'Ex: Salão de beleza na Sommerschield com 3 cabeleireiras. Cortes, tranças, manicure e maquilhagem. Abrimos de segunda a sábado das 8h às 18h.'
 };
 var campoTipo = document.getElementById('f-tipo');
 document.querySelectorAll('.tipo').forEach(function(cartao){
   cartao.addEventListener('click', function(){
+    if (cartao.getAttribute('data-tipo') === 'Agendamento' && PLANO_FREE) {
+      showMessage('As apps de agendamento fazem parte dos planos pagos. Sobe de plano para criares a tua.');
+      juntarLigacaoRecarga(document.getElementById('msg-form'), false);
+      return;
+    }
     document.querySelectorAll('.tipo').forEach(function(c){
       c.classList.remove('on');
       c.setAttribute('aria-checked', 'false');
@@ -1473,7 +1482,8 @@ function tplEsc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, functi
 function tplUrl(t, ficheiro){ return CONTAINER_URL + '/template/' + encodeURIComponent(t.id) + '/' + (ficheiro || 'index.html') + '?dia_previa=1'; }
 function tplMostrarModo(){
   var tipo = campoTipo.value;
-  document.getElementById('modo-bloco').classList.toggle('ver', !!tipo);
+  if (tipo === 'Agendamento') TPL.modo = 'ia'; // ainda não há templates de agendamento
+  document.getElementById('modo-bloco').classList.toggle('ver', !!tipo && tipo !== 'Agendamento');
   document.querySelectorAll('.modo').forEach(function(b){ var on = b.getAttribute('data-modo') === TPL.modo; b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
   var comTpl = TPL.modo === 'template';
   // Com template: sem imagem de referência, sem "uma página só" e sem imagens anexadas (as fotos vêm sozinhas).
@@ -2417,6 +2427,7 @@ function mostrarPronto(url, tipo){
   var ehLoja = tipo === 'E-commerce' || tipo === 'Checkout';
   var caixa = document.getElementById('proximos');
   var passos = [];
+  if (tipo === 'Agendamento') passos.push('<div class="proximo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><div><b>Organiza a tua agenda</b><small>Confirma os serviços, a equipa, o horário e se queres receber um sinal. Os clientes já podem marcar.</small></div><a href="/agenda/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir agenda</a></div>');
   if (ehLoja) {
     passos.push('<div class="proximo"><span class="ic">' + EST_IC.caixa + '</span><div><b>Adiciona os teus produtos</b><small>Fotos, preços, opções e stock. A loja arruma-se sozinha.</small></div><a href="/produtos/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir loja</a></div>');
     passos.push('<div class="proximo kyc" id="proximo-kyc" style="display:none"></div>');

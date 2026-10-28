@@ -1041,6 +1041,10 @@ function acaoSite(site){
       html = '<button class="btn-ver btn-gerir-portfolio" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir portefólio</button>' + html;
     }
     // Só os projectos de Blog têm artigos para gerir.
+    // 1.69.0: apps de agendamento
+    if (site.tipo === 'Agendamento') {
+      html = '<a class="btn-ver btn-gerir-agenda" href="/agenda/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Gerir agenda</a>' + html;
+    }
     if (site.tipo === 'Blog') {
       html = '<button class="btn-ver btn-gerir-blog" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir blog</button>' + html;
     }
