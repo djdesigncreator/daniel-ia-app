@@ -1014,6 +1014,10 @@ function abrirCartao(resp){
       var alt = Number(resp.altura) || 450, corte = Math.max(0, Number(resp.corte) || 0);
       palco.style.height = alt + 'px';
       fr.style.top = (-corte) + 'px'; fr.style.bottom = 'auto'; fr.style.height = (alt + corte) + 'px';
+      // 1.66.1: janela fixa - a página de pagamento não faz scroll lá dentro (o rodapé nunca aparece)
+      fr.setAttribute('scrolling', 'no');
+      palco.style.overflow = 'hidden'; palco.style.overflow = 'clip';
+      palco.onscroll = function(){ if (palco.scrollTop || palco.scrollLeft) { palco.scrollTop = 0; palco.scrollLeft = 0; } };
     } else { palco.style.height = ''; }
     fr.setAttribute('allow', 'payment');
     // Sem "allow-top-navigation": a página do cartão nunca leva a pessoa para fora daqui.

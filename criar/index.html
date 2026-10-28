@@ -635,6 +635,27 @@
   .estudio-extra{display:none;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:22px;}
   .estudio-extra .btn{width:auto;margin:0;padding:12px 20px;}
   .estudio-extra small{color:var(--text-dim);font-size:12.5px;}
+  /* 1.66.0: templates num site já criado */
+  .estudio-tpl{display:none;align-items:center;gap:18px;margin-top:26px;padding:20px 22px;border-radius:22px;border:1px solid var(--border);background:radial-gradient(520px 200px at 0% 0%,rgba(137,200,4,.12),transparent 70%),var(--card);animation:surgir .4s ease-out;}
+  .estudio-tpl.a-aplicar{border-color:rgba(137,200,4,.45);}
+  .et-arte{display:grid;grid-template-columns:repeat(3,28px);gap:6px;flex-shrink:0;}
+  .et-arte i{display:block;height:38px;border-radius:7px;border:1px solid var(--border);background:var(--card-alt);position:relative;overflow:hidden;}
+  .et-arte i::before{content:'';position:absolute;left:0;right:0;top:0;height:42%;}
+  .et-arte i:nth-child(1)::before{background:#F4EEE3;}
+  .et-arte i:nth-child(2){transform:translateY(-6px);}
+  .et-arte i:nth-child(2)::before{background:linear-gradient(135deg,#1B1B22,#3A3A48);}
+  .et-arte i:nth-child(3)::before{background:linear-gradient(135deg,#FF5A36,#FFC93C);}
+  .et-txt{flex:1;min-width:0;}
+  .et-eyebrow{display:block;font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--accent-2);margin-bottom:4px;}
+  .et-txt b{display:block;font-family:var(--font-display);font-size:17px;letter-spacing:-.01em;line-height:1.3;}
+  .et-txt small{display:block;color:var(--text-dim);font-size:13px;margin-top:4px;line-height:1.5;}
+  .estudio-tpl .btn{width:auto;margin:0;padding:12px 20px;white-space:nowrap;text-decoration:none;}
+  .et-spin{width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid var(--border);border-top-color:var(--accent-2);animation:girar .9s linear infinite;}
+  .et-relogio{font-weight:800;font-size:15px;color:var(--accent-2);font-variant-numeric:tabular-nums;}
+  .tg-accoes .btn.confirmar,#tv-usar.confirmar{background:var(--warning);color:#1A0A27;box-shadow:0 10px 24px rgba(245,166,35,.35);}
+  .tg-accoes .btn svg,#tv-usar svg{width:15px;height:15px;margin-right:5px;vertical-align:-2px;}
+  .tg-aviso{color:var(--warning) !important;font-weight:600;}
+  @media (max-width:640px){.estudio-tpl{flex-wrap:wrap;padding:18px;}.estudio-tpl .btn{width:100%;}.et-arte{display:none;}}
   .estudio-sucesso{display:none;align-items:center;gap:14px;margin:0 0 20px;padding:16px 18px;border-radius:18px;background:rgba(137,200,4,.10);border:1px solid rgba(137,200,4,.35);animation:surgir .4s ease-out;}
   .estudio-sucesso .ic{width:40px;height:40px;border-radius:12px;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .estudio-sucesso .ic svg{width:20px;height:20px;}
@@ -848,7 +869,7 @@
 
   <div class="heading">
     <h1>Criar projecto novo</h1>
-    <p>Descreve o teu negócio. A nossa IA desenha três versões diferentes do teu site, ao mesmo tempo, e tu escolhes a que mais gostas.</p>
+    <p id="criar-intro">Descreve o teu negócio. A nossa IA desenha três versões diferentes do teu site, ao mesmo tempo, e tu escolhes a que mais gostas.</p>
   </div>
 
   <!-- FORMULÁRIO -->
@@ -873,7 +894,7 @@
         <label id="l-modo">Como queres começar?</label>
         <div class="modos" role="radiogroup" aria-labelledby="l-modo">
           <button type="button" class="modo" role="radio" aria-checked="false" data-modo="template"><span class="novo">Novo</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span><span><b>Escolher um template</b><small>Sites desenhados por profissionais. A IA escreve os textos para o teu negócio e junta fotos. Pronto em cerca de 1 minuto.</small></span></button>
-          <button type="button" class="modo on" role="radio" aria-checked="true" data-modo="ia"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><span><b>Criar com a IA</b><small>A IA desenha 3 versões novas, só para ti, e tu escolhes a melhor.</small></span></button>
+          <button type="button" class="modo on" role="radio" aria-checked="true" data-modo="ia"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><span><b>Criar do zero com a IA</b><small>A IA desenha 3 versões novas, só para ti, e tu escolhes a melhor.</small></span></button>
         </div>
         <div class="tpl-esc" id="tpl-esc"></div>
       </div>
@@ -907,7 +928,7 @@
         <div class="ref-preview" id="ref-preview">
           <div class="ref-img"><img id="ref-img" alt=""><span class="ref-a-ler"><i></i></span></div>
           <div class="ref-info">
-            <b>Vais receber 3 versões a partir desta imagem</b>
+            <b id="ref-n-versoes">Vais receber 3 versões a partir desta imagem</b>
             <ul class="ref-niveis">
               <li><i>1</i><span>Fiel à imagem</span> <em>o mais parecido possível</em></li>
               <li><i>2</i><span>Parecida</span> <em>o mesmo estilo, outra composição</em></li>
@@ -1010,6 +1031,7 @@
     <div class="variantes" id="variantes"></div>
     <div class="estudio-msg" id="estudio-msg"></div>
     <div class="estudio-extra" id="estudio-extra"><button type="button" class="btn secondary" id="btn-gerar-novas" data-texto="Desenhar 3 versões novas">Desenhar 3 versões novas</button><small>Só conta no teu plano a versão que puseres no ar.</small><a class="btn secondary" href="/dashboard/" style="text-decoration:none">Voltar ao dashboard</a></div>
+    <section class="estudio-tpl" id="estudio-tpl" aria-live="polite"></section>
     <div class="estudio-nota"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span id="estudio-nota-texto">Podes escolher assim que uma versão ficar pronta. Se saíres, voltas a esta escolha a partir do dashboard.</span></div>
   </div>
 
@@ -1076,6 +1098,19 @@
 */
 var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
 var OWNER = localStorage.getItem('daniel_owner');
+// 1.65.0: no plano Free a IA desenha 1 versão (nos pagos, 3 para escolher).
+var PLANO_FREE = false;
+function textoBotaoIA(){ return PLANO_FREE ? 'Criar o meu site' : 'Criar as 3 versões'; }
+fetch(CONTAINER_URL + '/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER }) })
+  .then(function(r){ return r.json(); }).then(function(r){
+    if (!r || r.status !== 'success' || !r.response || r.response.plano_pago !== false) return;
+    PLANO_FREE = true;
+    var p = document.getElementById('criar-intro'); if (p) p.textContent = 'Descreve o teu negócio e a nossa IA desenha o teu site. Nos planos pagos recebes três versões diferentes e escolhes a que mais gostas.';
+    var rv = document.getElementById('ref-n-versoes'); if (rv) rv.textContent = 'Vais receber o teu site a partir desta imagem';
+    var rl = document.querySelector('.ref-niveis'); if (rl) rl.style.display = 'none';
+    var mi = document.querySelector('.modo[data-modo="ia"] small'); if (mi) mi.textContent = 'Sem template: a IA desenha um site novo, só para ti, a partir da tua descrição.';
+    var b = document.getElementById('btn-gerar'); if (b && !b.disabled && b.textContent.indexOf('3 versões') >= 0) b.textContent = textoBotaoIA();
+  }).catch(function(){});
 if (!OWNER) {
   window.location.href = '/';
 }
@@ -1447,7 +1482,7 @@ function tplMostrarModo(){
 function tplTextoBotao(){
   var b = document.getElementById('btn-gerar');
   if (b.disabled) return;
-  b.textContent = TPL.modo === 'template' ? (TPL.escolhido ? 'Criar o meu site com o template ' + TPL.escolhido.nome : 'Escolhe um template') : 'Criar as 3 versões';
+  b.textContent = TPL.modo === 'template' ? (TPL.escolhido ? 'Criar o meu site com o template ' + TPL.escolhido.nome : 'Escolhe um template') : textoBotaoIA();
 }
 function tplDesenharEscolhido(){
   var caixa = document.getElementById('tpl-esc');
@@ -1488,8 +1523,9 @@ function tplCarregar(tipo){
   });
 }
 var tplObservador = null;
-function tplAbrirGaleria(){
-  var tipo = campoTipo.value;
+function tplAbrirGaleria(paraMudar){
+  TPL.mudar = paraMudar === true;
+  var tipo = TPL.mudar ? estudio.tipo : campoTipo.value;
   if (!tipo) { showMessage('Escolhe primeiro o que queres criar.'); return; }
   var g = document.getElementById('tpl-galeria');
   document.getElementById('tg-titulo').textContent = 'Templates para ' + (TPL_NOMES_TIPO[tipo] || tipo);
@@ -1506,12 +1542,12 @@ function tplDesenharGaleria(){
   var lista = TPL.lista.filter(function(t){ return !TPL.filtro || t.sector === TPL.filtro; });
   var grelha = document.getElementById('tg-grelha');
   grelha.innerHTML = lista.map(function(t){
-    var on = TPL.escolhido && TPL.escolhido.id === t.id;
+    var on = TPL.mudar ? TPL.emUso === t.id : !!(TPL.escolhido && TPL.escolhido.id === t.id);
     return '<article class="tg-cartao' + (on ? ' on' : '') + '" data-id="' + tplEsc(t.id) + '">'
       + '<div class="tg-previa" data-ver="' + tplEsc(t.id) + '" role="button" tabindex="0" aria-label="Ver ' + tplEsc(t.nome) + '"><span class="carregar"><span><i></i>A preparar a pré-visualização...</span></span><iframe data-src="' + tplUrl(t) + '" tabindex="-1" aria-hidden="true" title=""></iframe><span class="lupa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>Ver em grande</span></div>'
       + '<div class="tg-info"><div class="tg-nome"><b data-no-i18n>' + tplEsc(t.nome) + '</b><span>' + tplEsc(t.sector) + '</span><span class="tg-cores">' + (t.cores || []).map(function(c){ return '<i style="background:' + tplEsc(c) + '"></i>'; }).join('') + '</span></div>'
       + '<p>' + tplEsc(t.resumo) + '</p><div class="pags">' + (t.paginas || []).map(tplEsc).join(' · ') + '</div>'
-      + '<div class="tg-accoes"><button type="button" class="btn secondary" data-ver="' + tplEsc(t.id) + '">Ver</button><button type="button" class="btn" data-usar="' + tplEsc(t.id) + '">' + (on ? 'Escolhido' : 'Usar este') + '</button></div></div></article>';
+      + '<div class="tg-accoes"><button type="button" class="btn secondary" data-ver="' + tplEsc(t.id) + '">Ver</button><button type="button" class="btn" data-usar="' + tplEsc(t.id) + '"' + (on && TPL.mudar ? ' disabled' : '') + '>' + tplTextoUsar(on, true) + '</button></div></div></article>';
   }).join('');
   // As pré-visualizações só carregam quando aparecem no ecrã.
   if (tplObservador) tplObservador.disconnect();
@@ -1534,11 +1570,15 @@ function tplDesenharGaleria(){
     b.addEventListener('click', abrir);
     b.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abrir(ev); } });
   });
-  grelha.querySelectorAll('[data-usar]').forEach(function(b){ b.addEventListener('click', function(){ tplUsar(tplPorId(b.getAttribute('data-usar'))); }); });
+  grelha.querySelectorAll('[data-usar]').forEach(function(b){ b.addEventListener('click', function(){ tplUsar(tplPorId(b.getAttribute('data-usar')), b); }); });
   // Filtro por sector (só quando há sectores repetidos não faz sentido: mostra "Todos" + cada sector)
   var sectores = [];
   TPL.lista.forEach(function(t){ if (t.sector && sectores.indexOf(t.sector) < 0) sectores.push(t.sector); });
-  document.getElementById('tg-sub').textContent = TPL.lista.length + ' templates. Escolhe um: a IA troca os textos e as fotos pelos do teu negócio.';
+  document.getElementById('tg-sub').textContent = TPL.mudar
+    ? (estudio.planoPago
+      ? TPL.lista.length + ' templates. Ver é grátis. Ao aplicar, a IA escreve os textos para o teu negócio (gasta tokens) e o link do site fica igual.'
+      : TPL.lista.length + ' templates. Vê todos à vontade: ver não gasta tokens. Para aplicares um ao teu site precisas de um plano pago.')
+    : TPL.lista.length + ' templates. Escolhe um: a IA troca os textos e as fotos pelos do teu negócio.';
   // Filtros só quando há sectores repetidos (com 15 sectores diferentes não ajudam).
   if (sectores.length >= TPL.lista.length) { document.getElementById('tg-filtros').innerHTML = ''; return; }
   document.getElementById('tg-filtros').innerHTML = '<button type="button" class="' + (TPL.filtro ? '' : 'on') + '" data-filtro="">Todos</button>' + sectores.map(function(s){ return '<button type="button" class="' + (TPL.filtro === s ? 'on' : '') + '" data-filtro="' + tplEsc(s) + '">' + tplEsc(s) + '</button>'; }).join('');
@@ -1560,7 +1600,11 @@ function tplVer(t){
     document.getElementById('tv-iframe').src = tplUrl(t, b.getAttribute('data-fic'));
   }); });
   document.getElementById('tv-iframe').src = tplUrl(t);
-  document.getElementById('tv-usar').textContent = (TPL.escolhido && TPL.escolhido.id === t.id) ? 'Escolhido' : 'Usar este template';
+  var tvUsar = document.getElementById('tv-usar');
+  var tvOn = TPL.mudar ? TPL.emUso === t.id : !!(TPL.escolhido && TPL.escolhido.id === t.id);
+  tvUsar.__armado = false; clearTimeout(tvUsar.__t); tvUsar.classList.remove('confirmar');
+  tvUsar.disabled = TPL.mudar && tvOn;
+  tvUsar.innerHTML = tplTextoUsar(tvOn, false);
   v.classList.add('aberta'); document.body.style.overflow = 'hidden';
 }
 document.getElementById('tv-voltar').addEventListener('click', function(){ document.getElementById('tpl-ver').classList.remove('aberta'); document.getElementById('tv-iframe').src = 'about:blank'; if (!document.getElementById('tpl-galeria').classList.contains('aberta')) document.body.style.overflow = ''; });
@@ -1568,9 +1612,10 @@ document.querySelectorAll('.tv-disp [data-disp]').forEach(function(b){ b.addEven
   document.querySelectorAll('.tv-disp [data-disp]').forEach(function(x){ x.classList.toggle('on', x === b); });
   document.getElementById('tv-palco').classList.toggle('tel', b.getAttribute('data-disp') === 'tel');
 }); });
-document.getElementById('tv-usar').addEventListener('click', function(){ tplUsar(TPL.aVer); });
-function tplUsar(t){
+document.getElementById('tv-usar').addEventListener('click', function(){ tplUsar(TPL.aVer, this); });
+function tplUsar(t, botao){
   if (!t) return;
+  if (TPL.mudar) { tplAplicar(t, botao); return; }
   TPL.escolhido = t; TPL.modo = 'template';
   document.getElementById('tpl-ver').classList.remove('aberta'); document.getElementById('tv-iframe').src = 'about:blank';
   tplFecharGaleria();
@@ -1599,6 +1644,147 @@ document.addEventListener('keydown', function(ev){
   }).catch(function(){});
 })();
 tplMostrarModo();
+
+// =====================================================================
+// 1.66.0 - TEMPLATES NUM SITE JÁ CRIADO (Mudar layout)
+// Ver é grátis em qualquer plano (as pré-visualizações não usam a IA).
+// Aplicar é nos planos pagos: a IA escreve os textos para o negócio
+// (gasta tokens) e o site muda no mesmo link.
+// =====================================================================
+var TPL_MUDAR = { poll: null, relogio: null, inicio: 0, aplicando: false };
+function tplTextoUsar(on, curto){
+  if (!TPL.mudar) return on ? 'Escolhido' : (curto ? 'Usar este' : 'Usar este template');
+  if (on) return 'Em uso';
+  if (!estudio.planoPago) return EST_IC.cadeado + (curto ? 'Desbloquear' : 'Desbloquear com um plano');
+  return curto ? 'Aplicar' : 'Aplicar ao meu site';
+}
+function tplNomeTipo(){ return TPL_NOMES_TIPO[estudio.tipo] || 'este tipo de site'; }
+function tplMudarBloco(){
+  var el = document.getElementById('estudio-tpl');
+  if (estudio.modo !== 'mudar') { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  if (TPL_MUDAR.aplicando) return;
+  el.classList.remove('a-aplicar');
+  var n = TPL.tipoCarregado === estudio.tipo && TPL.lista.length ? TPL.lista.length : 15;
+  var titulo = TPL.emUso ? 'O teu site usa o template ' + TPL.emUsoNome : 'Preferes um template desenhado por profissionais?';
+  var sub = estudio.planoPago
+    ? n + ' templates para ' + tplNomeTipo() + '. Ver é grátis; ao aplicar, a IA escreve os textos para o teu negócio. O link, os produtos e os pagamentos ficam iguais.'
+    : n + ' templates para ' + tplNomeTipo() + '. Vê todos à vontade: ver não gasta tokens. Para aplicares um ao teu site precisas de um plano pago.';
+  el.innerHTML = '<div class="et-arte" aria-hidden="true"><i></i><i></i><i></i></div>'
+    + '<div class="et-txt"><span class="et-eyebrow">TEMPLATES PROFISSIONAIS</span><b>' + estEsc(titulo) + '</b><small>' + estEsc(sub) + '</small></div>'
+    + '<button type="button" class="btn" id="btn-ver-templates">' + (TPL.emUso ? 'Ver outros templates' : 'Ver os templates') + '</button>';
+  document.getElementById('btn-ver-templates').addEventListener('click', function(){ tplAbrirGaleria(true); });
+}
+function tplMudarIniciar(){
+  tplMudarBloco();
+  if (estudio.tipo) tplCarregar(estudio.tipo).then(function(){ tplMudarBloco(); }).catch(function(){});
+  fetch(CONTAINER_URL + '/template-estado', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success' || !r.response) return;
+    var res = r.response;
+    if (res.template) { TPL.emUso = res.template.id; TPL.emUsoNome = res.template.nome; }
+    if (res.aplicar && res.aplicar.estado === 'a aplicar') { tplMudarEspera(res.aplicar.nome, Date.parse(res.aplicar.inicio) || Date.now()); return; }
+    tplMudarBloco();
+  }).catch(function(){});
+}
+function tplFecharTudo(){
+  var v = document.getElementById('tpl-ver');
+  if (v.classList.contains('aberta')) { v.classList.remove('aberta'); document.getElementById('tv-iframe').src = 'about:blank'; }
+  tplFecharGaleria();
+  document.body.style.overflow = '';
+}
+function tplRepor(botao, t){
+  if (!botao) return;
+  botao.__armado = false; clearTimeout(botao.__t);
+  botao.classList.remove('confirmar'); botao.disabled = false;
+  botao.innerHTML = tplTextoUsar(false, botao.id !== 'tv-usar');
+}
+function tplAplicar(t, botao){
+  if (!t || TPL.emUso === t.id || TPL_MUDAR.aplicando) return;
+  if (!estudio.planoPago) { window.location.href = '/planos/'; return; }
+  // Dois toques: o primeiro avisa, o segundo confirma.
+  if (botao && !botao.__armado) {
+    botao.__armado = true;
+    botao.classList.add('confirmar');
+    botao.textContent = botao.id === 'tv-usar' ? 'Confirmar: aplicar ao meu site' : 'Confirmar';
+    var sub = document.getElementById('tg-sub');
+    sub.textContent = 'Ao confirmares, a IA escreve os textos do template ' + t.nome + ' para o teu negócio (gasta tokens). As alterações feitas com o botão Editar ficam no visual antigo.';
+    sub.classList.add('tg-aviso');
+    clearTimeout(botao.__t);
+    botao.__t = setTimeout(function(){ tplRepor(botao, t); sub.classList.remove('tg-aviso'); if (TPL.mudar && TPL.lista.length) tplDesenharGaleria(); }, 6000);
+    return;
+  }
+  if (botao) { botao.__armado = false; clearTimeout(botao.__t); botao.classList.remove('confirmar'); botao.disabled = true; botao.textContent = 'A começar...'; }
+  document.getElementById('tg-sub').classList.remove('tg-aviso');
+  document.getElementById('estudio-msg').textContent = '';
+  TPL_MUDAR.aplicando = true;
+  fetch(CONTAINER_URL + '/aplicar-template', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId, template_id: t.id })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success') { var er = new Error(r.message || ''); er.codigo = r.codigo; er.plano_pago = r.plano_pago; throw er; }
+    tplFecharTudo();
+    TPL_MUDAR.aplicando = false;
+    tplMudarEspera(t.nome, Date.now());
+  }).catch(function(e){
+    TPL_MUDAR.aplicando = false;
+    tplRepor(botao, t);
+    tplFecharTudo();
+    if (e.codigo === 'plano') { estudio.planoPago = false; mostrarAvisoPlano(); marcarActual(); }
+    tplMudarBloco();
+    var msg = document.getElementById('estudio-msg');
+    msg.textContent = e.message || 'Não foi possível aplicar o template. Tenta novamente.';
+    if (e.codigo === 'tokens') juntarLigacaoRecarga(msg, e.plano_pago);
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+function tplMudarParar(){
+  clearTimeout(TPL_MUDAR.poll); clearInterval(TPL_MUDAR.relogio);
+  TPL_MUDAR.poll = null; TPL_MUDAR.relogio = null; TPL_MUDAR.aplicando = false;
+}
+function tplMudarEspera(nome, inicio){
+  tplMudarParar();
+  TPL_MUDAR.aplicando = true; TPL_MUDAR.inicio = inicio || Date.now();
+  document.getElementById('estudio-sucesso').style.display = 'none';
+  var el = document.getElementById('estudio-tpl');
+  el.style.display = 'flex';
+  el.classList.add('a-aplicar');
+  el.innerHTML = '<span class="et-spin" aria-hidden="true"></span>'
+    + '<div class="et-txt"><span class="et-eyebrow">A APLICAR O TEMPLATE</span><b>' + estEsc('A preparar o template ' + nome + ' para o teu site') + '</b>'
+    + '<small>A IA está a escrever os textos para o teu negócio e a juntar as fotos. Costuma demorar cerca de 1 minuto. O teu site continua no ar como está até ficar pronto.</small></div>'
+    + '<span class="et-relogio" id="et-relogio" data-no-i18n>0:00</span>';
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  var tick = function(){ var r = document.getElementById('et-relogio'); if (r) r.textContent = relogioTexto(Math.max(0, Math.round((Date.now() - TPL_MUDAR.inicio) / 1000))); };
+  tick(); TPL_MUDAR.relogio = setInterval(tick, 1000);
+  var verificar = function(){
+    fetch(CONTAINER_URL + '/template-estado', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ owner: OWNER, site_id: estudio.siteId })
+    }).then(function(r){ return r.json(); }).then(function(r){
+      var a = r && r.response && r.response.aplicar;
+      if (!a || a.estado === 'a aplicar') { TPL_MUDAR.poll = setTimeout(verificar, 3000); return; }
+      tplMudarParar();
+      if (a.estado === 'pronto') {
+        TPL.emUso = a.id; TPL.emUsoNome = a.nome;
+        estudio.actual = 'template';
+        estudio.cdnUrl = r.response.cdn_url || estudio.cdnUrl;
+        marcarActual();
+        tplMudarBloco();
+        var suc = document.getElementById('estudio-sucesso');
+        document.getElementById('estudio-sucesso-nome').textContent = 'template ' + a.nome;
+        document.getElementById('estudio-sucesso-link').href = estudio.cdnUrl;
+        suc.style.display = 'flex';
+        suc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        tplMudarBloco();
+        document.getElementById('estudio-msg').textContent = a.mensagem || 'Não foi possível aplicar o template. O teu site ficou como estava - tenta outra vez.';
+      }
+    }).catch(function(){ TPL_MUDAR.poll = setTimeout(verificar, 5000); });
+  };
+  TPL_MUDAR.poll = setTimeout(verificar, 3000);
+}
 
 // ---- Submeter o formulário ----
 var btnGerar = document.getElementById('btn-gerar');
@@ -1633,7 +1819,7 @@ btnGerar.addEventListener('click', function(){
     return;
   }
 
-  var textoBotao = TPL.modo === 'template' ? btnGerar.textContent : 'Criar as 3 versões';
+  var textoBotao = TPL.modo === 'template' ? btnGerar.textContent : textoBotaoIA();
   setLoading(btnGerar, true, textoBotao, 'A iniciar...');
 
   var corpo = { owner: OWNER, nome: nome, tipo: tipo, prompt: prompt, idioma: document.getElementById('f-idioma').value || 'pt', variantes: 3 };
@@ -1747,14 +1933,14 @@ document.getElementById('btn-outro').addEventListener('click', function(){
   inputImagens.value = '';
   renderImagensGrid();
   hideMessage();
-  setLoading(btnGerar, false, 'Criar as 3 versões', '');
+  setLoading(btnGerar, false, textoBotaoIA(), '');
   showView('view-form');
 });
 
 document.getElementById('btn-tentar-outra-vez').addEventListener('click', function(){
   fecharEstudio();
   try { history.replaceState(null, '', '/criar/'); } catch (e) {}
-  setLoading(btnGerar, false, 'Criar as 3 versões', '');
+  setLoading(btnGerar, false, textoBotaoIA(), '');
   showView('view-form');
 });
 
@@ -1813,6 +1999,7 @@ function abrirEstudio(siteId, nome, tipo, modo){
   document.getElementById('estudio-sucesso').style.display = 'none';
   document.getElementById('estudio-extra').style.display = 'none';
   estudio.planoPago = true; mostrarAvisoPlano();
+  TPL.emUso = ''; TPL.emUsoNome = ''; tplMudarParar(); document.getElementById('estudio-tpl').style.display = 'none';
   mostrarReferenciaEstudio(estudio.modo === 'criar' && estudio.refThumb ? 'a analisar' : '');
   showView('view-estudio');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2091,6 +2278,7 @@ function carregarMudar(){
     if (typeof res.plano_pago === 'boolean') estudio.planoPago = res.plano_pago;
     mostrarAvisoPlano();
     document.getElementById('estudio-nome').textContent = estudio.nome;
+    tplMudarIniciar();
     var vs = res.variantes;
     if (!vs || !vs.variantes || !vs.variantes.length) { mostrarSemVersoes(); return; }
     var aGerar = vs.variantes.some(function(v){ return v.estado === 'a gerar'; });
@@ -2112,7 +2300,9 @@ function mostrarSemVersoes(){
       + '<div class="estudio-vazio-arte"><span></span><span></span><span></span></div>'
       + '<h3>Mudar de layout faz parte dos planos pagos</h3>'
       + '<p>Com um plano pago, a nossa IA desenha três versões novas do teu site e tu trocas quando quiseres, sem perder produtos, pagamentos nem o link.</p>'
-      + '<a class="btn" href="/planos/" style="text-decoration:none">' + EST_IC.cadeado + 'Ver planos</a></div>';
+      + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn" href="/planos/" style="text-decoration:none;width:auto">' + EST_IC.cadeado + 'Ver planos</a>'
+      + '<button type="button" class="btn secondary" style="width:auto" id="btn-vazio-templates">Ver os templates</button></div></div>';
+    document.getElementById('btn-vazio-templates').addEventListener('click', function(){ tplAbrirGaleria(true); });
     return;
   }
   document.getElementById('variantes').innerHTML = '<div class="estudio-vazio">'
@@ -2224,7 +2414,8 @@ function mostrarPronto(url, tipo){
     passos.push('<div class="proximo"><span class="ic">' + EST_IC.caixa + '</span><div><b>Adiciona os teus produtos</b><small>Fotos, preços, opções e stock. A loja arruma-se sozinha.</small></div><a href="/produtos/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir loja</a></div>');
     passos.push('<div class="proximo kyc" id="proximo-kyc" style="display:none"></div>');
   } else {
-    passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Ajusta o que quiseres</b><small>Clica em qualquer texto ou imagem do site e muda-o, ou pede à IA.</small></div><a href="/editor/?site=' + encodeURIComponent(estudio.siteId) + '">Editar no site</a></div>');
+    if (PLANO_FREE) passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Queres editar o teu site?</b><small>No plano Free o site fica como foi criado. Com um plano pago editas com a IA ou clicando no site.</small></div><a href="/planos/">Ver planos</a></div>');
+    else passos.push('<div class="proximo"><span class="ic">' + EST_IC.lapis + '</span><div><b>Ajusta o que quiseres</b><small>Clica em qualquer texto ou imagem do site e muda-o, ou pede à IA.</small></div><a href="/editor/?site=' + encodeURIComponent(estudio.siteId) + '">Editar no site</a></div>');
   }
   if (estudio.planoPago === false && estudio.outrasProntas) {
     passos.push('<div class="proximo plano"><span class="ic">' + EST_IC.cadeado + '</span><div><b>As outras versões ficam guardadas</b><small>Desbloqueia-as com um plano pago e troca de layout quando quiseres, sem perder nada.</small></div><a href="/planos/">Ver planos</a></div>');

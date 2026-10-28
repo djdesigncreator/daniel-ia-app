@@ -535,6 +535,21 @@
     <section class="seccao" id="sec-sistema">
       <div class="cab"><div><h1>Sistema</h1><p>Estado do servidor e da configuração.</p></div></div>
       <div class="kpis" id="sis-kpis"></div>
+      <div class="cartao" id="ia-cartao" style="margin-bottom:14px">
+        <h3>Custo de IA (OpenAI)</h3>
+        <p class="sub">Tudo o que vai à OpenAI, por dia. Os tokens "da cache" são a parte repetida dos pedidos e custam muito menos. Põe os preços do teu modelo (estão em platform.openai.com → Pricing) para veres o custo e o saldo mínimo a manter.</p>
+        <div id="ia-alerta"></div>
+        <div class="kpis" id="ia-kpis" style="margin-bottom:14px"></div>
+        <div class="campos">
+          <div class="campo-a"><label for="ia-p-entrada">USD por 1 milhão de tokens de entrada</label><input class="inp" type="number" min="0" step="0.01" id="ia-p-entrada"></div>
+          <div class="campo-a"><label for="ia-p-cache">USD por 1 milhão de tokens da cache</label><input class="inp" type="number" min="0" step="0.01" id="ia-p-cache"></div>
+          <div class="campo-a"><label for="ia-p-saida">USD por 1 milhão de tokens de saída</label><input class="inp" type="number" min="0" step="0.01" id="ia-p-saida"></div>
+          <div class="campo-a"><label for="ia-p-imagem">USD por imagem</label><input class="inp" type="number" min="0" step="0.001" id="ia-p-imagem"></div>
+        </div>
+        <div class="linha-accoes"><button type="button" class="btn-pri" id="ia-guardar">Guardar preços</button><span class="msg" id="ia-msg"></span></div>
+        <div id="ia-config" class="dim" style="font-size:12.5px;margin:10px 0 12px"></div>
+        <div class="tabela-caixa" id="ia-dias" style="border:none"></div>
+      </div>
       <div class="cartao" id="seg-cartao" style="margin-bottom:14px">
         <h3>Segurança dos pagamentos</h3>
         <p class="sub">Pagamentos marcados como pagos sem passar pela MozPayment nem pelo painel, o registo dos avisos (webhooks) recebidos e um teste ao que alguém <b>sem login</b> consegue fazer na base de dados do Bubble.</p>
@@ -766,7 +781,44 @@
     }).catch(function(e){ $('seg-sondar').disabled = false; msg($('seg-msg'), e.message || 'Não foi possível verificar.', 'erro'); });
   }
   $('seg-sondar').addEventListener('click', function(){ carregarSeguranca(true); });
-  function carregarSistema(){ carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
+
+  // ======================================================
+  // Custo de IA (1.65.0)
+  // ======================================================
+  function usd(v){ return v == null ? '—' : 'US$ ' + Number(v).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function carregarUsoIA(precos){
+    post('/admin-uso-ia', precos ? { precos: precos } : {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      var x = r.response, p = x.precos || {};
+      if (!precos) { $('ia-p-entrada').value = p.entrada || ''; $('ia-p-cache').value = p.cache || ''; $('ia-p-saida').value = p.saida || ''; $('ia-p-imagem').value = p.imagem || ''; }
+      $('ia-alerta').innerHTML = x.sem_saldo ? '<div class="cartao aviso-pl" style="margin:0 0 14px;border-color:var(--error)">' + IC.cadeado + '<div><b>A OpenAI ficou sem saldo (' + esc(data(x.sem_saldo.quando, true)) + ')</b><span>Os clientes não conseguem criar nem editar. Carrega em platform.openai.com → Billing e liga o carregamento automático.</span></div></div>' : '';
+      var hoje = x.dias[0] || {};
+      var cacheP = hoje.entrada ? Math.round(hoje.cache / hoje.entrada * 100) : 0;
+      $('ia-kpis').innerHTML = kpi(IC.chip, 'Hoje: tokens', num((hoje.entrada || 0) + (hoje.saida || 0)), num(hoje.pedidos || 0) + ' pedidos · ' + cacheP + '% da cache')
+        + kpi(IC.dinheiro, 'Gasto médio por dia (7 dias)', usd(x.media_dia), x.media_dia == null ? 'põe os preços em baixo' : 'dia mais alto: ' + usd(x.maximo_dia))
+        + kpi(IC.cadeado, 'Saldo mínimo a manter', usd(x.saldo_minimo), x.recarga_quando == null ? '7 dias de gasto' : 'carregamento automático abaixo de ' + usd(x.recarga_quando))
+        + kpi(IC.raio, 'Imagens IA hoje', num(hoje.imagens || 0), num(hoje.erros || 0) + ' pedidos com erro hoje', (hoje.erros ? ' alerta' : ''));
+      var c = x.config || {};
+      $('ia-config').innerHTML = 'Modelo principal: <b>' + esc(c.modelo) + '</b> · Modelo para tarefas pequenas: <b>' + (c.modelo_rapido ? esc(c.modelo_rapido) : 'vazio - usa o principal (põe OPENAI_MODEL_RAPIDO no Bunny para poupar)') + '</b> · Fotos IA: ' + (c.fotos_ia ? (c.fotos_ia_free ? 'todos os planos' : 'só planos pagos') + ' (máx. ' + c.fotos_ia_max + ' por site)' : 'desligadas') + ' · Versões no Free: ' + c.versoes_free;
+      $('ia-dias').innerHTML = x.dias.length ? '<table class="tabela"><thead><tr><th>Dia</th><th class="num">Pedidos</th><th class="num">Entrada</th><th class="num">Da cache</th><th class="num">Saída</th><th class="num">Imagens</th><th class="num">Erros</th><th class="num">Custo</th></tr></thead><tbody>'
+        + x.dias.map(function(d){ return '<tr><td>' + esc(d.dia) + '</td><td class="num">' + num(d.pedidos) + '</td><td class="num">' + num(d.entrada) + '</td><td class="num">' + num(d.cache) + (d.entrada ? ' <span class="dim">(' + Math.round(d.cache / d.entrada * 100) + '%)</span>' : '') + '</td><td class="num">' + num(d.saida) + '</td><td class="num">' + num(d.imagens) + '</td><td class="num">' + (d.erros ? '<b style="color:var(--error)">' + num(d.erros) + '</b>' : '0') + '</td><td class="num">' + usd(d.custo) + '</td></tr>'; }).join('') + '</tbody></table>'
+        : '<div class="vazio">Ainda sem pedidos registados desde esta versão.</div>';
+      if (precos) msg($('ia-msg'), 'Guardado.', 'ok');
+    }).catch(function(e){ msg($('ia-msg'), e.message || 'Não foi possível carregar.', 'erro'); });
+  }
+  $('ia-guardar').addEventListener('click', function(){
+    carregarUsoIA({ entrada: Number($('ia-p-entrada').value) || 0, cache: Number($('ia-p-cache').value) || 0, saida: Number($('ia-p-saida').value) || 0, imagem: Number($('ia-p-imagem').value) || 0 });
+  });
+  // Resumo: alerta vermelho se a OpenAI ficou sem saldo
+  function verificarSaldoIA(){
+    post('/admin-uso-ia', {}).then(function(r){
+      if (r.status !== 'success' || !r.response.sem_saldo) return;
+      var k = $('kpis'); if (!k || k.querySelector('.ia-sem-saldo')) return;
+      k.insertAdjacentHTML('afterbegin', kpi(IC.cadeado, 'OpenAI SEM SALDO', 'Carregar já', 'desde ' + esc(data(r.response.sem_saldo.quando, true)) + ' - os clientes não conseguem criar sites', ' alerta clicavel ia-sem-saldo" data-ir="sistema'));
+      var el = k.querySelector('.ia-sem-saldo'); if (el) el.addEventListener('click', function(){ irPara('sistema'); });
+    }).catch(function(){});
+  }
+  function carregarSistema(){ carregarUsoIA(); carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
 
   // ======================================================
   // Utilizadores
@@ -1006,6 +1058,7 @@
     if (!fr) { fr = document.createElement('iframe'); fr.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin'); caixa.appendChild(fr); }
     if (fr.getAttribute('src') !== link) fr.src = link;
     fr.style.top = (-corte) + 'px'; fr.style.height = (alt + corte) + 'px';
+    fr.setAttribute('scrolling', 'no'); caixa.style.overflow = 'hidden'; caixa.style.overflow = 'clip'; // 1.66.1: igual ao que o cliente vê
   }
   function carregarCheckoutConfig(){
     post('/admin-checkout-config', {}).then(function(r){
@@ -1436,6 +1489,7 @@
     $('ola').textContent = (h < 12 ? 'Bom dia' : (h < 19 ? 'Boa tarde' : 'Boa noite')) + (r.response.nome ? ', ' + String(r.response.nome).split(' ')[0] : '');
     carregadas.resumo = true;
     carregarResumo();
+    setTimeout(verificarSaldoIA, 1500);
     carregadas.levantamentos = true;
     carregarLevantamentosAdmin(); // para o número de pendentes aparecer logo no menu
     carregadas.comunidade = true;
