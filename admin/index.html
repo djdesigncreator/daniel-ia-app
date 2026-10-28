@@ -520,7 +520,7 @@
       <div class="kpis" id="cm-kpis"></div>
       <div class="msg" id="cm-msg" style="margin-bottom:12px"></div>
       <div class="cartao">
-        <div class="chips" id="cm-filtro"><button type="button" class="chip on" data-cm="denunciados">Denunciados</button><button type="button" class="chip" data-cm="ocultos">Escondidos</button><button type="button" class="chip" data-cm="publicacoes">Publicações</button><button type="button" class="chip" data-cm="todos">Tudo</button></div>
+        <div class="chips" id="cm-filtro"><button type="button" class="chip on" data-cm="todos">Tudo</button><button type="button" class="chip" data-cm="publicacoes">Publicações</button><button type="button" class="chip" data-cm="respostas">Comentários</button><button type="button" class="chip" data-cm="denunciados">Denunciados</button><button type="button" class="chip" data-cm="ocultos">Fora do ar</button></div>
         <div class="tabela-caixa" id="cm-lista" style="border:none"></div>
       </div>
     </section>
@@ -1426,7 +1426,7 @@
   // ======================================================
   // Comunidade (1.64.0) - moderação
   // ======================================================
-  var filtroCm = 'denunciados';
+  var filtroCm = 'todos'; // 1.67.0
   var CM_CAT = { geral: 'Geral', duvidas: 'Dúvidas', mostra: 'Mostra o teu site', dicas: 'Dicas e truques', vendas: 'Vendas e marketing', sugestoes: 'Sugestões' };
   function carregarComunidadeAdmin(){
     $('cm-lista').innerHTML = '<div class="vazio">A carregar...</div>';
@@ -1435,7 +1435,7 @@
       var x = r.response, k = x.resumo || {};
       $('badge-com').textContent = k.denunciados ? String(k.denunciados) : '';
       $('cm-kpis').innerHTML = kpi(IC.estrela, 'Publicações', num(k.publicacoes)) + kpi(IC.dinheiro, 'Respostas', num(k.respostas)) + kpi(IC.globo, 'Membros', num(k.membros))
-        + kpi(IC.cadeado, 'Por decidir', num(k.denunciados), k.ocultos ? num(k.ocultos) + ' escondidos' : 'nada escondido');
+        + kpi(IC.cadeado, 'Por decidir', num(k.denunciados), k.ocultos ? num(k.ocultos) + ' fora do ar' : 'tudo no ar');
       var l = x.itens || [];
       $('cm-lista').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Conteúdo</th><th>Autor</th><th>Estado</th><th class="num">Denúncias</th><th>Data</th><th></th></tr></thead><tbody>'
         + l.map(function(i){
@@ -1444,30 +1444,30 @@
           var link = '/comunidade/#post=' + encodeURIComponent(ehPost ? i.id : i.post);
           var b = [];
           b.push('<a class="btn-sec btn-peq" href="' + link + '" target="_blank" rel="noopener" style="text-decoration:none">Ver</a>');
-          if (i.estado === 'Oculto') b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="mostrar" data-cm-id="' + esc(i.id) + '">Mostrar</button>');
-          else b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="ocultar" data-cm-id="' + esc(i.id) + '">Esconder</button>');
+          if (i.estado === 'Oculto') b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="mostrar" data-cm-id="' + esc(i.id) + '">Pôr no ar</button>');
+          else b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="ocultar" data-cm-id="' + esc(i.id) + '">Tirar do ar</button>');
           if (ehPost) b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="' + (i.fixado ? 'desafixar' : 'fixar') + '" data-cm-id="' + esc(i.id) + '">' + (i.fixado ? 'Desafixar' : 'Fixar') + '</button>');
           if (i.denuncias && i.estado !== 'Oculto') b.push('<button type="button" class="btn-sec btn-peq" data-cm-acc="limpar" data-cm-id="' + esc(i.id) + '">Ignorar denúncias</button>');
-          b.push('<button type="button" class="btn-perigo btn-peq" data-cm-acc="apagar" data-cm-id="' + esc(i.id) + '">Apagar</button>');
+          b.push('<button type="button" class="btn-perigo btn-peq" data-cm-acc="apagar" data-cm-id="' + esc(i.id) + '">Eliminar</button>');
           return '<tr><td style="max-width:360px"><b>' + esc(titulo) + '</b><div class="dim" style="margin-top:3px;white-space:normal">' + esc(i.texto) + '</div><div class="dim" style="margin-top:3px;font-size:12px">' + esc(CM_CAT[i.categoria] || i.categoria) + (i.fixado ? ' · fixado' : '') + (i.resolvido ? ' · resolvido' : '') + ' · ' + num(i.gostos) + ' gostos' + (ehPost ? ' · ' + num(i.respostas) + ' respostas' : '') + '</div></td>'
             + '<td>' + esc(i.autor.nome) + (i.autor.equipa ? ' <span class="pill roxo">Equipa</span>' : '') + '</td>'
-            + '<td>' + (i.estado === 'Oculto' ? '<span class="pill aviso">Escondido</span>' : '<span class="pill ok">Visível</span>') + '</td>'
+            + '<td>' + (i.estado === 'Oculto' ? '<span class="pill aviso">Fora do ar</span>' : '<span class="pill ok">Visível</span>') + '</td>'
             + '<td class="num">' + (i.denuncias ? '<b style="color:var(--error)">' + num(i.denuncias) + '</b>' : '0') + '</td>'
             + '<td class="dim">' + esc(data(i.criado, true)) + '</td>'
             + '<td><div class="linha-accoes" style="margin:0;flex-wrap:wrap;gap:6px">' + b.join('') + '</div></td></tr>';
         }).join('') + '</tbody></table>'
-        : '<div class="vazio">' + (filtroCm === 'denunciados' ? 'Nenhuma denúncia por decidir. Tudo em ordem.' : (filtroCm === 'ocultos' ? 'Nada escondido.' : 'Ainda sem publicações.')) + '</div>';
+        : '<div class="vazio">' + (filtroCm === 'denunciados' ? 'Nenhuma denúncia por decidir. Tudo em ordem.' : (filtroCm === 'ocultos' ? 'Nada fora do ar.' : (filtroCm === 'respostas' ? 'Ainda sem comentários.' : 'Ainda sem publicações.'))) + '</div>';
       Array.prototype.forEach.call(document.querySelectorAll('[data-cm-acc]'), function(b){
         var accao = b.getAttribute('data-cm-acc');
         var fazer = function(){
           b.disabled = true;
           post('/admin-comunidade-accao', { id: b.getAttribute('data-cm-id'), accao: accao }).then(function(r){
             if (r.status !== 'success') { b.disabled = false; msg($('cm-msg'), r.message, 'erro'); return; }
-            msg($('cm-msg'), { ocultar: 'Escondido.', mostrar: 'Visível outra vez.', fixar: 'Fixado no topo.', desafixar: 'Desafixado.', apagar: 'Apagado.', limpar: 'Denúncias ignoradas.' }[accao] || 'Feito.', 'ok');
+            msg($('cm-msg'), { ocultar: 'Tirado do ar.', mostrar: 'Está no ar outra vez.', fixar: 'Fixado no topo.', desafixar: 'Desafixado.', apagar: 'Apagado.', limpar: 'Denúncias ignoradas.' }[accao] || 'Feito.', 'ok');
             carregarComunidadeAdmin();
           }).catch(function(e){ b.disabled = false; msg($('cm-msg'), e.message, 'erro'); });
         };
-        if (accao === 'apagar') doisToques(b, 'Apagar mesmo?', fazer); else b.addEventListener('click', fazer);
+        if (accao === 'apagar') doisToques(b, 'Eliminar mesmo?', fazer); else b.addEventListener('click', fazer);
       });
     }).catch(function(e){ $('cm-lista').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
   }

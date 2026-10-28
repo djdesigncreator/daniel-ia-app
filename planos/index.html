@@ -648,7 +648,8 @@ function renderPlanos(){
       + '<li>' + ICONE_CERTO + ' ' + p.sites_limit + ' site' + (p.sites_limit === 1 ? '' : 's') + '</li>'
       + '<li>' + ICONE_CERTO + ' ' + Number(p.tokens_incluidos).toLocaleString('pt-PT') + ' tokens de IA/mês</li>';
     if (p.preco_mzn > 0) {
-      lista += '<li>' + ICONE_CERTO + ' Escolhe entre as 3 versões do teu site</li>';
+      lista += '<li>' + ICONE_CERTO + ' Edita o site com IA e no editor visual</li>';
+      lista += '<li>' + ICONE_CERTO + ' Aplica templates profissionais</li>';
     }
     if (p.permite_dominio) {
       lista += '<li>' + ICONE_CERTO + ' Domínio próprio</li>';

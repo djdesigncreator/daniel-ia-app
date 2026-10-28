@@ -615,6 +615,7 @@
     if (p.fixado) chips += '<span class="chip fix">' + IC.pin + 'Fixado</span>';
     chips += '<span class="chip cat">' + esc(nomeCat(p.categoria)) + '</span>';
     if (p.resolvido) chips += '<span class="chip res">' + IC.certo + 'Resolvido</span>';
+    if (p.estado && p.estado !== 'Visivel') chips += '<span class="chip ocu">' + IC.olho + 'Fora do ar</span>';
     return '<button type="button" class="com-card' + (p.fixado ? ' fixado' : '') + '" data-id="' + esc(p.id) + '">'
       + avatar(p.autor)
       + '<div>'
@@ -727,14 +728,19 @@
   function menuAccoes(item, ehPost){
     var ops = '';
     if (item.meu) ops += '<button type="button" data-op="editar">' + IC.lapis + 'Editar</button>';
-    if (item.pode_apagar) ops += '<button type="button" class="perigo" data-op="apagar">' + IC.lixo + 'Apagar</button>';
-    if (!item.meu) ops += item.denunciei ? '<button type="button" disabled>' + IC.bandeira + 'Já denunciaste</button>' : '<button type="button" data-op="denunciar">' + IC.bandeira + 'Denunciar</button>';
+    // 1.67.0: a equipa modera aqui mesmo (tirar do ar, pôr no ar, eliminar)
+    var equipa = !!(EU && EU.equipa);
+    if (equipa && item.estado) ops += item.estado === 'Oculto'
+      ? '<button type="button" data-op="mostrar">' + IC.olho + 'Pôr no ar</button>'
+      : '<button type="button" data-op="ocultar">' + IC.olho + 'Tirar do ar</button>';
+    if (item.pode_apagar) ops += '<button type="button" class="perigo" data-op="apagar">' + IC.lixo + (equipa && !item.meu ? 'Eliminar' : 'Apagar') + '</button>';
+    if (!item.meu && !equipa) ops += item.denunciei ? '<button type="button" disabled>' + IC.bandeira + 'Já denunciaste</button>' : '<button type="button" data-op="denunciar">' + IC.bandeira + 'Denunciar</button>';
     if (!ops) return '';
     return '<div class="com-menu" data-menu="' + esc(item.id) + '" data-tipo="' + (ehPost ? 'post' : 'resposta') + '"><button type="button" class="com-acc' + (ehPost ? '' : ' mini') + '" aria-label="Mais opções">' + IC.mais + '</button><div class="com-menu-lista">' + ops + '</div></div>';
   }
   function desenharPost(p, respostas){
     var chips = (p.fixado ? '<span class="chip fix">' + IC.pin + 'Fixado</span>' : '') + '<span class="chip cat">' + esc(nomeCat(p.categoria)) + '</span>'
-      + (p.resolvido ? '<span class="chip res">' + IC.certo + 'Resolvido</span>' : '') + (p.estado && p.estado !== 'Visivel' ? '<span class="chip ocu">' + IC.olho + 'Escondida</span>' : '');
+      + (p.resolvido ? '<span class="chip res">' + IC.certo + 'Resolvido</span>' : '') + (p.estado && p.estado !== 'Visivel' ? '<span class="chip ocu">' + IC.olho + 'Fora do ar</span>' : '');
     var podeResolver = p.meu || (EU && EU.equipa);
     var html = '<article class="com-artigo">'
       + '<div class="com-meta">' + chips + '</div>'
@@ -751,7 +757,7 @@
       + '<div class="com-resp-cab">Respostas <span class="n" data-no-i18n>' + num(respostas.filter(function(x){ return !x.estado || x.estado === 'Visivel'; }).length) + '</span></div>'
       + (respostas.length ? respostas.map(function(x){
           return '<div class="com-resp' + (x.estado && x.estado !== 'Visivel' ? ' oculta' : '') + '" id="r-' + esc(x.id) + '">' + avatar(x.autor, true) + '<div>'
-            + '<div class="com-meta"><span class="nome" data-no-i18n>' + esc(x.autor.nome) + '</span>' + (x.autor.equipa ? '<span class="chip eq">Equipa Daniel IA</span>' : '') + (x.do_autor ? '<span class="chip cat">Autor</span>' : '') + '<span>· ' + esc(quando(x.criado)) + (x.editado ? ' · editado' : '') + '</span>' + (x.estado && x.estado !== 'Visivel' ? '<span class="chip ocu">Escondida</span>' : '') + '</div>'
+            + '<div class="com-meta"><span class="nome" data-no-i18n>' + esc(x.autor.nome) + '</span>' + (x.autor.equipa ? '<span class="chip eq">Equipa Daniel IA</span>' : '') + (x.do_autor ? '<span class="chip cat">Autor</span>' : '') + '<span>· ' + esc(quando(x.criado)) + (x.editado ? ' · editado' : '') + '</span>' + (x.estado && x.estado !== 'Visivel' ? '<span class="chip ocu">Fora do ar</span>' : '') + '</div>'
             + '<div class="txt" data-no-i18n>' + comLinks(x.texto) + '</div>'
             + (x.imagem ? '<img class="com-img" src="' + esc(x.imagem) + '" alt="" data-zoom>' : '')
             + '<div class="com-resp-accoes"><button type="button" class="com-acc mini' + (x.gostei ? ' gostei' : '') + '" data-gosto="' + esc(x.id) + '">' + IC.coracao + '<span data-no-i18n>' + num(x.gostos) + '</span></button>' + menuAccoes(x, false) + '</div>'
@@ -791,13 +797,20 @@
           var op = o.getAttribute('data-op'), id = m.getAttribute('data-menu'), tipo = m.getAttribute('data-tipo');
           var item = tipo === 'post' ? p : null;
           if (op === 'apagar') {
-            if (!o.__armado) { o.__armado = true; o.lastChild.textContent = 'Toca outra vez para apagar'; setTimeout(function(){ o.__armado = false; o.lastChild.textContent = 'Apagar'; }, 4000); return; }
+            if (!o.__armado) { o.__orig = o.__orig || o.lastChild.textContent; o.__armado = true; o.lastChild.textContent = 'Toca outra vez para confirmar'; setTimeout(function(){ o.__armado = false; o.lastChild.textContent = o.__orig; }, 4000); return; }
             m.classList.remove('on');
             post('/comunidade-apagar', { id: id }).then(function(r){
               if (r.status !== 'success') { alertaPainel(r.message); return; }
               if (tipo === 'post') { fecharPainel(); carregar(true); msg($('msg-pagina'), 'Publicação apagada.', 'ok'); }
               else { recarregarPost(); actualizarCartao(p.id); }
             });
+          } else if (op === 'ocultar' || op === 'mostrar') {
+            m.classList.remove('on');
+            post('/admin-comunidade-accao', { id: id, accao: op }).then(function(r){
+              if (r.status !== 'success') { alertaPainel(r.message); return; }
+              msg($('msg-pagina'), op === 'ocultar' ? 'Tirado do ar. Só a equipa continua a ver.' : 'Está no ar outra vez.', 'ok');
+              recarregarPost(); carregar(true);
+            }).catch(function(){ alertaPainel('Sem ligação. Tenta outra vez.'); });
           } else if (op === 'editar') {
             m.classList.remove('on');
             var texto = tipo === 'post' ? p.texto : textoDaResposta(id);
