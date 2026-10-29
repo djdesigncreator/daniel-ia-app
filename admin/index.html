@@ -308,10 +308,22 @@
   .dm-exemplo{font-size:12.5px;color:var(--text-dim);margin:4px 0 10px;}
   .dm-exemplo b{color:var(--text);}
   /* 1.72.0: custo real por extensão */
+  .dm-mundo{padding:14px;border-radius:14px;background:var(--card-alt);border:1px solid var(--border);}
+  .dm-mundo b{font-size:14px;}
+  .dm-mundo p{margin:4px 0 10px;font-size:12.5px;color:var(--text-dim);line-height:1.5;}
+  .dm-mundo .inp{max-width:280px;padding:8px 12px;font-size:13px;margin-bottom:10px;}
+  .dm-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:220px;overflow:auto;}
+  .dm-chips button{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:99px;padding:5px 10px;font:600 12.5px/1 var(--font-mono, monospace);cursor:pointer;}
+  .dm-chips button:hover{border-color:var(--accent-2);}
+  .dm-chips button.on{background:rgba(137,200,4,.16);border-color:rgba(137,200,4,.6);color:#5E9100;cursor:default;}
   .dm-tab-cab{margin:18px 0 8px;padding-top:16px;border-top:1px dashed var(--border);}
   .dm-tab-cab b{display:block;font-size:14px;margin-bottom:4px;}
   .dm-tab-cab span{font-size:12.5px;color:var(--text-dim);line-height:1.5;}
   .dm-tab td{vertical-align:middle;}
+  .dm-add{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px;}
+  .dm-add .inp{width:200px;padding:8px 12px;font-size:13px;}
+  .dm-add-msg{font-size:12.5px;color:var(--text-dim);}
+  .dm-tab tr.dm-nova td{background:rgba(137,200,4,.08);}
   .dm-tab .inp{width:112px;padding:8px 10px;font-size:13px;}
   .dm-tab .dm-api{font-size:12.5px;color:var(--text-dim);white-space:nowrap;}
   .dm-tab .dm-cli b{font-size:14px;white-space:nowrap;}
@@ -551,6 +563,7 @@
           <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD, só se a TurboHost cobrar em USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
           <div class="campo-a"><label for="dm-margem">Margem (%)</label><input class="inp" type="number" min="0" step="1" id="dm-margem"></div>
           <div class="campo-a dm-largo"><label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:700"><input type="checkbox" id="dm-todas" style="width:18px;height:18px;accent-color:#89C804"> Vender todas as extensões do mundo que a TurboHost tem (os clientes vêem mais com "Ver mais extensões" e podem filtrar)</label></div>
+          <div class="campo-a dm-largo"><div class="dm-mundo" id="dm-mundo"></div></div>
           <div class="campo-a dm-largo"><label for="dm-tlds">Extensões em destaque (aparecem primeiro, por esta ordem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
           <div class="campo-a dm-largo"><label for="dm-fixos">Preço final fixo (opcional, ignora a margem): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
         </div>
@@ -1355,6 +1368,7 @@
       $('dm-moeda').textContent = dadosDom.moeda_turbo === 'MZN' ? 'A tua conta da TurboHost cobra em meticais, por isso o câmbio não é usado.' : (dadosDom.moeda_turbo ? 'A tua conta da TurboHost cobra em ' + dadosDom.moeda_turbo + ': o custo é convertido com o câmbio.' : '');
       exemploDom();
       desenharTabelaDom();
+      desenharMundoDom();
       $('dm-aviso').innerHTML = dadosDom.activo ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>A venda de domínios está desligada.</b><span>Falta a variável TURBOHOST_KEY no container do Bunny. Os clientes vêem uma mensagem a dizer que ainda não está disponível.</span></div></div>';
       $('dm-ultimo-erro').innerHTML = dadosDom.ultimo_erro ? '<p class="dm-ultimo"><b>Último erro da TurboHost</b> (' + esc(data(dadosDom.ultimo_erro.quando, true)) + ', ' + esc(dadosDom.ultimo_erro.rota) + '): ' + esc(dadosDom.ultimo_erro.erro) + '</p>' : '';
       var erros = (dadosDom.dominios || []).filter(function(d){ return d.estado === 'Erro'; }).length;
@@ -1373,11 +1387,40 @@
   // ---- 1.72.0: custo real por extensão (o que a TurboHost te cobra) + margem ----
   function arredDom(v){ if (!(v > 0)) return 0; var p = v < 1000 ? 5 : 10; return Math.ceil(Math.round(v * 100) / 100 / p) * p; }
   function fixosDoCampo(){ var f = {}; $('dm-fixos').value.split(',').forEach(function(par){ var x = par.split('='); if (x.length === 2 && x[0].trim() && Number(x[1]) > 0) f[x[0].trim().replace(/^\./, '')] = Number(x[1]); }); return f; }
+  // 1.74.0: todas as extensões que a TurboHost vende (um clique junta aos destaques)
+  function desenharMundoDom(){
+    var el = $('dm-mundo'); if (!el) return;
+    var todas = (dadosDom && dadosDom.tlds_disponiveis) || [];
+    if (!todas.length) { el.innerHTML = '<b>Extensões da TurboHost</b><p>Não deu para ler a lista agora. Usa "Testar a ligação" acima.</p>'; return; }
+    el.innerHTML = '<b>A TurboHost vende ' + esc(num(todas.length)) + ' extensões</b><p>Com "Vender todas" ligado, os clientes podem comprar qualquer uma delas. Toca numa para a pôr também nos destaques (aparece primeiro aos clientes).</p>'
+      + '<input class="inp" type="search" id="dm-mundo-filtro" placeholder="Procurar extensão (ex: tech, pt)"><div class="dm-chips" id="dm-chips"></div>';
+    function pintar(){
+      var f = ($('dm-mundo-filtro').value || '').trim().toLowerCase().replace(/^\./, '');
+      var dest = $('dm-tlds').value.split(',').map(function(x){ return x.trim().replace(/^\./, '').toLowerCase(); }).filter(Boolean);
+      var l = todas.filter(function(t){ return !f || t.indexOf(f) >= 0; }).slice(0, 400);
+      $('dm-chips').innerHTML = l.map(function(t){ var on = dest.indexOf(t) >= 0; return '<button type="button" class="' + (on ? 'on' : '') + '" data-dm-add="' + esc(t) + '">' + (on ? '✓ ' : '+ ') + '.' + esc(t) + '</button>'; }).join('') || '<span class="dim" style="font-size:12.5px">Nenhuma com "' + esc(f) + '".</span>';
+      Array.prototype.forEach.call(document.querySelectorAll('[data-dm-add]'), function(b){
+        b.addEventListener('click', function(){
+          var t = b.getAttribute('data-dm-add');
+          var d = $('dm-tlds').value.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+          if (d.map(function(x){ return x.replace(/^\./, '').toLowerCase(); }).indexOf(t) >= 0) return;
+          if (d.length >= 60) { msg($('dm-cfg-msg'), 'Os destaques vão até 60 extensões. As outras continuam à venda com "Vender todas".', 'erro'); return; }
+          d.push(t); $('dm-tlds').value = d.join(', ');
+          msg($('dm-cfg-msg'), '.' + t + ' juntada aos destaques. Carrega em "Guardar preços".', 'ok');
+          pintar();
+        });
+      });
+    }
+    $('dm-mundo-filtro').addEventListener('input', pintar);
+    $('dm-tlds').addEventListener('input', pintar);
+    pintar();
+  }
   function desenharTabelaDom(){
     var el = $('dm-tabela'); if (!el) return;
     var t = (dadosDom && dadosDom.tabela) || [];
-    if (!t.length) { el.innerHTML = ''; return; }
+    var todasApi = (dadosDom && dadosDom.api_todas) || {};
     el.innerHTML = '<div class="dm-tab-cab"><b>Custo real por extensão</b><span>A TurboHost às vezes cobra-te menos do que diz a ligação (por exemplo, a promoção do 1.º ano). Escreve aqui quanto pagas mesmo e o preço ao cliente fica justo. Vazio = usa o custo da TurboHost.</span></div>'
+      + '<div class="dm-add"><input class="inp" id="dm-add-tld" list="dm-add-lista" placeholder="Outra extensão, ex: site" autocomplete="off"><datalist id="dm-add-lista">' + Object.keys(todasApi).sort().map(function(x){ return '<option value="' + esc(x) + '">'; }).join('') + '</datalist><button type="button" class="btn-sec btn-peq" id="dm-add-btn">Corrigir esta extensão</button><span class="dm-add-msg" id="dm-add-msg"></span></div>'
       + '<div class="tabela-caixa" style="border:none"><table class="tabela dm-tab"><thead><tr><th>Extensão</th><th>TurboHost (ligação)</th><th>Custo real 1.º ano</th><th>Custo real renovação</th><th>O cliente paga</th><th></th></tr></thead><tbody>'
       + t.map(function(x){
         var mn = x.manual || {};
@@ -1387,8 +1430,25 @@
           + '<td><input class="inp" type="number" min="0" step="0.01" data-dm-custo="renovacao" placeholder="' + esc(String(x.api.renovacao)) + '" value="' + (mn.renovacao || '') + '"></td>'
           + '<td class="dm-cli"></td><td class="dm-org"></td></tr>';
       }).join('') + '</tbody></table></div>';
-    Array.prototype.forEach.call(el.querySelectorAll('input'), function(i){ i.addEventListener('input', recalcularTabelaDom); });
+    Array.prototype.forEach.call(el.querySelectorAll('[data-dm-custo]'), function(i){ i.addEventListener('input', recalcularTabelaDom); });
     recalcularTabelaDom();
+    function juntar(){
+      var tld = ($('dm-add-tld').value || '').trim().toLowerCase().replace(/^\.+/, '');
+      if (!tld) return;
+      var api = todasApi[tld];
+      if (!api) { $('dm-add-msg').textContent = 'A TurboHost não vende ".' + tld + '".'; return; }
+      // guarda o que já foi escrito antes de redesenhar
+      var escritos = custosDaTabela();
+      (dadosDom.tabela || []).forEach(function(x){ x.manual = escritos[x.tld] || null; });
+      var linha = (dadosDom.tabela || []).filter(function(x){ return x.tld === tld; })[0];
+      if (!linha) { dadosDom.tabela = (dadosDom.tabela || []).concat([{ tld: tld, a_venda: false, api: { registo: api[0], renovacao: api[1] }, manual: null }]); }
+      desenharTabelaDom();
+      var inp = document.querySelector('[data-dm-tld="' + tld + '"] [data-dm-custo="registo"]');
+      if (inp) { inp.focus(); inp.closest('tr').classList.add('dm-nova'); }
+      $('dm-add-msg').textContent = 'Escreve o custo real de .' + tld + ' e carrega em "Guardar preços".';
+    }
+    $('dm-add-btn').addEventListener('click', juntar);
+    $('dm-add-tld').addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); juntar(); } });
   }
   function recalcularTabelaDom(){
     var m = Number($('dm-margem').value) || 0, fixos = fixosDoCampo();
