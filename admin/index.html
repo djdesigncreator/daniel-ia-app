@@ -307,6 +307,19 @@
   .dm-ultimo{font-size:12.5px;color:var(--error);margin:0 0 10px;word-break:break-word;}
   .dm-exemplo{font-size:12.5px;color:var(--text-dim);margin:4px 0 10px;}
   .dm-exemplo b{color:var(--text);}
+  /* 1.72.0: custo real por extensão */
+  .dm-tab-cab{margin:18px 0 8px;padding-top:16px;border-top:1px dashed var(--border);}
+  .dm-tab-cab b{display:block;font-size:14px;margin-bottom:4px;}
+  .dm-tab-cab span{font-size:12.5px;color:var(--text-dim);line-height:1.5;}
+  .dm-tab td{vertical-align:middle;}
+  .dm-tab .inp{width:112px;padding:8px 10px;font-size:13px;}
+  .dm-tab .dm-api{font-size:12.5px;color:var(--text-dim);white-space:nowrap;}
+  .dm-tab .dm-cli b{font-size:14px;white-space:nowrap;}
+  .dm-tab .dm-cli small{display:block;font-size:11.5px;color:var(--text-dim);white-space:nowrap;}
+  .dm-tab .dm-alerta{color:var(--warning);font-weight:700;}
+  .dm-origem{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--card-alt);color:var(--text-dim);}
+  .dm-origem.manual{background:rgba(137,200,4,.15);color:#5E9100;}
+  .dm-origem.fixo{background:rgba(245,166,35,.15);color:var(--warning);}
   .dm-hist{font-size:11.5px;color:var(--text-dim);margin-top:4px;line-height:1.45;}
   .dm-erro{font-size:11.5px;color:var(--error);margin-top:4px;max-width:360px;}
   .bloqueio{max-width:440px;margin:100px auto;text-align:center;padding:30px;}
@@ -533,14 +546,15 @@
       </div>
       <div class="cartao" style="margin-bottom:14px">
         <h3>Preços</h3>
-        <p class="sub">Preço ao cliente = custo na TurboHost × (1 + margem), arredondado para cima de 10 em 10 MZN. <span id="dm-moeda"></span></p>
+        <p class="sub">Preço ao cliente = custo na TurboHost × (1 + margem), arredondado para cima de 5 em 5 MZN (de 10 em 10 acima de 1 000 MZN). O cliente só vê o preço final. <span id="dm-moeda"></span></p>
         <div class="campos">
           <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD, só se a TurboHost cobrar em USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
           <div class="campo-a"><label for="dm-margem">Margem (%)</label><input class="inp" type="number" min="0" step="1" id="dm-margem"></div>
           <div class="campo-a dm-largo"><label for="dm-tlds">Extensões à venda (pela ordem em que aparecem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
-          <div class="campo-a dm-largo"><label for="dm-fixos">Preços fixos (opcional): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
+          <div class="campo-a dm-largo"><label for="dm-fixos">Preço final fixo (opcional, ignora a margem): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
         </div>
         <div class="dm-exemplo" id="dm-exemplo"></div>
+        <div id="dm-tabela"></div>
         <div class="linha-accoes"><button type="button" class="btn-pri" id="dm-guardar">Guardar preços</button><span class="msg" id="dm-cfg-msg"></span></div>
       </div>
       <div class="cartao"><h3>Pedidos</h3><p class="sub">Os que estão "Por pagar" não aparecem.</p><div class="tabela-caixa" id="dm-lista" style="border:none"></div></div>
@@ -1338,6 +1352,7 @@
       $('dm-fixos').value = Object.keys(c.fixos || {}).map(function(k){ return k + '=' + c.fixos[k]; }).join(', ');
       $('dm-moeda').textContent = dadosDom.moeda_turbo === 'MZN' ? 'A tua conta da TurboHost cobra em meticais, por isso o câmbio não é usado.' : (dadosDom.moeda_turbo ? 'A tua conta da TurboHost cobra em ' + dadosDom.moeda_turbo + ': o custo é convertido com o câmbio.' : '');
       exemploDom();
+      desenharTabelaDom();
       $('dm-aviso').innerHTML = dadosDom.activo ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>A venda de domínios está desligada.</b><span>Falta a variável TURBOHOST_KEY no container do Bunny. Os clientes vêem uma mensagem a dizer que ainda não está disponível.</span></div></div>';
       $('dm-ultimo-erro').innerHTML = dadosDom.ultimo_erro ? '<p class="dm-ultimo"><b>Último erro da TurboHost</b> (' + esc(data(dadosDom.ultimo_erro.quando, true)) + ', ' + esc(dadosDom.ultimo_erro.rota) + '): ' + esc(dadosDom.ultimo_erro.erro) + '</p>' : '';
       var erros = (dadosDom.dominios || []).filter(function(d){ return d.estado === 'Erro'; }).length;
@@ -1348,10 +1363,55 @@
   function exemploDom(){
     var t = Number($('dm-taxa').value) || 0, m = Number($('dm-margem').value) || 0;
     var emMzn = !dadosDom || dadosDom.moeda_turbo === 'MZN';
-    var custo = emMzn ? 1000 : 10 * t;
-    var v = Math.ceil(custo * (1 + m / 100) / 10) * 10;
-    $('dm-exemplo').innerHTML = 'Exemplo: um domínio que custa <b>' + (emMzn ? '1 000 MZN' : '10 USD') + '</b> na TurboHost fica a <b>' + esc(mzn(v)) + '</b> por ano para o cliente.';
+    var custo = emMzn ? 80 : 10 * t;
+    var v = arredDom(custo * (1 + m / 100));
+    $('dm-exemplo').innerHTML = 'Exemplo: um domínio que te custa <b>' + (emMzn ? '80 MZN' : '10 USD') + '</b> na TurboHost fica a <b>' + esc(mzn(v)) + '</b> para o cliente (margem de ' + esc(num(m)) + '%).';
   }
+
+  // ---- 1.72.0: custo real por extensão (o que a TurboHost te cobra) + margem ----
+  function arredDom(v){ if (!(v > 0)) return 0; var p = v < 1000 ? 5 : 10; return Math.ceil(Math.round(v * 100) / 100 / p) * p; }
+  function fixosDoCampo(){ var f = {}; $('dm-fixos').value.split(',').forEach(function(par){ var x = par.split('='); if (x.length === 2 && x[0].trim() && Number(x[1]) > 0) f[x[0].trim().replace(/^\./, '')] = Number(x[1]); }); return f; }
+  function desenharTabelaDom(){
+    var el = $('dm-tabela'); if (!el) return;
+    var t = (dadosDom && dadosDom.tabela) || [];
+    if (!t.length) { el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="dm-tab-cab"><b>Custo real por extensão</b><span>A TurboHost às vezes cobra-te menos do que diz a ligação (por exemplo, a promoção do 1.º ano). Escreve aqui quanto pagas mesmo e o preço ao cliente fica justo. Vazio = usa o custo da TurboHost.</span></div>'
+      + '<div class="tabela-caixa" style="border:none"><table class="tabela dm-tab"><thead><tr><th>Extensão</th><th>TurboHost (ligação)</th><th>Custo real 1.º ano</th><th>Custo real renovação</th><th>O cliente paga</th><th></th></tr></thead><tbody>'
+      + t.map(function(x){
+        var mn = x.manual || {};
+        return '<tr data-dm-tld="' + esc(x.tld) + '"><td><b>.' + esc(x.tld) + '</b></td>'
+          + '<td class="dm-api">' + esc(mzn(x.api.registo)) + '<br>renova ' + esc(mzn(x.api.renovacao)) + '</td>'
+          + '<td><input class="inp" type="number" min="0" step="0.01" data-dm-custo="registo" placeholder="' + esc(String(x.api.registo)) + '" value="' + (mn.registo || '') + '"></td>'
+          + '<td><input class="inp" type="number" min="0" step="0.01" data-dm-custo="renovacao" placeholder="' + esc(String(x.api.renovacao)) + '" value="' + (mn.renovacao || '') + '"></td>'
+          + '<td class="dm-cli"></td><td class="dm-org"></td></tr>';
+      }).join('') + '</tbody></table></div>';
+    Array.prototype.forEach.call(el.querySelectorAll('input'), function(i){ i.addEventListener('input', recalcularTabelaDom); });
+    recalcularTabelaDom();
+  }
+  function recalcularTabelaDom(){
+    var m = Number($('dm-margem').value) || 0, fixos = fixosDoCampo();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-dm-tld]'), function(tr){
+      var tld = tr.getAttribute('data-dm-tld'), x = ((dadosDom && dadosDom.tabela) || []).filter(function(y){ return y.tld === tld; })[0];
+      if (!x) return;
+      var cr = Number(tr.querySelector('[data-dm-custo="registo"]').value) || 0, cn = Number(tr.querySelector('[data-dm-custo="renovacao"]').value) || 0;
+      var reg = fixos[tld] || arredDom((cr || x.api.registo) * (1 + m / 100)), ren = fixos[tld] || arredDom((cn || x.api.renovacao) * (1 + m / 100));
+      var custoReg = cr || x.api.registo;
+      var abaixo = fixos[tld] && fixos[tld] < custoReg;
+      tr.querySelector('.dm-cli').innerHTML = '<b>' + esc(mzn(reg)) + '</b><small>' + (reg !== ren ? '1.º ano · renova ' + esc(mzn(ren)) : 'por ano') + '</small>' + (abaixo ? '<small class="dm-alerta">abaixo do custo!</small>' : '');
+      var org = fixos[tld] ? 'fixo' : (cr || cn ? 'manual' : 'api');
+      tr.querySelector('.dm-org').innerHTML = '<span class="dm-origem ' + org + '">' + (org === 'fixo' ? 'preço fixo' : (org === 'manual' ? 'custo real' : 'ligação')) + '</span>';
+    });
+  }
+  function custosDaTabela(){
+    var c = {};
+    Array.prototype.forEach.call(document.querySelectorAll('[data-dm-tld]'), function(tr){
+      var reg = Number(tr.querySelector('[data-dm-custo="registo"]').value) || 0, ren = Number(tr.querySelector('[data-dm-custo="renovacao"]').value) || 0;
+      if (reg > 0 || ren > 0) { c[tr.getAttribute('data-dm-tld')] = {}; if (reg > 0) c[tr.getAttribute('data-dm-tld')].registo = reg; if (ren > 0) c[tr.getAttribute('data-dm-tld')].renovacao = ren; }
+    });
+    return c;
+  }
+  $('dm-margem').addEventListener('input', recalcularTabelaDom);
+  $('dm-fixos').addEventListener('input', recalcularTabelaDom);
   $('dm-taxa').addEventListener('input', exemploDom);
   $('dm-margem').addEventListener('input', exemploDom);
   function desenharDominiosAdmin(){
@@ -1395,7 +1455,7 @@
     var b = $('dm-guardar'); b.disabled = true; msg($('dm-cfg-msg'), 'A guardar...');
     var fixos = {};
     $('dm-fixos').value.split(',').forEach(function(par){ var x = par.split('='); if (x.length === 2 && x[0].trim() && Number(x[1]) > 0) fixos[x[0].trim().replace(/^\./, '')] = Number(x[1]); });
-    post('/admin-dominios-config', { config: { taxa: Number($('dm-taxa').value), margem: Number($('dm-margem').value), tlds: $('dm-tlds').value, fixos: fixos } }).then(function(r){
+    post('/admin-dominios-config', { config: { taxa: Number($('dm-taxa').value), margem: Number($('dm-margem').value), tlds: $('dm-tlds').value, fixos: fixos, custos: custosDaTabela() } }).then(function(r){
       b.disabled = false;
       if (r.status !== 'success') { msg($('dm-cfg-msg'), r.message, 'erro'); return; }
       msg($('dm-cfg-msg'), 'Guardado. Os novos preços valem a partir de agora.', 'ok');

@@ -781,7 +781,7 @@ domEl('dom-busca').addEventListener('submit', function(ev){
       var estado = x.livre ? 'Livre' : (x.premium ? 'Premium — fala connosco' : (x.estado === 'desconhecido' ? 'Não deu para confirmar agora' : 'Já tem dono'));
       return '<div class="dom-res ' + (x.livre ? 'livre' : 'ocupado') + (i === primeiroLivre ? ' top' : '') + '">'
         + '<div><div class="dom-res-nome" data-no-i18n>' + domNomeBonito(x.dominio, x.tld) + '</div><div class="dom-res-est"><i></i>' + escaparHtml(estado) + '</div></div>'
-        + '<div class="dom-res-preco">' + (x.livre ? '<b>' + fmt(x.preco) + ' MZN</b><small>por ano · renova por ' + fmt(x.renovacao) + ' MZN</small>' : '') + '</div>'
+        + '<div class="dom-res-preco">' + (x.livre ? '<b>' + fmt(x.preco) + ' MZN</b><small>' + (x.preco !== x.renovacao ? 'no 1.º ano · depois ' + fmt(x.renovacao) + ' MZN/ano' : 'por ano · renova por ' + fmt(x.renovacao) + ' MZN') + '</small>' : '') + '</div>'
         + (x.livre ? '<button type="button" class="btn-plano' + (i === primeiroLivre ? ' principal' : '') + '" data-i="' + i + '">Escolher</button>' : '<span></span>')
         + '</div>';
     }).join('');
@@ -847,7 +847,7 @@ function domActualizarTotal(){
   var total = x.preco + (domEl('r-priv').checked ? x.privacidade : 0);
   domEl('r-base').textContent = fmt(x.preco) + ' MZN';
   domEl('r-total').textContent = fmt(total) + ' MZN';
-  domEl('r-renova').textContent = 'Depois renova por ' + fmt(x.renovacao + (domEl('r-priv').checked ? x.privacidade : 0)) + ' MZN por ano.';
+  domEl('r-renova').textContent = (x.preco !== x.renovacao ? 'Preço do 1.º ano. ' : '') + 'Depois renova por ' + fmt(x.renovacao + (domEl('r-priv').checked ? x.privacidade : 0)) + ' MZN por ano.';
 }
 domEl('r-priv').addEventListener('change', domActualizarTotal);
 domEl('dom-voltar').addEventListener('click', function(){ domMostrarPasso('procurar'); });
