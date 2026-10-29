@@ -382,6 +382,19 @@
   }
 
   /* ---- Vista: pronto ---- */
+  /* 1.71.0: na fila */
+  .fila-card{text-align:center;}
+  .fila-anel{position:relative;width:76px;height:76px;margin:0 auto 14px;}
+  .fila-anel svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .fila-anel circle{fill:none;stroke:rgba(137,200,4,.16);stroke-width:4;}
+  .fila-anel .arco{stroke:#89C804;stroke-linecap:round;stroke-dasharray:32 126;animation:filaGira 1.6s linear infinite;transform-origin:24px 24px;}
+  .fila-anel span{position:absolute;inset:0;display:grid;place-items:center;font:800 24px/1 var(--font-display, inherit);}
+  @keyframes filaGira{to{transform:rotate(360deg);}}
+  .fila-eti{display:inline-block;margin-bottom:8px;padding:5px 12px;border-radius:99px;background:rgba(137,200,4,.14);color:#5E9100;font:800 11px/1 var(--font-mono, monospace);letter-spacing:.14em;}
+  .fila-passos{list-style:none;margin:18px auto 6px;padding:0;display:grid;gap:10px;max-width:420px;text-align:left;}
+  .fila-passos li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;}
+  .fila-passos svg{width:18px;height:18px;flex:0 0 18px;margin-top:2px;color:#89C804;}
+  @media (prefers-reduced-motion:reduce){.fila-anel .arco{animation:none;}}
   .result-icon{
     width:52px;height:52px;
     border-radius:50%;
@@ -1057,6 +1070,24 @@
   </div>
 
   <!-- ERRO -->
+  <!-- 1.71.0: site na fila (IA ocupada) -->
+  <div class="view" id="view-fila">
+    <div class="card result-card fila-card">
+      <div class="fila-anel" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/><circle class="arco" cx="24" cy="24" r="20"/></svg><span id="fila-posicao" data-no-i18n>1</span></div>
+      <div class="fila-eti">NA FILA</div>
+      <h2>O teu site está na fila</h2>
+      <p>Recebemos o teu pedido e já está guardado. Neste momento há muita procura e a IA cria os sites por ordem de chegada.</p>
+      <ul class="fila-passos">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>O teu pedido, o logótipo e as imagens ficaram guardados.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg><span>Enviamos-te um email assim que estiver pronto.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Também o vês no dashboard. Podes fechar esta página.</span></li>
+      </ul>
+      <div class="btn-row">
+        <button class="btn" id="btn-dashboard-fila">Ir para o dashboard</button>
+      </div>
+    </div>
+  </div>
+
   <div class="view" id="view-erro">
     <div class="card result-card">
       <div class="result-icon erro">
@@ -1859,12 +1890,14 @@ btnGerar.addEventListener('click', function(){
     .then(function(r){
       if (r.status === 'success' && r.response && r.response.site_id) {
         siteIdActual = r.response.site_id;
+        if (r.response.na_fila) { setLoading(btnGerar, false, textoBotao, ''); mostrarFila(siteIdActual, r.response.fila_posicao, r.response.variantes, nome, tipo); return; }
         if (r.response.variantes === 3) abrirEstudio(siteIdActual, nome, tipo, 'criar');
         else iniciarEspera();
       } else {
         setLoading(btnGerar, false, textoBotao, '');
         showMessage(r.message || 'Não foi possível iniciar a geração. Tenta novamente.');
         if (r.codigo === 'tokens') juntarLigacaoRecarga(document.getElementById('msg-form'), r.plano_pago);
+        if (r.codigo === 'plano') juntarLigacaoRecarga(document.getElementById('msg-form'), false);
       }
     })
     .catch(function(){
@@ -1872,6 +1905,27 @@ btnGerar.addEventListener('click', function(){
       showMessage('Não foi possível ligar ao servidor. Verifica a tua ligação e tenta novamente.');
     });
 });
+
+
+// ---- 1.71.0: site na fila (a IA está ocupada) ----
+var filaTimer = null;
+function mostrarFila(siteId, posicao, variantes, nome, tipo){
+  showView('view-fila');
+  document.getElementById('fila-posicao').textContent = posicao || 1;
+  if (filaTimer) clearInterval(filaTimer);
+  filaTimer = setInterval(function(){
+    fetch(CONTAINER_URL + '/generate-status', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER, site_id: siteId }) })
+      .then(function(r){ return r.json(); }).then(function(r){
+        if (r.status !== 'success' || !r.response) return;
+        if (r.response.estado === 'Na fila') { if (r.response.fila_posicao) document.getElementById('fila-posicao').textContent = r.response.fila_posicao; return; }
+        clearInterval(filaTimer); filaTimer = null;
+        siteIdActual = siteId;
+        if (variantes === 3) abrirEstudio(siteId, nome, tipo, 'criar');
+        else iniciarEspera();
+      }).catch(function(){});
+  }, 15000);
+}
+document.getElementById('btn-dashboard-fila').addEventListener('click', function(){ window.location.href = '/dashboard/'; });
 
 // ---- Vista de progresso: contagem de tempo + polling ----
 function iniciarEspera(){

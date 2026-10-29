@@ -1016,6 +1016,7 @@ function pillEstado(estado){
   if (estado === 'Pronto') return '<span class="pill estado-pronto">Pronto</span>';
   if (estado === 'Erro') return '<span class="pill estado-erro">Erro</span>';
   if (estado === 'A escolher') return '<span class="pill estado-escolher">Escolhe o layout</span>';
+  if (estado === 'Na fila') return '<span class="pill estado-gerando" title="Avisamos-te por email quando estiver pronto">Na fila</span>';
   return '<span class="pill estado-gerando">A gerar</span>';
 }
 

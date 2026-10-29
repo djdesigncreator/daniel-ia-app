@@ -866,7 +866,7 @@
       if (r.status !== 'success') throw new Error(r.message);
       var x = r.response, p = x.precos || {};
       if (!precos) { $('ia-p-entrada').value = p.entrada || ''; $('ia-p-cache').value = p.cache || ''; $('ia-p-saida').value = p.saida || ''; $('ia-p-imagem').value = p.imagem || ''; }
-      $('ia-alerta').innerHTML = x.sem_saldo ? '<div class="cartao aviso-pl" style="margin:0 0 14px;border-color:var(--error)">' + IC.cadeado + '<div><b>A OpenAI ficou sem saldo (' + esc(data(x.sem_saldo.quando, true)) + ')</b><span>Os clientes não conseguem criar nem editar. Carrega em platform.openai.com → Billing e liga o carregamento automático.</span></div></div>' : '';
+      $('ia-alerta').innerHTML = x.sem_saldo ? '<div class="cartao aviso-pl" style="margin:0 0 14px;border-color:var(--error)">' + IC.cadeado + '<div><b>A OpenAI ficou sem saldo (' + esc(data(x.sem_saldo.quando, true)) + ')</b><span>Os clientes Free são convidados a activar um plano e os pagos ficam na fila' + (x.fila ? ' (<b>' + num(x.fila) + ' site' + (x.fila > 1 ? 's' : '') + ' à espera agora</b>)' : '') + '. Carrega em platform.openai.com → Billing: o servidor dá por isso em poucos minutos e cria os sites da fila sozinho.</span></div></div>' : '';
       var hoje = x.dias[0] || {};
       var cacheP = hoje.entrada ? Math.round(hoje.cache / hoje.entrada * 100) : 0;
       $('ia-kpis').innerHTML = kpi(IC.chip, 'Hoje: tokens', num((hoje.entrada || 0) + (hoje.saida || 0)), num(hoje.pedidos || 0) + ' pedidos · ' + cacheP + '% da cache')
@@ -900,7 +900,7 @@
     post('/admin-uso-ia', {}).then(function(r){
       if (r.status !== 'success' || !r.response.sem_saldo) return;
       var k = $('kpis'); if (!k || k.querySelector('.ia-sem-saldo')) return;
-      k.insertAdjacentHTML('afterbegin', kpi(IC.cadeado, 'OpenAI SEM SALDO', 'Carregar já', 'desde ' + esc(data(r.response.sem_saldo.quando, true)) + ' - os clientes não conseguem criar sites', ' alerta clicavel ia-sem-saldo" data-ir="sistema'));
+      k.insertAdjacentHTML('afterbegin', kpi(IC.cadeado, 'OpenAI SEM SALDO', 'Carregar já', 'desde ' + esc(data(r.response.sem_saldo.quando, true)) + (r.response.fila ? ' - ' + r.response.fila + ' site(s) pago(s) na fila' : ' - o Free está em pausa'), ' alerta clicavel ia-sem-saldo" data-ir="sistema'));
       var el = k.querySelector('.ia-sem-saldo'); if (el) el.addEventListener('click', function(){ irPara('sistema'); });
     }).catch(function(){});
   }
