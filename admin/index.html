@@ -550,7 +550,8 @@
         <div class="campos">
           <div class="campo-a"><label for="dm-taxa">Câmbio (MZN por 1 USD, só se a TurboHost cobrar em USD)</label><input class="inp" type="number" min="1" step="0.01" id="dm-taxa"></div>
           <div class="campo-a"><label for="dm-margem">Margem (%)</label><input class="inp" type="number" min="0" step="1" id="dm-margem"></div>
-          <div class="campo-a dm-largo"><label for="dm-tlds">Extensões à venda (pela ordem em que aparecem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
+          <div class="campo-a dm-largo"><label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-weight:700"><input type="checkbox" id="dm-todas" style="width:18px;height:18px;accent-color:#89C804"> Vender todas as extensões do mundo que a TurboHost tem (os clientes vêem mais com "Ver mais extensões" e podem filtrar)</label></div>
+          <div class="campo-a dm-largo"><label for="dm-tlds">Extensões em destaque (aparecem primeiro, por esta ordem)</label><input class="inp" type="text" id="dm-tlds" placeholder="co.mz, mz, com, net, org"></div>
           <div class="campo-a dm-largo"><label for="dm-fixos">Preço final fixo (opcional, ignora a margem): extensão=MZN, separados por vírgula</label><input class="inp" type="text" id="dm-fixos" placeholder="co.mz=1500, com=900"></div>
         </div>
         <div class="dm-exemplo" id="dm-exemplo"></div>
@@ -1349,6 +1350,7 @@
       var c = dadosDom.config || {};
       $('dm-taxa').value = c.taxa || 66; $('dm-margem').value = c.margem != null ? c.margem : 30;
       $('dm-tlds').value = (c.tlds || []).join(', ');
+      $('dm-todas').checked = c.todas !== false;
       $('dm-fixos').value = Object.keys(c.fixos || {}).map(function(k){ return k + '=' + c.fixos[k]; }).join(', ');
       $('dm-moeda').textContent = dadosDom.moeda_turbo === 'MZN' ? 'A tua conta da TurboHost cobra em meticais, por isso o câmbio não é usado.' : (dadosDom.moeda_turbo ? 'A tua conta da TurboHost cobra em ' + dadosDom.moeda_turbo + ': o custo é convertido com o câmbio.' : '');
       exemploDom();
@@ -1455,7 +1457,7 @@
     var b = $('dm-guardar'); b.disabled = true; msg($('dm-cfg-msg'), 'A guardar...');
     var fixos = {};
     $('dm-fixos').value.split(',').forEach(function(par){ var x = par.split('='); if (x.length === 2 && x[0].trim() && Number(x[1]) > 0) fixos[x[0].trim().replace(/^\./, '')] = Number(x[1]); });
-    post('/admin-dominios-config', { config: { taxa: Number($('dm-taxa').value), margem: Number($('dm-margem').value), tlds: $('dm-tlds').value, fixos: fixos, custos: custosDaTabela() } }).then(function(r){
+    post('/admin-dominios-config', { config: { taxa: Number($('dm-taxa').value), margem: Number($('dm-margem').value), tlds: $('dm-tlds').value, fixos: fixos, custos: custosDaTabela(), todas: $('dm-todas').checked } }).then(function(r){
       b.disabled = false;
       if (r.status !== 'success') { msg($('dm-cfg-msg'), r.message, 'erro'); return; }
       msg($('dm-cfg-msg'), 'Guardado. Os novos preços valem a partir de agora.', 'ok');

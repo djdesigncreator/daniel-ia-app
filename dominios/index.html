@@ -391,6 +391,18 @@
   .dom-res-preco b{font:800 18px var(--font-display);display:block;}
   .dom-res-preco small{color:var(--text-dim);font-size:11.5px;}
   .dom-res .btn-plano{width:auto;margin:0;padding:11px 18px;}
+  /* 1.74.0: filtro e mais extensões */
+  .dom-filtro{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 12px;}
+  .dom-filtro-campo{flex:1 1 260px;display:flex;align-items:center;gap:8px;padding:0 14px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--card);cursor:text;}
+  .dom-filtro-campo svg{width:16px;height:16px;color:var(--text-dim);flex:0 0 16px;}
+  .dom-filtro-campo input{flex:1;min-width:0;border:none;outline:none;background:transparent;color:var(--text);font:600 14px var(--font-body, inherit);}
+  .dom-filtro-campo:focus-within{border-color:var(--accent-2);}
+  .dom-conta{font-size:12.5px;color:var(--text-dim);}
+  .dom-lista{display:grid;gap:10px;}
+  .dom-mais{display:block;width:100%;margin-top:12px;padding:14px;border-radius:14px;border:1.5px dashed var(--border);background:transparent;color:var(--text);font:700 14px var(--font-body, inherit);cursor:pointer;transition:border-color .15s,background .15s;}
+  .dom-mais:hover:not(:disabled){border-color:var(--accent-2);background:var(--card);}
+  .dom-mais:disabled{opacity:.6;cursor:default;}
+  .dom-mais[hidden]{display:none;}
   .dom-carregar{display:flex;align-items:center;gap:12px;color:var(--text-dim);font-size:13.5px;padding:18px 4px;}
   .dom-carregar i{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--accent-2);animation:domGira .8s linear infinite;}
   @keyframes domGira{to{transform:rotate(360deg);}}
@@ -761,7 +773,44 @@ function carregarSitesDominio(){
   });
 }
 
-// ---- 1. Procurar ----
+// ---- 1. Procurar (1.74.0: extensões do mundo inteiro, às páginas, com filtro) ----
+var domBusca = { nome: '', pagina: 0, lista: [], total: 0, mais: false, filtro: '', pedido: 0 };
+var IC_LUPA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>';
+function domItem(x, i, top){
+  var estado = x.livre ? 'Livre' : (x.premium ? 'Premium — fala connosco' : (x.estado === 'desconhecido' ? 'Não deu para confirmar agora' : 'Já tem dono'));
+  return '<div class="dom-res ' + (x.livre ? 'livre' : 'ocupado') + (top ? ' top' : '') + '">'
+    + '<div><div class="dom-res-nome" data-no-i18n>' + domNomeBonito(x.dominio, x.tld) + '</div><div class="dom-res-est"><i></i>' + escaparHtml(estado) + '</div></div>'
+    + '<div class="dom-res-preco">' + (x.livre ? '<b>' + fmt(x.preco) + ' MZN</b><small>' + (x.preco !== x.renovacao ? 'no 1.º ano · depois ' + fmt(x.renovacao) + ' MZN/ano' : 'por ano · renova por ' + fmt(x.renovacao) + ' MZN') + '</small>' : '') + '</div>'
+    + (x.livre ? '<button type="button" class="btn-plano' + (top ? ' principal' : '') + '" data-i="' + i + '">Escolher</button>' : '<span></span>')
+    + '</div>';
+}
+function domDesenharLista(){
+  var lista = domBusca.lista, primeiroLivre = -1;
+  lista.forEach(function(x, i){ if (x.livre && primeiroLivre < 0) primeiroLivre = i; });
+  var el = domEl('dom-lista');
+  el.innerHTML = lista.length ? lista.map(function(x, i){ return domItem(x, i, i === primeiroLivre); }).join('')
+    : '<p class="msg-pagina erro">' + (domBusca.filtro ? 'Nenhuma extensão com "' + escaparHtml(domBusca.filtro) + '". Experimenta outra.' : 'Não encontrámos extensões disponíveis para venda agora.') + '</p>';
+  el.querySelectorAll('[data-i]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var x = lista[Number(b.getAttribute('data-i'))];
+      domEscolher({ dominio: x.dominio, tld: x.tld, preco: x.preco, privacidade: x.privacidade, renovacao: x.renovacao, documentos: x.documentos || [], operacao: 'registo' });
+    });
+  });
+  domEl('dom-conta').textContent = domBusca.total ? 'A mostrar ' + lista.length + ' de ' + fmt(domBusca.total) + ' extensões' : '';
+  var m = domEl('dom-mais');
+  m.hidden = !domBusca.mais;
+  m.disabled = false; m.textContent = 'Ver mais extensões';
+}
+function domPedir(pagina){
+  var n = ++domBusca.pedido;
+  return postContainer('/dominio-procurar', { nome: domBusca.nome, pagina: pagina, filtro: domBusca.filtro }).then(function(r){
+    if (n !== domBusca.pedido) return null; // chegou uma resposta mais nova
+    if (r.status !== 'success') throw new Error(r.message || 'Não foi possível procurar.');
+    domBusca.pagina = pagina; domBusca.total = r.response.total || 0; domBusca.mais = !!r.response.mais;
+    domBusca.lista = (pagina ? domBusca.lista : []).concat(r.response.resultados || []);
+    return r;
+  });
+}
 domEl('dom-busca').addEventListener('submit', function(ev){
   ev.preventDefault();
   var nome = domEl('dom-nome').value.trim();
@@ -770,30 +819,31 @@ domEl('dom-busca').addEventListener('submit', function(ev){
   if (nome.length < 2) { caixa.innerHTML = '<p class="msg-pagina erro">Escreve o nome que queres (pelo menos 2 letras).</p>'; return; }
   caixa.innerHTML = '<div class="dom-carregar"><i></i>A procurar os domínios livres...</div>';
   domEl('dom-procurar').disabled = true;
-  postContainer('/dominio-procurar', { nome: nome }).then(function(r){
+  domBusca.nome = nome; domBusca.filtro = '';
+  domPedir(0).then(function(r){
     domEl('dom-procurar').disabled = false;
-    if (r.status !== 'success') { caixa.innerHTML = '<p class="msg-pagina erro">' + escaparHtml(r.message || 'Não foi possível procurar.') + '</p>'; return; }
-    var lista = r.response.resultados || [];
-    if (!lista.length) { caixa.innerHTML = '<p class="msg-pagina erro">Não encontrámos extensões disponíveis para venda agora.</p>'; return; }
-    var primeiroLivre = -1;
-    lista.forEach(function(x, i){ if (x.livre && primeiroLivre < 0) primeiroLivre = i; });
-    caixa.innerHTML = lista.map(function(x, i){
-      var estado = x.livre ? 'Livre' : (x.premium ? 'Premium — fala connosco' : (x.estado === 'desconhecido' ? 'Não deu para confirmar agora' : 'Já tem dono'));
-      return '<div class="dom-res ' + (x.livre ? 'livre' : 'ocupado') + (i === primeiroLivre ? ' top' : '') + '">'
-        + '<div><div class="dom-res-nome" data-no-i18n>' + domNomeBonito(x.dominio, x.tld) + '</div><div class="dom-res-est"><i></i>' + escaparHtml(estado) + '</div></div>'
-        + '<div class="dom-res-preco">' + (x.livre ? '<b>' + fmt(x.preco) + ' MZN</b><small>' + (x.preco !== x.renovacao ? 'no 1.º ano · depois ' + fmt(x.renovacao) + ' MZN/ano' : 'por ano · renova por ' + fmt(x.renovacao) + ' MZN') + '</small>' : '') + '</div>'
-        + (x.livre ? '<button type="button" class="btn-plano' + (i === primeiroLivre ? ' principal' : '') + '" data-i="' + i + '">Escolher</button>' : '<span></span>')
-        + '</div>';
-    }).join('');
-    caixa.querySelectorAll('[data-i]').forEach(function(b){
-      b.addEventListener('click', function(){
-        var x = lista[Number(b.getAttribute('data-i'))];
-        domEscolher({ dominio: x.dominio, tld: x.tld, preco: x.preco, privacidade: x.privacidade, renovacao: x.renovacao, documentos: x.documentos || [], operacao: 'registo' });
-      });
+    if (!r) return;
+    caixa.innerHTML = '<div class="dom-filtro"><label class="dom-filtro-campo">' + IC_LUPA + '<input type="search" id="dom-filtro" autocomplete="off" placeholder="Filtrar extensões (ex: .tech, .pt, .shop)"></label><span class="dom-conta" id="dom-conta"></span></div>'
+      + '<div class="dom-lista" id="dom-lista"></div><button type="button" class="dom-mais" id="dom-mais" hidden>Ver mais extensões</button>';
+    domDesenharLista();
+    var t = null;
+    domEl('dom-filtro').addEventListener('input', function(){
+      var v = this.value.trim().toLowerCase().replace(/^\.+/, '').replace(/[^a-z0-9.]/g, '');
+      clearTimeout(t);
+      t = setTimeout(function(){
+        if (v === domBusca.filtro) return;
+        domBusca.filtro = v;
+        domEl('dom-lista').innerHTML = '<div class="dom-carregar"><i></i>A procurar...</div>';
+        domPedir(0).then(function(x){ if (x) domDesenharLista(); }).catch(function(e){ domEl('dom-lista').innerHTML = '<p class="msg-pagina erro">' + escaparHtml(e.message || 'Sem ligação.') + '</p>'; });
+      }, 450);
     });
-  }).catch(function(){
+    domEl('dom-mais').addEventListener('click', function(){
+      var b = this; b.disabled = true; b.textContent = 'A procurar mais...';
+      domPedir(domBusca.pagina + 1).then(function(x){ if (x) domDesenharLista(); }).catch(function(e){ b.disabled = false; b.textContent = 'Ver mais extensões'; mostrarMsgPagina(e.message || 'Sem ligação.', 'erro'); });
+    });
+  }).catch(function(e){
     domEl('dom-procurar').disabled = false;
-    caixa.innerHTML = '<p class="msg-pagina erro">Sem ligação. Tenta outra vez.</p>';
+    caixa.innerHTML = '<p class="msg-pagina erro">' + escaparHtml(e && e.message ? e.message : 'Sem ligação. Tenta outra vez.') + '</p>';
   });
 });
 
