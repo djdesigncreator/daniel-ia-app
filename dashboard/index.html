@@ -514,6 +514,12 @@
   }
   /* 1.76.0: até quando o site fica no ar */
   .pill.estado-pausa{background:rgba(255,92,122,0.12);color:var(--error);border-color:rgba(255,92,122,0.3);}
+  .pill.validade{display:inline-flex;align-items:center;gap:5px;color:var(--text);background:var(--card-alt,rgba(255,255,255,.04));}
+  .pill.validade svg{width:12px;height:12px;flex:0 0 12px;color:var(--success);}
+  .pill.validade.aviso{background:rgba(245,166,35,0.12);color:var(--warning);border-color:rgba(245,166,35,0.35);}
+  .pill.validade.aviso svg{color:var(--warning);}
+  .pill.validade.fim{background:rgba(255,92,122,0.1);color:var(--error);border-color:rgba(255,92,122,0.3);}
+  .pill.validade.fim svg{color:var(--error);}
   .acesso{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 13px;border-radius:11px;border:1px solid var(--border);background:var(--card-alt,rgba(255,255,255,.03));font-size:12.5px;line-height:1.45;}
   .acesso .ac-ic{flex:0 0 30px;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(137,200,4,.14);color:var(--success);}
   .acesso .ac-ic svg{width:16px;height:16px;}
@@ -1129,6 +1135,17 @@ var AC_IC = {
   alerta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
 };
 function nDias(n){ return n === 1 ? '1 dia' : n + ' dias'; }
+function validadeHtml(a){
+  if (!a || !a.validade) return '';
+  var d = new Date(a.validade);
+  if (isNaN(d.getTime())) return '';
+  var MES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  var txt = d.getDate() + ' ' + MES[d.getMonth()] + ' ' + d.getFullYear();
+  var fim = a.estado === 'pausa' || a.motivo === 'expirou';
+  var cls = fim ? ' fim' : (a.estado === 'aviso' ? ' aviso' : '');
+  var ic = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  return '<span class="pill validade' + cls + '" title="Validade do site">' + ic + (fim ? 'Expirou a ' : 'Válido até ') + txt + '</span>';
+}
 function acessoHtml(a){
   if (!a) return '';
   if (a.estado === 'pausa') {
@@ -1137,7 +1154,8 @@ function acessoHtml(a){
   }
   if (a.motivo === 'free') {
     var pct = Math.max(4, Math.min(100, Math.round((a.dias / (a.total || 10)) * 100)));
-    return '<div class="acesso' + (a.estado === 'aviso' ? ' aviso' : '') + '"><span class="ac-ic">' + AC_IC.relogio + '</span><div class="ac-txt"><b>Plano Free · no ar até ' + dataLonga(a.ate) + '</b><span>' + (a.dias > 0 ? 'Faltam ' + nDias(a.dias) + '. ' : 'Último dia. ') + 'Depois o site fica em pausa até activares um plano.</span><div class="ac-barra"><i style="width:' + pct + '%"></i></div></div><a class="ac-btn" href="/planos/">Manter no ar</a></div>';
+    var avisoFree = a.estado === 'aviso';
+    return '<div class="acesso' + (avisoFree ? ' aviso' : '') + '"><span class="ac-ic">' + (avisoFree ? AC_IC.alerta : AC_IC.relogio) + '</span><div class="ac-txt"><b>' + (avisoFree ? 'O site sai do ar a ' + dataLonga(a.ate) : 'Plano Free · no ar até ' + dataLonga(a.ate)) + '</b><span>' + (a.dias > 0 ? 'Faltam ' + nDias(a.dias) + '. ' : 'Último dia. ') + (avisoFree ? 'Assina um plano agora para evitar o bloqueio: o site continua no ar sem interrupções.' : 'Depois o site fica em pausa até activares um plano.') + '</span><div class="ac-barra"><i style="width:' + pct + '%"></i></div></div><a class="ac-btn" href="/planos/">' + (avisoFree ? 'Assinar plano' : 'Manter no ar') + '</a></div>';
   }
   if (a.motivo === 'expirou') {
     return '<div class="acesso aviso"><span class="ac-ic">' + AC_IC.alerta + '</span><div class="ac-txt"><b>A mensalidade expirou a ' + dataLonga(a.expirou) + '</b><span>O site sai do ar a ' + dataLonga(a.ate) + ' (faltam ' + nDias(a.dias) + '). Renova e não perdes nenhum dia.</span></div><a class="ac-btn" href="/planos/">Renovar agora</a></div>';
@@ -1181,6 +1199,7 @@ function renderSites(sites){
             (site.acesso && site.acesso.estado === 'pausa' ? '<span class="pill estado-pausa">Em pausa</span>' : pillEstado(site.estado)) +
             '<span class="pill">' + nomeDoTipo(site.tipo) + '</span>' +
             '<span class="site-data">' + formatarData(site.criado) + '</span>' +
+            (site.estado === 'Pronto' ? validadeHtml(site.acesso) : '') +
           '</div>' +
         '</div>' +
         (site.estado === 'Pronto' ? acessoHtml(site.acesso) : '') +
