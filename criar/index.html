@@ -753,6 +753,27 @@
   .quiz-mais{display:none;margin-top:12px;}
   .quiz-mais.ver{display:block;}
   .quiz-mais textarea{width:100%;min-height:80px;}
+  /* 1.75.0: hero cinemático com vídeo IA */
+  .vb-bloco{position:relative;overflow:hidden;background:radial-gradient(120% 160% at 100% 0%,rgba(137,200,4,.12),transparent 55%),linear-gradient(135deg,var(--tint-a),transparent 60%),var(--card-alt);}
+  .vb-bloco .ref-ic{position:relative;overflow:hidden;}
+  .vb-selo{display:inline-flex;align-items:center;gap:4px;vertical-align:2px;margin-left:6px;font:800 9.5px/1 var(--font-mono);letter-spacing:.1em;padding:4px 7px;border-radius:99px;background:var(--grad-accent);color:var(--on-accent);}
+  .vb-modos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+  .vb-modo{text-align:left;cursor:pointer;padding:11px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:inherit;}
+  .vb-modo.on{border-color:var(--lime);box-shadow:0 0 0 3px rgba(137,200,4,.14);}
+  .vb-modo b{display:flex;align-items:center;gap:7px;font:800 13px/1.2 var(--font-display);}
+  .vb-modo b svg{width:15px;height:15px;color:var(--accent-2);}
+  .vb-modo small{display:block;font-size:11.5px;color:var(--text-dim);margin-top:4px;line-height:1.4;}
+  .vb-ideias{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .vb-ideias button{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:99px;padding:6px 10px;font:700 11.5px/1 var(--font-body);cursor:pointer;}
+  .vb-ideias button:hover{border-color:var(--accent-2);}
+  .vb-bloq{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px dashed var(--border);font-size:12.5px;line-height:1.45;color:var(--text-dim);}
+  .vb-bloq[hidden]{display:none;}
+  .vb-bloq svg{width:16px;height:16px;flex:0 0 16px;color:var(--accent-2);}
+  .vb-bloq a{margin-left:auto;font-weight:800;color:var(--accent-2);white-space:nowrap;text-decoration:none;}
+  .vb-bloq.pisca{animation:vbPisca .6s ease 2;}
+  @keyframes vbPisca{50%{border-color:var(--lime);background:rgba(137,200,4,.08)}}
+  .vb-bloco.bloqueado .quiz-int{opacity:.45;}
+  @media (max-width:520px){.vb-modos{grid-template-columns:1fr;}.vb-bloq{flex-wrap:wrap;}.vb-bloq a{margin-left:26px;}}
   .quiz-mais small{display:block;color:var(--text-dim);font-size:12px;margin-top:6px;line-height:1.45;}
   /* Páginas a nascer depois de escolher (1.60.0) */
   .paginas-estado{display:none;margin:4px auto 18px;max-width:520px;text-align:left;border:1px solid var(--border);background:var(--card-alt);border-radius:14px;padding:14px 16px;}
@@ -976,6 +997,29 @@
         </label>
       </div>
 
+      <div class="quiz-bloco vb-bloco" id="video-bloco">
+        <label class="quiz-cab" for="f-video" id="video-cab">
+          <span class="ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg></span>
+          <div><b>Hero cinemático com vídeo IA<span class="vb-selo">BUSINESS</span></b><small>Um vídeo da transformação do teu produto no topo do site, como um anúncio de televisão: o café que vira copo, o prédio que se constrói sozinho. Fica pronto uns minutos depois do site.</small></div>
+          <span class="quiz-int"><input type="checkbox" id="f-video" disabled><i></i></span>
+        </label>
+        <div class="quiz-mais" id="video-mais">
+          <div class="vb-modos">
+            <button type="button" class="vb-modo on" data-vb-modo="scroll"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="5"/><line x1="12" y1="7" x2="12" y2="10"/></svg>Com o scroll</b><small>O vídeo anda quando a pessoa desce a página.</small></button>
+            <button type="button" class="vb-modo" data-vb-modo="loop"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>Em loop</b><small>Sempre a tocar, sem som.</small></button>
+          </div>
+          <textarea id="f-video-ideia" maxlength="600" placeholder="Que transformação queres ver? (opcional) Ex: um grão de café que derrete e vira um cappuccino"></textarea>
+          <div class="vb-ideias">
+            <button type="button" data-vb-ideia="Café a cair num cubo de gelo que se transforma num copo de café gelado">Café que vira copo</button>
+            <button type="button" data-vb-ideia="Um prédio a erguer-se sozinho, do esqueleto de betão até à fachada de vidro acabada">Prédio a construir-se</button>
+            <button type="button" data-vb-ideia="Massa fresca a enrolar-se no garfo e a cair no prato com o molho">Massa a enrolar</button>
+            <button type="button" data-vb-ideia="Os ingredientes a voar em câmara lenta e a juntarem-se no produto final">Ingredientes a juntar-se</button>
+          </div>
+          <small id="video-quota">Se deixares vazio, a IA escolhe a partir do teu negócio e das cores do logótipo.</small>
+        </div>
+        <div class="vb-bloq" id="video-bloq" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="video-bloq-txt">Disponível no plano Business.</span><a href="/planos/" id="video-bloq-link">Ver planos →</a></div>
+      </div>
+
       <label>Logótipo (opcional)</label>
       <div class="logo-drop" id="logo-drop">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -1139,6 +1183,50 @@ function textoBotaoIA(){ return 'Criar o meu site'; }
 (function(){
   var rv = document.getElementById('ref-n-versoes'); if (rv) rv.textContent = 'Vais receber o teu site a partir desta imagem';
   var rl = document.querySelector('.ref-niveis'); if (rl) rl.style.display = 'none';
+})();
+
+// ---- 1.75.0: hero cinemático com vídeo IA (plano Business) ----
+(function(){
+  var cb = document.getElementById('f-video'), bloco = document.getElementById('video-bloco');
+  if (!cb || !bloco) return;
+  var VB = { modo: 'scroll', livre: false };
+  function bloquear(txt, link){
+    VB.livre = false; cb.checked = false; cb.disabled = true;
+    bloco.classList.add('bloqueado');
+    document.getElementById('video-mais').classList.remove('ver');
+    document.getElementById('video-bloq').hidden = false;
+    document.getElementById('video-bloq-txt').textContent = txt;
+    var a = document.getElementById('video-bloq-link'); a.hidden = !link; if (link) a.href = link;
+  }
+  bloquear('Disponível no plano Business.', '/planos/');
+  fetch(CONTAINER_URL + '/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER }) })
+    .then(function(r){ return r.json(); }).then(function(r){
+      var v = r && r.status === 'success' && r.response && r.response.video;
+      if (!v) { bloco.style.display = 'none'; return; }
+      var planos = (v.planos || ['business']).map(function(p){ return p.charAt(0).toUpperCase() + p.slice(1); }).join(' / ');
+      bloco.querySelector('.vb-selo').textContent = planos.toUpperCase();
+      if (!v.permitido) { bloquear('Disponível no plano ' + planos + '.', '/planos/'); return; }
+      if (!v.activo) { bloquear('Os vídeos estão a ser ligados. Volta daqui a pouco.', ''); return; }
+      if (v.restantes <= 0) { bloquear('Já usaste os ' + v.por_mes + ' vídeos deste mês. No próximo mês tens mais.', ''); return; }
+      VB.livre = true; cb.disabled = false; bloco.classList.remove('bloqueado');
+      document.getElementById('video-bloq').hidden = true;
+      document.getElementById('video-quota').textContent = 'Restam ' + v.restantes + ' de ' + v.por_mes + ' vídeos este mês. Se deixares a ideia vazia, a IA escolhe a partir do teu negócio e das cores do logótipo.';
+    }).catch(function(){});
+  document.getElementById('video-cab').addEventListener('click', function(){
+    if (!cb.disabled) return;
+    var b = document.getElementById('video-bloq'); b.classList.remove('pisca'); void b.offsetWidth; b.classList.add('pisca');
+  });
+  cb.addEventListener('change', function(){ document.getElementById('video-mais').classList.toggle('ver', this.checked); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-vb-modo]'), function(b){
+    b.addEventListener('click', function(){
+      VB.modo = b.getAttribute('data-vb-modo');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-vb-modo]'), function(x){ x.classList.toggle('on', x === b); });
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-vb-ideia]'), function(b){
+    b.addEventListener('click', function(){ var t = document.getElementById('f-video-ideia'); t.value = b.getAttribute('data-vb-ideia'); t.focus(); });
+  });
+  window.__diaVideoHero = function(){ return VB.livre && cb.checked ? { modo: VB.modo, ideia: document.getElementById('f-video-ideia').value.trim() } : null; };
 })();
 fetch(CONTAINER_URL + '/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER }) })
   .then(function(r){ return r.json(); }).then(function(r){
@@ -1874,6 +1962,8 @@ btnGerar.addEventListener('click', function(){
   if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
   if (tipo === 'Checkout' && document.getElementById('f-quiz').checked) corpo.quiz = { ativo: true, descricao: document.getElementById('f-quiz-desc').value.trim() };
   if (!document.getElementById('f-multi').checked) corpo.uma_pagina = true;
+  var videoHero = window.__diaVideoHero ? window.__diaVideoHero() : null; // 1.75.0
+  if (videoHero) corpo.video_hero = videoHero;
   if (TPL.modo === 'template' && TPL.escolhido) {
     corpo.template_id = TPL.escolhido.id;
     corpo.variantes = 1;
