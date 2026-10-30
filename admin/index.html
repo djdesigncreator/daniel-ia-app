@@ -206,6 +206,22 @@
   select.sel{height:44px;}
   select.sel:focus,input.inp:focus,textarea.inp:focus{border-color:var(--lime);}
   .contagem{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);}
+  /* 1.76.0: validade dos sites */
+  .val-resumo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+  .val-cartao{text-align:left;cursor:pointer;padding:14px 16px;border-radius:16px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:inherit;transition:border-color .15s,transform .15s;}
+  .val-cartao:hover{transform:translateY(-1px);}
+  .val-cartao.on{border-color:var(--lime);box-shadow:0 0 0 3px rgba(137,200,4,.15);}
+  .val-cartao span{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--text-dim);}
+  .val-cartao span i{width:9px;height:9px;border-radius:50%;background:var(--success);}
+  .val-cartao.aviso span i{background:var(--warning);}
+  .val-cartao.pausa span i{background:var(--error);}
+  .val-cartao.free span i{background:var(--purple-bright);}
+  .val-cartao b{display:block;font:800 26px/1.1 var(--font-display);margin-top:6px;letter-spacing:-.02em;}
+  .val-cartao small{display:block;font-size:11.5px;color:var(--text-dim);margin-top:2px;}
+  .val-cel b{display:block;font-size:13px;white-space:nowrap;}
+  .val-cel small{display:block;font-size:11.5px;color:var(--text-dim);margin-top:3px;white-space:nowrap;}
+  .val-cel .pill{margin-bottom:4px;}
+  @media (max-width:900px){.val-resumo{grid-template-columns:repeat(2,minmax(0,1fr));}}
   .tabela-caixa{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:auto;}
   table.tabela{width:100%;border-collapse:collapse;font-size:13.5px;min-width:760px;}
   .tabela th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);font-weight:800;padding:12px 14px;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--card);}
@@ -500,8 +516,10 @@
         <label class="pesquisa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="s-pesquisa" placeholder="Nome, email do dono ou domínio"></label>
         <select class="sel" id="s-tipo"><option value="">Todos os tipos</option><option value="E-commerce">Loja online</option><option value="Checkout">Página de venda</option><option value="Landing Page">Site / Landing page</option><option value="Portefólio">Portefólio</option><option value="Blog">Blog</option><option value="Galeria">Galeria</option></select>
         <select class="sel" id="s-estado"><option value="">Todos os estados</option><option>Pronto</option><option>A gerar</option><option>A escolher</option><option>Erro</option></select>
+        <select class="sel" id="s-validade"><option value="">Todas as validades</option><option value="expirar">A expirar</option><option value="pausa">Em pausa</option><option value="free">Plano Free</option><option value="pago">Planos pagos</option></select>
         <span class="contagem" id="s-contagem"></span>
       </div>
+      <div class="val-resumo" id="s-val-resumo"></div>
       <div class="tabela-caixa" id="s-tabela"></div>
     </section>
 
@@ -1029,7 +1047,8 @@
           var expirado = u.plano_expira && Date.parse(u.plano_expira) < Date.now();
           return '<tr class="clicavel" data-u="' + esc(u.id) + '"><td class="pessoa"><b>' + esc(u.nome || '(sem nome)') + '</b><span>' + esc(u.email) + '</span></td>'
             + '<td>' + '<span class="pill ' + (u.plano && u.plano.toLowerCase() !== 'free' ? 'ok' : '') + '">' + esc(u.plano || 'Sem plano') + '</span>'
-            + (u.plano_expira ? '<div class="dim" style="margin-top:4px">' + (expirado ? 'expirou ' : 'até ') + esc(data(u.plano_expira)) + '</div>' : '') + '</td>'
+            + (u.plano_free ? '<div class="dim" style="margin-top:4px">sites valem 10 dias</div>' : (u.plano_expira ? '<div class="' + (expirado ? '' : 'dim') + '" style="margin-top:4px' + (expirado ? ';color:var(--warning);font-weight:700;font-size:12.5px' : '') + '">' + (expirado ? 'expirou a ' : 'válido até ') + esc(data(u.plano_expira)) + '</div>' : ''))
+            + (u.sites_pausa ? '<div style="margin-top:4px"><span class="pill erro">' + u.sites_pausa + (u.sites_pausa === 1 ? ' site em pausa' : ' sites em pausa') + '</span></div>' : '') + '</td>'
             + '<td><span class="dim">' + num(u.tokens_usados) + ' / ' + num(u.tokens_incluidos) + '</span>' + (u.tokens_extra ? '<span class="extra-tk">+ ' + num(u.tokens_extra) + ' recarregados</span>' : '') + '<div class="mini-barra"><i class="' + (pct >= 90 ? 'cheio' : '') + '" style="width:' + pct + '%"></i></div></td>'
             + '<td class="num">' + num(u.sites) + '</td><td>' + pillEstado(u.kyc) + '</td><td class="dim">' + esc(data(u.criado)) + '</td></tr>';
         }).join('') + '</tbody></table>';
@@ -1213,16 +1232,17 @@
   var tempoSites = null;
   function carregarSites(forcar){
     $('s-tabela').innerHTML = '<div class="vazio">A carregar...</div>';
-    post('/admin-sites', { pesquisa: $('s-pesquisa').value, tipo: $('s-tipo').value, estado: $('s-estado').value, actualizar: !!forcar }).then(function(r){
+    post('/admin-sites', { pesquisa: $('s-pesquisa').value, tipo: $('s-tipo').value, estado: $('s-estado').value, validade: $('s-validade').value, actualizar: !!forcar }).then(function(r){
       if (r.status !== 'success') throw new Error(r.message);
       var l = r.response.sites;
       $('s-contagem').textContent = num(r.response.total) + (r.response.total === 1 ? ' site' : ' sites');
+      desenharResumoValidade(r.response);
       if (!l.length) { $('s-tabela').innerHTML = '<div class="vazio">Nenhum site encontrado.</div>'; return; }
-      $('s-tabela').innerHTML = '<table class="tabela"><thead><tr><th>Site</th><th>Dono</th><th>Tipo</th><th>Estado</th><th>Criado</th><th></th></tr></thead><tbody>'
+      $('s-tabela').innerHTML = '<table class="tabela"><thead><tr><th>Site</th><th>Dono</th><th>Tipo</th><th>Estado</th><th>Validade</th><th>Criado</th><th></th></tr></thead><tbody>'
         + l.map(function(s){
           return '<tr><td class="pessoa"><b>' + esc(s.nome) + '</b>' + (s.dominio ? '<span>' + esc(s.dominio) + '</span>' : '') + '</td>'
             + '<td><a href="#" data-dono="' + esc(s.dono_id) + '">' + esc(s.dono_email || s.dono_id) + '</a></td>'
-            + '<td class="dim">' + esc(NOMES_TIPO[s.tipo] || s.tipo) + '</td><td>' + pillEstado(s.estado) + '</td><td class="dim">' + esc(data(s.criado)) + '</td>'
+            + '<td class="dim">' + esc(NOMES_TIPO[s.tipo] || s.tipo) + '</td><td>' + pillEstado(s.estado) + '</td><td class="val-cel">' + celulaValidade(s) + '</td><td class="dim">' + esc(data(s.criado)) + '</td>'
             + '<td>' + (s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">Ver site</a>' : '') + '</td></tr>';
         }).join('') + '</tbody></table>';
       Array.prototype.forEach.call(document.querySelectorAll('[data-dono]'), function(a){ a.addEventListener('click', function(e){ e.preventDefault(); abrirUtilizador(a.getAttribute('data-dono')); }); });
@@ -1230,6 +1250,31 @@
   }
   $('s-pesquisa').addEventListener('input', function(){ clearTimeout(tempoSites); tempoSites = setTimeout(carregarSites, 350); });
   $('s-tipo').addEventListener('change', function(){ carregarSites(); });
+  // ---- 1.76.0: validade dos sites ----
+  function celulaValidade(s){
+    var a = s.acesso;
+    if (!a) return '<span class="dim">—</span>';
+    var plano = s.plano_tipo === 'free' ? 'Free' : (s.plano || 'Pago');
+    var dias = function(n){ return n === 1 ? '1 dia' : n + ' dias'; };
+    if (a.estado === 'pausa') return '<span class="pill erro">Em pausa</span><b>' + (a.validade ? 'Expirou a ' + esc(data(a.validade)) : 'Fora do ar') + '</b><small>' + esc(plano) + (a.desde ? ' · em pausa desde ' + esc(data(a.desde)) : '') + '</small>';
+    if (a.motivo === 'expirou') return '<span class="pill aviso">Mensalidade expirada</span><b>Sai do ar a ' + esc(data(a.ate)) + '</b><small>' + esc(plano) + ' · expirou a ' + esc(data(a.expirou)) + ' · faltam ' + dias(a.dias) + '</small>';
+    if (!a.validade) return '<span class="pill ok">No ar</span><small>' + esc(plano) + ' · sem data de fim</small>';
+    return '<span class="pill ' + (a.estado === 'aviso' ? 'aviso' : 'ok') + '">' + (a.estado === 'aviso' ? 'A expirar' : 'No ar') + '</span><b>Válido até ' + esc(data(a.validade)) + '</b><small>' + esc(plano) + ' · faltam ' + dias(a.dias) + '</small>';
+  }
+  function desenharResumoValidade(r){
+    var x = r.resumo || {}, f = $('s-validade').value;
+    var c = [
+      ['', '', 'Sites no ar', x.no_ar, 'Free e pagos'],
+      ['expirar', 'aviso', 'A expirar', x.a_expirar, 'Free: faltam ' + (r.free_aviso || 5) + ' dias ou menos · pagos: mensalidade a acabar ou expirada'],
+      ['pausa', 'pausa', 'Em pausa', x.em_pausa, 'Free depois de ' + (r.free_dias || 10) + ' dias · pagos ' + (r.tolerancia == null ? 5 : r.tolerancia) + ' dias depois de expirar'],
+      ['free', 'free', 'Plano Free', x.free, 'cada site vale ' + (r.free_dias || 10) + ' dias']
+    ];
+    $('s-val-resumo').innerHTML = c.map(function(k){ return '<button type="button" class="val-cartao ' + k[1] + (f === k[0] ? ' on' : '') + '" data-val="' + k[0] + '"><span><i></i>' + esc(k[2]) + '</span><b>' + num(k[3] || 0) + '</b><small>' + esc(k[4]) + '</small></button>'; }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-val]'), function(b){
+      b.addEventListener('click', function(){ var v = b.getAttribute('data-val'); $('s-validade').value = $('s-validade').value === v ? '' : v; carregarSites(); });
+    });
+  }
+  $('s-validade').addEventListener('change', function(){ carregarSites(); });
   $('s-estado').addEventListener('change', function(){ carregarSites(); });
 
   // ======================================================
