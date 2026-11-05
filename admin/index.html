@@ -243,6 +243,58 @@
   .mini-barra i{display:block;height:100%;background:var(--lime);}
   .mini-barra i.cheio{background:var(--warning);}
   .vazio{padding:50px 20px;text-align:center;color:var(--text-dim);}
+  /* 1.78.0: Inspiração IA */
+  .ins-topo{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 18px;border-radius:18px;margin-bottom:14px;background:radial-gradient(120% 160% at 100% 0%,rgba(137,200,4,.12),transparent 60%),var(--card);border:1px solid var(--border);}
+  .ins-topo .txt{flex:1;min-width:240px;font-size:13px;color:var(--text-dim);line-height:1.55;}
+  .ins-topo .txt b{color:var(--text);font-size:14.5px;display:block;margin-bottom:2px;}
+  .ins-num{display:flex;gap:18px;flex-wrap:wrap;}
+  .ins-num div{font-size:11.5px;font-weight:700;color:var(--text-dim);}
+  .ins-num b{display:block;font:800 22px/1.1 var(--font-display);color:var(--text);}
+  .ins-int{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:800;font-size:13.5px;user-select:none;}
+  .ins-int input{position:absolute;opacity:0;pointer-events:none;}
+  .ins-int i{position:relative;width:46px;height:26px;border-radius:99px;background:var(--border);transition:background .2s;}
+  .ins-int i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;}
+  .ins-int input:checked + i{background:var(--lime);}
+  .ins-int input:checked + i::after{transform:translateX(20px);}
+  .ins-int input:focus-visible + i{box-shadow:0 0 0 3px var(--accent-glow);}
+  .ins-abas{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--card-alt);border:1px solid var(--border);margin-bottom:14px;width:max-content;max-width:100%;}
+  .ins-abas button{border:0;background:transparent;color:var(--text-dim);font:700 13px/1 inherit;padding:10px 14px;border-radius:10px;cursor:pointer;}
+  .ins-abas button.on{background:var(--card);color:var(--text);box-shadow:0 2px 10px rgba(10,4,20,.1);}
+  .ins-drop{display:block;border:2px dashed var(--border);border-radius:18px;padding:22px;text-align:center;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s;margin-bottom:10px;}
+  .ins-drop:hover,.ins-drop.sobre{border-color:var(--lime);background:rgba(137,200,4,.05);}
+  .ins-drop svg{width:30px;height:30px;color:var(--accent-2);}
+  .ins-drop b{display:block;font-size:14.5px;margin:6px 0 2px;}
+  .ins-drop span{font-size:12.5px;color:var(--text-dim);}
+  .ins-lote{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:12.5px;color:var(--text-dim);}
+  .ins-lote .inp{min-width:220px;flex:1;max-width:420px;padding:9px 11px;font-size:13px;}
+  .ins-tipos{display:flex;gap:5px;flex-wrap:wrap;}
+  .ins-tipos button{border:1px solid var(--border);background:var(--card-alt);color:var(--text-dim);border-radius:99px;padding:6px 10px;font:700 11.5px/1 inherit;cursor:pointer;}
+  .ins-tipos button.on{background:rgba(137,200,4,.16);border-color:rgba(137,200,4,.5);color:var(--success);}
+  .ins-envio{display:grid;gap:6px;margin-bottom:14px;}
+  .ins-envio div{display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;border-radius:10px;background:var(--card-alt);}
+  .ins-envio div i{flex:0 0 14px;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--accent-2);animation:insG .8s linear infinite;}
+  .ins-envio div.ok i{animation:none;border-color:var(--success);background:var(--success);}
+  .ins-envio div.erro{color:var(--error);}
+  .ins-envio div.erro i{animation:none;border-color:var(--error);}
+  @keyframes insG{to{transform:rotate(360deg)}}
+  .ins-grelha{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+  .ins-grelha .vazio{grid-column:1/-1;}
+  .ins-item{display:flex;flex-direction:column;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);}
+  .ins-item.off{opacity:.55;}
+  .ins-img{position:relative;height:190px;background:#0B0612 top center/cover no-repeat;}
+  .ins-img video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .ins-img a{position:absolute;inset:0;}
+  .ins-img .usos{position:absolute;left:8px;bottom:8px;font:700 10.5px/1 var(--font-mono);padding:5px 8px;border-radius:99px;background:rgba(7,3,12,.7);color:#fff;}
+  .ins-corpo{display:grid;gap:8px;padding:12px;}
+  .ins-corpo .inp{width:100%;padding:8px 10px;font-size:13px;border-radius:9px;}
+  .ins-corpo textarea.inp{min-height:54px;resize:vertical;}
+  .ins-linha{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;}
+  .ins-linha .sel{height:36px;padding:0 10px;font-size:12.5px;border-radius:9px;}
+  .ins-estado{font-size:11.5px;color:var(--text-dim);min-height:15px;}
+  .ins-estado.ok{color:var(--success);}
+  .ins-apagar{background:none;border:0;color:var(--error);font:700 12px inherit;cursor:pointer;padding:6px 0;}
+  .ins-apagar.confirmar{font-weight:800;text-decoration:underline;}
+  @media (max-width:640px){.ins-abas{width:100%;}.ins-abas button{flex:1;}.ins-lote .inp{min-width:0;max-width:none;width:100%;}}
   /* gaveta do utilizador */
   .fundo{position:fixed;inset:0;background:rgba(7,3,12,.6);backdrop-filter:blur(4px);z-index:900;opacity:0;pointer-events:none;transition:opacity .25s;}
   .fundo.aberto{opacity:1;pointer-events:auto;}
@@ -479,6 +531,7 @@
     <button type="button" data-sec="comunidade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1.3 0-2.6-.2-3.7-.6L3 20l1.5-4C3.6 14.7 3 13.1 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/></svg>Comunidade<span class="badge-n" id="badge-com"></span></button>
     <button type="button" data-sec="emails"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>Emails</button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
+    <button type="button" data-sec="inspiracao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>Inspiração IA</button>
     <button type="button" data-sec="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg>Vídeos IA</button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
@@ -662,6 +715,31 @@
     <section class="seccao" id="sec-registo">
       <div class="cab"><div><h1>Registo</h1><p>Tudo o que foi feito neste painel desde o último arranque do servidor. Fica também nos registos do Bunny.</p></div><button type="button" class="btn-sec" data-actualizar="registo">Actualizar</button></div>
       <div class="cartao registo" id="registo"></div>
+    </section>
+
+    <!-- INSPIRAÇÃO IA (1.78.0) -->
+    <section class="seccao" id="sec-inspiracao">
+      <div class="cab"><div><h1>Inspiração IA</h1><p>Carrega prints de sites bonitos e vídeos de que gostas. A IA inspira-se neles para criar sites melhores.</p></div><button type="button" class="btn-sec" data-actualizar="inspiracao">Actualizar</button></div>
+      <div class="ins-topo">
+        <label class="ins-int"><input type="checkbox" id="ins-activo"><i></i><span>Usar nas criações</span></label>
+        <div class="txt"><b>Como a IA usa a biblioteca</b>Em cada site novo sem imagem de referência do cliente, a IA recebe o print que mais combina (tipo de projecto e palavras do sector) e copia o nível e o estilo, nunca o conteúdo. Nas 3 versões, cada versão recebe um print diferente. Os vídeos dão ideias ao hero cinemático do Business. Carrega só o que é teu, de clientes que autorizaram, ou de uso livre.</div>
+        <div class="ins-num" id="ins-num"></div>
+      </div>
+      <div class="ins-abas" role="tablist"><button type="button" class="on" data-ins-aba="site">Sites (prints)</button><button type="button" data-ins-aba="video">Vídeos</button></div>
+      <label class="ins-drop" id="ins-drop" for="ins-ficheiros">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <b id="ins-drop-tit">Arrasta para aqui vários prints de sites</b>
+        <span id="ins-drop-sub">PNG, JPG ou WEBP · podes escolher muitos de uma vez · o print da página inteira é o melhor</span>
+        <input type="file" id="ins-ficheiros" multiple accept="image/png,image/jpeg,image/webp" hidden>
+      </label>
+      <div class="ins-lote">
+        <span>Para os que vais carregar agora:</span>
+        <div class="ins-tipos" id="ins-lote-tipos"></div>
+        <input class="inp" id="ins-lote-sector" maxlength="200" placeholder="Palavras do sector (ex: restaurante, comida, marisco)">
+      </div>
+      <div class="ins-envio" id="ins-envio"></div>
+      <div class="ferramentas"><label class="pesquisa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="ins-pesquisa" placeholder="Procurar por título, sector, estilo"></label><span class="contagem" id="ins-contagem"></span></div>
+      <div class="ins-grelha" id="ins-grelha"></div>
     </section>
 
     <!-- VÍDEOS IA (1.75.0) -->
@@ -2001,7 +2079,153 @@
       msg($('vp-msg'), p.activo ? 'Guardado (versão ' + p.versao + '). O popup aparece a toda a gente outra vez dentro de 2 minutos.' : 'Guardado. O popup está desligado.', 'ok');
     }).catch(function(e){ b.disabled = false; msg($('vp-msg'), e.message || 'Sem ligação.', 'erro'); });
   });
-  var CARREGAR = { videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+
+  // ---- 1.78.0: Inspiração IA ----
+  var INS = { dados: null, aba: 'site', loteTipos: [], tempos: {} };
+  var INS_TIPOS = ['E-commerce', 'Checkout', 'Landing Page', 'Portefólio', 'Blog', 'Galeria', 'Agendamento'];
+  var INS_NOME_TIPO = { 'E-commerce': 'Loja', 'Checkout': 'Venda', 'Landing Page': 'Site', 'Portefólio': 'Portefólio', 'Blog': 'Blog', 'Galeria': 'Galeria', 'Agendamento': 'Agenda' };
+  function carregarInspiracaoAdmin(){
+    $('ins-grelha').innerHTML = '<div class="vazio">A carregar...</div>';
+    post('/admin-inspiracao', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message);
+      INS.dados = r.response;
+      $('ins-activo').checked = !!r.response.activo;
+      desenharInspiracao();
+    }).catch(function(e){ $('ins-grelha').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
+  }
+  function tiposHtml(sel, attr){ return INS_TIPOS.map(function(t){ return '<button type="button" ' + attr + '="' + esc(t) + '" class="' + (sel.indexOf(t) >= 0 ? 'on' : '') + '">' + esc(INS_NOME_TIPO[t]) + '</button>'; }).join(''); }
+  function desenharInspiracao(){
+    var d = INS.dados || { itens: [], estilos: [] }, itens = d.itens || [];
+    var sites = itens.filter(function(x){ return x.kind === 'site'; }), vids = itens.filter(function(x){ return x.kind === 'video'; });
+    var usos = itens.reduce(function(s, x){ return s + (x.usos || 0); }, 0);
+    $('ins-num').innerHTML = '<div><b>' + num(sites.length) + '</b>prints</div><div><b>' + num(vids.length) + '</b>vídeos</div><div><b>' + num(usos) + '</b>vezes usados</div>';
+    var video = INS.aba === 'video';
+    $('ins-drop-tit').textContent = video ? 'Arrasta para aqui vídeos de hero de que gostas' : 'Arrasta para aqui vários prints de sites';
+    $('ins-drop-sub').textContent = video ? 'MP4, WEBM ou MOV até 10 MB · depois escreve a ideia (ex: café que cai no gelo e vira copo)' : 'PNG, JPG ou WEBP · podes escolher muitos de uma vez · o print da página inteira é o melhor';
+    $('ins-ficheiros').setAttribute('accept', video ? 'video/mp4,video/webm,video/quicktime' : 'image/png,image/jpeg,image/webp');
+    $('ins-lote-tipos').innerHTML = tiposHtml(INS.loteTipos, 'data-lote-tipo');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-lote-tipo]'), function(b){ b.addEventListener('click', function(){ var t = b.getAttribute('data-lote-tipo'), i = INS.loteTipos.indexOf(t); if (i >= 0) INS.loteTipos.splice(i, 1); else INS.loteTipos.push(t); b.classList.toggle('on'); }); });
+    var q = $('ins-pesquisa').value.trim().toLowerCase();
+    var lista = (video ? vids : sites).filter(function(x){ return !q || (x.titulo + ' ' + x.sectores + ' ' + x.estilo + ' ' + x.notas).toLowerCase().indexOf(q) >= 0; });
+    $('ins-contagem').textContent = num(lista.length) + (video ? ' vídeos' : ' prints');
+    if (!lista.length) { $('ins-grelha').innerHTML = '<div class="vazio">' + (q ? 'Nada encontrado.' : (video ? 'Ainda não há vídeos. Carrega o primeiro em cima.' : 'Ainda não há prints. Carrega alguns em cima: quanto mais e mais variados, melhor.')) + '</div>'; return; }
+    $('ins-grelha').innerHTML = lista.map(function(x){
+      var img = x.kind === 'video'
+        ? '<div class="ins-img"><video src="' + esc(x.url) + '" poster="' + esc(x.poster) + '" muted loop playsinline preload="none"></video><span class="usos">usado ' + num(x.usos) + 'x</span></div>'
+        : '<div class="ins-img" style="background-image:url(\'' + esc(x.url) + '\')"><a href="' + esc(x.url) + '" target="_blank" rel="noopener" aria-label="Abrir o print"></a><span class="usos">usado ' + num(x.usos) + 'x</span></div>';
+      return '<div class="ins-item' + (x.activo ? '' : ' off') + '" data-ins="' + esc(x.id) + '">' + img + '<div class="ins-corpo">'
+        + '<input class="inp" data-c="titulo" maxlength="80" placeholder="Título (ex: Restaurante elegante)" value="' + esc(x.titulo) + '">'
+        + '<div class="ins-tipos">' + tiposHtml(x.tipos || [], 'data-c-tipo') + '</div>'
+        + '<input class="inp" data-c="sectores" maxlength="200" placeholder="Palavras do sector (ex: salão, beleza, unhas)" value="' + esc(x.sectores) + '">'
+        + '<textarea class="inp" data-c="notas" maxlength="400" placeholder="' + (x.kind === 'video' ? 'A ideia do vídeo (ex: café que cai num cubo de gelo e vira copo)' : 'Nota para a IA (opcional): o que gostas neste site') + '">' + esc(x.notas) + '</textarea>'
+        + '<div class="ins-linha"><select class="sel" data-c="estilo"><option value="">Estilo...</option>' + (d.estilos || []).map(function(e){ return '<option' + (x.estilo === e ? ' selected' : '') + '>' + esc(e) + '</option>'; }).join('') + '</select>'
+        + '<label class="ins-int" style="font-size:12px"><input type="checkbox" data-c="activo"' + (x.activo ? ' checked' : '') + '><i></i>Activo</label></div>'
+        + '<div class="ins-linha"><span class="ins-estado"></span><button type="button" class="ins-apagar">Apagar</button></div>'
+        + '</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ins]'), function(card){
+      var id = card.getAttribute('data-ins'), it = itens.filter(function(x){ return x.id === id; })[0];
+      var estado = card.querySelector('.ins-estado');
+      function guardar(campos){
+        estado.className = 'ins-estado'; estado.textContent = 'A guardar...';
+        clearTimeout(INS.tempos[id]);
+        INS.pend = INS.pend || {};
+        INS.pend[id] = Object.assign(INS.pend[id] || {}, campos); // junta tudo o que mudou antes de gravar
+        INS.tempos[id] = setTimeout(function(){
+          var mudou = INS.pend[id]; delete INS.pend[id];
+          post('/admin-inspiracao-guardar', { item: Object.assign({ id: id }, mudou) }).then(function(r){
+            if (r.status !== 'success') { estado.textContent = r.message || 'Não guardou.'; return; }
+            Object.assign(it, r.response.item); estado.className = 'ins-estado ok'; estado.textContent = 'Guardado';
+            card.classList.toggle('off', !r.response.item.activo);
+          }).catch(function(e){ estado.textContent = e.message || 'Sem ligação.'; });
+        }, 600);
+      }
+      Array.prototype.forEach.call(card.querySelectorAll('[data-c]'), function(el){
+        var c = el.getAttribute('data-c');
+        el.addEventListener(el.tagName === 'SELECT' || el.type === 'checkbox' ? 'change' : 'input', function(){ var o = {}; o[c] = el.type === 'checkbox' ? el.checked : el.value; Object.assign(it, o); guardar(o); });
+      });
+      Array.prototype.forEach.call(card.querySelectorAll('[data-c-tipo]'), function(b){
+        b.addEventListener('click', function(){ var t = b.getAttribute('data-c-tipo'), ts = (it.tipos || []).slice(), i = ts.indexOf(t); if (i >= 0) ts.splice(i, 1); else ts.push(t); it.tipos = ts; b.classList.toggle('on'); guardar({ tipos: ts }); });
+      });
+      var v = card.querySelector('video');
+      if (v) { card.addEventListener('mouseenter', function(){ v.play().catch(function(){}); }); card.addEventListener('mouseleave', function(){ v.pause(); }); }
+      doisToques(card.querySelector('.ins-apagar'), 'Apagar mesmo?', function(){
+        post('/admin-inspiracao-apagar', { id: id }).then(function(r){
+          if (r.status !== 'success') { estado.textContent = r.message || 'Não apagou.'; return; }
+          INS.dados.itens = INS.dados.itens.filter(function(x){ return x.id !== id; }); desenharInspiracao();
+        });
+      });
+    });
+  }
+  // prints grandes: reduz para no máximo 1600 px de largura (e corta acima de 8000 px de altura)
+  function insReduzirImagem(f){
+    return new Promise(function(ok, falha){
+      var url = URL.createObjectURL(f), im = new Image();
+      im.onload = function(){
+        var w = im.naturalWidth, h = im.naturalHeight;
+        if (w <= 1600 && h <= 8000 && f.size <= 3 * 1024 * 1024) { URL.revokeObjectURL(url); var fr = new FileReader(); fr.onload = function(){ ok(fr.result); }; fr.onerror = falha; return fr.readAsDataURL(f); }
+        var k = Math.min(1, 1600 / w), cw = Math.round(w * k), ch = Math.min(8000, Math.round(h * k));
+        var cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+        var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cw, ch); cx.drawImage(im, 0, 0, Math.round(w * k), Math.round(h * k));
+        URL.revokeObjectURL(url); ok(cv.toDataURL('image/jpeg', 0.86));
+      };
+      im.onerror = function(){ URL.revokeObjectURL(url); falha(new Error('Não deu para ler a imagem.')); };
+      im.src = url;
+    });
+  }
+  function insPosterVideo(f){
+    return new Promise(function(ok){
+      var url = URL.createObjectURL(f), v = document.createElement('video'), feito = false;
+      v.muted = true; v.playsInline = true; v.preload = 'auto';
+      function fim(r){ if (feito) return; feito = true; URL.revokeObjectURL(url); ok(r); }
+      v.onloadeddata = function(){ try { v.currentTime = Math.min(0.6, (v.duration || 1) / 3); } catch (e) { fim(''); } };
+      v.onseeked = function(){ try { var cv = document.createElement('canvas'), k = Math.min(1, 720 / (v.videoWidth || 720)); cv.width = Math.round((v.videoWidth || 720) * k); cv.height = Math.round((v.videoHeight || 405) * k); cv.getContext('2d').drawImage(v, 0, 0, cv.width, cv.height); fim(cv.toDataURL('image/jpeg', 0.8)); } catch (e) { fim(''); } };
+      v.onerror = function(){ fim(''); };
+      setTimeout(function(){ fim(''); }, 8000);
+      v.src = url;
+    });
+  }
+  function insLerVideo(f){ return new Promise(function(ok, falha){ var fr = new FileReader(); fr.onload = function(){ ok(fr.result); }; fr.onerror = falha; fr.readAsDataURL(f); }); }
+  function insCarregar(ficheiros){
+    var lista = Array.prototype.slice.call(ficheiros || []), video = INS.aba === 'video';
+    if (!lista.length) return;
+    var caixa = $('ins-envio');
+    var linhas = lista.map(function(f){ var d = document.createElement('div'); d.innerHTML = '<i></i><span>' + esc(f.name) + ' · na fila</span>'; caixa.appendChild(d); return d; });
+    var tipos = INS.loteTipos.slice(), sector = $('ins-lote-sector').value.trim();
+    var i = 0;
+    (function proximo(){
+      if (i >= lista.length) { setTimeout(function(){ caixa.innerHTML = ''; }, 4000); return; }
+      var f = lista[i], linha = linhas[i]; i++;
+      function erro(m){ linha.className = 'erro'; linha.querySelector('span').textContent = f.name + ' · ' + m; proximo(); }
+      linha.querySelector('span').textContent = f.name + ' · a carregar...';
+      if (video && f.size > 10 * 1024 * 1024) return erro('maior do que 10 MB');
+      if (!video && !/^image\/(png|jpe?g|webp)$/.test(f.type)) return erro('não é PNG, JPG ou WEBP');
+      if (video && !/^video\/(mp4|webm|quicktime)$/.test(f.type)) return erro('não é MP4, WEBM ou MOV');
+      var prep = video ? Promise.all([insLerVideo(f), insPosterVideo(f)]) : insReduzirImagem(f).then(function(x){ return [x, '']; });
+      prep.then(function(par){
+        var titulo = f.name.replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ').slice(0, 80);
+        return post('/admin-inspiracao-guardar', { item: { kind: video ? 'video' : 'site', ficheiro: par[0], poster: par[1], titulo: titulo, tipos: tipos, sectores: sector } });
+      }).then(function(r){
+        if (r.status !== 'success') return erro(r.message || 'não carregou');
+        linha.className = 'ok'; linha.querySelector('span').textContent = f.name + ' · carregado';
+        INS.dados.itens.unshift(r.response.item); desenharInspiracao(); proximo();
+      }).catch(function(e){ erro(e.message || 'sem ligação'); });
+    })();
+  }
+  $('ins-ficheiros').addEventListener('change', function(){ insCarregar(this.files); this.value = ''; });
+  var insDrop = $('ins-drop');
+  ['dragenter', 'dragover'].forEach(function(ev){ insDrop.addEventListener(ev, function(e){ e.preventDefault(); insDrop.classList.add('sobre'); }); });
+  ['dragleave', 'drop'].forEach(function(ev){ insDrop.addEventListener(ev, function(e){ e.preventDefault(); insDrop.classList.remove('sobre'); }); });
+  insDrop.addEventListener('drop', function(e){ insCarregar(e.dataTransfer && e.dataTransfer.files); });
+  $('ins-pesquisa').addEventListener('input', desenharInspiracao);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ins-aba]'), function(b){
+    b.addEventListener('click', function(){ INS.aba = b.getAttribute('data-ins-aba'); Array.prototype.forEach.call(document.querySelectorAll('[data-ins-aba]'), function(x){ x.classList.toggle('on', x === b); }); desenharInspiracao(); });
+  });
+  $('ins-activo').addEventListener('change', function(){
+    var on = this.checked;
+    post('/admin-inspiracao', { activo: on }).then(function(r){ if (r.status === 'success') INS.dados.activo = r.response.activo; });
+  });
+  var CARREGAR = { inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){
