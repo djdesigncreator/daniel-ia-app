@@ -258,7 +258,7 @@
   .ins-int input:checked + i::after{transform:translateX(20px);}
   .ins-int input:focus-visible + i{box-shadow:0 0 0 3px var(--accent-glow);}
   .ins-abas{display:flex;gap:4px;padding:4px;border-radius:14px;background:var(--card-alt);border:1px solid var(--border);margin-bottom:14px;width:max-content;max-width:100%;}
-  .ins-abas button{border:0;background:transparent;color:var(--text-dim);font:700 13px/1 inherit;padding:10px 14px;border-radius:10px;cursor:pointer;}
+  .ins-abas button{border:0;background:transparent;color:var(--text-dim);font-weight:700;font-size:13px;line-height:1;font-family:inherit;padding:10px 14px;border-radius:10px;cursor:pointer;}
   .ins-abas button.on{background:var(--card);color:var(--text);box-shadow:0 2px 10px rgba(10,4,20,.1);}
   .ins-drop{display:block;border:2px dashed var(--border);border-radius:18px;padding:22px;text-align:center;cursor:pointer;background:var(--card);transition:border-color .15s,background .15s;margin-bottom:10px;}
   .ins-drop:hover,.ins-drop.sobre{border-color:var(--lime);background:rgba(137,200,4,.05);}
@@ -268,7 +268,7 @@
   .ins-lote{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:12.5px;color:var(--text-dim);}
   .ins-lote .inp{min-width:220px;flex:1;max-width:420px;padding:9px 11px;font-size:13px;}
   .ins-tipos{display:flex;gap:5px;flex-wrap:wrap;}
-  .ins-tipos button{border:1px solid var(--border);background:var(--card-alt);color:var(--text-dim);border-radius:99px;padding:6px 10px;font:700 11.5px/1 inherit;cursor:pointer;}
+  .ins-tipos button{border:1px solid var(--border);background:var(--card-alt);color:var(--text-dim);border-radius:99px;padding:6px 10px;font-weight:700;font-size:11.5px;line-height:1;font-family:inherit;cursor:pointer;}
   .ins-tipos button.on{background:rgba(137,200,4,.16);border-color:rgba(137,200,4,.5);color:var(--success);}
   .ins-envio{display:grid;gap:6px;margin-bottom:14px;}
   .ins-envio div{display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;border-radius:10px;background:var(--card-alt);}
@@ -292,11 +292,11 @@
   .ins-linha .sel{height:36px;padding:0 10px;font-size:12.5px;border-radius:9px;}
   .ins-estado{font-size:11.5px;color:var(--text-dim);min-height:15px;}
   .ins-estado.ok{color:var(--success);}
-  .ins-apagar{background:none;border:0;color:var(--error);font:700 12px inherit;cursor:pointer;padding:6px 0;}
+  .ins-apagar{background:none;border:0;color:var(--error);font-weight:700;font-size:12px;font-family:inherit;cursor:pointer;padding:6px 0;}
   .ins-apagar.confirmar{font-weight:800;text-decoration:underline;}
   /* 1.80.0: a inspiração manda (cortes, ADN, site-modelo) */
   .ins-modo{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--card-alt);border:1px solid var(--border);}
-  .ins-modo button{border:0;background:transparent;color:var(--text-dim);font:800 12.5px/1 inherit;padding:9px 12px;border-radius:9px;cursor:pointer;}
+  .ins-modo button{border:0;background:transparent;color:var(--text-dim);font-weight:800;font-size:12.5px;line-height:1;font-family:inherit;padding:9px 12px;border-radius:9px;cursor:pointer;}
   .ins-modo button.on{background:var(--lime);color:#140620;}
   .ins-prep{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;margin-bottom:14px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.35);font-size:13px;line-height:1.5;}
   .ins-prep i{flex:0 0 16px;width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(245,166,35,.35);border-top-color:var(--warning);animation:insG .8s linear infinite;}
@@ -312,6 +312,27 @@
   .ins-ult-l span.im{display:block;height:84px;background:#0B0612 top center/cover no-repeat;}
   .ins-ult-l b{display:block;padding:8px 10px 0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ins-ult-l small{display:block;padding:2px 10px 9px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  /* 1.82.0: motor de design */
+  .mt-escolha{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:4px 0 14px;}
+  .mt-op{display:grid;gap:4px;text-align:left;padding:14px 16px;border-radius:16px;border:1.5px solid var(--border);background:var(--card-alt);color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s,background .15s;}
+  .mt-op:hover{border-color:var(--accent-2);}
+  .mt-op.on{border-color:var(--lime);background:rgba(137,200,4,.1);}
+  .mt-op:disabled{opacity:.5;cursor:not-allowed;}
+  .mt-op b{font:800 15px/1.3 var(--font-display);display:flex;align-items:center;gap:8px;}
+  .mt-op b i{width:10px;height:10px;border-radius:50%;flex:0 0 10px;}
+  .mt-op small{font-size:12.5px;line-height:1.45;color:var(--text-dim);}
+  .mt-op:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-glow);}
+  .mt-i-openai{background:#10A37F;} .mt-i-claude{background:#D97757;} .mt-i-alternar{background:linear-gradient(90deg,#10A37F 50%,#D97757 50%);}
+  .mt-comp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px;}
+  .mt-comp > div{padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:var(--card);}
+  .mt-comp h4{margin:0 0 8px;font-size:13.5px;display:flex;align-items:center;gap:8px;}
+  .mt-comp h4 i{width:10px;height:10px;border-radius:50%;}
+  .mt-comp dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:12.5px;}
+  .mt-comp dt{color:var(--text-dim);} .mt-comp dd{margin:0;font-weight:700;text-align:right;font-family:var(--font-mono);}
+  .mt-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:3px 8px;border-radius:99px;color:#fff;}
+  .mt-tag.openai{background:#10A37F;} .mt-tag.claude{background:#D97757;} .mt-tag.res{background:var(--card-alt);color:var(--text-dim);border:1px solid var(--border);}
+  .ins-ult-l .mt-tag{margin:0 10px 9px;}
+  @media (max-width:760px){.mt-escolha,.mt-comp{grid-template-columns:1fr;}}
   .ins-img .adn{position:absolute;right:8px;top:8px;font:800 10.5px/1 var(--font-body);padding:6px 9px;border-radius:99px;background:rgba(7,3,12,.72);color:#fff;display:inline-flex;align-items:center;gap:6px;}
   .ins-img .adn.ok{background:var(--lime);color:#140620;}
   .ins-img .adn.erro{background:#E0314B;}
@@ -326,7 +347,7 @@
   .ins-adn b{color:var(--text);}
   .ins-seg{font-size:11.5px;color:var(--text-dim);}
   .ins-seg b{color:var(--text);}
-  .ins-reest{background:none;border:0;color:var(--accent-2);font:700 12px inherit;cursor:pointer;padding:6px 0;text-decoration:underline;}
+  .ins-reest{background:none;border:0;color:var(--accent-2);font-weight:700;font-size:12px;font-family:inherit;cursor:pointer;padding:6px 0;text-decoration:underline;}
   @media (prefers-reduced-motion:reduce){.ins-prep i,.ins-img .adn i{animation:none;}}
   @media (max-width:640px){.ins-abas{width:100%;}.ins-abas button{flex:1;}.ins-lote .inp{min-width:0;max-width:none;width:100%;}}
   /* gaveta do utilizador */
@@ -824,6 +845,19 @@
     <section class="seccao" id="sec-sistema">
       <div class="cab"><div><h1>Sistema</h1><p>Estado do servidor e da configuração.</p></div></div>
       <div class="kpis" id="sis-kpis"></div>
+      <div class="cartao" id="mt-cartao" style="margin-bottom:14px">
+        <h3>Motor de design</h3>
+        <p class="sub">Quem desenha os sites: estuda os prints da Inspiração IA, escreve o guião do director de arte, constrói o site, as páginas de dentro e as edições. As imagens, a voz e as tarefas rápidas ficam sempre na OpenAI. Se o motor escolhido falhar, o outro faz o trabalho sozinho.</p>
+        <div class="mt-escolha" role="radiogroup" aria-label="Motor de design">
+          <button type="button" class="mt-op" role="radio" data-motor="openai"><b><i class="mt-i-openai"></i>OpenAI</b><small id="mt-openai-sub">Todos os sites na OpenAI.</small></button>
+          <button type="button" class="mt-op" role="radio" data-motor="claude"><b><i class="mt-i-claude"></i>Claude</b><small id="mt-claude-sub">Todos os sites no Claude.</small></button>
+          <button type="button" class="mt-op" role="radio" data-motor="alternar"><b><i class="mt-i-alternar"></i>Alternar</b><small>Metade dos sites (e das 3 versões) em cada um. Para comparares com olhos de cliente.</small></button>
+        </div>
+        <div class="msg" id="mt-msg" style="margin-bottom:10px"></div>
+        <div class="mt-comp" id="mt-comp"></div>
+        <h4 style="margin:4px 0 8px">Últimos sites criados</h4>
+        <div class="tabela-caixa" id="mt-ultimos" style="border:none"><div class="vazio">A carregar...</div></div>
+      </div>
       <div class="cartao" id="ia-cartao" style="margin-bottom:14px">
         <h3>Custo de IA (OpenAI)</h3>
         <p class="sub">Tudo o que vai à OpenAI, por dia. Os tokens "da cache" são a parte repetida dos pedidos e custam muito menos. Põe os preços do teu modelo (estão em platform.openai.com → Pricing) para veres o custo e o saldo mínimo a manter.</p>
@@ -1143,7 +1177,52 @@
       var el = k.querySelector('.ia-sem-saldo'); if (el) el.addEventListener('click', function(){ irPara('sistema'); });
     }).catch(function(){});
   }
-  function carregarSistema(){ carregarUsoIA(); carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
+  // ---- 1.82.0: motor de design ----
+  var MT = { dados: null };
+  var MT_NOME = { openai: 'OpenAI', claude: 'Claude' };
+  function mtTag(m, reserva){ return '<span class="mt-tag ' + esc(m) + '">' + esc(MT_NOME[m] || m) + '</span>' + (reserva ? ' <span class="mt-tag res" title="O Claude falhou e a OpenAI fez o trabalho">substituiu</span>' : ''); }
+  function carregarMotor(){
+    post('/admin-motor-ia', {}).then(function(r){ if (r.status !== 'success') throw new Error(r.message); MT.dados = r.response; desenharMotor(); })
+      .catch(function(e){ $('mt-ultimos').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
+  }
+  function desenharMotor(){
+    var d = MT.dados, semChave = !d.claude.chave;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-motor]'), function(b){
+      var m = b.getAttribute('data-motor'), on = m === d.motor;
+      b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+      b.disabled = semChave && m !== 'openai';
+    });
+    $('mt-openai-sub').innerHTML = 'Modelo <b>' + esc(d.openai.modelo) + '</b>' + (d.openai.a_usar_reserva ? ' · <span style="color:var(--warning)">a conta não tem este modelo: a usar o ' + esc(d.openai.reserva) + '</span>' : ' · reserva ' + esc(d.openai.reserva));
+    $('mt-claude-sub').innerHTML = semChave ? 'Põe a <b>ANTHROPIC_API_KEY</b> nas variáveis do container no Bunny para ligar.' : ('Modelo <b>' + esc(d.claude.modelo) + '</b>' + (d.claude.parado ? ' · <span style="color:var(--error)">parado (sem saldo ou chave errada): a OpenAI está a substituir</span>' : ''));
+    function caixa(m){
+      var x = d.resumo[m] || {}, cor = m === 'openai' ? '#10A37F' : '#D97757';
+      return '<div><h4><i style="background:' + cor + '"></i>' + esc(MT_NOME[m]) + ' <span class="dim" style="font-weight:600;font-size:12px">últimos 30 dias</span></h4><dl>'
+        + '<dt>Sites feitos</dt><dd>' + num(x.sites) + '</dd>'
+        + '<dt>Falhas</dt><dd>' + num(x.falhas) + '</dd>'
+        + '<dt>Tempo médio por site</dt><dd>' + (x.sites && x.segundos ? Math.round(x.segundos / 6) / 10 + ' min' : '—') + '</dd>'
+        + '<dt>Tokens (entrada / saída)</dt><dd>' + num(x.entrada) + ' / ' + num(x.saida) + '</dd>'
+        + (m === 'claude' ? '<dt>Custo estimado</dt><dd>' + (x.custo != null ? '$' + Number(x.custo).toFixed(2) : '—') + '</dd>' : '<dt>Vezes que substituiu o Claude</dt><dd>' + num(x.reservas) + '</dd>')
+        + '</dl></div>';
+    }
+    $('mt-comp').innerHTML = caixa('openai') + caixa('claude');
+    var u = d.ultimos || [];
+    $('mt-ultimos').innerHTML = u.length ? '<table class="tabela"><thead><tr><th>Site</th><th>Motor</th><th class="num">Tempo</th><th class="num">Tokens</th><th>Quando</th></tr></thead><tbody>'
+      + u.map(function(x){ return '<tr><td><b data-no-i18n>' + esc(x.nome || x.site) + '</b>' + (x.versao ? ' <span class="dim">· versão ' + x.versao + '</span>' : '') + (x.ok ? '' : '<div class="dim" style="font-size:11.5px;color:var(--error)">' + esc(x.erro || 'falhou') + '</div>') + '</td><td>' + mtTag(x.motor, x.reserva) + '</td><td class="num">' + (x.segundos ? Math.round(x.segundos / 6) / 10 + ' min' : '—') + '</td><td class="num">' + num(x.tokens) + '</td><td class="dim">' + esc(data(x.quando, true)) + '</td></tr>'; }).join('')
+      + '</tbody></table>' : '<div class="vazio">Ainda não há sites criados desde esta versão.</div>';
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-motor]'), function(b){
+    b.addEventListener('click', function(){
+      var m = b.getAttribute('data-motor');
+      if (MT.dados && m === MT.dados.motor) return;
+      msg($('mt-msg'), 'A mudar...', '');
+      post('/admin-motor-ia', { motor: m }).then(function(r){
+        if (r.status !== 'success') { msg($('mt-msg'), r.message, 'erro'); return; }
+        MT.dados = r.response; desenharMotor();
+        msg($('mt-msg'), m === 'alternar' ? 'Feito. A partir de agora, metade dos sites vai para cada motor. Compara em "Últimos sites criados".' : 'Feito. Os próximos sites são desenhados pelo ' + MT_NOME[m] + '.', 'ok');
+      }).catch(function(e){ msg($('mt-msg'), e.message || 'Sem ligação.', 'erro'); });
+    });
+  });
+  function carregarSistema(){ carregarMotor(); carregarUsoIA(); carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
 
   // ======================================================
   // Utilizadores
@@ -2228,7 +2307,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-ins-modo]'), function(b){ var on = b.getAttribute('data-ins-modo') === (d.modo || 'perto'); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
     var u = d.ultimos || [];
     $('ins-ult').hidden = !u.length;
-    $('ins-ult-l').innerHTML = u.map(function(x){ return '<div><span class="im" style="background-image:url(\'' + esc(x.url) + '\')"></span><b data-no-i18n>' + esc(x.nome || 'Site') + '</b><small>' + (x.titulo ? 'seguiu "' + esc(x.titulo) + '"' : 'print apagado') + ' · ' + esc(data(x.quando)) + '</small></div>'; }).join('');
+    $('ins-ult-l').innerHTML = u.map(function(x){ return '<div><span class="im" style="background-image:url(\'' + esc(x.url) + '\')"></span><b data-no-i18n>' + esc(x.nome || 'Site') + '</b><small>' + (x.titulo ? 'seguiu "' + esc(x.titulo) + '"' : 'print apagado') + ' · ' + esc(data(x.quando)) + '</small>' + (x.motor ? mtTag(x.motor) : '') + '</div>'; }).join('');
     if (!INS.aPreparar) insBarra();
   }
   Array.prototype.forEach.call(document.querySelectorAll('[data-ins-modo]'), function(b){

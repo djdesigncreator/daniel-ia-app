@@ -473,6 +473,27 @@
   .vd-prog i{display:block;height:100%;background:var(--grad-accent);border-radius:inherit;}
   @media (max-width:900px){.vd-grelha{grid-template-columns:1fr;}.vd-ant{position:static;}}
   @media (max-width:560px){.vd-tres{grid-template-columns:1fr 1fr;}.vd-venda{grid-template-columns:1fr;gap:8px;}.vd-venda .dir{justify-items:start;text-align:left;}.vd-venda .acc{justify-content:flex-start;}.vd-cod{justify-self:start;}}
+  /* 1.82.0: como recebes */
+  .vd-rec{display:grid;gap:10px;}
+  .vd-rec-op{display:flex;align-items:flex-start;gap:14px;text-align:left;width:100%;padding:16px;border-radius:16px;border:1.5px solid var(--border);background:var(--card-alt);color:var(--text);font:inherit;cursor:pointer;transition:border-color .15s,background .15s,transform .15s;}
+  .vd-rec-op:hover{border-color:var(--accent-2);}
+  .vd-rec-op.on{border-color:var(--lime);background:rgba(137,200,4,.1);}
+  .vd-rec-op:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-glow);}
+  .vd-rec-op .ic{flex:0 0 42px;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--card);border:1px solid var(--border);color:var(--accent-2);}
+  .vd-rec-op.on .ic{background:var(--lime);border-color:var(--lime);color:#140620;}
+  .vd-rec-op .ic svg{width:20px;height:20px;}
+  .vd-rec-op .t{flex:1;min-width:0;display:grid;gap:4px;}
+  .vd-rec-op .t b{font:800 15.5px/1.3 var(--font-display);}
+  .vd-rec-op .t small{font-size:13px;line-height:1.5;color:var(--text-dim);}
+  .vd-rec-op .t em{font-style:normal;font-size:12px;font-weight:800;}
+  .vd-rec-op .t em:empty{display:none;}
+  .vd-rec-op .t em.ok{color:var(--success);}
+  .vd-rec-op .t em.aviso{color:var(--warning);}
+  .vd-rec-op .bola{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:2px solid var(--border);margin-top:2px;position:relative;}
+  .vd-rec-op.on .bola{border-color:var(--lime);}
+  .vd-rec-op.on .bola::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--lime);}
+  .vd-ent-ant p b{color:var(--text);}
+  @media (max-width:560px){.vd-rec-op{padding:14px;gap:11px;}.vd-rec-op .ic{flex-basis:36px;width:36px;height:36px;}}
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -535,6 +556,7 @@
 
   <div class="ag-tabs" role="tablist">
     <button type="button" class="on" data-tab="oferta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.2" fill="currentColor"/></svg>Oferta e preço</button>
+    <button type="button" data-tab="receber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v13a2 2 0 0 0 2 2h15V7"/><circle cx="16" cy="13.5" r="1.3" fill="currentColor"/></svg>Como recebes</button>
     <button type="button" data-tab="entrega"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M12 3v13M7 11l5 5 5-5"/></svg>O que o cliente recebe</button>
     <button type="button" data-tab="vendas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Vendas</button>
   </div>
@@ -567,6 +589,49 @@
         <h3>Como aparece na página</h3>
         <p class="sub">A caixa da oferta. Na página, usa as cores do teu site.</p>
         <div class="vd-ant-caixa" id="vd-ant" data-no-i18n></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO RECEBES (1.82.0) -->
+  <section class="ag-sec" id="tab-receber">
+    <div class="vd-grelha">
+      <div style="display:grid;gap:14px">
+        <div class="cartao">
+          <h3>Como queres receber o dinheiro?</h3>
+          <p class="sub">Escolhe uma das duas. Podes mudar quando quiseres.</p>
+          <div class="vd-rec" role="radiogroup" aria-label="Como queres receber">
+            <button type="button" class="vd-rec-op" role="radio" data-rec="daniel">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 4 14 12 14 11 22 20 10 12 10 13 2"/></svg></span>
+              <span class="t"><b>Pagamentos Daniel IA</b><small>O cliente paga na página por M-Pesa, e-Mola ou cartão e recebe o acesso na hora, sozinho. O dinheiro entra no teu saldo e levantas quando quiseres.</small><em id="vd-rec-kyc"></em></span><span class="bola"></span>
+            </button>
+            <button type="button" class="vd-rec-op" role="radio" data-rec="fora">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="11" y1="18" x2="13" y2="18"/><path d="M9 8h6M9 12h4"/></svg></span>
+              <span class="t"><b>Recebo por fora</b><small>O cliente vê os teus dados de pagamento, paga-te directamente e manda o comprovativo. Tu confirmas em Vendas e o acesso segue sozinho. Não precisa de KYC.</small><em id="vd-rec-fora-nota"></em></span><span class="bola"></span>
+            </button>
+          </div>
+        </div>
+        <div class="cartao" id="vd-rec-daniel-c"></div>
+        <div class="cartao" id="vd-rec-fora-c" hidden>
+          <h3>Os teus dados de pagamento</h3>
+          <p class="sub">O cliente vê isto logo depois de reservar, com o valor a pagar e o código da compra. Escreve pelo menos um número ou as outras formas.</p>
+          <div style="display:grid;gap:12px">
+            <div class="grelha2">
+              <div class="campo"><label for="vd-r-mpesa">Número M-Pesa</label><input class="inp" id="vd-r-mpesa" inputmode="tel" maxlength="15" placeholder="84 ou 85" data-rec-c="mpesa"></div>
+              <div class="campo"><label for="vd-r-emola">Número e-Mola</label><input class="inp" id="vd-r-emola" inputmode="tel" maxlength="15" placeholder="86 ou 87" data-rec-c="emola"></div>
+            </div>
+            <div class="grelha2">
+              <div class="campo"><label for="vd-r-titular">Em nome de</label><input class="inp" id="vd-r-titular" maxlength="80" placeholder="O nome que aparece ao cliente quando paga" data-rec-c="titular" data-no-i18n></div>
+              <div class="campo"><label for="vd-r-wa">WhatsApp para o comprovativo</label><input class="inp" id="vd-r-wa" inputmode="tel" maxlength="16" placeholder="Ex: 258 84 123 4567" data-rec-c="whatsapp"></div>
+            </div>
+            <div class="campo"><label for="vd-r-outras">Outras formas (opcional)</label><textarea class="inp" id="vd-r-outras" rows="3" maxlength="400" data-rec-c="outras" data-no-i18n placeholder="Ex: Transferência para o BCI, conta 123456789, em nome de Rosa Macuácua. Ou pagamento em dinheiro na loja."></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="cartao vd-ant">
+        <h3>O que o cliente vê</h3>
+        <p class="sub" id="vd-rec-ant-sub">Depois de carregar no botão de compra.</p>
+        <div class="vd-ent-ant" id="vd-rec-ant" data-no-i18n></div>
       </div>
     </div>
   </section>
@@ -614,7 +679,7 @@
 (function(){
   'use strict';
   // ======================================================
-  // Gerir oferta (1.81.0) - páginas de venda
+  // Gerir oferta (1.81.0) - páginas de venda; 1.82.0 - como recebes
   // ======================================================
   var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
   var OWNER = '';
@@ -654,7 +719,7 @@
     if (t && tipo === 'ok') { bar.classList.add('feito', 'ver'); tFeito = setTimeout(function(){ bar.classList.remove('feito'); txt.textContent = 'Tens alterações por guardar.'; sujo(); }, 3500); }
   }
   function sujo(){ var s = JSON.stringify(st.cfg) !== st.guardado, bar = $('vd-guardar'); bar.classList.toggle('ver', s || bar.classList.contains('feito') || bar.classList.contains('falhou')); return s; }
-  function mudou(){ sujo(); antever(); anteverEntrega(); }
+  function mudou(){ sujo(); antever(); anteverEntrega(); anteverReceber(); }
 
   // ---- abas ----
   function aba(n){
@@ -675,8 +740,10 @@
     var av = [];
     if (st.guardado && JSON.parse(st.guardado).definido === false) av.push('<b>Falta o preço.</b> A página está no ar, mas a compra só abre quando escreveres o preço aqui em baixo e guardares.');
     if (!e.mensagem && !e.link && !e.ficheiro) av.push('Ainda não escreveste o que o cliente recebe depois de pagar. <a href="#entrega" data-ir-entrega>Escrever agora</a>');
-    if (!r.pagamentos) av.push('Os pagamentos online (M-Pesa, e-Mola e cartão) abrem depois de aprovares o KYC. Até lá, os pedidos chegam-te por email e confirmas o pagamento em Vendas. <a href="/kyc/">Fazer o KYC</a>');
+    var rec = (JSON.parse(st.guardado || '{}').receber) || {};
+    if (rec.modo !== 'fora' && !r.pagamentos) av.push('Escolheste os <b>Pagamentos Daniel IA</b>, mas ainda falta aprovar o KYC. Até lá, o cliente não consegue pagar na página: os pedidos chegam-te por email e confirmas em Vendas. <a href="/kyc/">Fazer o KYC</a> ou <a href="#receber" data-ir-receber>receber por fora</a>.');
     $('vd-avisos').innerHTML = av.map(function(t){ return '<div class="ag-aviso">' + IC.alerta + '<span>' + t + '</span></div>'; }).join('');
+    var irR = $('vd-avisos').querySelector('[data-ir-receber]'); if (irR) irR.addEventListener('click', function(ev){ ev.preventDefault(); aba('receber'); });
     var ir = $('vd-avisos').querySelector('[data-ir-entrega]'); if (ir) ir.addEventListener('click', function(ev){ ev.preventDefault(); aba('entrega'); $('vd-e-msg').focus(); });
   }
 
@@ -774,20 +841,70 @@
       : '<p class="dim">Ainda vazio. Sem isto, o cliente só vê "O vendedor vai entrar em contacto contigo".</p>');
   }
 
+  // ---- como recebes (1.82.0) ----
+  function rec(){ return st.cfg.receber || (st.cfg.receber = { modo: 'daniel', mpesa: '', emola: '', titular: '', outras: '', whatsapp: '' }); }
+  function desenharReceber(){
+    var r = rec(), info = st.r.receber || {}, fora = r.modo === 'fora';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-rec]'), function(b){ var on = b.getAttribute('data-rec') === r.modo; b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
+    $('vd-rec-kyc').className = st.r.pagamentos ? 'ok' : 'aviso';
+    $('vd-rec-kyc').textContent = st.r.pagamentos ? 'KYC aprovado: pronto a receber' : 'Precisa do KYC (verificar a tua identidade, 2 minutos)';
+    var bloq = info.fora_permitido === false;
+    $('vd-rec-fora-nota').className = bloq ? 'aviso' : '';
+    $('vd-rec-fora-nota').textContent = bloq ? 'Disponível nos planos pagos' : '';
+    $('vd-rec-fora-c').hidden = !fora;
+    $('vd-rec-daniel-c').hidden = fora;
+    $('vd-rec-daniel-c').innerHTML = st.r.pagamentos
+      ? '<h3>Está tudo ligado</h3><p class="sub" style="margin:0">O teu KYC está aprovado. O cliente paga na página e o acesso é entregue sozinho. Vês o saldo e pedes o levantamento no dashboard.</p>'
+      : '<h3>Falta só verificar a tua identidade</h3><p class="sub">Para recebermos dinheiro em teu nome, a lei pede que saibamos quem és (KYC): uma foto do BI e uma selfie, 2 minutos no telemóvel. Enquanto não estiver aprovado, o cliente não consegue pagar na página: recebes o pedido por email e confirmas à mão.</p><a class="btn-pri" href="/kyc/" style="display:inline-flex">Fazer o KYC agora</a>';
+    ['mpesa', 'emola', 'titular', 'whatsapp', 'outras'].forEach(function(k){ var el = document.querySelector('[data-rec-c="' + k + '"]'); if (el && el.value !== (r[k] || '')) el.value = r[k] || ''; });
+    anteverReceber();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rec]'), function(b){ b.addEventListener('click', function(){
+    var m = b.getAttribute('data-rec');
+    if (m === 'fora' && (st.r.receber || {}).fora_permitido === false) { msg('Receber por fora faz parte dos planos pagos.', 'erro'); return; }
+    rec().modo = m; mudou(); desenharReceber();
+    if (m === 'fora') setTimeout(function(){ var el = $('vd-r-mpesa'); if (el && !el.value) el.focus(); }, 60);
+  }); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rec-c]'), function(el){ el.addEventListener('input', function(){
+    var k = el.getAttribute('data-rec-c');
+    rec()[k] = (k === 'titular' || k === 'outras') ? el.value : el.value.replace(/\D/g, '');
+    if ($('vd-msg').className.indexOf('erro') >= 0) msg(''); // o aviso de "falta o número" sai quando se começa a escrever
+    mudou();
+  }); });
+  function anteverReceber(){
+    var caixa = $('vd-rec-ant'); if (!caixa || !st.cfg) return;
+    var r = rec(), o = (st.cfg.opcoes || [])[0] || {}, v = num(o.preco || 0) + ' MZN';
+    if (r.modo !== 'fora') {
+      $('vd-rec-ant-sub').textContent = 'Depois de carregar no botão de compra.';
+      caixa.innerHTML = st.r.pagamentos
+        ? '<small>Finalizar a compra</small><p>Escolhe M-Pesa, e-Mola ou cartão, paga ' + esc(v) + ' e vê logo o acesso, com o código da compra.</p><span class="bt">Pagar ' + esc(v) + '</span>'
+        : '<small>Pedido registado</small><p class="dim">Sem o KYC, o cliente só vê "O vendedor vai combinar o pagamento contigo". Não sabe como pagar.</p>';
+      return;
+    }
+    $('vd-rec-ant-sub').textContent = 'Depois de reservar. Também vai para o email dele.';
+    var tem = (r.mpesa || '').length >= 9 || (r.emola || '').length >= 9 || (r.outras || '').trim().length >= 8;
+    caixa.innerHTML = '<small>Falta só pagar</small><p>Paga ' + esc(v) + ' por uma das formas em baixo. Assim que o vendedor confirmar, recebes o acesso.</p>'
+      + (tem ? ((r.mpesa || '').length >= 9 ? '<p><b>M-Pesa:</b> ' + esc(r.mpesa) + '</p>' : '') + ((r.emola || '').length >= 9 ? '<p><b>e-Mola:</b> ' + esc(r.emola) + '</p>' : '') + (r.titular ? '<p><b>Em nome de:</b> ' + esc(r.titular) + '</p>' : '') + ((r.outras || '').trim() ? '<p><b>Outras formas:</b> ' + esc(r.outras) + '</p>' : '')
+        : '<p class="dim">Escreve pelo menos um número ou as outras formas, para o cliente saber como te pagar.</p>')
+      + (r.whatsapp ? '<span class="bt">Enviar o comprovativo pelo WhatsApp</span>' : '<p class="dim">Sem WhatsApp, o cliente não tem botão para te mandar o comprovativo.</p>');
+  }
+
   // ---- guardar ----
   function guardar(){
     var b = $('vd-guardar-btn');
     if (st.cfg.opcoes.some(function(o){ return !String(o.nome || '').trim(); })) return msg('Dá um nome a cada opção.', 'erro');
+    var rg = rec();
+    if (rg.modo === 'fora' && !((rg.mpesa || '').length >= 9 || (rg.emola || '').length >= 9 || (rg.outras || '').trim().length >= 8)) { aba('receber'); return msg('Escreve pelo menos um número (M-Pesa ou e-Mola) ou as outras formas de pagamento.', 'erro'); }
     b.disabled = true; b.textContent = 'A guardar...';
     return post('/venda-dono-guardar', { config: st.cfg }).then(function(r){
       b.disabled = false; b.textContent = 'Guardar';
-      if (r.status !== 'success') { msg(r.message || 'Não foi possível guardar.', 'erro'); return; }
+      if (r.status !== 'success') { if (r.codigo === 'receber' || r.codigo === 'plano') aba('receber'); msg(r.message || 'Não foi possível guardar.', 'erro'); return; }
       aplicar(r.response);
       msg('Guardado. A página já mostra as mudanças.', 'ok');
     }).catch(function(){ b.disabled = false; b.textContent = 'Guardar'; msg('Sem ligação. Tenta outra vez.', 'erro'); });
   }
   $('vd-guardar-btn').addEventListener('click', guardar);
-  $('vd-desfazer').addEventListener('click', function(){ st.cfg = JSON.parse(st.guardado); msg(''); desenharOferta(); desenharEntrega(); desenharTopo(); sujo(); });
+  $('vd-desfazer').addEventListener('click', function(){ st.cfg = JSON.parse(st.guardado); msg(''); desenharOferta(); desenharEntrega(); desenharReceber(); desenharTopo(); sujo(); });
   window.addEventListener('beforeunload', function(e){ if (st.cfg && sujo()) { e.preventDefault(); e.returnValue = ''; } });
 
   // ---- vendas ----
@@ -826,7 +943,7 @@
     }); });
   }
   $('vd-q').addEventListener('input', function(){ clearTimeout(tProcura); tProcura = setTimeout(carregarVendas, 350); });
-  function recarregarResumo(){ post('/venda-dono-ler', {}).then(function(r){ if (r.status === 'success') { st.r.resumo = r.response.resumo; st.r.pagamentos = r.response.pagamentos; desenharTopo(); } }).catch(function(){}); }
+  function recarregarResumo(){ post('/venda-dono-ler', {}).then(function(r){ if (r.status === 'success') { st.r.resumo = r.response.resumo; st.r.pagamentos = r.response.pagamentos; st.r.receber = r.response.receber; desenharTopo(); } }).catch(function(){}); }
 
   // ---- arrancar ----
   function aplicar(r){
@@ -834,7 +951,7 @@
     $('vd-nome').textContent = st.cfg.nome || r.site.nome || 'A tua página de venda';
     if (r.site.url) $('vd-ver-site').href = r.site.url; else $('vd-ver-site').style.display = 'none';
     $('vd-editar-site').href = '/editor/?site=' + encodeURIComponent(SITE);
-    desenharTopo(); desenharOferta(); desenharEntrega(); sujo();
+    desenharTopo(); desenharOferta(); desenharEntrega(); desenharReceber(); sujo();
   }
   if (!SITE) { window.location.href = '/dashboard/'; return; }
   post('/venda-dono-ler', {}).then(function(r){
@@ -844,7 +961,7 @@
     }
     aplicar(r.response);
     var h = (location.hash || '').replace('#', '');
-    if (['entrega', 'vendas'].indexOf(h) >= 0) aba(h);
+    if (['receber', 'entrega', 'vendas'].indexOf(h) >= 0) aba(h);
   }).catch(function(){ msg('Sem ligação. Tenta outra vez.', 'erro'); });
 })();
 </script>

@@ -25,7 +25,7 @@
   function t(i){ return (TX[lang()] || TX.pt)[i]; }
   var CSS = ''
     + '.dvz{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 2px;font-family:inherit}'
-    + '.dvz-btn{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 13px 0 6px;border-radius:999px;border:1px solid var(--border,#d9cfe6);background:var(--card,#fff);color:var(--text,#1a0a27);font:700 12.5px/1 inherit;cursor:pointer;transition:border-color .15s,transform .15s}'
+    + '.dvz-btn{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 13px 0 6px;border-radius:999px;border:1px solid var(--border,#d9cfe6);background:var(--card,#fff);color:var(--text,#1a0a27);font-weight:700;font-size:12.5px;line-height:1;font-family:inherit;cursor:pointer;transition:border-color .15s,transform .15s}'
     + '.dvz-btn:hover{border-color:var(--accent-2,#430960);transform:translateY(-1px)}'
     + '.dvz-btn:focus-visible,.dvz-acc button:focus-visible{outline:2px solid var(--lime,#89C804);outline-offset:2px}'
     + '.dvz-mic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--grad-accent,linear-gradient(135deg,#C8F84A,#89C804));color:var(--on-accent,#140620)}'
@@ -38,7 +38,7 @@
     + '.dvz-onda{display:flex;align-items:center;gap:2px;height:24px;flex:1;min-width:60px;max-width:220px}'
     + '.dvz-onda i{flex:1;max-width:4px;min-height:3px;border-radius:2px;background:#FF5C7A;opacity:.85;transition:height .08s}'
     + '.dvz-acc{display:flex;gap:6px;margin-left:auto}'
-    + '.dvz-acc button{min-height:34px;padding:0 12px;border-radius:10px;font:800 12.5px/1 inherit;cursor:pointer;border:1px solid var(--border,#d9cfe6);background:var(--card,#fff);color:var(--text,#1a0a27)}'
+    + '.dvz-acc button{min-height:34px;padding:0 12px;border-radius:10px;font-weight:800;font-size:12.5px;line-height:1;font-family:inherit;cursor:pointer;border:1px solid var(--border,#d9cfe6);background:var(--card,#fff);color:var(--text,#1a0a27)}'
     + '.dvz-acc .dvz-parar{background:var(--grad-accent,linear-gradient(135deg,#C8F84A,#89C804));color:var(--on-accent,#140620);border-color:transparent}'
     + '.dvz-msg{font-size:12px;line-height:1.45;color:var(--text-dim,#6f5e81);display:flex;align-items:center;gap:7px}'
     + '.dvz-msg.ok{color:var(--success,#5E9100)}.dvz-msg.erro{color:var(--error,#C0392B)}'

@@ -54,7 +54,7 @@
   var CSS = ''
     + '.dia-sup{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:800;display:flex;flex-direction:column;align-items:flex-end;gap:12px;font-family:inherit;}'
     + '.dia-sup *{box-sizing:border-box;}'
-    + '.dia-sup-btn{position:relative;display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 20px 0 16px;border:none;border-radius:999px;background:#25D366;color:#fff;font:800 14.5px/1 inherit;letter-spacing:.01em;cursor:pointer;text-decoration:none;box-shadow:0 12px 28px rgba(18,140,74,.38),0 2px 6px rgba(0,0,0,.12);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;}'
+    + '.dia-sup-btn{position:relative;display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 20px 0 16px;border:none;border-radius:999px;background:#25D366;color:#fff;font-weight:800;font-size:14.5px;line-height:1;font-family:inherit;letter-spacing:.01em;cursor:pointer;text-decoration:none;box-shadow:0 12px 28px rgba(18,140,74,.38),0 2px 6px rgba(0,0,0,.12);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;}'
     + '.dia-sup-btn:hover{transform:translateY(-2px);background:#1FBF5B;box-shadow:0 16px 34px rgba(18,140,74,.45),0 2px 6px rgba(0,0,0,.12);}'
     + '.dia-sup-btn:focus-visible{outline:3px solid #0B5D2E;outline-offset:3px;}'
     + '.dia-sup-btn svg{width:26px;height:26px;flex-shrink:0;}'
