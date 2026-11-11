@@ -794,6 +794,66 @@
   /* ===== Templates prontos (1.60.0) ===== */
   .modo-bloco{display:none;margin-top:4px;}
   .modo-bloco.ver{display:block;}
+  /* 1.83.0: criar em etapas */
+  .et-topo{margin:-4px 0 22px;}
+  .et-passos{display:flex;align-items:flex-start;gap:0;margin:0;padding:0;list-style:none;}
+  .et-passos li{flex:1;min-width:0;position:relative;text-align:center;}
+  .et-passos li::before{content:"";position:absolute;top:15px;left:calc(-50% + 18px);right:calc(50% + 18px);height:2px;border-radius:2px;background:var(--border);transition:background .3s;}
+  .et-passos li:first-child::before{display:none;}
+  .et-passos li.feito::before,.et-passos li.on::before{background:var(--lime);}
+  .et-passos button{display:inline-flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:0;color:var(--text-dim);font:inherit;cursor:default;max-width:100%;}
+  .et-passos li.feito button{cursor:pointer;}
+  .et-passos li.feito button:hover .n{border-color:var(--lime);}
+  .et-passos .n{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:800 13px/1 var(--font-display);border:2px solid var(--border);background:var(--card-alt);color:var(--text-dim);transition:background .25s,border-color .25s,color .25s,transform .25s;}
+  .et-passos .n svg{width:15px;height:15px;}
+  .et-passos li.on .n{background:var(--lime);border-color:var(--lime);color:#140620;transform:scale(1.08);box-shadow:0 0 0 5px rgba(137,200,4,.16);}
+  .et-passos li.feito .n{background:rgba(137,200,4,.14);border-color:var(--lime);color:var(--lime);}
+  .et-passos .t{font-size:11.5px;font-weight:700;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+  .et-passos li.on .t{color:var(--text);}
+  .et-passos li.salta{display:none;}
+  .et-movel{display:none;}
+  .et-barra{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin-top:10px;}
+  .et-barra i{display:block;height:100%;border-radius:inherit;background:var(--lime);transition:width .35s ease;}
+  .et-cab{margin:0 0 18px;}
+  .et-cab small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);margin-bottom:6px;}
+  .et-cab h2{margin:0 0 4px;font:800 clamp(20px,3.2vw,24px)/1.2 var(--font-display);color:var(--text);}
+  .et-cab p{margin:0;font-size:13.5px;line-height:1.5;color:var(--text-dim);}
+  .etapa{display:none;}
+  .etapa #l-modo{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;} /* o título da etapa já diz isto */
+  .etapa.on{display:block;animation:etEntra .32s ease-out;}
+  .etapa > label:first-of-type,.etapa > .et-cab + label{margin-top:0;}
+  @keyframes etEntra{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+  .etapa.on.para-tras{animation-name:etVolta;}
+  @keyframes etVolta{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+  .et-nav{display:flex;gap:10px;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);}
+  .et-nav .btn{margin-top:0;width:auto;flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;}
+  .et-nav .btn svg{width:16px;height:16px;}
+  .et-nav .btn.secondary{flex:0 0 auto;min-width:120px;}
+  .et-nav .et-conta{font-size:12px;color:var(--text-dim);font-weight:700;white-space:nowrap;}
+  .etapa[data-etapa="6"] #btn-gerar{margin-top:20px;min-height:52px;font-size:15px;}
+  .et-rev{display:grid;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .et-rev > div{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 16px;border-top:1px solid var(--border);font-size:13.5px;}
+  .et-rev > div:first-child{border-top:0;}
+  .et-rev dt{color:var(--text-dim);font-weight:700;font-size:12.5px;}
+  .et-rev dd{margin:0;color:var(--text);line-height:1.45;overflow-wrap:anywhere;}
+  .et-rev dd .dim{color:var(--text-dim);}
+  .et-rev dd img{width:34px;height:34px;object-fit:contain;border-radius:8px;background:#fff;vertical-align:middle;margin-right:8px;border:1px solid var(--border);}
+  .et-rev button{background:none;border:0;padding:6px 2px;color:var(--accent-2);font-weight:700;font-size:12.5px;font-family:inherit;cursor:pointer;text-decoration:underline;white-space:nowrap;}
+  .et-tempo{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(137,200,4,.08);border:1px solid rgba(137,200,4,.28);font-size:13px;line-height:1.5;color:var(--text-dim);}
+  .et-tempo svg{flex:0 0 18px;width:18px;height:18px;color:var(--lime);margin-top:1px;}
+  @media (max-width:640px){
+    .et-passos{display:none;}
+    .et-movel{display:block;}
+    .et-movel b{font:800 14px/1.3 var(--font-display);color:var(--text);}
+    .et-movel span{font-size:12px;font-weight:700;color:var(--text-dim);float:right;margin-top:2px;}
+    .et-nav{position:sticky;bottom:0;z-index:5;margin:22px -28px -28px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--glass-bg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:0 0 16px 16px;}
+    .et-nav .et-conta{display:none;}
+    .et-cab small{display:none;}
+    .et-nav .btn.secondary{min-width:0;padding-left:16px;padding-right:16px;}
+    .et-rev > div{grid-template-columns:1fr auto;gap:4px 12px;}
+    .et-rev dt{grid-column:1 / -1;}
+  }
+  @media (prefers-reduced-motion:reduce){.etapa.on{animation:none;}.et-passos .n,.et-barra i{transition:none;}}
   .modos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
   .modo{position:relative;text-align:left;display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--card-alt);color:var(--text);cursor:pointer;transition:border-color .18s,box-shadow .18s,background .18s;font:inherit;}
   .modo:hover{border-color:color-mix(in srgb,var(--accent-2) 55%,var(--border));}
@@ -2685,6 +2745,191 @@ function mostrarKycLoja(){
 
 </script>
 
+<script id="dia-etapas">
+// 1.83.0: criar em etapas - as mesmas coisas de sempre, divididas em 6 fases
+(function(){
+  var cartao = document.querySelector('#view-form .card');
+  if (!cartao || cartao.querySelector('.etapa')) return;
+  var $ = function(id){ return document.getElementById(id); };
+  var IC = {
+    seta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    volta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>',
+    visto: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    relogio: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+  };
+  var FASES = [
+    { t: 'Negócio', titulo: 'O teu negócio', sub: 'Como se chama e o que queres criar.' },
+    { t: 'Como começar', titulo: 'Ponto de partida', sub: 'Com um template pronto, do zero com a IA, ou parecido com um site de que gostas.' },
+    { t: 'Descrição', titulo: 'A tua ideia', sub: 'Quanto mais contares, melhor fica. Podes escrever ou falar.' },
+    { t: 'Marca', titulo: 'A tua marca', sub: 'O logótipo dá as cores ao site. As imagens entram onde fizer sentido.' },
+    { t: 'Extras', titulo: 'Extras', sub: 'Liga só o que precisas.' },
+    { t: 'Revisão', titulo: 'Está tudo certo?', sub: 'Confirma antes de criar. Podes mudar qualquer coisa.' }
+  ];
+  // ---- mover os elementos que já existem para dentro das fases ----
+  var fases = FASES.map(function(f, i){
+    var s = document.createElement('section');
+    s.className = 'etapa'; s.setAttribute('data-etapa', String(i + 1)); s.setAttribute('aria-labelledby', 'et-h-' + (i + 1));
+    s.innerHTML = '<div class="et-cab"><small>Etapa ' + (i + 1) + ' de 6</small><h2 id="et-h-' + (i + 1) + '">' + f.titulo + '</h2><p>' + f.sub + '</p></div>';
+    return s;
+  });
+  function entre(primeiro, ultimo){ // irmãos de primeiro até ultimo (inclusive)
+    var l = [], el = primeiro;
+    while (el) { l.push(el); if (el === ultimo) break; el = el.nextElementSibling; }
+    return l;
+  }
+  var lblNome = cartao.querySelector('label[for="f-nome"]'), tipos = cartao.querySelector('.tipos');
+  var lblIdioma = $('l-idioma'), ref = $('ref-bloco'), lblLogo = $('logo-drop').previousElementSibling, gridImg = $('imagens-grid');
+  var grupos = [
+    entre(lblNome, tipos),
+    [$('modo-bloco'), ref],
+    entre(lblIdioma, ref.previousElementSibling),
+    entre(lblLogo, gridImg),
+    [$('quiz-bloco'), $('paginas-bloco'), $('video-bloco')],
+    []
+  ];
+  var btnGerar = $('btn-gerar'), msgForm = $('msg-form');
+  grupos.forEach(function(g, i){ g.forEach(function(el){ if (el) fases[i].appendChild(el); }); });
+  // revisão
+  fases[5].insertAdjacentHTML('beforeend', '<dl class="et-rev" id="et-rev"></dl><div class="et-tempo">' + IC.relogio + '<span>A IA leva <b>3 a 6 minutos</b> a desenhar o teu site. Podes fechar a página: avisamos-te por email quando estiver pronto.</span></div>');
+  fases[5].appendChild(btnGerar);
+  // topo: os passos (computador) e a barra (telemóvel)
+  var topo = document.createElement('div');
+  topo.className = 'et-topo';
+  topo.innerHTML = '<ol class="et-passos" id="et-passos">' + FASES.map(function(f, i){ return '<li data-p="' + (i + 1) + '"><button type="button" tabindex="-1"><span class="n">' + (i + 1) + '</span><span class="t">' + f.t + '</span></button></li>'; }).join('') + '</ol>'
+    + '<div class="et-movel" aria-hidden="true"><span id="et-m-n"></span><b id="et-m-t"></b><div class="et-barra"><i id="et-m-b"></i></div></div>';
+  var nav = document.createElement('div');
+  nav.className = 'et-nav';
+  nav.innerHTML = '<button type="button" class="btn secondary" id="et-voltar">' + IC.volta + '<span>Voltar</span></button><span class="et-conta" id="et-conta"></span><button type="button" class="btn" id="et-seguinte"><span>Seguinte</span>' + IC.seta + '</button>';
+  cartao.insertBefore(topo, cartao.firstChild);
+  fases.forEach(function(f){ cartao.insertBefore(f, msgForm); });
+  cartao.insertBefore(nav, msgForm);
+
+  // ---- que fases contam (os extras só aparecem se houver algum para este tipo) ----
+  function visivel(el){ return !!el && getComputedStyle(el).display !== 'none'; }
+  function fasesActivas(){
+    var l = [1, 2, 3, 4];
+    if ([$('quiz-bloco'), $('paginas-bloco'), $('video-bloco')].some(visivel)) l.push(5);
+    l.push(6);
+    return l;
+  }
+  var actual = 1, feitas = {};
+  function desenharTopo(){
+    var act = fasesActivas(), pos = act.indexOf(actual);
+    Array.prototype.forEach.call(document.querySelectorAll('#et-passos li'), function(li){
+      var p = Number(li.getAttribute('data-p')), k = act.indexOf(p);
+      li.classList.toggle('salta', k < 0);
+      li.classList.toggle('on', p === actual);
+      li.classList.toggle('feito', p !== actual && !!feitas[p] && k >= 0);
+      li.querySelector('.n').innerHTML = p !== actual && feitas[p] ? IC.visto : String(k + 1);
+      li.querySelector('button').setAttribute('aria-current', p === actual ? 'step' : 'false');
+    });
+    fases.forEach(function(f, i){ var s = f.querySelector('.et-cab small'); var k = act.indexOf(i + 1); if (s && k >= 0) s.textContent = 'Etapa ' + (k + 1) + ' de ' + act.length; });
+    $('et-m-n').textContent = (pos + 1) + ' de ' + act.length;
+    $('et-m-t').textContent = FASES[actual - 1].t;
+    $('et-m-b').style.width = Math.round((pos + 1) / act.length * 100) + '%';
+    $('et-conta').textContent = 'Etapa ' + (pos + 1) + ' de ' + act.length;
+    $('et-voltar').style.visibility = pos > 0 ? '' : 'hidden';
+    $('et-seguinte').style.display = actual === 6 ? 'none' : '';
+    $('et-seguinte').querySelector('span').textContent = act[pos + 1] === 6 ? 'Rever e criar' : 'Seguinte';
+  }
+  function ir(n, sem_foco){
+    var act = fasesActivas();
+    if (act.indexOf(n) < 0) n = act.filter(function(x){ return x > n; })[0] || 6;
+    var tras = n < actual;
+    actual = n;
+    fases.forEach(function(f, i){ f.classList.toggle('on', i + 1 === n); f.classList.toggle('para-tras', tras); });
+    if (n === 6) desenharRevisao();
+    desenharTopo();
+    var r = cartao.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.4) window.scrollTo({ top: Math.max(0, window.scrollY + r.top - 90), behavior: 'smooth' });
+    if (!sem_foco) { var h = $('et-h-' + n); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } }
+  }
+  // ---- validação de cada fase (as mesmas regras do botão "Criar o meu site") ----
+  function erroDaFase(n){
+    if (n === 1) {
+      if (!$('f-nome').value.trim()) return { msg: 'Escreve o nome do negócio.', foco: $('f-nome') };
+      if (!$('f-tipo').value) return { msg: 'Escolhe o que queres criar.' };
+    }
+    if (n === 2) {
+      if (typeof TPL !== 'undefined' && TPL.modo === 'template' && !TPL.escolhido) return { msg: 'Escolhe um template, ou muda para "Criar do zero com a IA".', galeria: true };
+      var rp = $('ref-preview'); if (rp && rp.classList.contains('a-ler')) return { msg: 'A imagem de referência ainda está a carregar. Espera um segundo.' };
+    }
+    if (n === 3 && $('f-prompt').value.trim().length < 15) return { msg: 'Descreve um pouco melhor o que queres (pelo menos 15 caracteres).', foco: $('f-prompt') };
+    return null;
+  }
+  function seguinte(){
+    if (typeof hideMessage === 'function') hideMessage();
+    var e = erroDaFase(actual);
+    if (e) {
+      if (typeof showMessage === 'function') showMessage(e.msg);
+      if (e.foco) e.foco.focus();
+      if (e.galeria && typeof tplAbrirGaleria === 'function') tplAbrirGaleria();
+      return;
+    }
+    feitas[actual] = true;
+    var act = fasesActivas();
+    ir(act[act.indexOf(actual) + 1] || 6);
+  }
+  $('et-seguinte').addEventListener('click', seguinte);
+  $('et-voltar').addEventListener('click', function(){
+    if (typeof hideMessage === 'function') hideMessage();
+    var act = fasesActivas(), k = act.indexOf(actual);
+    if (k > 0) ir(act[k - 1]);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('#et-passos li button'), function(b){
+    b.addEventListener('click', function(){ var p = Number(b.parentNode.getAttribute('data-p')); if (b.parentNode.classList.contains('feito')) ir(p); });
+  });
+  $('f-nome').addEventListener('keydown', function(ev){ if (ev.key === 'Enter') { ev.preventDefault(); seguinte(); } });
+  // antes de criar, confirma todas as fases; se faltar alguma coisa, leva lá
+  btnGerar.addEventListener('click', function(ev){
+    for (var n = 1; n <= 3; n++) {
+      var e = erroDaFase(n);
+      if (e) { ev.stopImmediatePropagation(); ir(n); if (typeof showMessage === 'function') showMessage(e.msg); if (e.galeria && typeof tplAbrirGaleria === 'function') tplAbrirGaleria(); return; }
+    }
+  }, true);
+  // escolher o tipo ou o modo pode mostrar ou esconder os extras
+  document.addEventListener('click', function(ev){ if (ev.target.closest && ev.target.closest('.tipo, .modo')) setTimeout(desenharTopo, 0); });
+  // escolher um template na galeria leva à fase "Como começar"
+  if (typeof window.tplUsar === 'function') {
+    var usar = window.tplUsar;
+    window.tplUsar = function(){ var r = usar.apply(this, arguments); if (!TPL.mudar) { feitas[1] = !!$('f-nome').value.trim() && !!$('f-tipo').value; ir(2, true); } return r; };
+  }
+  // "Criar outro site": volta à primeira fase
+  if (typeof window.showView === 'function') {
+    var mostrar = window.showView;
+    window.showView = function(id){ var r = mostrar.apply(this, arguments); if (id === 'view-form' && !$('f-nome').value.trim()) { feitas = {}; ir(1, true); } return r; };
+  }
+
+  // ---- revisão ----
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function texto(sel){ var el = document.querySelector(sel); return el ? el.textContent.trim() : ''; }
+  function desenharRevisao(){
+    var linhas = [];
+    var tipoNome = texto('.tipo.on .nome');
+    linhas.push(['Negócio', '<b data-no-i18n>' + esc($('f-nome').value.trim()) + '</b>' + (tipoNome ? ' <span class="dim">· ' + esc(tipoNome) + '</span>' : ''), 1]);
+    var comeco = 'Criar do zero com a IA';
+    if (typeof TPL !== 'undefined' && TPL.modo === 'template') comeco = TPL.escolhido ? 'Template <b data-no-i18n>' + esc(TPL.escolhido.nome) + '</b>' : 'Template por escolher';
+    else if ($('ref-preview') && $('ref-preview').classList.contains('show')) comeco = 'Parecido com a tua imagem de referência';
+    linhas.push(['Como começar', comeco, 2]);
+    var p = $('f-prompt').value.trim();
+    linhas.push(['Descrição', '<span data-no-i18n>' + esc(p.length > 180 ? p.slice(0, 180) + '…' : p) + '</span><br><span class="dim">Site em ' + esc(texto('.idioma.on').replace(/^[A-Z]{2}/, '').trim()) + '</span>', 3]);
+    var logo = $('logo-preview-img'), temLogo = $('logo-preview').classList.contains('show') && logo && logo.getAttribute('src');
+    var nImg = document.querySelectorAll('#imagens-grid img').length;
+    linhas.push(['Marca', (temLogo ? '<img src="' + esc(logo.getAttribute('src')) + '" alt="">Logótipo' : '<span class="dim">Sem logótipo (o nome aparece em letras)</span>') + (nImg ? ' · ' + nImg + (nImg === 1 ? ' imagem' : ' imagens') : ''), 4]);
+    if (fasesActivas().indexOf(5) >= 0) {
+      var ex = [];
+      if (visivel($('paginas-bloco'))) ex.push($('f-multi').checked ? 'Várias páginas' : 'Uma página só');
+      if (visivel($('quiz-bloco')) && $('f-quiz').checked) ex.push('Quiz antes da compra');
+      if (visivel($('video-bloco')) && $('f-video').checked) ex.push('Hero com vídeo IA');
+      linhas.push(['Extras', ex.length ? esc(ex.join(' · ')) : '<span class="dim">Nenhum</span>', 5]);
+    }
+    $('et-rev').innerHTML = linhas.map(function(l){ return '<div><dt>' + l[0] + '</dt><dd>' + l[1] + '</dd><button type="button" data-et-ir="' + l[2] + '">Mudar</button></div>'; }).join('');
+    Array.prototype.forEach.call($('et-rev').querySelectorAll('[data-et-ir]'), function(b){ b.addEventListener('click', function(){ ir(Number(b.getAttribute('data-et-ir'))); }); });
+  }
+  ir(1, true);
+  window.__diaEtapas = { ir: ir, actual: function(){ return actual; }, activas: fasesActivas };
+})();
+</script>
 <script id="dia-tema-fim">(function(){
   var root = document.documentElement;
   function sync(){
