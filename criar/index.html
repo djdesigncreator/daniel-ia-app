@@ -494,6 +494,10 @@
   .tipo .desc{font-size:12px;color:var(--text-dim);line-height:1.45;}
   .tipo .visto{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--grad-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:opacity .18s,transform .18s;}
   .tipo .visto svg{width:12px;height:12px;}
+  .passos-ia{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:14px 0 4px;}
+  .passos-ia span{font-size:11.5px;font-weight:800;padding:6px 10px;border-radius:99px;border:1px solid var(--border);color:var(--text-dim);transition:background .3s,color .3s,border-color .3s;}
+  .passos-ia span.on{background:rgba(137,200,4,.16);border-color:rgba(137,200,4,.5);color:var(--success);}
+  .passos-ia span.feito{color:var(--text);}
   .tipo .selo{position:absolute;top:10px;right:10px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;background:var(--tint-a);color:var(--text-dim);}
   .tipo.on .selo{display:none;}
   .tipo.on{border-color:var(--accent-2);background:linear-gradient(160deg,var(--tint-b),transparent 70%),var(--card-alt);box-shadow:0 0 0 3px var(--accent-glow);}
@@ -918,8 +922,8 @@
       <label id="l-tipo">O que queres criar?</label>
       <input type="hidden" id="f-tipo" value="">
       <div class="tipos" role="radiogroup" aria-labelledby="l-tipo">
-        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="E-commerce"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Loja online</span><span class="desc">Vende muitos produtos, com carrinho e pagamento.</span></button>
-        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Checkout"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Página de venda</span><span class="desc">Para vender um ou poucos produtos, com compra rápida.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="E-commerce"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Loja online</span><span class="desc">Vários produtos num catálogo, com categorias, carrinho e pagamento. Para quem tem uma loja.</span></button>
+        <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Checkout"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"></path><circle cx="7.5" cy="7.5" r="1.3"></circle></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Página de venda</span><span class="desc">Vende uma coisa só: um curso, um bilhete, um ebook ou um serviço. Uma página que convence e um checkout no fim.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Landing Page"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="7" y1="13" x2="13" y2="13"></line><line x1="7" y1="16" x2="11" y2="16"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Site / Landing page</span><span class="desc">Apresenta o teu negócio ou serviço e atrai clientes.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Portefólio"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="3" y1="13" x2="21" y2="13"></line></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Portefólio</span><span class="desc">Mostra os teus trabalhos e projectos.</span></button>
         <button type="button" class="tipo" role="radio" aria-checked="false" data-tipo="Blog"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span><span class="visto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="nome">Blog</span><span class="desc">Publica artigos, notícias e dicas.</span></button>
@@ -1072,7 +1076,8 @@
     <div class="card progress-card">
       <div class="spinner"></div>
       <h2>A gerar o teu site...</h2>
-      <p>A nossa IA está a escrever o código, com base no que descreveste. Isto costuma demorar entre 20 a 60 segundos — não feches esta página.</p>
+      <p id="progress-texto">O director de arte está a estudar o teu negócio. Um site bem desenhado demora 3 a 6 minutos. Podes fechar esta página: avisamos-te por email quando estiver pronto.</p>
+      <div class="passos-ia" id="passos-ia" aria-hidden="true"><span class="on">Plano e fotos</span><span>Guião de design</span><span>Construção</span><span>Retoques</span></div>
       <div class="tempo" id="progress-tempo">0s</div>
     </div>
   </div>
@@ -1343,7 +1348,7 @@ fetch(CONTAINER_URL + '/account', { method: 'POST', headers: { 'Content-Type': '
   }).catch(function(){ EAD_CONTA.carregado = true; });
 var EXEMPLOS_PROMPT = {
   'E-commerce': 'Ex: Loja de roupa feminina em Maputo, com vestidos, capulanas e acessórios. Visual alegre e colorido.',
-  'Checkout': 'Ex: Página para vender o meu curso de bolos online, com o preço, o que se aprende e a compra rápida.',
+  'Checkout': 'Ex: Curso online de bolos caseiros para vender, por 1 500 MZN. São 12 aulas em vídeo, receitas em PDF e um grupo de WhatsApp. Sou a Tia Rosa, pasteleira há 15 anos na Matola. Quem compra recebe o link do grupo.',
   'Landing Page': 'Ex: Uma padaria artesanal em Maputo, com os nossos produtos, sobre nós e contacto. Tom acolhedor, cores quentes.',
   'Portefólio': 'Ex: Sou designer gráfico na Beira. Quero mostrar logótipos e cartazes que fiz. Estilo simples e limpo.',
   'Blog': 'Ex: Blog sobre agricultura em Moçambique, com dicas para pequenos produtores. Visual natural, verde.',
@@ -1519,7 +1524,7 @@ var REF_TEXTOS = {
   site: ['Criar parecido com uma imagem', 'Tens um site de que gostas? Carrega um print e a IA faz um parecido para o teu negócio, com o teu nome e os teus textos.']
 };
 function actualizarTextosReferencia(){
-  var t = (campoTipo.value === 'E-commerce' || campoTipo.value === 'Checkout') ? REF_TEXTOS.loja : REF_TEXTOS.site;
+  var t = campoTipo.value === 'E-commerce' ? REF_TEXTOS.loja : REF_TEXTOS.site;
   document.getElementById('ref-titulo').textContent = t[0];
   document.getElementById('ref-sub').textContent = t[1];
 }
@@ -2043,11 +2048,25 @@ document.getElementById('btn-dashboard-fila').addEventListener('click', function
 function iniciarEspera(){
   showView('view-progress');
   segundosDecorridos = 0;
+  // 1.80.0: os passos só aparecem quando é a IA a desenhar (não nos templates)
+  var pIA0 = document.getElementById('passos-ia');
+  if (pIA0) { pIA0.style.display = (typeof TPL !== 'undefined' && TPL.modo === 'template' && TPL.escolhido) ? 'none' : ''; pIA0.removeAttribute('data-fase'); }
   document.getElementById('progress-tempo').textContent = '0s';
 
   tempoTimer = setInterval(function(){
     segundosDecorridos++;
     document.getElementById('progress-tempo').textContent = segundosDecorridos + 's';
+    // 1.80.0: os passos do director de arte (só no modo "do zero com a IA")
+    var pIA = document.getElementById('passos-ia'), pTxt = document.getElementById('progress-texto');
+    if (pIA && pTxt && pIA.style.display !== 'none') {
+      var fase = segundosDecorridos < 45 ? 0 : segundosDecorridos < 110 ? 1 : segundosDecorridos < 300 ? 2 : 3;
+      var frases = ['O director de arte está a estudar o teu negócio e a escolher as fotografias. Um site bem desenhado demora 3 a 6 minutos. Podes fechar esta página: avisamos-te por email quando estiver pronto.', 'A desenhar o guião do site: as cores, as letras, o topo e cada secção.', 'A construir o site, secção a secção. Esta é a parte mais demorada.', 'Os últimos retoques. Está quase.'];
+      if (pIA.getAttribute('data-fase') !== String(fase)) {
+        pIA.setAttribute('data-fase', String(fase));
+        Array.prototype.forEach.call(pIA.children, function(s, i){ s.className = i === fase ? 'on' : (i < fase ? 'feito' : ''); });
+        if (!pTxt.getAttribute('data-fixo')) pTxt.textContent = frases[fase];
+      }
+    }
   }, 1000);
 
   pollTimer = setInterval(verificarEstado, 4000);
@@ -2590,9 +2609,14 @@ function mostrarPronto(url, tipo){
   var link = document.getElementById('link-site');
   link.href = url; link.textContent = url;
   document.getElementById('btn-ver-site').onclick = function(){ window.open(url, '_blank'); };
-  var ehLoja = tipo === 'E-commerce' || tipo === 'Checkout';
+  var ehLoja = tipo === 'E-commerce';
+  var ehVenda = tipo === 'Checkout'; // 1.81.0: a página de venda tem a sua oferta, não é loja
   var caixa = document.getElementById('proximos');
   var passos = [];
+  if (ehVenda) {
+    passos.push('<div class="proximo"><span class="ic">' + EST_IC.caixa + '</span><div><b>Define a tua oferta</b><small>Confirma o preço e as opções, e escreve o que o cliente recebe depois de pagar (o link, o ficheiro ou as instruções).</small></div><a href="/venda/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir oferta</a></div>');
+    passos.push('<div class="proximo kyc" id="proximo-kyc" style="display:none"></div>');
+  }
   if (tipo === 'Curso') passos.push('<div class="proximo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span><div><b>Cria os teus cursos</b><small>Junta módulos e aulas, carrega os vídeos, marca aulas ao vivo e diz se cada curso é grátis ou pago.</small></div><a href="/cursos/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir cursos</a></div>');
   if (tipo === 'Agendamento') passos.push('<div class="proximo"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><div><b>Organiza a tua agenda</b><small>Confirma os serviços, a equipa, o horário e se queres receber um sinal. Os clientes já podem marcar.</small></div><a href="/agenda/?site=' + encodeURIComponent(estudio.siteId) + '">Gerir agenda</a></div>');
   if (ehLoja) {
@@ -2608,7 +2632,7 @@ function mostrarPronto(url, tipo){
   caixa.innerHTML = passos.join('');
   showView('view-pronto');
   seguirPaginas(estudio.siteId);
-  if (ehLoja) mostrarKycLoja();
+  if (ehLoja || ehVenda) mostrarKycLoja();
 }
 // Sites com várias páginas (1.60.0): as outras páginas nascem depois de escolher.
 var seguirPaginasT = null;

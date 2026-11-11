@@ -1090,7 +1090,10 @@ function acaoSite(site){
     // Mudar de layout: 3 versões novas ou trocar entre as que já existem (o link não muda).
     html = '<a class="btn-ver btn-mudar-layout" href="/criar/?mudar=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Mudar layout</a>' + html;
     // Só os projectos de E-commerce ou Checkout têm produtos para gerir.
-    if (site.tipo === 'E-commerce' || site.tipo === 'Checkout') {
+    // 1.81.0: a página de venda nova tem a sua oferta; a loja (e as páginas de venda antigas) têm produtos
+    if (site.tipo === 'Checkout' && site.venda_nova) {
+      html = '<a class="btn-ver btn-gerir-oferta" href="/venda/?site=' + encodeURIComponent(site.id) + '" style="margin-right:8px;">Gerir oferta</a>' + html;
+    } else if (site.tipo === 'E-commerce' || site.tipo === 'Checkout') {
       html = '<button class="btn-ver btn-gerir-produtos" data-site-id="' + site.id + '" style="margin-right:8px;">Gerir loja</button>' + html;
     }
     // Só os projectos de Portefólio têm trabalhos para gerir.
