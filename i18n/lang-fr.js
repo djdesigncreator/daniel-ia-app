@@ -1,6 +1,18 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"Escreve a tua password nova. Deve ter pelo menos 8 caracteres.": "Écris ton nouveau mot de passe. Il doit contenir au moins 8 caractères.",
+"A tua password foi actualizada. Entra na Daniel IA com a password nova.": "Ton mot de passe a été mis à jour. Connecte-toi à Daniel IA avec le nouveau mot de passe.",
+"Este link já expirou ou já foi usado. Pede um novo na página de entrada, em \"Esqueci a password\". O link do email vale 1 hora e só funciona uma vez.": "Ce lien a expiré ou a déjà été utilisé. Demandes-en un nouveau sur la page de connexion, dans « Mot de passe oublié ». Le lien est valable 1 heure et ne fonctionne qu'une fois.",
+"Pedir um link novo": "Demander un nouveau lien",
+"Entrar na Daniel IA": "Se connecter à Daniel IA",
+"Contador decrescente": "Compte à rebours",
+"Mostra quanto falta para as vendas fecharem (dias, horas, minutos e segundos), no topo da página e junto à oferta. Quando chega a zero, as vendas fecham. Podes mudar a data depois, em Gerir oferta.": "Affiche le temps restant avant la fin des ventes (jours, heures, minutes et secondes), en haut de la page et à côté de l'offre. À zéro, les ventes ferment. Tu peux changer la date plus tard dans Gérer l'offre.",
+"3 dias": "3 jours",
+"14 dias": "14 jours",
+"Ou escolhe o dia e a hora": "Ou choisis le jour et l'heure",
+"Durante quanto tempo": "Pendant combien de temps",
+"Escolhe uma data a partir de daqui a 1 hora (no máximo daqui a um ano).": "Choisis une date dans au moins 1 heure (au maximum dans un an).",
 "Criar do zero com a IA": "Créer de zéro avec l'IA",
 "Sem template: a IA desenha um site novo, só para ti, a partir da tua descrição.": "Sans modèle : l'IA conçoit un site tout neuf, rien que pour vous, à partir de votre description.",
 "TEMPLATES PROFISSIONAIS": "MODÈLES PROFESSIONNELS",

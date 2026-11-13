@@ -757,6 +757,18 @@
   .quiz-mais{display:none;margin-top:12px;}
   .quiz-mais.ver{display:block;}
   .quiz-mais textarea{width:100%;min-height:80px;}
+  /* 1.84.0: contador da página de venda */
+  .ct-dias{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px;}
+  .ct-dia{cursor:pointer;min-height:44px;padding:8px 6px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:inherit;font-weight:700;font-size:13.5px;transition:border-color .15s,box-shadow .15s;}
+  .ct-dia:hover{border-color:var(--accent-2);}
+  .ct-dia.on{border-color:var(--lime);box-shadow:0 0 0 3px rgba(137,200,4,.14);}
+  .ct-dia:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-glow);}
+  .ct-outra{display:block;font-size:12.5px;font-weight:700;color:var(--text-dim);margin:0 0 6px;}
+  .ct-data{width:100%;max-width:300px;background:var(--card-alt);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font:inherit;font-size:14px;outline:none;color-scheme:light dark;}
+  .ct-data:focus{border-color:var(--accent-2);}
+  .ct-resumo{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--border);font-size:13px;color:var(--text);line-height:1.45;}
+  .ct-resumo svg{flex:0 0 16px;width:16px;height:16px;color:var(--accent-2);}
+  @media (max-width:520px){.ct-dias{grid-template-columns:repeat(2,minmax(0,1fr));}.ct-data{max-width:none;}}
   /* 1.75.0: hero cinemático com vídeo IA */
   .vb-bloco{position:relative;overflow:hidden;background:radial-gradient(120% 160% at 100% 0%,rgba(137,200,4,.12),transparent 55%),linear-gradient(135deg,var(--tint-a),transparent 60%),var(--card-alt);}
   .vb-bloco .ref-ic{position:relative;overflow:hidden;}
@@ -1051,6 +1063,25 @@
         <div class="quiz-mais" id="quiz-mais">
           <textarea id="f-quiz-desc" maxlength="800" placeholder="Sobre o que são as perguntas? (opcional) Ex: perguntas sobre a experiência da pessoa e o que ela quer aprender"></textarea>
           <small>A IA cria as perguntas, os pontos e os resultados. Depois podes mudar tudo no Gerir loja, no separador Quiz.</small>
+        </div>
+      </div>
+
+      <div class="quiz-bloco" id="contador-bloco" style="display:none">
+        <label class="quiz-cab" for="f-contador">
+          <span class="ref-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/><path d="M12 2v3"/></svg></span>
+          <div><b>Contador decrescente</b><small>Mostra quanto falta para as vendas fecharem (dias, horas, minutos e segundos), no topo da página e junto à oferta. Quando chega a zero, as vendas fecham. Podes mudar a data depois, em Gerir oferta.</small></div>
+          <span class="quiz-int"><input type="checkbox" id="f-contador" checked><i></i></span>
+        </label>
+        <div class="quiz-mais ver" id="contador-mais">
+          <div class="ct-dias" role="radiogroup" aria-label="Durante quanto tempo">
+            <button type="button" class="ct-dia" role="radio" data-ct-dias="3">3 dias</button>
+            <button type="button" class="ct-dia on" role="radio" data-ct-dias="7">7 dias</button>
+            <button type="button" class="ct-dia" role="radio" data-ct-dias="14">14 dias</button>
+            <button type="button" class="ct-dia" role="radio" data-ct-dias="30">30 dias</button>
+          </div>
+          <label class="ct-outra" for="f-contador-data">Ou escolhe o dia e a hora</label>
+          <input type="datetime-local" class="ct-data" id="f-contador-data">
+          <div class="ct-resumo" id="contador-resumo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="contador-resumo-t"></span></div>
         </div>
       </div>
 
@@ -1568,7 +1599,41 @@ function renderImagensGrid(){
 function mostrarQuizBloco(){
   var ver = campoTipo.value === 'Checkout';
   document.getElementById('quiz-bloco').style.display = ver ? '' : 'none';
+  document.getElementById('contador-bloco').style.display = ver ? '' : 'none'; // 1.84.0
 }
+// ---- 1.84.0: contador decrescente (a data em que as vendas fecham) ----
+(function(){
+  var caixa = document.getElementById('f-contador-data'), CT = { dias: 7 };
+  function dois(n){ return (n < 10 ? '0' : '') + n; }
+  function paraCampo(d){ return d.getFullYear() + '-' + dois(d.getMonth() + 1) + '-' + dois(d.getDate()) + 'T' + dois(d.getHours()) + ':' + dois(d.getMinutes()); }
+  function daquiA(dias){ var d = new Date(); d.setDate(d.getDate() + dias); d.setHours(23, 59, 0, 0); return d; }
+  function lida(){ var d = caixa.value ? new Date(caixa.value) : null; return d && !isNaN(d) ? d : null; }
+  function valida(d){ return !!d && d.getTime() > Date.now() + 60 * 60 * 1000 && d.getTime() < Date.now() + 365 * 86400000; }
+  function quando(d){
+    var lg = (document.documentElement.lang || 'pt').slice(0, 2);
+    return d.toLocaleDateString(lg === 'pt' ? 'pt-PT' : lg, { weekday: 'long', day: 'numeric', month: 'long' }) + ', ' + dois(d.getHours()) + ':' + dois(d.getMinutes());
+  }
+  function resumo(){
+    var d = lida(), t = document.getElementById('contador-resumo-t');
+    if (!valida(d)) { t.textContent = 'Escolhe uma data a partir de daqui a 1 hora (no máximo daqui a um ano).'; return; }
+    t.textContent = 'As vendas fecham ' + quando(d) + '.';
+  }
+  function marcar(dias){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ct-dias]'), function(b){ var on = Number(b.getAttribute('data-ct-dias')) === dias; b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ct-dias]'), function(b){
+    b.addEventListener('click', function(){ CT.dias = Number(b.getAttribute('data-ct-dias')); caixa.value = paraCampo(daquiA(CT.dias)); marcar(CT.dias); resumo(); });
+  });
+  caixa.addEventListener('input', function(){ marcar(0); resumo(); });
+  caixa.addEventListener('change', function(){ if (!valida(lida())) { caixa.value = paraCampo(daquiA(CT.dias || 7)); marcar(CT.dias || 7); } resumo(); });
+  document.getElementById('f-contador').addEventListener('change', function(){ document.getElementById('contador-mais').classList.toggle('ver', this.checked); });
+  caixa.min = paraCampo(new Date(Date.now() + 61 * 60 * 1000));
+  caixa.value = paraCampo(daquiA(7)); marcar(7); resumo();
+  window.__diaContador = {
+    fim: function(){ var d = lida(); return document.getElementById('f-contador').checked && valida(d) ? d.toISOString() : ''; },
+    resumo: function(){ var d = lida(); return valida(d) ? 'Contador até ' + quando(d) : ''; }
+  };
+})();
 document.querySelectorAll('.tipo').forEach(function(t){ t.addEventListener('click', mostrarQuizBloco); });
 document.getElementById('f-quiz').addEventListener('change', function(){ document.getElementById('quiz-mais').classList.toggle('ver', this.checked); });
 mostrarQuizBloco();
@@ -2047,6 +2112,7 @@ btnGerar.addEventListener('click', function(){
   if (imagensDataUrls.length) corpo.imagens_data_url = imagensDataUrls.map(function(img){ return img.dataUrl; });
   if (referenciaDataUrl) corpo.referencia_data_url = referenciaDataUrl;
   if (tipo === 'Checkout' && document.getElementById('f-quiz').checked) corpo.quiz = { ativo: true, descricao: document.getElementById('f-quiz-desc').value.trim() };
+  if (tipo === 'Checkout' && window.__diaContador && window.__diaContador.fim()) corpo.venda_fim = window.__diaContador.fim(); // 1.84.0
   if (!document.getElementById('f-multi').checked) corpo.uma_pagina = true;
   var videoHero = window.__diaVideoHero ? window.__diaVideoHero() : null; // 1.75.0
   if (videoHero) corpo.video_hero = videoHero;
@@ -2784,7 +2850,7 @@ function mostrarKycLoja(){
     [$('modo-bloco'), ref],
     entre(lblIdioma, ref.previousElementSibling),
     entre(lblLogo, gridImg),
-    [$('quiz-bloco'), $('paginas-bloco'), $('video-bloco')],
+    [$('quiz-bloco'), $('contador-bloco'), $('paginas-bloco'), $('video-bloco')],
     []
   ];
   var btnGerar = $('btn-gerar'), msgForm = $('msg-form');
@@ -2808,7 +2874,7 @@ function mostrarKycLoja(){
   function visivel(el){ return !!el && getComputedStyle(el).display !== 'none'; }
   function fasesActivas(){
     var l = [1, 2, 3, 4];
-    if ([$('quiz-bloco'), $('paginas-bloco'), $('video-bloco')].some(visivel)) l.push(5);
+    if ([$('quiz-bloco'), $('contador-bloco'), $('paginas-bloco'), $('video-bloco')].some(visivel)) l.push(5);
     l.push(6);
     return l;
   }
@@ -2920,6 +2986,7 @@ function mostrarKycLoja(){
       var ex = [];
       if (visivel($('paginas-bloco'))) ex.push($('f-multi').checked ? 'Várias páginas' : 'Uma página só');
       if (visivel($('quiz-bloco')) && $('f-quiz').checked) ex.push('Quiz antes da compra');
+      if (visivel($('contador-bloco')) && $('f-contador').checked && window.__diaContador && window.__diaContador.resumo()) ex.push(window.__diaContador.resumo());
       if (visivel($('video-bloco')) && $('f-video').checked) ex.push('Hero com vídeo IA');
       linhas.push(['Extras', ex.length ? esc(ex.join(' · ')) : '<span class="dim">Nenhum</span>', 5]);
     }

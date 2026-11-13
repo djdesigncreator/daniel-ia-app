@@ -1,6 +1,18 @@
 /* Daniel IA - dicionário en (gerado) */
 window.__danielI18nRegistar("en",
 {
+"Escreve a tua password nova. Deve ter pelo menos 8 caracteres.": "Type your new password. It must have at least 8 characters.",
+"A tua password foi actualizada. Entra na Daniel IA com a password nova.": "Your password has been updated. Sign in to Daniel IA with your new password.",
+"Este link já expirou ou já foi usado. Pede um novo na página de entrada, em \"Esqueci a password\". O link do email vale 1 hora e só funciona uma vez.": "This link has expired or was already used. Request a new one on the sign-in page, under \"Forgot password\". The email link is valid for 1 hour and works only once.",
+"Pedir um link novo": "Request a new link",
+"Entrar na Daniel IA": "Sign in to Daniel IA",
+"Contador decrescente": "Countdown timer",
+"Mostra quanto falta para as vendas fecharem (dias, horas, minutos e segundos), no topo da página e junto à oferta. Quando chega a zero, as vendas fecham. Podes mudar a data depois, em Gerir oferta.": "Shows how long until sales close (days, hours, minutes and seconds), at the top of the page and next to the offer. When it reaches zero, sales close. You can change the date later in Manage offer.",
+"3 dias": "3 days",
+"14 dias": "14 days",
+"Ou escolhe o dia e a hora": "Or pick the day and time",
+"Durante quanto tempo": "For how long",
+"Escolhe uma data a partir de daqui a 1 hora (no máximo daqui a um ano).": "Pick a date at least 1 hour from now (at most one year ahead).",
 "Criar do zero com a IA": "Create from scratch with AI",
 "Sem template: a IA desenha um site novo, só para ti, a partir da tua descrição.": "No template: the AI designs a brand-new site just for you, from your description.",
 "TEMPLATES PROFISSIONAIS": "PROFESSIONAL TEMPLATES",

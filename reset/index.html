@@ -317,7 +317,7 @@
     <!-- FORMULÁRIO DE PASSWORD NOVA -->
     <div class="view active" id="view-form">
       <h1>Nova password</h1>
-      <p class="sub">Escreve a tua password nova. Deve ter pelo menos 6 caracteres.</p>
+      <p class="sub">Escreve a tua password nova. Deve ter pelo menos 8 caracteres.</p>
 
       <label for="rp-pass1">Password nova</label>
       <input type="password" id="rp-pass1" placeholder="••••••••" autocomplete="new-password">
@@ -333,15 +333,15 @@
     <!-- LINK INVÁLIDO OU EXPIRADO -->
     <div class="view" id="view-invalid">
       <h1>Link inválido</h1>
-      <p class="sub">Este link de recuperação é inválido ou já expirou. Pede um novo na página de login, em "Esqueci a password".</p>
-      <button class="btn secondary" id="btn-invalid-login">Voltar ao login</button>
+      <p class="sub">Este link já expirou ou já foi usado. Pede um novo na página de entrada, em "Esqueci a password". O link do email vale 1 hora e só funciona uma vez.</p>
+      <button class="btn secondary" id="btn-invalid-login">Pedir um link novo</button>
     </div>
 
     <!-- SUCESSO -->
     <div class="view" id="view-done">
       <h1>Password alterada</h1>
-      <p class="sub">A tua password foi actualizada. Clica no botão abaixo para voltares ao login.</p>
-      <button class="btn secondary" id="btn-done-login">Ir agora</button>
+      <p class="sub">A tua password foi actualizada. Entra na Daniel IA com a password nova.</p>
+      <button class="btn" id="btn-done-login">Entrar na Daniel IA</button>
     </div>
 
   </div>
@@ -430,60 +430,55 @@ themeToggle.addEventListener('click', function(){
   }
 });
 
-// ---- Token do link do email ----
-// O Bubble acrescenta "?reset_pw=TOKEN" ao URL desta página quando
-// manda o email de recuperação, porque foi essa a página escolhida
-// em Settings > General > "App password reset page".
-var token = getParam('reset_pw');
-
-if (!token) {
+// ---- 1.84.2: o código do link do email (?codigo=...) ----
+// A Daniel IA gera o código e manda o email pelo Resend. Aqui a pessoa escreve a
+// password nova e o servidor muda-a no Bubble. O código só serve uma vez.
+var codigo = getParam('codigo') || '';
+if (!/^[a-f0-9]{64}$/.test(codigo)) {
   showView('view-invalid');
+} else {
+  try { history.replaceState(null, '', location.pathname); } catch (e) {} // o código sai da barra de endereço
 }
 
-// PÁGINA A SÉRIO, FORA DO BUBBLE (13/10/2026) - já não vive numa iframe,
-// por isso navega a sério para o login aqui ao lado.
-document.getElementById('btn-invalid-login').addEventListener('click', function(){
-  window.location.href = '/';
-});
-document.getElementById('btn-done-login').addEventListener('click', function(){
-  window.location.href = '/';
-});
+document.getElementById('btn-invalid-login').addEventListener('click', function(){ window.location.href = '/'; });
+document.getElementById('btn-done-login').addEventListener('click', function(){ window.location.href = '/'; });
 
-// ---- Guardar password nova ----
-document.getElementById('btn-guardar').addEventListener('click', function(){
-  var btn = this;
+// mostrar / esconder a password
+['rp-pass1', 'rp-pass2'].forEach(function(id){
+  var inp = document.getElementById(id);
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'rp-olho'; b.setAttribute('aria-label', 'Mostrar a password');
+  var OLHO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var FECHADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  b.innerHTML = OLHO;
+  var caixa = document.createElement('div'); caixa.className = 'rp-campo';
+  inp.parentNode.insertBefore(caixa, inp); caixa.appendChild(inp); caixa.appendChild(b);
+  b.addEventListener('click', function(){ var ver = inp.type === 'password'; inp.type = ver ? 'text' : 'password'; b.innerHTML = ver ? FECHADO : OLHO; b.setAttribute('aria-label', ver ? 'Esconder a password' : 'Mostrar a password'); });
+});
+var st = document.createElement('style');
+st.textContent = '.rp-campo{position:relative}.rp-campo input{padding-right:50px!important}.rp-olho{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:10px;background:transparent;color:var(--text-dim);cursor:pointer;display:grid;place-items:center}.rp-olho:hover{color:var(--text)}.rp-olho:focus-visible{outline:3px solid var(--accent-2);outline-offset:1px}.rp-olho svg{width:20px;height:20px}';
+document.head.appendChild(st);
+
+function guardar(){
+  var btn = document.getElementById('btn-guardar');
   var pass1 = document.getElementById('rp-pass1').value;
   var pass2 = document.getElementById('rp-pass2').value;
-
-  if (!pass1 || !pass2) {
-    showMessage('view-form', 'Preenche os dois campos.', 'error');
-    return;
-  }
-  if (pass1.length < 6) {
-    showMessage('view-form', 'A password deve ter pelo menos 6 caracteres.', 'error');
-    return;
-  }
-  if (pass1 !== pass2) {
-    showMessage('view-form', 'As passwords não coincidem.', 'error');
-    return;
-  }
-
+  if (!pass1 || !pass2) { showMessage('view-form', 'Preenche os dois campos.', 'error'); return; }
+  if (pass1.length < 8) { showMessage('view-form', 'A password tem de ter pelo menos 8 caracteres.', 'error'); return; }
+  if (pass1 !== pass2) { showMessage('view-form', 'As duas passwords não são iguais. Escreve outra vez.', 'error'); return; }
   setLoading(btn, true);
-  chamarWorkflow('reset-password', { token: token, newpass: pass1 })
+  fetch(CONTAINER_CONTA + '/senha-nova', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigo: codigo, pass: pass1 }) })
+    .then(function(r){ return r.json(); })
     .then(function(r){
       setLoading(btn, false);
-      if (r.status === 'success') {
-        showView('view-done');
-      } else {
-        showMessage('view-form', r.message || 'Não foi possível alterar a password. O link pode ter expirado.', 'error');
-      }
+      if (r.status === 'success') { document.getElementById('rp-pass1').value = ''; document.getElementById('rp-pass2').value = ''; showView('view-done'); }
+      else if (r.codigo === 'invalido') showView('view-invalid');
+      else showMessage('view-form', r.message || 'Não foi possível mudar a password agora. Tenta outra vez daqui a pouco.', 'error');
     })
-    .catch(function(){
-      setLoading(btn, false);
-      showMessage('view-form', 'Não foi possível ligar ao servidor. Tenta novamente.', 'error');
-    });
-});
-
+    .catch(function(){ setLoading(btn, false); showMessage('view-form', 'Não foi possível ligar ao servidor. Verifica a tua internet e tenta outra vez.', 'error'); });
+}
+document.getElementById('btn-guardar').addEventListener('click', guardar);
+['rp-pass1', 'rp-pass2'].forEach(function(id){ document.getElementById(id).addEventListener('keydown', function(e){ if (e.key === 'Enter') guardar(); }); });
 </script>
 
 <script id="dia-tema-fim">(function(){

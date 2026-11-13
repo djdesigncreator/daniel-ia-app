@@ -1,6 +1,18 @@
 /* Daniel IA - dicionário es (gerado) */
 window.__danielI18nRegistar("es",
 {
+"Escreve a tua password nova. Deve ter pelo menos 8 caracteres.": "Escribe tu nueva contraseña. Debe tener al menos 8 caracteres.",
+"A tua password foi actualizada. Entra na Daniel IA com a password nova.": "Tu contraseña se ha actualizado. Entra en Daniel IA con la nueva contraseña.",
+"Este link já expirou ou já foi usado. Pede um novo na página de entrada, em \"Esqueci a password\". O link do email vale 1 hora e só funciona uma vez.": "Este enlace ha caducado o ya se usó. Pide uno nuevo en la página de entrada, en \"Olvidé la contraseña\". El enlace vale 1 hora y solo funciona una vez.",
+"Pedir um link novo": "Pedir un enlace nuevo",
+"Entrar na Daniel IA": "Entrar en Daniel IA",
+"Contador decrescente": "Cuenta regresiva",
+"Mostra quanto falta para as vendas fecharem (dias, horas, minutos e segundos), no topo da página e junto à oferta. Quando chega a zero, as vendas fecham. Podes mudar a data depois, em Gerir oferta.": "Muestra cuánto falta para que cierren las ventas (días, horas, minutos y segundos), arriba de la página y junto a la oferta. Al llegar a cero, las ventas se cierran. Puedes cambiar la fecha después en Gestionar oferta.",
+"3 dias": "3 días",
+"14 dias": "14 días",
+"Ou escolhe o dia e a hora": "O elige el día y la hora",
+"Durante quanto tempo": "Durante cuánto tiempo",
+"Escolhe uma data a partir de daqui a 1 hora (no máximo daqui a um ano).": "Elige una fecha dentro de al menos 1 hora (como máximo dentro de un año).",
 "Criar do zero com a IA": "Crear desde cero con la IA",
 "Sem template: a IA desenha um site novo, só para ti, a partir da tua descrição.": "Sin plantilla: la IA diseña un sitio nuevo, solo para ti, a partir de tu descripción.",
 "TEMPLATES PROFISSIONAIS": "PLANTILLAS PROFESIONALES",
