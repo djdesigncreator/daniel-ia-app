@@ -317,6 +317,22 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
+  /* 1.87.0: Free - "Remover marca de água" no topo direito do cartão */
+  .site-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex:1 1 100%;min-width:0;}
+  .site-topo .site-info{flex:1 1 auto;min-width:0;}
+  .btn-marca{flex:0 0 auto;display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 18px 0 14px;border-radius:999px;border:0;text-decoration:none;cursor:pointer;
+    font-family:var(--font-display,inherit);font-weight:800;font-size:13.5px;line-height:1;color:#fff;white-space:nowrap;
+    background:linear-gradient(135deg,#6A1B96 0%,#430960 100%);box-shadow:0 10px 24px -10px rgba(67,9,96,.75),inset 0 0 0 1px rgba(255,255,255,.14);
+    position:relative;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease;}
+  .btn-marca svg{width:18px;height:18px;flex:0 0 18px;color:#B4F02B;}
+  .btn-marca::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:marcaBrilho 3.2s ease-in-out infinite;}
+  @keyframes marcaBrilho{0%,55%{left:-60%}100%{left:130%}}
+  .btn-marca:hover{transform:translateY(-1px);box-shadow:0 14px 28px -10px rgba(67,9,96,.9),inset 0 0 0 1px rgba(255,255,255,.2);}
+  .btn-marca:focus-visible{outline:3px solid #89C804;outline-offset:3px;}
+  :root:not([data-theme="light"]) .btn-marca{background:linear-gradient(135deg,#B4F02B 0%,#89C804 100%);color:#152300;box-shadow:0 10px 24px -10px rgba(137,200,4,.7);}
+  :root:not([data-theme="light"]) .btn-marca svg{color:#152300;}
+  @media (max-width:640px){.site-topo{flex-direction:column;align-items:stretch;gap:10px;}.btn-marca{justify-content:center;min-height:46px;font-size:14px;}}
+  @media (prefers-reduced-motion:reduce){.btn-marca::after{animation:none;display:none}.btn-marca{transition:none}}
   .site-meta{
     display:flex;
     align-items:center;
@@ -1187,6 +1203,11 @@ function contaAvisoHtml(c, sites){
   return '';
 }
 var contaAcessoActual = null;
+// 1.87.0: plano Free - cada site pronto mostra "Remover marca de água" (leva aos planos)
+var BTN_MARCA = '<a class="btn-marca" href="/planos/?de=marca" title="Com um plano pago, o selo Feito com Daniel IA sai dos teus sites na hora.">'
+  + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg>'
+  + '<span>Remover marca de água</span></a>';
+function marcaFree(site){ return !!(contaAcessoActual && contaAcessoActual.tipo === 'free' && site && site.estado === 'Pronto'); }
 function renderSites(sites){
   elLoading.style.display = 'none';
 
@@ -1200,6 +1221,7 @@ function renderSites(sites){
   elLista.innerHTML = contaAvisoHtml(contaAcessoActual, sites) + sites.map(function(site){
     return '' +
       '<div class="site-item">' +
+        (marcaFree(site) ? '<div class="site-topo">' : '') +
         '<div class="site-info">' +
           '<div class="site-nome">' + (site.nome || 'Sem nome') + '</div>' +
           '<div class="site-meta">' +
@@ -1209,6 +1231,7 @@ function renderSites(sites){
             (site.estado === 'Pronto' ? validadeHtml(site.acesso) : '') +
           '</div>' +
         '</div>' +
+        (marcaFree(site) ? BTN_MARCA + '</div>' : '') +
         (site.estado === 'Pronto' ? acessoHtml(site.acesso) : '') +
         '<div class="site-actions">' + acaoSite(site) + '</div>' +
       '</div>';

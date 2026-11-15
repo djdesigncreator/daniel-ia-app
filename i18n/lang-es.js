@@ -1,6 +1,8 @@
 /* Daniel IA - dicionário es (gerado) */
 window.__danielI18nRegistar("es",
 {
+"Remover marca de água": "Quitar la marca de agua",
+"Com um plano pago, o selo Feito com Daniel IA sai dos teus sites na hora.": "Con un plan de pago, el sello Hecho con Daniel IA sale de tus sitios al momento.",
 "Escreve a tua password nova. Deve ter pelo menos 8 caracteres.": "Escribe tu nueva contraseña. Debe tener al menos 8 caracteres.",
 "A tua password foi actualizada. Entra na Daniel IA com a password nova.": "Tu contraseña se ha actualizado. Entra en Daniel IA con la nueva contraseña.",
 "Este link já expirou ou já foi usado. Pede um novo na página de entrada, em \"Esqueci a password\". O link do email vale 1 hora e só funciona uma vez.": "Este enlace ha caducado o ya se usó. Pide uno nuevo en la página de entrada, en \"Olvidé la contraseña\". El enlace vale 1 hora y solo funciona una vez.",

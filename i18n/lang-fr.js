@@ -1,6 +1,8 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"Remover marca de água": "Retirer le filigrane",
+"Com um plano pago, o selo Feito com Daniel IA sai dos teus sites na hora.": "Avec un forfait payant, le badge Créé avec Daniel IA disparaît de tes sites tout de suite.",
 "Escreve a tua password nova. Deve ter pelo menos 8 caracteres.": "Écris ton nouveau mot de passe. Il doit contenir au moins 8 caractères.",
 "A tua password foi actualizada. Entra na Daniel IA com a password nova.": "Ton mot de passe a été mis à jour. Connecte-toi à Daniel IA avec le nouveau mot de passe.",
 "Este link já expirou ou já foi usado. Pede um novo na página de entrada, em \"Esqueci a password\". O link do email vale 1 hora e só funciona uma vez.": "Ce lien a expiré ou a déjà été utilisé. Demandes-en un nouveau sur la page de connexion, dans « Mot de passe oublié ». Le lien est valable 1 heure et ne fonctionne qu'une fois.",
