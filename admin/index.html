@@ -423,6 +423,46 @@
   .config div{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:var(--card-alt);font-size:13.5px;font-weight:700;}
   .config svg{width:18px;height:18px;flex-shrink:0;}
   .config .sim svg{color:var(--success);}.config .nao svg{color:var(--error);}
+  /* 1.88.0: Erros */
+  .er-barra{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .er-barra .ins-abas{margin-bottom:0;}
+  .er-barra .ins-abas button span{margin-left:7px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-dim);}
+  .er-limpar{background:transparent;color:var(--error);border:1px solid rgba(255,92,122,.35);border-radius:11px;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .er-limpar:hover{background:rgba(255,92,122,.08);}
+  .er-limpar.confirmar{background:var(--error);color:#fff;border-color:var(--error);}
+  .er-lista{display:grid;gap:12px;}
+  .er-item{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 20px;min-width:0;position:relative;overflow:hidden;}
+  .er-item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--warning);}
+  .er-item.grave::before{background:var(--error);}
+  .er-item.leve::before{background:var(--purple-bright);}
+  .er-item header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+  .er-tit{display:flex;gap:6px;flex-wrap:wrap;min-width:0;}
+  .er-tit .pill{white-space:normal;text-align:left;}
+  .er-item time{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);white-space:nowrap;}
+  .er-item h3{margin:0;font-size:16.5px;line-height:1.3;overflow-wrap:anywhere;}
+  .er-item h3 small{font-size:12.5px;font-weight:700;color:var(--text-dim);margin-left:6px;}
+  .er-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 0;font-size:13px;color:var(--text-dim);overflow-wrap:anywhere;}
+  .er-meta svg{width:15px;height:15px;flex:0 0 15px;}
+  .er-meta i{font-style:normal;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;}
+  .er-fazer{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(137,200,4,.09);border:1px solid rgba(137,200,4,.28);font-size:13.5px;line-height:1.55;}
+  .er-fazer b,.er-cliente b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px;}
+  .er-cliente{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--text-dim);}
+  .er-cliente strong{color:var(--text);}
+  .er-item details{margin-top:12px;border-top:1px solid var(--border);padding-top:10px;}
+  .er-item summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--text-dim);list-style:none;display:inline-flex;align-items:center;gap:6px;}
+  .er-item summary::-webkit-details-marker{display:none;}
+  .er-item summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s;}
+  .er-item details[open] summary::before{transform:rotate(45deg);}
+  .er-item pre{margin:10px 0 0;padding:12px 14px;border-radius:12px;background:var(--card-alt);border:1px solid var(--border);font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;}
+  .er-sis{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:start;}
+  .er-vezes{font-family:var(--font-mono);font-size:13px;font-weight:800;min-width:46px;text-align:center;padding:5px 8px;border-radius:10px;background:var(--card-alt);border:1px solid var(--border);}
+  .er-sis code{display:block;font-size:12.5px;line-height:1.55;overflow-wrap:anywhere;color:var(--text);}
+  .er-sis .er-datas{grid-column:2;font-size:12px;color:var(--text-dim);font-family:var(--font-mono);}
+  .er-dica{grid-column:2;display:flex;gap:9px;align-items:flex-start;margin-top:6px;padding:10px 12px;border-radius:12px;background:rgba(137,200,4,.09);border:1px solid rgba(137,200,4,.28);font-size:13px;line-height:1.5;}
+  .er-dica svg{width:16px;height:16px;flex:0 0 16px;margin-top:2px;color:var(--lime);}
+  .er-bom{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .er-bom svg{width:34px;height:34px;color:var(--lime);}
+  @media (max-width:640px){.er-item{padding:16px;}.er-barra .ins-abas{width:100%;}.er-barra .ins-abas button{flex:1;}.er-limpar{width:100%;}.er-sis{grid-template-columns:1fr;}.er-sis .er-datas,.er-dica{grid-column:1;}.er-vezes{justify-self:start;}}
   .registo div{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:11px 0;border-top:1px solid var(--border);font-size:13.5px;}
   .registo div:first-child{border-top:none;}
   .registo time{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);}
@@ -588,6 +628,7 @@
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
     <button type="button" data-sec="inspiracao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>Inspiração IA</button>
     <button type="button" data-sec="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg>Vídeos IA</button>
+    <button type="button" data-sec="erros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Erros<span class="badge-n" id="badge-erros"></span></button>
     <button type="button" data-sec="sistema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><line x1="6" y1="7" x2="6.01" y2="7"/><line x1="6" y1="17" x2="6.01" y2="17"/></svg>Sistema</button>
   </nav>
 
@@ -842,6 +883,17 @@
     </section>
 
     <!-- SISTEMA -->
+    <!-- ERROS (1.88.0) -->
+    <section class="seccao" id="sec-erros">
+      <div class="cab"><div><h1>Erros</h1><p>Cada criação ou edição que falhou, com o motivo, a conta e o que fazer. O cliente vê uma explicação simples; aqui fica o detalhe todo.</p></div><button type="button" class="btn-sec" data-actualizar="erros">Actualizar</button></div>
+      <div class="kpis" id="er-kpis"></div>
+      <div class="er-barra">
+        <div class="ins-abas" id="er-abas"><button type="button" class="on" data-er="criacao">Criações e edições<span id="er-n-criacao"></span></button><button type="button" data-er="sistema">Servidor<span id="er-n-sistema"></span></button></div>
+        <button type="button" class="er-limpar" id="er-limpar">Limpar esta lista</button>
+      </div>
+      <div class="er-lista" id="er-lista"></div>
+    </section>
+
     <section class="seccao" id="sec-sistema">
       <div class="cab"><div><h1>Sistema</h1><p>Estado do servidor e da configuração.</p></div></div>
       <div class="kpis" id="sis-kpis"></div>
@@ -2459,7 +2511,84 @@
     var on = this.checked;
     post('/admin-inspiracao', { activo: on }).then(function(r){ if (r.status === 'success') INS.dados.activo = r.response.activo; });
   });
-  var CARREGAR = { inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+  // ======================================================
+  // Erros (1.88.0)
+  // ======================================================
+  var ER = { aba: 'criacao', dados: null, limparT: null };
+  var ER_GRAVE = { ia_saldo: 1, ia_chave: 1, ia_modelo: 1, base_dados: 1, armazenamento: 1, desconhecido: 1 };
+  var ER_CLIENTE = { conteudo: 1, imagem: 1 };
+  var ER_I_CONTA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+  var ER_I_DICA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>';
+  var ER_I_BOM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><polyline points="22 4 12 14 9 11"/></svg>';
+  function erCriacao(l){
+    var classe = ER_GRAVE[l.codigo] ? 'grave' : (ER_CLIENTE[l.codigo] ? 'leve' : '');
+    var pill = ER_GRAVE[l.codigo] ? 'erro' : (ER_CLIENTE[l.codigo] ? 'roxo' : 'aviso');
+    var conta = l.email || l.conta_nome || l.owner || 'conta desconhecida';
+    var cli = l.cliente || {};
+    return '<article class="er-item ' + classe + '">'
+      + '<header><div class="er-tit"><span class="pill ' + pill + '">' + esc(l.titulo) + '</span>' + (l.parcial ? '<span class="pill">o site continua no ar</span>' : '') + '</div><time>' + esc(data(l.quando, true)) + '</time></header>'
+      + '<h3>' + esc(l.site_nome || 'Site sem nome') + (l.tipo ? '<small>' + esc(l.tipo) + '</small>' : '') + '</h3>'
+      + '<p class="er-meta">' + ER_I_CONTA + '<span>' + esc(conta) + (l.email && l.conta_nome ? ' · ' + esc(l.conta_nome) : '') + '</span><i>passo: ' + esc(l.passo || 'criar') + '</i></p>'
+      + '<div class="er-fazer"><b>O que fazer</b>' + esc(l.fazer) + '</div>'
+      + '<p class="er-cliente"><b>O que o cliente viu</b><strong>' + esc(cli.titulo || '') + '.</strong> ' + esc(cli.motivo || '') + '</p>'
+      + '<details><summary>Detalhe técnico</summary><pre>' + esc(l.tecnico || '(sem detalhe)') + (l.pilha ? '\n\nonde: ' + esc(l.pilha) : '')
+      + '\n\nsite: ' + esc(l.site_id || '-') + (l.generation_id ? '\ngeração: ' + esc(l.generation_id) : '') + '\nconta: ' + esc(l.owner || '-') + '\nservidor: ' + esc(l.versao || '-') + '</pre></details>'
+      + '</article>';
+  }
+  function erSistema(x){
+    return '<article class="er-item' + (x.dica ? '' : ' leve') + '"><div class="er-sis">'
+      + '<span class="er-vezes" title="Quantas vezes aconteceu">' + esc(String(x.vezes)) + '×</span><code>' + esc(x.texto) + '</code>'
+      + '<span class="er-datas">última: ' + esc(data(x.ultimo, true)) + (x.vezes > 1 ? ' · primeira: ' + esc(data(x.primeiro, true)) : '') + '</span>'
+      + (x.dica ? '<div class="er-dica">' + ER_I_DICA + '<span>' + esc(x.dica) + '</span></div>' : '')
+      + '</div></article>';
+  }
+  function erDesenhar(){
+    var d = ER.dados; if (!d) return;
+    var r = d.resumo || {};
+    $('er-kpis').innerHTML =
+        kpi('', 'Falhas nas últimas 24 horas', String(r.h24 || 0), r.h24 ? 'Vê o motivo de cada uma em baixo.' : 'Nenhuma. Está tudo a correr bem.', r.h24 ? ' alerta' : '')
+      + kpi('', 'Falhas nos últimos 7 dias', String(r.d7 || 0), (r.total || 0) + ' guardadas no total')
+      + kpi('', 'Motivo mais comum (7 dias)', r.mais_comum ? '<span style="font-size:17px;line-height:1.25;display:block;letter-spacing:0">' + esc(r.mais_comum.titulo) + '</span>' : '-', r.mais_comum ? esc(String(r.mais_comum.vezes)) + (r.mais_comum.vezes === 1 ? ' vez' : ' vezes') : 'Sem falhas nesta semana.')
+      + kpi('', 'Erros do servidor (24 horas)', String(r.sistema_h24 || 0), 'Tipos diferentes de erro, agrupados.');
+    $('er-n-criacao').textContent = (d.criacao || []).length ? String(d.criacao.length) : '';
+    $('er-n-sistema').textContent = (d.sistema || []).length ? String(d.sistema.length) : '';
+    $('badge-erros').textContent = r.h24 ? String(r.h24) : '';
+    Array.prototype.forEach.call(document.querySelectorAll('#er-abas button'), function(b){ b.classList.toggle('on', b.getAttribute('data-er') === ER.aba); });
+    var lista = ER.aba === 'sistema' ? (d.sistema || []) : (d.criacao || []);
+    $('er-limpar').style.display = lista.length ? '' : 'none';
+    if (!lista.length) {
+      $('er-lista').innerHTML = '<div class="cartao"><div class="vazio er-bom">' + ER_I_BOM + (ER.aba === 'sistema' ? 'O servidor não registou erros.' : 'Nenhuma criação ou edição falhou. Quando alguma falhar, aparece aqui com o motivo.') + '</div></div>';
+      return;
+    }
+    $('er-lista').innerHTML = lista.map(ER.aba === 'sistema' ? erSistema : erCriacao).join('');
+  }
+  function carregarErrosAdmin(mostrar){
+    if (mostrar || !ER.dados) $('er-lista').innerHTML = '<div class="cartao"><div class="vazio">A carregar...</div></div>';
+    post('/admin-erros', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message || 'Não foi possível carregar os erros.');
+      ER.dados = r.response; erDesenhar();
+    }).catch(function(){
+      $('er-kpis').innerHTML = '';
+      $('er-limpar').style.display = 'none';
+      $('er-lista').innerHTML = '<div class="cartao"><div class="vazio">Não foi possível carregar os erros. Confirma que o servidor já está na versão 1.88.0 ou acima.</div></div>';
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#er-abas button'), function(b){
+    b.addEventListener('click', function(){ ER.aba = b.getAttribute('data-er'); erRepor(); erDesenhar(); });
+  });
+  function erRepor(){ clearTimeout(ER.limparT); var b = $('er-limpar'); b.classList.remove('confirmar'); b.textContent = 'Limpar esta lista'; b.disabled = false; }
+  $('er-limpar').addEventListener('click', function(){
+    var b = $('er-limpar');
+    if (!b.classList.contains('confirmar')) { // primeiro clique: pede confirmação
+      b.classList.add('confirmar'); b.textContent = 'Clica outra vez para apagar';
+      ER.limparT = setTimeout(erRepor, 5000);
+      return;
+    }
+    clearTimeout(ER.limparT); b.disabled = true; b.textContent = 'A limpar...';
+    post('/admin-erros-limpar', { qual: ER.aba }).then(function(){ erRepor(); carregarErrosAdmin(); }).catch(function(){ erRepor(); });
+  });
+
+  var CARREGAR = { erros: carregarErrosAdmin, inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){
@@ -2474,6 +2603,8 @@
     carregarLevantamentosAdmin(); // para o número de pendentes aparecer logo no menu
     carregadas.comunidade = true;
     carregarComunidadeAdmin(); // denúncias por decidir aparecem logo no menu
+    carregadas.erros = true;
+    carregarErrosAdmin(); // 1.88.0: as criações falhadas nas últimas 24 horas aparecem logo no menu
     var inicial = (location.hash || '').slice(1);
     if (inicial && CARREGAR[inicial] && inicial !== 'resumo') irPara(inicial);
   }).catch(function(){});
