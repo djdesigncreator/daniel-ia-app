@@ -333,31 +333,37 @@
   :root:not([data-theme="light"]) .btn-marca svg{color:#152300;}
   @media (max-width:640px){.site-topo{flex-direction:column;align-items:stretch;gap:10px;}.btn-marca{justify-content:center;min-height:46px;font-size:14px;}}
   @media (prefers-reduced-motion:reduce){.btn-marca::after{animation:none;display:none}.btn-marca{transition:none}}
-  /* 1.91.0: parceiro de pagamento PaySuite e aviso dos pagamentos das lojas */
-  .ps-aviso{display:flex;gap:18px;align-items:flex-start;margin:0 0 14px;padding:20px;border-radius:18px;background:var(--card);border:1px solid var(--border);border-left:5px solid #28AF8F;box-shadow:0 18px 40px -30px rgba(0,0,0,.55);}
-  .ps-logo{flex:0 0 60px;width:60px;height:60px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid rgba(40,175,143,.35);}
-  .ps-logo img{width:38px;height:38px;display:block;}
-  .ps-corpo{flex:1 1 auto;min-width:0;}
-  .ps-eye{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#28AF8F;}
-  .ps-eye b{font-size:14px;letter-spacing:0;text-transform:none;color:var(--text);font-weight:800;}
-  .ps-corpo h3{margin:8px 0 8px;font-family:var(--font-display,inherit);font-size:19px;line-height:1.25;font-weight:800;color:var(--text);}
+  /* 1.91.0: parceiro de pagamento PaySuite (em destaque) e aviso dos pagamentos das lojas */
+  .ps-aviso{margin:0 0 14px;border-radius:20px;background:var(--card);border:1px solid var(--border);overflow:hidden;box-shadow:0 22px 50px -30px rgba(11,107,86,.75);}
+  .ps-topo{display:flex;align-items:center;gap:18px;padding:20px 24px;color:#fff;background:radial-gradient(120% 180% at 100% 0%,rgba(255,255,255,.20) 0%,transparent 55%),linear-gradient(120deg,#0A5F4D 0%,#0F7D65 55%,#159A7C 100%);}
+  .ps-logo{flex:0 0 68px;width:68px;height:68px;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -10px rgba(0,0,0,.45);}
+  .ps-logo img{width:44px;height:44px;display:block;}
+  .ps-marca{flex:1 1 auto;min-width:0;}
+  .ps-marca span{display:block;font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#D9FFF4;}
+  .ps-marca b{display:block;margin-top:2px;font-family:var(--font-display,inherit);font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.02em;color:#fff;}
+  .ps-selo{flex:0 0 auto;align-self:flex-start;padding:6px 12px;border-radius:999px;background:#B4F02B;color:#12281A;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;}
+  .ps-corpo{padding:20px 24px 22px;}
+  .ps-corpo h3{margin:0 0 8px;font-family:var(--font-display,inherit);font-size:19px;line-height:1.25;font-weight:800;color:var(--text);}
   .ps-corpo p{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--text-dim);}
   .ps-passos{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px;}
   .ps-passos li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;line-height:1.45;font-weight:700;color:var(--text);}
-  .ps-passos i{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:#28AF8F;color:#fff;font-style:normal;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .ps-passos i{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:#0F7D65;color:#fff;font-style:normal;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
   .ps-botoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
   .ps-botoes a,.ps-botoes button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:12px;font:inherit;font-weight:800;font-size:14px;text-decoration:none;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);}
-  .ps-botoes a.pri{background:#28AF8F;border-color:#28AF8F;color:#fff;}
-  .ps-botoes a.pri:hover{background:#229A7E;}
+  .ps-botoes a.pri{background:#0F7D65;border-color:#0F7D65;color:#fff;}
+  .ps-botoes a.pri:hover{background:#0A5F4D;}
   .ps-botoes a:focus-visible,.ps-botoes button:focus-visible,.ps-curto button:focus-visible{outline:3px solid #89C804;outline-offset:3px;}
   .ps-botoes svg{width:18px;height:18px;flex:none;}
-  .ps-curto{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:12px 16px;border-radius:14px;background:var(--card);border:1px solid var(--border);border-left:5px solid #28AF8F;font-size:13.5px;line-height:1.45;color:var(--text-dim);}
-  .ps-curto .ps-logo{flex:0 0 38px;width:38px;height:38px;border-radius:11px;}
-  .ps-curto .ps-logo img{width:24px;height:24px;}
-  .ps-curto > span{flex:1 1 auto;min-width:0;}
-  .ps-curto b{color:var(--text);}
-  .ps-curto button{flex:0 0 auto;min-height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;}
-  @media (max-width:640px){.ps-aviso{flex-direction:column;gap:12px;padding:18px;}.ps-botoes a,.ps-botoes button{flex:1 1 100%;}.ps-curto{flex-wrap:wrap;}.ps-curto button{flex:1 1 100%;}}
+  .ps-curto{display:flex;align-items:stretch;margin:0 0 14px;border-radius:18px;background:var(--card);border:1px solid var(--border);overflow:hidden;box-shadow:0 18px 40px -30px rgba(11,107,86,.7);}
+  .ps-curto .ps-topo{flex:0 0 auto;padding:14px 20px;gap:14px;}
+  .ps-curto .ps-logo{flex:0 0 50px;width:50px;height:50px;border-radius:14px;}
+  .ps-curto .ps-logo img{width:32px;height:32px;}
+  .ps-curto .ps-marca span{font-size:12px;}
+  .ps-curto .ps-marca b{font-size:25px;}
+  .ps-nota{flex:1 1 auto;min-width:0;display:flex;align-items:center;padding:12px 18px;font-size:13.5px;line-height:1.45;color:var(--text-dim);}
+  .ps-curto button{flex:0 0 auto;align-self:center;margin-right:16px;min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;}
+  @media (max-width:640px){.ps-topo{padding:18px;gap:14px;}.ps-logo{flex-basis:58px;width:58px;height:58px;}.ps-logo img{width:38px;height:38px;}.ps-marca span{font-size:12px;letter-spacing:.1em;}.ps-marca b{font-size:28px;}.ps-selo{display:none;}.ps-corpo{padding:18px;}.ps-botoes a,.ps-botoes button{flex:1 1 100%;}
+    .ps-curto{flex-direction:column;}.ps-curto button{align-self:stretch;margin:0 16px 14px;}}
   /* 1.89.0: carteira - o que a pessoa vendeu e pode levantar */
   .carteira-faixa{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;position:relative;overflow:hidden;
     background:radial-gradient(120% 160% at 100% 0%,rgba(180,240,43,.22) 0%,transparent 55%),linear-gradient(135deg,#5A1180 0%,#430960 50%,#22062F 100%);box-shadow:0 18px 40px -24px rgba(67,9,96,.8);transition:transform .15s;}
@@ -1219,17 +1225,17 @@ function carregarAvisoPaySuite(){
     try { visto = localStorage.getItem('dia_paysuite_visto') === '1'; } catch (e) {}
     var caixa = document.getElementById('ps-caixa');
     if (!caixa) { caixa = document.createElement('div'); caixa.id = 'ps-caixa'; elLista.parentNode.insertBefore(caixa, document.getElementById('carteira-faixa') || elLista); }
-    var logo = '<span class="ps-logo"><img src="/parceiros/paysuite.png" alt="PaySuite" width="38" height="38"></span>';
+    var logo = '<span class="ps-logo"><img src="/parceiros/paysuite.png" alt="PaySuite" width="44" height="44"></span>';
+    var topo = function(selo){ return '<div class="ps-topo">' + logo + '<div class="ps-marca"><span>Parceiro de pagamento</span><b data-no-i18n>PaySuite</b></div>' + (selo ? '<span class="ps-selo">Novo</span>' : '') + '</div>'; };
     var zap = 'https://wa.me/258851711177?text=' + encodeURIComponent('Olá! Já tenho conta na PaySuite e quero activar os pagamentos online na minha loja da Daniel IA.');
     function desenhar(){
-      if (!d.bloqueado) { caixa.innerHTML = '<div class="ps-curto">' + logo + '<span><b>Parceiro de pagamento: <span data-no-i18n>PaySuite</span></b><br><span>Os pagamentos online das lojas são feitos em parceria com a PaySuite.</span></span></div>'; return; }
+      if (!d.bloqueado) { caixa.innerHTML = '<div class="ps-curto">' + topo(false) + '<span class="ps-nota"><span>Os pagamentos online das lojas são feitos em parceria com a PaySuite.</span></span></div>'; return; }
       if (visto) {
-        caixa.innerHTML = '<div class="ps-curto" role="status">' + logo + '<span><b>Parceiro de pagamento: <span data-no-i18n>PaySuite</span></b><br><span>Pagamentos online das lojas suspensos: cria a tua conta na PaySuite e fala connosco para activar.</span></span><button type="button" id="ps-abrir">Ver o que mudou</button></div>';
+        caixa.innerHTML = '<div class="ps-curto" role="status">' + topo(false) + '<span class="ps-nota"><span>Pagamentos online das lojas suspensos: cria a tua conta na PaySuite e fala connosco para activar.</span></span><button type="button" id="ps-abrir">Ver o que mudou</button></div>';
         document.getElementById('ps-abrir').addEventListener('click', function(){ visto = false; try { localStorage.removeItem('dia_paysuite_visto'); } catch (e) {} desenhar(); });
         return;
       }
-      caixa.innerHTML = '<section class="ps-aviso" aria-labelledby="ps-titulo">' + logo + '<div class="ps-corpo">'
-        + '<div class="ps-eye"><span>Parceiro de pagamento</span><b data-no-i18n>PaySuite</b></div>'
+      caixa.innerHTML = '<section class="ps-aviso" aria-labelledby="ps-titulo">' + topo(true) + '<div class="ps-corpo">'
         + '<h3 id="ps-titulo">Mudança nos pagamentos das lojas</h3>'
         + '<p>A Daniel IA é agora parceira da PaySuite. A partir de agora, para receberes pagamentos online nos teus sites precisas de ter a tua própria conta na PaySuite, pessoal ou de empresa.</p>'
         + '<ol class="ps-passos"><li><i>1</i><span>Cria a tua conta na PaySuite (pessoal ou de empresa).</span></li><li><i>2</i><span>Fala connosco para activarmos os pagamentos na tua loja.</span></li></ol>'
