@@ -706,6 +706,16 @@
     <!-- PAGAMENTOS -->
     <section class="seccao" id="sec-pagamentos">
       <div class="cab"><div><h1>Pagamentos</h1><p>Assinaturas dos planos e encomendas das lojas.</p></div><button type="button" class="btn-sec" data-actualizar="pagamentos">Actualizar</button></div>
+      <div class="cartao" style="margin-bottom:14px;border-left:5px solid #28AF8F" id="pl-cartao">
+        <h3>Pagamentos online das lojas dos clientes <span id="pl-pill"></span></h3>
+        <p class="sub">Parceria PaySuite: cada cliente passa a precisar da sua própria conta na PaySuite. Enquanto estiverem suspensos, as lojas, páginas de venda, marcações e cursos dos clientes não cobram online (recebem a encomenda e o cliente combina o pagamento com o dono). Os pagamentos da Daniel IA (planos, recargas, domínios) e os levantamentos do saldo antigo não mudam.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button type="button" class="btn-sec" id="pl-mudar">...</button>
+          <input class="inp" id="pl-link" placeholder="https://paysuite.tech" aria-label="Link para criar conta na PaySuite" style="flex:1 1 260px;min-width:0">
+          <button type="button" class="btn-sec" id="pl-guardar">Guardar link</button>
+        </div>
+        <div class="msg" id="pl-msg" style="margin-top:10px"></div>
+      </div>
       <div class="cartao" style="margin-bottom:14px">
         <h3>Checkout M-Pesa / e-Mola</h3>
         <p class="sub">A página da MozPayment traz em cima um bloco com o nome da empresa e o total. Aqui escondes esse topo: o pagamento sobe dentro da moldura. Vale para planos, domínios e lojas.</p>
@@ -2800,6 +2810,38 @@
   window.addEventListener('resize', function(){ clearTimeout(TP.rz); TP.rz = setTimeout(tpEscalar, 200); });
 
   var CARREGAR = { templates: carregarTemplatesAdmin, erros: carregarErrosAdmin, inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+
+  // ======================================================
+  // Pagamentos online das lojas dos clientes (1.91.0, parceria PaySuite)
+  // ======================================================
+  function desenharPagLojas(d){
+    $('pl-pill').innerHTML = d.bloqueado ? '<span class="pill erro">Suspensos</span>' : '<span class="pill ok">Ligados</span>';
+    $('pl-link').value = d.link || '';
+    var velho = $('pl-mudar'), b = velho.cloneNode(false); velho.parentNode.replaceChild(b, velho); b.disabled = false; b.classList.remove('confirmar');
+    b.textContent = d.bloqueado ? 'Ligar os pagamentos das lojas' : 'Suspender os pagamentos das lojas';
+    doisToques(b, d.bloqueado ? 'Confirmar: ligar a todos?' : 'Confirmar: suspender a todos?', function(){
+      b.disabled = true;
+      post('/admin-pagamentos-lojas', { bloqueado: !d.bloqueado }).then(function(r){
+        if (r.status !== 'success') { b.disabled = false; msg($('pl-msg'), r.message, 'erro'); return; }
+        msg($('pl-msg'), r.response.bloqueado ? 'Suspensos. Nenhum site de cliente cobra online.' : 'Ligados. Os sites dos clientes voltaram a cobrar online.', 'ok');
+        desenharPagLojas(r.response);
+      }).catch(function(e){ b.disabled = false; msg($('pl-msg'), e.message, 'erro'); });
+    });
+  }
+  function carregarPagLojas(){
+    post('/admin-pagamentos-lojas', {}).then(function(r){
+      if (r.status === 'success') desenharPagLojas(r.response);
+      else { $('pl-pill').innerHTML = ''; $('pl-mudar').textContent = 'Indisponível'; $('pl-mudar').disabled = true; msg($('pl-msg'), 'Precisa do servidor 1.91.0 ou acima.', 'erro'); }
+    }).catch(function(){});
+  }
+  $('pl-guardar').addEventListener('click', function(){
+    post('/admin-pagamentos-lojas', { link: $('pl-link').value }).then(function(r){
+      if (r.status !== 'success') { msg($('pl-msg'), r.message, 'erro'); return; }
+      msg($('pl-msg'), r.response.link ? 'Link guardado.' : 'Sem link: o botão "Criar conta na PaySuite" deixa de aparecer aos clientes (o link tem de começar por https://).', r.response.link ? 'ok' : 'erro');
+      desenharPagLojas(r.response);
+    }).catch(function(e){ msg($('pl-msg'), e.message, 'erro'); });
+  });
+  (function(){ var antes = CARREGAR.pagamentos; CARREGAR.pagamentos = function(x){ carregarPagLojas(); return antes ? antes(x) : undefined; }; })();
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){

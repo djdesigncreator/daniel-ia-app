@@ -333,6 +333,31 @@
   :root:not([data-theme="light"]) .btn-marca svg{color:#152300;}
   @media (max-width:640px){.site-topo{flex-direction:column;align-items:stretch;gap:10px;}.btn-marca{justify-content:center;min-height:46px;font-size:14px;}}
   @media (prefers-reduced-motion:reduce){.btn-marca::after{animation:none;display:none}.btn-marca{transition:none}}
+  /* 1.91.0: parceiro de pagamento PaySuite e aviso dos pagamentos das lojas */
+  .ps-aviso{display:flex;gap:18px;align-items:flex-start;margin:0 0 14px;padding:20px;border-radius:18px;background:var(--card);border:1px solid var(--border);border-left:5px solid #28AF8F;box-shadow:0 18px 40px -30px rgba(0,0,0,.55);}
+  .ps-logo{flex:0 0 60px;width:60px;height:60px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid rgba(40,175,143,.35);}
+  .ps-logo img{width:38px;height:38px;display:block;}
+  .ps-corpo{flex:1 1 auto;min-width:0;}
+  .ps-eye{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#28AF8F;}
+  .ps-eye b{font-size:14px;letter-spacing:0;text-transform:none;color:var(--text);font-weight:800;}
+  .ps-corpo h3{margin:8px 0 8px;font-family:var(--font-display,inherit);font-size:19px;line-height:1.25;font-weight:800;color:var(--text);}
+  .ps-corpo p{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--text-dim);}
+  .ps-passos{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px;}
+  .ps-passos li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;line-height:1.45;font-weight:700;color:var(--text);}
+  .ps-passos i{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:#28AF8F;color:#fff;font-style:normal;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .ps-botoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+  .ps-botoes a,.ps-botoes button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:12px;font:inherit;font-weight:800;font-size:14px;text-decoration:none;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);}
+  .ps-botoes a.pri{background:#28AF8F;border-color:#28AF8F;color:#fff;}
+  .ps-botoes a.pri:hover{background:#229A7E;}
+  .ps-botoes a:focus-visible,.ps-botoes button:focus-visible,.ps-curto button:focus-visible{outline:3px solid #89C804;outline-offset:3px;}
+  .ps-botoes svg{width:18px;height:18px;flex:none;}
+  .ps-curto{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:12px 16px;border-radius:14px;background:var(--card);border:1px solid var(--border);border-left:5px solid #28AF8F;font-size:13.5px;line-height:1.45;color:var(--text-dim);}
+  .ps-curto .ps-logo{flex:0 0 38px;width:38px;height:38px;border-radius:11px;}
+  .ps-curto .ps-logo img{width:24px;height:24px;}
+  .ps-curto > span{flex:1 1 auto;min-width:0;}
+  .ps-curto b{color:var(--text);}
+  .ps-curto button{flex:0 0 auto;min-height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;}
+  @media (max-width:640px){.ps-aviso{flex-direction:column;gap:12px;padding:18px;}.ps-botoes a,.ps-botoes button{flex:1 1 100%;}.ps-curto{flex-wrap:wrap;}.ps-curto button{flex:1 1 100%;}}
   /* 1.89.0: carteira - o que a pessoa vendeu e pode levantar */
   .carteira-faixa{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;position:relative;overflow:hidden;
     background:radial-gradient(120% 160% at 100% 0%,rgba(180,240,43,.22) 0%,transparent 55%),linear-gradient(135deg,#5A1180 0%,#430960 50%,#22062F 100%);box-shadow:0 18px 40px -24px rgba(67,9,96,.8);transition:transform .15s;}
@@ -1185,6 +1210,39 @@ document.addEventListener('click', function(ev){
 });
 // 1.89.0: carteira - aparece quando a pessoa já vendeu pelos pagamentos Daniel IA (em qualquer site).
 function numMzn(n){ return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' MZN'; }
+// 1.91.0: parceiro de pagamento PaySuite + aviso de que os pagamentos online das lojas estão suspensos
+function carregarAvisoPaySuite(){
+  if (!elLista || !elLista.parentNode) return;
+  fetch(CONTAINER_URL + '/pagamentos-lojas').then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success' || !r.response) return;
+    var d = r.response, visto = false;
+    try { visto = localStorage.getItem('dia_paysuite_visto') === '1'; } catch (e) {}
+    var caixa = document.getElementById('ps-caixa');
+    if (!caixa) { caixa = document.createElement('div'); caixa.id = 'ps-caixa'; elLista.parentNode.insertBefore(caixa, document.getElementById('carteira-faixa') || elLista); }
+    var logo = '<span class="ps-logo"><img src="/parceiros/paysuite.png" alt="PaySuite" width="38" height="38"></span>';
+    var zap = 'https://wa.me/258851711177?text=' + encodeURIComponent('Olá! Já tenho conta na PaySuite e quero activar os pagamentos online na minha loja da Daniel IA.');
+    function desenhar(){
+      if (!d.bloqueado) { caixa.innerHTML = '<div class="ps-curto">' + logo + '<span><b>Parceiro de pagamento: <span data-no-i18n>PaySuite</span></b><br><span>Os pagamentos online das lojas são feitos em parceria com a PaySuite.</span></span></div>'; return; }
+      if (visto) {
+        caixa.innerHTML = '<div class="ps-curto" role="status">' + logo + '<span><b>Parceiro de pagamento: <span data-no-i18n>PaySuite</span></b><br><span>Pagamentos online das lojas suspensos: cria a tua conta na PaySuite e fala connosco para activar.</span></span><button type="button" id="ps-abrir">Ver o que mudou</button></div>';
+        document.getElementById('ps-abrir').addEventListener('click', function(){ visto = false; try { localStorage.removeItem('dia_paysuite_visto'); } catch (e) {} desenhar(); });
+        return;
+      }
+      caixa.innerHTML = '<section class="ps-aviso" aria-labelledby="ps-titulo">' + logo + '<div class="ps-corpo">'
+        + '<div class="ps-eye"><span>Parceiro de pagamento</span><b data-no-i18n>PaySuite</b></div>'
+        + '<h3 id="ps-titulo">Mudança nos pagamentos das lojas</h3>'
+        + '<p>A Daniel IA é agora parceira da PaySuite. A partir de agora, para receberes pagamentos online nos teus sites precisas de ter a tua própria conta na PaySuite, pessoal ou de empresa.</p>'
+        + '<ol class="ps-passos"><li><i>1</i><span>Cria a tua conta na PaySuite (pessoal ou de empresa).</span></li><li><i>2</i><span>Fala connosco para activarmos os pagamentos na tua loja.</span></li></ol>'
+        + '<p>Até lá, os pagamentos online das lojas estão suspensos. Os teus sites continuam no ar e a receber encomendas e marcações: o pagamento combinas directamente com o cliente. O saldo que já tinhas continua na Carteira.</p>'
+        + '<div class="ps-botoes"><a class="pri" href="' + zap + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg><span>Falar connosco no WhatsApp</span></a>'
+        + (d.link ? '<a href="' + escErro(d.link) + '" target="_blank" rel="noopener"><span>Criar conta na PaySuite</span></a>' : '')
+        + '<button type="button" id="ps-fechar">Entendi</button></div></div></section>';
+      document.getElementById('ps-fechar').addEventListener('click', function(){ visto = true; try { localStorage.setItem('dia_paysuite_visto', '1'); } catch (e) {} desenhar(); });
+    }
+    desenhar();
+  }).catch(function(){});
+}
+document.addEventListener('DOMContentLoaded', carregarAvisoPaySuite);
 function carregarCarteiraFaixa(){
   if (typeof OWNER === 'undefined' || !OWNER || !elLista || !elLista.parentNode) return;
   fetch(CONTAINER_URL + '/levantamentos', {
