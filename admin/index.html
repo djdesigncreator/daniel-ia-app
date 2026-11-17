@@ -423,6 +423,36 @@
   .config div{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:var(--card-alt);font-size:13.5px;font-weight:700;}
   .config svg{width:18px;height:18px;flex-shrink:0;}
   .config .sim svg{color:var(--success);}.config .nao svg{color:var(--error);}
+  /* 1.90.0: Templates criados a partir dos prints */
+  .tp-grelha{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+  .tp-item{display:flex;flex-direction:column;gap:12px;min-width:0;padding:14px;border-radius:18px;background:var(--card-alt);border:1px solid var(--border);}
+  .tp-item.publicado{border-color:rgba(137,200,4,.55);box-shadow:0 0 0 3px rgba(137,200,4,.1);}
+  .tp-mini{position:relative;height:200px;overflow:hidden;border-radius:12px;background:var(--card);border:1px solid var(--border);}
+  .tp-mini iframe{position:absolute;left:0;top:0;width:1280px;height:900px;border:0;transform-origin:0 0;pointer-events:none;background:#fff;}
+  .tp-mini .tp-espera{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;text-align:center;font-size:13px;line-height:1.45;color:var(--text-dim);}
+  .tp-roda{width:26px;height:26px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--lime);animation:tpRoda .9s linear infinite;}
+  @keyframes tpRoda{to{transform:rotate(360deg)}}
+  .tp-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .tp-topo small{font-size:12px;color:var(--text-dim);}
+  .tp-campos{display:grid;gap:8px;}
+  .tp-campos .inp{width:100%;box-sizing:border-box;padding:9px 11px;font-size:13.5px;}
+  .tp-campos .inp.nome{font-weight:800;font-size:15px;}
+  .tp-de{font-size:12.5px;color:var(--text-dim);line-height:1.45;overflow-wrap:anywhere;}
+  .tp-cores{display:inline-flex;gap:4px;vertical-align:middle;margin-left:6px;}
+  .tp-cores i{width:14px;height:14px;border-radius:50%;border:1px solid var(--border);display:inline-block;}
+  .tp-accoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;}
+  .tp-accoes .btn-pri,.tp-accoes .btn-sec{padding:9px 13px;font-size:13px;text-decoration:none;}
+  .tp-prints{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+  .tp-print{display:flex;flex-direction:column;gap:9px;min-width:0;padding:10px;border-radius:16px;background:var(--card-alt);border:1px solid var(--border);}
+  .tp-print .foto{height:140px;border-radius:10px;overflow:hidden;background:var(--card);border:1px solid var(--border);}
+  .tp-print .foto img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .tp-print b{font-size:13.5px;line-height:1.3;overflow-wrap:anywhere;}
+  .tp-print small{font-size:12px;color:var(--text-dim);}
+  .tp-print .sel,.tp-print .btn-sec{width:100%;box-sizing:border-box;padding:9px 10px;font-size:13px;justify-content:center;}
+  @media (prefers-reduced-motion:reduce){.tp-roda{animation:none}}
+  /* 1.89.0: levantamentos por site */
+  .s-accoes{display:flex;flex-direction:column;align-items:flex-start;gap:6px;white-space:nowrap;}
+  .btn-sec.lev-susp{color:var(--warning);border-color:rgba(245,166,35,.5);}
   /* 1.88.0: Erros */
   .er-barra{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
   .er-barra .ins-abas{margin-bottom:0;}
@@ -626,6 +656,7 @@
     <button type="button" data-sec="comunidade"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.1-4 7.5-9 7.5-1.3 0-2.6-.2-3.7-.6L3 20l1.5-4C3.6 14.7 3 13.1 3 11.5 3 7.4 7 4 12 4s9 3.4 9 7.5z"/></svg>Comunidade<span class="badge-n" id="badge-com"></span></button>
     <button type="button" data-sec="emails"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>Emails</button>
     <button type="button" data-sec="registo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>Registo</button>
+    <button type="button" data-sec="templates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>Templates<span class="badge-n" id="badge-tpl"></span></button>
     <button type="button" data-sec="inspiracao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>Inspiração IA</button>
     <button type="button" data-sec="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg>Vídeos IA</button>
     <button type="button" data-sec="erros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Erros<span class="badge-n" id="badge-erros"></span></button>
@@ -696,7 +727,7 @@
 
     <!-- LEVANTAMENTOS (1.63.0) -->
     <section class="seccao" id="sec-levantamentos">
-      <div class="cab"><div><h1>Levantamentos</h1><p>Donos de lojas a levantar o que venderam, para M-Pesa ou e-Mola (B2C). O envio é instantâneo, sem webhook.</p></div><button type="button" class="btn-sec" data-actualizar="levantamentos">Actualizar</button></div>
+      <div class="cab"><div><h1>Levantamentos</h1><p>Os clientes levantam o que venderam nos seus sites (lojas, páginas de venda, marcações, cursos) para M-Pesa ou e-Mola. O envio é instantâneo, sem webhook.</p></div><button type="button" class="btn-sec" data-actualizar="levantamentos">Actualizar</button></div>
       <div id="lv-aviso"></div>
       <div class="msg" id="lv-msg" style="margin-bottom:12px"></div>
       <div class="cartao" style="margin-bottom:14px">
@@ -707,9 +738,12 @@
           <div class="campo-a"><label for="lv-maximo">Máximo por levantamento (MZN)</label><input class="inp" type="number" min="1" step="1" id="lv-maximo"></div>
           <div class="campo-a"><label for="lv-comissao">Comissão da Daniel IA (%)</label><input class="inp" type="number" min="0" max="50" step="0.5" id="lv-comissao"></div>
         </div>
+        <label class="verif" style="margin-top:14px"><input type="checkbox" id="lv-aberto">Abertos a todas as contas com a identidade verificada (KYC)</label>
+        <p class="sub" style="margin:2px 0 0">Ligado: qualquer cliente verificado levanta o que vendeu, sem teres de o activar um a um. Desligado: só levantam as contas que ligares à mão em Utilizadores.</p>
         <div class="linha-accoes"><button type="button" class="btn-pri" id="lv-guardar">Guardar regras</button><span class="msg" id="lv-cfg-msg"></span></div>
       </div>
-      <div class="cartao" style="margin-bottom:14px"><h3>Contas com levantamentos</h3><p class="sub">Só estas contas vêem o botão "Levantar dinheiro" na loja. Para activar outra, abre-a em Utilizadores.</p><div class="tabela-caixa" id="lv-contas" style="border:none"></div></div>
+      <div class="cartao" style="margin-bottom:14px"><h3>Sites com levantamentos suspensos</h3><p class="sub">As vendas destes sites ficam retidas: o dono não as consegue levantar até voltares a ligar. Para suspender um site, vai a Sites e clica em "Suspender levantamentos".</p><div class="tabela-caixa" id="lv-suspensos" style="border:none"></div></div>
+      <div class="cartao" style="margin-bottom:14px"><h3>Contas com regra própria</h3><p class="sub">Contas em que escolheste à mão ligar ou desligar os levantamentos, ou pôr um máximo próprio. Todas as outras seguem a regra geral.</p><div class="tabela-caixa" id="lv-contas" style="border:none"></div></div>
       <div class="cartao">
         <h3>Pedidos</h3>
         <p class="sub">"Pendente" quer dizer que a MozPayment não deu uma resposta clara. Confirma no painel da MozPayment se o dinheiro saiu e marca aqui. Nunca repetimos um envio sozinhos.</p>
@@ -811,6 +845,23 @@
     <section class="seccao" id="sec-registo">
       <div class="cab"><div><h1>Registo</h1><p>Tudo o que foi feito neste painel desde o último arranque do servidor. Fica também nos registos do Bunny.</p></div><button type="button" class="btn-sec" data-actualizar="registo">Actualizar</button></div>
       <div class="cartao registo" id="registo"></div>
+    </section>
+
+    <!-- TEMPLATES (1.90.0) -->
+    <section class="seccao" id="sec-templates">
+      <div class="cab"><div><h1>Templates</h1><p>Desenhados uma única vez pela IA a partir dos teus prints da Inspiração IA, e guardados para sempre. Só os que publicares aparecem aos clientes. Num tipo de site com templates novos, os antigos deixam de aparecer.</p></div><button type="button" class="btn-sec" data-actualizar="templates">Actualizar</button></div>
+      <div class="msg" id="tp-msg" style="margin-bottom:12px"></div>
+      <div class="kpis" id="tp-kpis"></div>
+      <div class="cartao" style="margin-bottom:14px">
+        <h3>Os teus templates</h3>
+        <p class="sub">"Por aprovar" ainda não aparece a ninguém: abre, vê no computador e no telemóvel, e publica só os bons. Quando um cliente usa um template, o desenho fica igual; a IA só escreve os textos do negócio dele.</p>
+        <div class="tp-grelha" id="tp-lista"></div>
+      </div>
+      <div class="cartao">
+        <h3>Criar a partir de um print</h3>
+        <p class="sub">Cada template é desenhado uma vez: gasta o mesmo que criar um site e demora alguns minutos. O negócio de exemplo é inventado; o template segue o desenho do print, nunca a marca nem os textos desse site.</p>
+        <div class="tp-prints" id="tp-prints"></div>
+      </div>
     </section>
 
     <!-- INSPIRAÇÃO IA (1.78.0) -->
@@ -1486,12 +1537,13 @@
       if (!l.length) { $('s-tabela').innerHTML = '<div class="vazio">Nenhum site encontrado.</div>'; return; }
       $('s-tabela').innerHTML = '<table class="tabela"><thead><tr><th>Site</th><th>Dono</th><th>Tipo</th><th>Estado</th><th>Validade</th><th>Criado</th><th></th></tr></thead><tbody>'
         + l.map(function(s){
-          return '<tr><td class="pessoa"><b>' + esc(s.nome) + '</b>' + (s.dominio ? '<span>' + esc(s.dominio) + '</span>' : '') + '</td>'
+          return '<tr><td class="pessoa"><b>' + esc(s.nome) + '</b>' + (s.dominio ? '<span>' + esc(s.dominio) + '</span>' : '') + (s.lev_suspenso ? '<span class="pill aviso" style="margin-top:5px">Levantamentos suspensos</span>' : '') + '</td>'
             + '<td><a href="#" data-dono="' + esc(s.dono_id) + '">' + esc(s.dono_email || s.dono_id) + '</a></td>'
             + '<td class="dim">' + esc(NOMES_TIPO[s.tipo] || s.tipo) + '</td><td>' + pillEstado(s.estado) + '</td><td class="val-cel">' + celulaValidade(s) + '</td><td class="dim">' + esc(data(s.criado)) + '</td>'
-            + '<td>' + (s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">Ver site</a>' : '') + '</td></tr>';
+            + '<td><div class="s-accoes">' + (s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">Ver site</a>' : '') + botaoLevSite(s.id, s.lev_suspenso) + '</div></td></tr>';
         }).join('') + '</tbody></table>';
       Array.prototype.forEach.call(document.querySelectorAll('[data-dono]'), function(a){ a.addEventListener('click', function(e){ e.preventDefault(); abrirUtilizador(a.getAttribute('data-dono')); }); });
+      ligarBotoesLevSite($('s-tabela'), function(){ carregadas.sites = true; carregarSites(); }); // 1.89.0
     }).catch(function(e){ $('s-tabela').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
   }
   $('s-pesquisa').addEventListener('input', function(){ clearTimeout(tempoSites); tempoSites = setTimeout(carregarSites, 350); });
@@ -1898,6 +1950,35 @@
   // Levantamentos (1.63.0) - B2C para donos de lojas habilitados
   // ======================================================
   var dadosLev = null, filtroLev = 'todos';
+  // 1.89.0: suspender ou voltar a ligar os levantamentos de um site (Sites, gaveta da conta, Levantamentos)
+  function ligarBotoesLevSite(raiz, depois){
+    Array.prototype.forEach.call((raiz || document).querySelectorAll('[data-lev-site]'), function(b){
+      if (b.__lev) return; b.__lev = true;
+      var susp = b.getAttribute('data-lev-susp') === '1';
+      doisToques(b, susp ? 'Confirmar: voltar a ligar?' : 'Confirmar: suspender?', function(){
+        b.disabled = true;
+        post('/admin-levantamentos-config', { site_id: b.getAttribute('data-lev-site'), suspenso: !susp }).then(function(r){
+          if (r.status !== 'success') { b.disabled = false; b.textContent = r.message || 'Não foi possível.'; return; }
+          carregadas.levantamentos = false; carregadas.sites = false;
+          if (depois) depois();
+        }).catch(function(){ b.disabled = false; });
+      });
+    });
+  }
+  function botaoLevSite(id, suspenso){
+    return '<button type="button" class="btn-sec btn-peq' + (suspenso ? ' lev-susp' : '') + '" data-lev-site="' + esc(id) + '" data-lev-susp="' + (suspenso ? '1' : '0') + '">' + (suspenso ? 'Ligar levantamentos' : 'Suspender levantamentos') + '</button>';
+  }
+  function desenharSuspensosLev(){
+    var l = (dadosLev && dadosLev.sites_suspensos) || [];
+    $('lv-suspensos').innerHTML = l.length ? '<table class="tabela"><thead><tr><th>Site</th><th>Conta</th><th>Suspenso</th><th></th></tr></thead><tbody>'
+      + l.map(function(x){
+        return '<tr><td class="pessoa"><b>' + esc(x.nome || x.id) + '</b><span>' + esc(NOMES_TIPO[x.tipo] || x.tipo || '') + (x.motivo ? ' · ' + esc(x.motivo) : '') + '</span></td>'
+          + '<td>' + (x.dono ? '<a href="#" data-lv-dono="' + esc(x.dono) + '">Abrir conta</a>' : '<span class="dim">—</span>') + '</td>'
+          + '<td class="dim">' + esc(data(x.mudado, true)) + (x.por ? '<div>por ' + esc(x.por) + '</div>' : '') + '</td><td>' + botaoLevSite(x.id, true) + '</td></tr>';
+      }).join('') + '</tbody></table>' : '<div class="vazio">Nenhum site suspenso. Todos os clientes verificados podem levantar o que venderam.</div>';
+    Array.prototype.forEach.call($('lv-suspensos').querySelectorAll('[data-lv-dono]'), function(a){ a.addEventListener('click', function(e){ e.preventDefault(); abrirUtilizador(a.getAttribute('data-lv-dono')); }); });
+    ligarBotoesLevSite($('lv-suspensos'), function(){ carregadas.levantamentos = true; carregarLevantamentosAdmin(); });
+  }
   function carregarLevUtilizador(u){
     var caixa = $('g-lev-corpo');
     if (!caixa) return;
@@ -1909,19 +1990,25 @@
         + '<div class="dado"><span>Vendido pelo Daniel IA</span><b>' + esc(mzn(sd.vendido)) + '</b></div>'
         + '<div class="dado"><span>Já levantado</span><b>' + esc(mzn(sd.levantado)) + '</b></div>'
         + '<div class="dado"><span>Em curso</span><b>' + esc(mzn(sd.em_curso)) + '</b></div>'
-        + '<div class="dado"><span>Disponível</span><b>' + esc(mzn(sd.disponivel)) + '</b></div></div>'
+        + '<div class="dado"><span>Disponível</span><b>' + esc(mzn(sd.disponivel)) + '</b></div>'
+        + (sd.retido > 0 ? '<div class="dado"><span>Retido (sites suspensos)</span><b>' + esc(mzn(sd.retido)) + '</b></div>' : '') + '</div>'
         + '<label class="verif"><input type="checkbox" id="g-lev-activo"' + (x.habilitado ? ' checked' : '') + '>Levantamentos activos nesta conta</label>'
+        + (x.escolhido === false ? '<p class="sub" style="margin:0 0 6px">Esta conta segue a regra geral (' + (x.aberto ? 'ligados para todas as contas verificadas' : 'desligados') + '). Se guardares, passa a valer o que escolheres aqui.</p>' : '')
         + '<div class="linha-accoes"><input class="inp" type="number" min="1" step="1" id="g-lev-max" placeholder="Máximo próprio (MZN, opcional)" value="' + esc(c.maximo || '') + '" style="width:240px">'
         + '<button type="button" class="btn-sec" id="g-lev-guardar">Guardar</button><span class="msg" id="g-msg-lev"></span></div>'
+        + ((x.sites || []).length ? '<div class="lista-mini" style="margin-top:12px">' + x.sites.map(function(st){
+            return '<div><span><b>' + esc(st.nome || 'Site') + '</b> <span class="dim">· ' + esc(NOMES_TIPO[st.tipo] || st.tipo || '') + ' · vendeu ' + esc(mzn(st.vendido)) + '</span></span><span>' + botaoLevSite(st.id, st.suspenso) + '</span></div>';
+          }).join('') + '</div>' : '')
         + ((x.historico || []).length ? '<div class="lista-mini" style="margin-top:10px">' + x.historico.map(function(h){
             return '<div><span><b>' + esc(mzn(h.valor)) + '</b> <span class="dim">· ' + esc(h.metodo === 'emola' ? 'e-Mola' : 'M-Pesa') + ' ' + esc(h.telefone) + ' · ' + esc(data(h.criado, true)) + '</span></span><span>' + pillEstado(h.estado) + '</span></div>';
           }).join('') + '</div>' : '');
+      ligarBotoesLevSite(caixa, function(){ carregarLevUtilizador(u); });
       $('g-lev-guardar').addEventListener('click', function(){
         var b = this; b.disabled = true; msg($('g-msg-lev'), 'A guardar...');
         post('/admin-levantamentos-config', { user_id: u.id, activo: $('g-lev-activo').checked, maximo: Number($('g-lev-max').value) || null }).then(function(r){
           b.disabled = false;
           if (r.status !== 'success') { msg($('g-msg-lev'), r.message, 'erro'); return; }
-          msg($('g-msg-lev'), r.response.conta && r.response.conta.activo ? 'Activo. A pessoa já vê o botão "Levantar dinheiro".' : 'Desligado.', 'ok');
+          msg($('g-msg-lev'), r.response.conta && r.response.conta.activo ? 'Activo. A pessoa pode levantar na Carteira.' : 'Desligado.', 'ok');
           carregadas.levantamentos = false;
         }).catch(function(e){ b.disabled = false; msg($('g-msg-lev'), e.message, 'erro'); });
       });
@@ -1935,15 +2022,17 @@
       dadosLev = r.response;
       var c = dadosLev.config || {};
       $('lv-minimo').value = c.minimo; $('lv-maximo').value = c.maximo; $('lv-comissao').value = c.comissao;
+      $('lv-aberto').checked = c.aberto !== false; // 1.89.0
       $('lv-modo').textContent = 'Pagamentos M-Pesa/e-Mola dos clientes: ' + (dadosLev.modo_c2b === 'antigo' ? 'integração antiga (/payment).' : 'alternativa nova (checkout no iframe).');
       $('lv-aviso').innerHTML = dadosLev.configurado ? '' : '<div class="cartao aviso-pl">' + IC.estrela + '<div><b>Os levantamentos estão desligados.</b><span>Falta a variável MOZPAYMENT_SECRET_ID (ou MOZPAYMENT_WALLET) no container do Bunny. Ninguém consegue levantar até a pores lá.</span></div></div>';
       desenharContasLev();
+      desenharSuspensosLev();
       desenharLevantamentosAdmin();
     }).catch(function(e){ $('lv-lista').innerHTML = '<div class="vazio">' + esc(e.message || 'Não foi possível carregar.') + '</div>'; });
   }
   function nomeContaLev(owner){
     var c = (dadosLev.contas || []).filter(function(x){ return x.id === owner; })[0];
-    return c ? c.nome : owner;
+    return c ? c.nome : (((dadosLev && dadosLev.nomes) || {})[owner] || owner);
   }
   function desenharContasLev(){
     var l = dadosLev.contas || [];
@@ -1952,7 +2041,7 @@
         return '<tr><td>' + esc(c.nome) + '</td><td>' + (c.activo ? '<span class="pill ok">Activo</span>' : '<span class="pill">Desligado</span>') + '</td>'
           + '<td class="num">' + (c.maximo ? esc(mzn(c.maximo)) : '<span class="dim">o geral</span>') + '</td><td class="dim">' + esc(data(c.mudado, true)) + '</td>'
           + '<td><button type="button" class="btn-sec btn-peq" data-lv-abrir="' + esc(c.id) + '">Abrir conta</button></td></tr>';
-      }).join('') + '</tbody></table>' : '<div class="vazio">Ainda nenhuma conta activa. Abre uma conta em Utilizadores e liga "Levantamentos activos".</div>';
+      }).join('') + '</tbody></table>' : '<div class="vazio">Nenhuma conta com regra própria. Todas seguem a regra geral.</div>';
     Array.prototype.forEach.call(document.querySelectorAll('[data-lv-abrir]'), function(b){
       b.addEventListener('click', function(){ abrirUtilizador(b.getAttribute('data-lv-abrir')); });
     });
@@ -1993,7 +2082,7 @@
     var b = $('lv-guardar'), mi = Number($('lv-minimo').value), ma = Number($('lv-maximo').value);
     if (!(ma > 0) || mi < 0 || mi > ma) { msg($('lv-cfg-msg'), 'O mínimo tem de ser menor que o máximo.', 'erro'); return; }
     b.disabled = true; msg($('lv-cfg-msg'), 'A guardar...');
-    post('/admin-levantamentos-config', { config: { minimo: mi, maximo: ma, comissao: Number($('lv-comissao').value) || 0 } }).then(function(r){
+    post('/admin-levantamentos-config', { config: { minimo: mi, maximo: ma, comissao: Number($('lv-comissao').value) || 0, aberto: $('lv-aberto').checked } }).then(function(r){
       b.disabled = false;
       if (r.status !== 'success') { msg($('lv-cfg-msg'), r.message, 'erro'); return; }
       msg($('lv-cfg-msg'), 'Guardado.', 'ok');
@@ -2588,7 +2677,129 @@
     post('/admin-erros-limpar', { qual: ER.aba }).then(function(){ erRepor(); carregarErrosAdmin(); }).catch(function(){ erRepor(); });
   });
 
-  var CARREGAR = { erros: carregarErrosAdmin, inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
+  // ======================================================
+  // Templates criados a partir dos prints (1.90.0)
+  // ======================================================
+  var TP = { dados: null, relogio: null, hLista: '', hPrints: '' };
+  var TP_ESTADO = { 'a criar': ['aviso', 'A criar...'], 'rascunho': ['roxo', 'Por aprovar'], 'publicado': ['ok', 'Publicado'], 'erro': ['erro', 'Falhou'] };
+  function tpTipo(x){ return x === 'Agendamento' ? 'App de agendamento' : (NOMES_TIPO[x] || x); }
+  function tpItem(t){
+    var e = TP_ESTADO[t.estado] || ['', t.estado];
+    var mini = t.previa ? '<iframe data-src="' + esc(t.previa) + '" tabindex="-1" aria-hidden="true" loading="lazy" title="Pré-visualização"></iframe>'
+      : (t.estado === 'a criar' ? '<div class="tp-espera"><span class="tp-roda"></span>A IA está a desenhar este template.<br>Costuma demorar 5 a 10 minutos.</div>'
+        : '<div class="tp-espera">' + esc(t.erro || 'A criação falhou.') + '</div>');
+    var pronto = t.estado === 'rascunho' || t.estado === 'publicado';
+    return '<article class="tp-item ' + esc(t.estado.replace(' ', '-')) + '" data-tp="' + esc(t.id) + '">'
+      + '<div class="tp-mini">' + mini + '</div>'
+      + '<div class="tp-topo"><span class="pill ' + e[0] + '">' + esc(e[1]) + '</span><small>' + esc(tpTipo(t.tipo)) + (t.usos ? ' · usado ' + esc(String(t.usos)) + (t.usos === 1 ? ' vez' : ' vezes') : '') + '</small></div>'
+      + '<div class="tp-campos"><input class="inp nome" data-tp-campo="nome" maxlength="30" value="' + esc(t.nome) + '" aria-label="Nome do template"' + (pronto ? '' : ' disabled') + '>'
+      + '<input class="inp" data-tp-campo="sector" maxlength="60" value="' + esc(t.sector) + '" placeholder="Sector (ex: Restaurantes)" aria-label="Sector"' + (pronto ? '' : ' disabled') + '></div>'
+      + '<div class="tp-de">A partir do print: <b>' + esc(t.insp_titulo || 'print apagado') + '</b>' + ((t.cores || []).length ? '<span class="tp-cores">' + t.cores.map(function(c){ return '<i style="background:' + esc(c) + '"></i>'; }).join('') + '</span>' : '') + '<br>Negócio de exemplo: ' + esc(t.demo_nome || '-') + '</div>'
+      + '<div class="tp-accoes">'
+      + (t.previa ? '<a class="btn-sec" href="' + esc(t.previa) + '" target="_blank" rel="noopener">Ver</a>' : '')
+      + (t.estado === 'rascunho' ? '<button type="button" class="btn-pri" data-tp-accao="publicar">Publicar</button>' : '')
+      + (t.estado === 'publicado' ? '<button type="button" class="btn-sec" data-tp-accao="despublicar">Tirar da galeria</button>' : '')
+      + (pronto ? '<button type="button" class="btn-sec" data-tp-accao="guardar">Guardar nome</button>' : '')
+      + (t.estado !== 'a criar' && t.insp_titulo ? '<button type="button" class="btn-sec" data-tp-accao="refazer" data-tp-insp="' + esc(t.insp_id) + '" data-tp-tipo="' + esc(t.tipo) + '">Refazer</button>' : '')
+      + (t.estado !== 'a criar' ? '<button type="button" class="btn-sec btn-perigo" data-tp-accao="apagar">Apagar</button>' : '')
+      + '</div></article>';
+  }
+  function tpPrint(p, feitos){
+    var tipos = (p.tipos || []).concat((TP.dados.tipos || []).filter(function(x){ return (p.tipos || []).indexOf(x) < 0; }));
+    return '<div class="tp-print" data-tp-print="' + esc(p.id) + '"><div class="foto">' + (p.url ? '<img src="' + esc(p.url) + '" alt="" loading="lazy">' : '') + '</div>'
+      + '<b>' + esc(p.titulo || 'Print sem título') + '</b><small>' + (feitos ? esc(String(feitos)) + (feitos === 1 ? ' template feito' : ' templates feitos') : 'Ainda sem template') + (p.estudado ? '' : ' · por estudar') + '</small>'
+      + '<select class="sel" aria-label="Tipo de site">' + tipos.map(function(t){ return '<option value="' + esc(t) + '">' + esc(tpTipo(t)) + '</option>'; }).join('') + '</select>'
+      + '<button type="button" class="btn-sec" data-tp-criar="' + esc(p.id) + '">Criar template</button></div>';
+  }
+  function tpEscalar(){
+    Array.prototype.forEach.call(document.querySelectorAll('#tp-lista .tp-mini iframe'), function(fr){
+      var caixa = fr.parentNode, esc2 = caixa.clientWidth / 1280;
+      if (!esc2) return;
+      fr.style.transform = 'scale(' + esc2 + ')'; fr.style.height = Math.ceil(caixa.clientHeight / esc2) + 'px';
+      if (!fr.getAttribute('src')) fr.setAttribute('src', fr.getAttribute('data-src'));
+    });
+  }
+  function tpLigarLista(){
+    Array.prototype.forEach.call(document.querySelectorAll('#tp-lista [data-tp-accao]'), function(b){
+      var cartao = b.closest('[data-tp]'), id = cartao.getAttribute('data-tp'), accao = b.getAttribute('data-tp-accao');
+      var fazer = function(){
+        b.disabled = true;
+        var pedido;
+        if (accao === 'refazer') pedido = post('/admin-template-ia-criar', { insp_id: b.getAttribute('data-tp-insp'), tipo: b.getAttribute('data-tp-tipo') });
+        else pedido = post('/admin-template-ia-accao', { id: id, accao: accao, nome: cartao.querySelector('[data-tp-campo="nome"]').value, sector: cartao.querySelector('[data-tp-campo="sector"]').value });
+        pedido.then(function(r){
+          if (r.status !== 'success') { b.disabled = false; msg($('tp-msg'), r.message, 'erro'); return; }
+          msg($('tp-msg'), { publicar: 'Publicado. Já aparece na galeria dos clientes.', despublicar: 'Saiu da galeria dos clientes.', guardar: 'Guardado.', apagar: 'Apagado.', refazer: 'A criar uma versão nova a partir do mesmo print. A anterior continua aqui até a apagares.' }[accao], 'ok');
+          Array.prototype.forEach.call(cartao.querySelectorAll('[data-tp-campo]'), function(c){ c.removeAttribute('data-sujo'); });
+          carregarTemplatesAdmin();
+        }).catch(function(e){ b.disabled = false; msg($('tp-msg'), e.message, 'erro'); });
+      };
+      if (accao === 'apagar' || accao === 'refazer' || accao === 'despublicar') doisToques(b, accao === 'apagar' ? 'Confirmar: apagar?' : (accao === 'refazer' ? 'Confirmar: gastar e refazer?' : 'Confirmar: tirar?'), fazer);
+      else b.addEventListener('click', fazer);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#tp-lista [data-tp-campo]'), function(c){ c.addEventListener('input', function(){ c.setAttribute('data-sujo', '1'); }); });
+  }
+  function tpLigarPrints(){
+    Array.prototype.forEach.call(document.querySelectorAll('#tp-prints [data-tp-criar]'), function(b){
+      doisToques(b, 'Confirmar: criar?', function(){
+        b.disabled = true;
+        post('/admin-template-ia-criar', { insp_id: b.getAttribute('data-tp-criar'), tipo: b.parentNode.querySelector('select').value }).then(function(r){
+          b.disabled = false;
+          if (r.status !== 'success') { msg($('tp-msg'), r.message, 'erro'); try { $('tp-msg').scrollIntoView({ block: 'center' }); } catch (e) {} return; }
+          msg($('tp-msg'), 'A IA começou a desenhar o template "' + r.response.template.nome + '". Aparece em cima, em "Por aprovar", daqui a alguns minutos.', 'ok');
+          carregarTemplatesAdmin();
+          try { $('sec-templates').scrollIntoView({ behavior: 'smooth' }); } catch (e) {}
+        }).catch(function(e){ b.disabled = false; msg($('tp-msg'), e.message, 'erro'); });
+      });
+    });
+  }
+  function tpDesenhar(){
+    var d = TP.dados; if (!d) return;
+    var l = d.templates || [], conta = function(e){ return l.filter(function(x){ return x.estado === e; }).length; };
+    $('tp-kpis').innerHTML = kpi('', 'Publicados', String(conta('publicado')), 'Os que os clientes vêem.')
+      + kpi('', 'Por aprovar', String(conta('rascunho')), conta('rascunho') ? 'Vê e publica os bons.' : 'Nada à espera.', conta('rascunho') ? ' alerta' : '')
+      + kpi('', 'A criar', String(conta('a criar')), 'No máximo ' + (d.a_criar_max || 2) + ' ao mesmo tempo.')
+      + kpi('', 'Tipos com templates novos', String((d.tipos_com_novos || []).length) + '<small>de ' + (d.tipos || []).length + '</small>', 'Nos outros tipos ainda aparecem os antigos.');
+    $('badge-tpl').textContent = conta('rascunho') ? String(conta('rascunho')) : '';
+    // só se redesenha o que mudou: assim o painel pode voltar a perguntar sozinho sem apagar o que estás a escrever ou a escolher
+    var hl = l.length ? l.map(tpItem).join('') : '<div class="vazio" style="grid-column:1/-1">Ainda não criaste nenhum template. Escolhe um print em baixo e clica em "Criar template".</div>';
+    if (hl !== TP.hLista) {
+      var sujos = {};
+      Array.prototype.forEach.call(document.querySelectorAll('#tp-lista [data-tp-campo][data-sujo]'), function(c){ sujos[c.closest('[data-tp]').getAttribute('data-tp') + '|' + c.getAttribute('data-tp-campo')] = c.value; });
+      $('tp-lista').innerHTML = hl; TP.hLista = hl;
+      Object.keys(sujos).forEach(function(k){ var p = k.split('|'), c = document.querySelector('#tp-lista [data-tp="' + p[0] + '"] [data-tp-campo="' + p[1] + '"]'); if (c && !c.disabled) { c.value = sujos[k]; c.setAttribute('data-sujo', '1'); } });
+      tpLigarLista();
+    }
+    var feitos = {}; l.forEach(function(x){ if (x.estado !== 'erro') feitos[x.insp_id] = (feitos[x.insp_id] || 0) + 1; });
+    var hp = (d.prints || []).length ? d.prints.map(function(p){ return tpPrint(p, feitos[p.id] || 0); }).join('')
+      : '<div class="vazio" style="grid-column:1/-1">Ainda não há prints de sites na Inspiração IA. Carrega lá os prints primeiro.</div>';
+    if (hp !== TP.hPrints) {
+      var escolhas = {};
+      Array.prototype.forEach.call(document.querySelectorAll('#tp-prints [data-tp-print]'), function(c){ escolhas[c.getAttribute('data-tp-print')] = c.querySelector('select').value; });
+      $('tp-prints').innerHTML = hp; TP.hPrints = hp;
+      Object.keys(escolhas).forEach(function(k){ var c = document.querySelector('#tp-prints [data-tp-print="' + k + '"] select'); if (c) c.value = escolhas[k]; });
+      tpLigarPrints();
+    }
+    if (!d.configurado) msg($('tp-msg'), 'Falta a OPENAI_API_KEY no container: sem ela não dá para criar templates.', 'erro');
+    tpEscalar();
+    // enquanto houver algum a nascer, volta a perguntar
+    clearTimeout(TP.relogio);
+    if (conta('a criar')) TP.relogio = setTimeout(function(){ if ($('sec-templates').classList.contains('on')) carregarTemplatesAdmin(); else carregadas.templates = false; }, 12000);
+  }
+  function carregarTemplatesAdmin(mostrar){
+    if (!TP.dados) { $('tp-lista').innerHTML = '<div class="vazio" style="grid-column:1/-1">A carregar...</div>'; TP.hLista = ''; }
+    post('/admin-templates-ia', {}).then(function(r){
+      if (r.status !== 'success') throw new Error(r.message || 'Não foi possível carregar os templates.');
+      TP.dados = r.response; tpDesenhar();
+    }).catch(function(){
+      if (TP.dados) return; // já há uma lista no ecrã: fica como está e tenta-se outra vez depois
+      $('tp-kpis').innerHTML = ''; $('tp-prints').innerHTML = ''; TP.hPrints = '';
+      $('tp-lista').innerHTML = '<div class="vazio" style="grid-column:1/-1">Não foi possível carregar os templates. Confirma que o servidor já está na versão 1.90.0 ou acima.</div>'; TP.hLista = '';
+    });
+  }
+  window.addEventListener('resize', function(){ clearTimeout(TP.rz); TP.rz = setTimeout(tpEscalar, 200); });
+
+  var CARREGAR = { templates: carregarTemplatesAdmin, erros: carregarErrosAdmin, inspiracao: carregarInspiracaoAdmin, videos: carregarVideosAdmin, emails: carregarEmails, comunidade: carregarComunidadeAdmin, levantamentos: carregarLevantamentosAdmin, dominios: carregarDominiosAdmin, planos: carregarPlanosAdmin, resumo: carregarResumo, utilizadores: carregarUtilizadores, kyc: carregarKyc, sites: carregarSites, pagamentos: carregarPagamentos, registo: carregarRegisto, sistema: carregarSistema };
 
   // ---- entrada: só para emails de admin ----
   post('/admin-entrar', {}).then(function(r){

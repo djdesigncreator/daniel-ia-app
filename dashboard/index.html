@@ -333,6 +333,33 @@
   :root:not([data-theme="light"]) .btn-marca svg{color:#152300;}
   @media (max-width:640px){.site-topo{flex-direction:column;align-items:stretch;gap:10px;}.btn-marca{justify-content:center;min-height:46px;font-size:14px;}}
   @media (prefers-reduced-motion:reduce){.btn-marca::after{animation:none;display:none}.btn-marca{transition:none}}
+  /* 1.89.0: carteira - o que a pessoa vendeu e pode levantar */
+  .carteira-faixa{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;position:relative;overflow:hidden;
+    background:radial-gradient(120% 160% at 100% 0%,rgba(180,240,43,.22) 0%,transparent 55%),linear-gradient(135deg,#5A1180 0%,#430960 50%,#22062F 100%);box-shadow:0 18px 40px -24px rgba(67,9,96,.8);transition:transform .15s;}
+  .carteira-faixa:hover{transform:translateY(-1px);}
+  .carteira-faixa:focus-visible{outline:3px solid #89C804;outline-offset:3px;}
+  .cf-ic{flex:0 0 44px;width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(180,240,43,.16);color:#B4F02B;}
+  .cf-ic svg{width:22px;height:22px;}
+  .cf-txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .cf-txt b{font-family:var(--font-display,inherit);font-size:15px;font-weight:800;}
+  .cf-txt span{font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.82);}
+  .cf-txt strong{color:#B4F02B;font-weight:800;font-variant-numeric:tabular-nums;}
+  .cf-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 18px;border-radius:12px;background:linear-gradient(135deg,#C8F84A 0%,#89C804 100%);color:#140620;font-weight:800;font-size:13.5px;white-space:nowrap;}
+  .cf-btn svg{width:16px;height:16px;}
+  @media (max-width:640px){.carteira-faixa{flex-wrap:wrap;padding:16px;}.cf-txt{flex:1 1 calc(100% - 60px);}.cf-btn{flex:1 1 100%;justify-content:center;min-height:46px;font-size:14px;}}
+  @media (prefers-reduced-motion:reduce){.carteira-faixa{transition:none}}
+  /* 1.89.0: o link do site, para copiar e partilhar */
+  .site-link{flex:1 1 100%;display:flex;align-items:center;gap:8px;min-width:0;padding:6px 6px 6px 13px;border-radius:12px;background:var(--card-alt);border:1px solid var(--border);}
+  .site-link > svg{width:16px;height:16px;flex:0 0 16px;color:var(--text-dim);}
+  .site-link-url{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--font-mono);font-size:12.5px;line-height:1.4;color:var(--text-dim);background:none;border:0;padding:6px 0;text-align:left;cursor:pointer;}
+  .site-link-url:hover{color:var(--text);}
+  .site-link-btn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 13px;border-radius:9px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:12.5px;font-weight:700;line-height:1;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,border-color .15s,color .15s;}
+  .site-link-btn svg{width:15px;height:15px;flex:0 0 15px;}
+  .site-link-btn:hover{border-color:var(--success);}
+  .site-link-btn:focus-visible,.site-link-url:focus-visible{outline:2px solid var(--success);outline-offset:2px;}
+  .site-link-btn.feito{background:rgba(137,200,4,.16);border-color:rgba(137,200,4,.45);color:var(--success);}
+  @media (max-width:640px){.site-link{flex-wrap:wrap;padding:10px 10px 10px 12px;gap:8px 8px;}.site-link-url{flex:1 1 calc(100% - 26px);}.site-link-btn{flex:1 1 0;min-height:44px;font-size:13.5px;}}
+  @media (prefers-reduced-motion:reduce){.site-link-btn{transition:none}}
   /* 1.88.0: porque é que o site ficou em Erro */
   .site-erro{flex:1 1 100%;display:flex;gap:10px;align-items:flex-start;min-width:0;padding:11px 13px;border-radius:12px;background:rgba(255,92,122,.07);border:1px solid rgba(255,92,122,.24);font-size:13px;line-height:1.5;color:var(--text);}
   .site-erro svg{width:17px;height:17px;flex:0 0 17px;margin-top:2px;color:var(--error);}
@@ -1100,6 +1127,84 @@ function motivoFalhaEditar(erro){
   if (erro && erro.titulo) { el.innerHTML = '<b>' + escErro(erro.titulo) + '</b>' + escErro((erro.motivo || '') + (erro.accao ? ' ' + erro.accao : '')); el.style.display = ''; }
   else { el.innerHTML = ''; el.style.display = 'none'; }
 }
+// 1.89.0: o link de cada site, para copiar e partilhar (o domínio próprio, quando está activo).
+var LK_IC = {
+  elo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
+  copiar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+  certo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>',
+  partilhar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>'
+};
+function linkPublicoDoSite(site){
+  if (!site) return '';
+  var d = String(site.dominio || '').trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+  if (d && site.dominio_estado === 'Activo') return 'https://' + d;
+  return site.cdn_url || '';
+}
+function linkSiteHtml(site){
+  if (!site || site.estado !== 'Pronto' || (site.acesso && site.acesso.estado === 'pausa')) return '';
+  var url = linkPublicoDoSite(site);
+  if (!/^https?:\/\//i.test(url)) return '';
+  var curto = url.replace(/^https?:\/\//i, '').replace(/\/index\.html$/i, '/');
+  return '<div class="site-link" data-url="' + escErro(url) + '" data-nome="' + escErro(site.nome || '') + '">' + LK_IC.elo
+    + '<button type="button" class="site-link-url" data-lk="copiar" data-no-i18n title="Copiar link">' + escErro(curto) + '</button>'
+    + '<button type="button" class="site-link-btn" data-lk="copiar">' + LK_IC.copiar + '<span>Copiar link</span></button>'
+    + '<button type="button" class="site-link-btn" data-lk="partilhar">' + LK_IC.partilhar + '<span>Partilhar</span></button>'
+    + '</div>';
+}
+function copiarTexto(texto){
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(texto);
+  return new Promise(function(ok, falha){ // navegadores antigos ou página sem https
+    try {
+      var t = document.createElement('textarea');
+      t.value = texto; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.top = '-1000px'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select(); t.setSelectionRange(0, texto.length);
+      var feito = document.execCommand('copy'); document.body.removeChild(t);
+      feito ? ok() : falha(new Error('copy'));
+    } catch (e) { falha(e); }
+  });
+}
+function linkCopiado(caixa){
+  var b = caixa.querySelector('.site-link-btn[data-lk="copiar"]'); if (!b) return;
+  clearTimeout(b.__t);
+  b.classList.add('feito'); b.innerHTML = LK_IC.certo + '<span>Link copiado</span>';
+  b.__t = setTimeout(function(){ b.classList.remove('feito'); b.innerHTML = LK_IC.copiar + '<span>Copiar link</span>'; }, 2200);
+}
+document.addEventListener('click', function(ev){
+  var alvo = ev.target && ev.target.closest ? ev.target.closest('[data-lk]') : null; if (!alvo) return;
+  var caixa = alvo.closest('.site-link'); if (!caixa) return;
+  var url = caixa.getAttribute('data-url') || '', nome = caixa.getAttribute('data-nome') || '';
+  if (!url) return;
+  if (alvo.getAttribute('data-lk') === 'partilhar') {
+    if (navigator.share) { navigator.share({ title: nome, text: nome, url: url }).catch(function(){}); return; }
+    window.open('https://wa.me/?text=' + encodeURIComponent((nome ? nome + ' - ' : '') + url), '_blank', 'noopener'); // computador: abre o WhatsApp
+    return;
+  }
+  copiarTexto(url).then(function(){ linkCopiado(caixa); }).catch(function(){ // não deu para copiar sozinho: deixa o link seleccionado para a pessoa copiar
+    try { var r = document.createRange(); r.selectNodeContents(caixa.querySelector('.site-link-url')); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+  });
+});
+// 1.89.0: carteira - aparece quando a pessoa já vendeu pelos pagamentos Daniel IA (em qualquer site).
+function numMzn(n){ return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' MZN'; }
+function carregarCarteiraFaixa(){
+  if (typeof OWNER === 'undefined' || !OWNER || !elLista || !elLista.parentNode) return;
+  fetch(CONTAINER_URL + '/levantamentos', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ owner: OWNER })
+  }).then(function(r){ return r.json(); }).then(function(r){
+    if (r.status !== 'success' || !r.response) return;
+    var sd = r.response.saldo || {}, hist = r.response.historico || [];
+    if (!(sd.vendido > 0) && !(sd.retido > 0) && !hist.length) return; // sem vendas: não ocupa espaço
+    var a = document.getElementById('carteira-faixa');
+    if (!a) { a = document.createElement('a'); a.id = 'carteira-faixa'; a.className = 'carteira-faixa'; a.href = '/carteira/'; elLista.parentNode.insertBefore(a, elLista); }
+    var tem = sd.disponivel > 0;
+    a.innerHTML = '<span class="cf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></span>'
+      + '<span class="cf-txt"><b>Carteira</b><span>' + (tem
+        ? '<span>Tens</span> <strong data-no-i18n>' + escErro(numMzn(sd.disponivel)) + '</strong> <span>para levantar para o teu M-Pesa ou e-Mola.</span>'
+        : '<span>Já vendeste</span> <strong data-no-i18n>' + escErro(numMzn((sd.vendido || 0) + (sd.retido || 0))) + '</strong> <span>nos teus sites. Vê as contas e os levantamentos.</span>') + '</span></span>'
+      + '<span class="cf-btn"><span>' + (tem ? 'Levantar dinheiro' : 'Abrir a carteira') + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>';
+  }).catch(function(){});
+}
+document.addEventListener('DOMContentLoaded', carregarCarteiraFaixa);
 function pillEstado(estado){
   if (estado === 'Pronto') return '<span class="pill estado-pronto">Pronto</span>';
   if (estado === 'Erro') return '<span class="pill estado-erro">Erro</span>';
@@ -1252,6 +1357,7 @@ function renderSites(sites){
           '</div>' +
         '</div>' +
         (marcaFree(site) ? BTN_MARCA + '</div>' : '') +
+        linkSiteHtml(site) +
         (site.estado === 'Pronto' ? acessoHtml(site.acesso) : '') +
         (site.estado === 'Erro' ? erroSiteHtml(site.erro) : '') +
         '<div class="site-actions">' + acaoSite(site) + '</div>' +
