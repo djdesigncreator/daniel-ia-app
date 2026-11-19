@@ -1,6 +1,11 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"Activar pagamentos": "Activer les paiements",
+"Visa e Mastercard. O M-Pesa e o e-Mola estão temporariamente indisponíveis.": "Visa et Mastercard. M-Pesa et e-Mola sont temporairement indisponibles.",
+"Criar site": "Créer un site",
+"Criar o meu primeiro site": "Créer mon premier site",
+"Ainda não criaste nenhum site": "Vous n'avez pas encore créé de site",
 "De momento só aceitamos pagamentos por cartão Visa ou Mastercard. O M-Pesa e o e-Mola estão temporariamente indisponíveis.": "Pour le moment, nous n'acceptons que les paiements par carte Visa ou Mastercard. M-Pesa et e-Mola sont temporairement indisponibles.",
 "Alguns métodos de pagamento estão temporariamente indisponíveis.": "Certains moyens de paiement sont temporairement indisponibles.",
 "Usamos o teu número só para te contactar sobre o pagamento.": "Nous utilisons votre numéro uniquement pour vous contacter au sujet du paiement.",

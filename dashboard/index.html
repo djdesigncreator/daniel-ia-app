@@ -369,6 +369,36 @@
   .pm-faixa svg{flex:0 0 26px;width:26px;height:26px;color:#D08700;}
   .pm-faixa b{display:block;font-size:15px;font-weight:800;color:var(--text);}
   .pm-faixa span{display:block;margin-top:2px;font-size:13.5px;line-height:1.5;color:var(--text-dim);}
+  /* 1.92.1: aviso PaySuite encolhido por omissão, faixa "só cartão" numa linha, botão "Criar site" em destaque */
+  .ps-curto .ps-topo{padding:12px 16px;gap:12px;}
+  .ps-curto .ps-logo{flex:0 0 42px;width:42px;height:42px;border-radius:12px;}
+  .ps-curto .ps-logo img{width:27px;height:27px;}
+  .ps-curto .ps-marca span{font-size:10.5px;}
+  .ps-curto .ps-marca b{font-size:20px;}
+  .ps-nota{padding:10px 16px;font-size:13px;}
+  .ps-acoes{flex:0 0 auto;display:flex;gap:8px;align-items:center;padding-right:14px;}
+  .ps-acoes a,.ps-curto .ps-acoes button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;margin:0;padding:0 14px;border-radius:10px;font:inherit;font-weight:800;font-size:13px;white-space:nowrap;cursor:pointer;text-decoration:none;align-self:auto;}
+  .ps-acoes a{background:#0F7D65;color:#fff;border:1px solid #0F7D65;}
+  .ps-acoes a:hover{background:#0A5F4D;}
+  .ps-acoes a:focus-visible{outline:3px solid #89C804;outline-offset:3px;}
+  .pm-faixa{padding:10px 14px;gap:10px;border-radius:14px;}
+  .pm-faixa svg{flex:0 0 20px;width:20px;height:20px;}
+  .pm-faixa b{display:inline;font-size:13.5px;}
+  .pm-faixa span{display:inline;margin:0;font-size:13px;}
+  .btn-criar-site{padding:15px 26px;font-size:16px;font-weight:800;border-radius:14px;gap:9px;box-shadow:0 14px 30px -12px rgba(137,200,4,.8);transition:transform .15s,box-shadow .15s;}
+  .btn-criar-site svg{width:19px;height:19px;stroke-width:2.8;}
+  .btn-criar-site:hover{opacity:1;transform:translateY(-1px);box-shadow:0 18px 36px -12px rgba(137,200,4,.95);}
+  .btn-criar-site:focus-visible{outline:3px solid #430960;outline-offset:3px;}
+  @media (max-width:640px){
+    .ps-curto{flex-direction:column;}
+    .ps-curto .ps-topo{padding:10px 14px;}
+    .ps-nota{padding:10px 14px 6px;}
+    .ps-acoes{padding:4px 14px 12px;flex-wrap:wrap;}
+    .ps-acoes a,.ps-curto .ps-acoes button{flex:1 1 130px;min-height:42px;}
+    .sites-header{flex-wrap:wrap;gap:12px;}
+    .sites-header .btn-criar-site{flex:1 1 100%;justify-content:center;min-height:54px;font-size:17px;}
+  }
+  @media (prefers-reduced-motion:reduce){.btn-criar-site{transition:none}}
   /* 1.89.0: carteira - o que a pessoa vendeu e pode levantar */
   .carteira-faixa{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;position:relative;overflow:hidden;
     background:radial-gradient(120% 160% at 100% 0%,rgba(180,240,43,.22) 0%,transparent 55%),linear-gradient(135deg,#5A1180 0%,#430960 50%,#22062F 100%);box-shadow:0 18px 40px -24px rgba(67,9,96,.8);transition:transform .15s;}
@@ -806,20 +836,20 @@
 
   <div class="sites-header">
     <h2>Os teus sites</h2>
-    <button class="btn-novo" id="btn-novo-projecto">
+    <button class="btn-novo btn-criar-site" id="btn-novo-projecto">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Criar projecto
+      Criar site
     </button>
   </div>
 
   <div class="sites-loading" id="sites-loading">A carregar os teus projectos...</div>
 
   <div class="sites-empty" id="sites-empty" style="display:none">
-    <h3>Ainda não criaste nenhum projecto</h3>
+    <h3>Ainda não criaste nenhum site</h3>
     <p>Descreve o que queres e a nossa IA cria a tua loja online, site, portefólio, blog ou galeria de fotos em menos de um minuto - em português, inglês ou francês.</p>
-    <button class="btn-novo" id="btn-novo-projecto-vazio" style="margin:0 auto;">
+    <button class="btn-novo btn-criar-site" id="btn-novo-projecto-vazio" style="margin:0 auto;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-      Criar o primeiro projecto
+      Criar o meu primeiro site
     </button>
   </div>
 
@@ -1226,8 +1256,7 @@ function carregarAvisoPaySuite(){
   if (!elLista || !elLista.parentNode) return;
   fetch(CONTAINER_URL + '/pagamentos-lojas').then(function(r){ return r.json(); }).then(function(r){
     if (r.status !== 'success' || !r.response) return;
-    var d = r.response, visto = false;
-    try { visto = localStorage.getItem('dia_paysuite_visto') === '1'; } catch (e) {}
+    var d = r.response, visto = true; // 1.92.1: começa encolhido (aberto ocupava mais de um ecrã no telemóvel)
     var caixa = document.getElementById('ps-caixa');
     if (!caixa) { caixa = document.createElement('div'); caixa.id = 'ps-caixa'; elLista.parentNode.insertBefore(caixa, document.getElementById('carteira-faixa') || elLista); }
     var logo = '<span class="ps-logo"><img src="/parceiros/paysuite.png" alt="PaySuite" width="44" height="44"></span>';
@@ -1236,8 +1265,8 @@ function carregarAvisoPaySuite(){
     function desenhar(){
       if (!d.bloqueado) { caixa.innerHTML = '<div class="ps-curto">' + topo(false) + '<span class="ps-nota"><span>Os pagamentos online das lojas são feitos em parceria com a PaySuite.</span></span></div>'; return; }
       if (visto) {
-        caixa.innerHTML = '<div class="ps-curto" role="status">' + topo(false) + '<span class="ps-nota"><span>Pagamentos online das lojas suspensos: cria a tua conta na PaySuite e fala connosco para activar.</span></span><button type="button" id="ps-abrir">Ver o que mudou</button></div>';
-        document.getElementById('ps-abrir').addEventListener('click', function(){ visto = false; try { localStorage.removeItem('dia_paysuite_visto'); } catch (e) {} desenhar(); });
+        caixa.innerHTML = '<div class="ps-curto" role="status">' + topo(false) + '<span class="ps-nota"><span>Pagamentos online das lojas suspensos: cria a tua conta na PaySuite e fala connosco para activar.</span></span><span class="ps-acoes"><a href="' + zap + '" target="_blank" rel="noopener">Activar pagamentos</a><button type="button" id="ps-abrir">Ver o que mudou</button></span></div>';
+        document.getElementById('ps-abrir').addEventListener('click', function(){ visto = false; desenhar(); });
         return;
       }
       caixa.innerHTML = '<section class="ps-aviso" aria-labelledby="ps-titulo">' + topo(true) + '<div class="ps-corpo">'
@@ -1248,7 +1277,7 @@ function carregarAvisoPaySuite(){
         + '<div class="ps-botoes"><a class="pri" href="' + zap + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.7A8.4 8.4 0 1 1 21 11.5z"/></svg><span>Falar connosco no WhatsApp</span></a>'
         + (d.link ? '<a href="' + escErro(d.link) + '" target="_blank" rel="noopener"><span>Criar conta na PaySuite</span></a>' : '')
         + '<button type="button" id="ps-fechar">Entendi</button></div></div></section>';
-      document.getElementById('ps-fechar').addEventListener('click', function(){ visto = true; try { localStorage.setItem('dia_paysuite_visto', '1'); } catch (e) {} desenhar(); });
+      document.getElementById('ps-fechar').addEventListener('click', function(){ visto = true; desenhar(); });
     }
     desenhar();
     // 1.92.0: métodos desligados (hoje: só cartão)
@@ -1256,7 +1285,7 @@ function carregarAvisoPaySuite(){
     if (mt.length && mt.length < 3) {
       if (!fx) { fx = document.createElement('div'); fx.id = 'pm-faixa'; fx.className = 'pm-faixa'; fx.setAttribute('role', 'status'); caixa.parentNode.insertBefore(fx, caixa.nextSibling); }
       var soC = mt.length === 1 && mt[0] === 'cartao';
-      fx.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><div><b>' + (soC ? 'Pagamentos só por cartão' : 'Alguns métodos de pagamento estão temporariamente indisponíveis.') + '</b>' + (soC ? '<span>De momento aceitamos apenas Visa e Mastercard, nos planos da Daniel IA e nas lojas. O M-Pesa e o e-Mola estão temporariamente indisponíveis.</span>' : '') + '</div>';
+      fx.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><div><b>' + (soC ? 'Pagamentos só por cartão' : 'Alguns métodos de pagamento estão temporariamente indisponíveis.') + '</b>' + (soC ? ' <span>Visa e Mastercard. O M-Pesa e o e-Mola estão temporariamente indisponíveis.</span>' : '') + '</div>';
     } else if (fx) fx.parentNode.removeChild(fx);
   }).catch(function(){});
 }
