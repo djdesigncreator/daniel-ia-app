@@ -622,6 +622,20 @@
   .site-actions > *{margin:0 !important;}
   .site-actions > .btn-ver{white-space:nowrap;}
   .site-actions > a.btn-ver[target="_blank"]{order:-1;background:var(--grad-accent);color:var(--on-accent);border-color:transparent;font-weight:800;}
+  /* 1.92.2: nada sai do cartão do site - a coluna não pode "quebrar linha" e cada linha encolhe até à largura do cartão */
+  .sites-list{min-width:0;max-width:100%;}
+  .site-item{flex-wrap:nowrap;min-width:0;max-width:100%;box-sizing:border-box;}
+  .site-item > *{min-width:0;max-width:100%;box-sizing:border-box;}
+  .site-item > .site-topo,.site-item > .site-link{flex:0 0 auto;width:100%;}
+  .site-item .site-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;min-width:0;}
+  .site-item .site-meta > *{max-width:100%;}
+  .site-link-url{direction:ltr;}
+  .site-item .acesso{flex-wrap:wrap;}
+  .site-item .acesso .ac-txt{flex:1 1 220px;min-width:0;overflow-wrap:anywhere;}
+  @media (max-width:640px){
+    .site-topo > .btn-marca{width:100%;box-sizing:border-box;}
+    .site-link-url{flex:1 1 calc(100% - 26px);max-width:calc(100% - 26px);}
+  }
   @media (max-width:640px){
     .site-item{padding:14px;}
     .site-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
