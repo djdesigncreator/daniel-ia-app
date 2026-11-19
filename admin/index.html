@@ -706,15 +706,22 @@
     <!-- PAGAMENTOS -->
     <section class="seccao" id="sec-pagamentos">
       <div class="cab"><div><h1>Pagamentos</h1><p>Assinaturas dos planos e encomendas das lojas.</p></div><button type="button" class="btn-sec" data-actualizar="pagamentos">Actualizar</button></div>
-      <div class="cartao" style="margin-bottom:14px;border-left:5px solid #28AF8F" id="pl-cartao">
-        <h3>Pagamentos online das lojas dos clientes <span id="pl-pill"></span></h3>
+      <div class="cartao" style="margin-bottom:14px;border-left:5px solid #28AF8F" id="pgl-cartao">
+        <h3>Pagamentos online das lojas dos clientes <span id="pgl-pill"></span></h3>
         <p class="sub">Parceria PaySuite: cada cliente passa a precisar da sua própria conta na PaySuite. Enquanto estiverem suspensos, as lojas, páginas de venda, marcações e cursos dos clientes não cobram online (recebem a encomenda e o cliente combina o pagamento com o dono). Os pagamentos da Daniel IA (planos, recargas, domínios) e os levantamentos do saldo antigo não mudam.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <button type="button" class="btn-sec" id="pl-mudar">...</button>
-          <input class="inp" id="pl-link" placeholder="https://paysuite.tech" aria-label="Link para criar conta na PaySuite" style="flex:1 1 260px;min-width:0">
-          <button type="button" class="btn-sec" id="pl-guardar">Guardar link</button>
+          <button type="button" class="btn-sec" id="pgl-mudar">...</button>
+          <input class="inp" id="pgl-link" placeholder="https://paysuite.tech" aria-label="Link para criar conta na PaySuite" style="flex:1 1 260px;min-width:0">
+          <button type="button" class="btn-sec" id="pgl-guardar">Guardar link</button>
         </div>
-        <div class="msg" id="pl-msg" style="margin-top:10px"></div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <b>Métodos ligados (planos e lojas):</b>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-mpesa"> M-Pesa</label>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-emola"> e-Mola</label>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-cartao"> Cartão (Visa / Mastercard)</label>
+          <button type="button" class="btn-sec" id="pgl-m-guardar">Guardar métodos</button>
+        </div>
+        <div class="msg" id="pgl-msg" style="margin-top:10px"></div>
       </div>
       <div class="cartao" style="margin-bottom:14px">
         <h3>Checkout M-Pesa / e-Mola</h3>
@@ -2815,31 +2822,41 @@
   // Pagamentos online das lojas dos clientes (1.91.0, parceria PaySuite)
   // ======================================================
   function desenharPagLojas(d){
-    $('pl-pill').innerHTML = d.bloqueado ? '<span class="pill erro">Suspensos</span>' : '<span class="pill ok">Ligados</span>';
-    $('pl-link').value = d.link || '';
-    var velho = $('pl-mudar'), b = velho.cloneNode(false); velho.parentNode.replaceChild(b, velho); b.disabled = false; b.classList.remove('confirmar');
+    $('pgl-pill').innerHTML = d.bloqueado ? '<span class="pill erro">Suspensos</span>' : '<span class="pill ok">Ligados</span>';
+    $('pgl-link').value = d.link || '';
+    ['mpesa', 'emola', 'cartao'].forEach(function(m){ $('pgl-m-' + m).checked = (d.metodos || ['mpesa', 'emola', 'cartao']).indexOf(m) >= 0; });
+    var velho = $('pgl-mudar'), b = velho.cloneNode(false); velho.parentNode.replaceChild(b, velho); b.disabled = false; b.classList.remove('confirmar');
     b.textContent = d.bloqueado ? 'Ligar os pagamentos das lojas' : 'Suspender os pagamentos das lojas';
     doisToques(b, d.bloqueado ? 'Confirmar: ligar a todos?' : 'Confirmar: suspender a todos?', function(){
       b.disabled = true;
       post('/admin-pagamentos-lojas', { bloqueado: !d.bloqueado }).then(function(r){
-        if (r.status !== 'success') { b.disabled = false; msg($('pl-msg'), r.message, 'erro'); return; }
-        msg($('pl-msg'), r.response.bloqueado ? 'Suspensos. Nenhum site de cliente cobra online.' : 'Ligados. Os sites dos clientes voltaram a cobrar online.', 'ok');
+        if (r.status !== 'success') { b.disabled = false; msg($('pgl-msg'), r.message, 'erro'); return; }
+        msg($('pgl-msg'), r.response.bloqueado ? 'Suspensos. Nenhum site de cliente cobra online.' : 'Ligados. Os sites dos clientes voltaram a cobrar online.', 'ok');
         desenharPagLojas(r.response);
-      }).catch(function(e){ b.disabled = false; msg($('pl-msg'), e.message, 'erro'); });
+      }).catch(function(e){ b.disabled = false; msg($('pgl-msg'), e.message, 'erro'); });
     });
   }
   function carregarPagLojas(){
     post('/admin-pagamentos-lojas', {}).then(function(r){
       if (r.status === 'success') desenharPagLojas(r.response);
-      else { $('pl-pill').innerHTML = ''; $('pl-mudar').textContent = 'Indisponível'; $('pl-mudar').disabled = true; msg($('pl-msg'), 'Precisa do servidor 1.91.0 ou acima.', 'erro'); }
+      else { $('pgl-pill').innerHTML = ''; $('pgl-mudar').textContent = 'Indisponível'; $('pgl-mudar').disabled = true; msg($('pgl-msg'), 'Precisa do servidor 1.91.0 ou acima.', 'erro'); }
     }).catch(function(){});
   }
-  $('pl-guardar').addEventListener('click', function(){
-    post('/admin-pagamentos-lojas', { link: $('pl-link').value }).then(function(r){
-      if (r.status !== 'success') { msg($('pl-msg'), r.message, 'erro'); return; }
-      msg($('pl-msg'), r.response.link ? 'Link guardado.' : 'Sem link: o botão "Criar conta na PaySuite" deixa de aparecer aos clientes (o link tem de começar por https://).', r.response.link ? 'ok' : 'erro');
+  $('pgl-guardar').addEventListener('click', function(){
+    post('/admin-pagamentos-lojas', { link: $('pgl-link').value }).then(function(r){
+      if (r.status !== 'success') { msg($('pgl-msg'), r.message, 'erro'); return; }
+      msg($('pgl-msg'), r.response.link ? 'Link guardado.' : 'Sem link: o botão "Criar conta na PaySuite" deixa de aparecer aos clientes (o link tem de começar por https://).', r.response.link ? 'ok' : 'erro');
       desenharPagLojas(r.response);
-    }).catch(function(e){ msg($('pl-msg'), e.message, 'erro'); });
+    }).catch(function(e){ msg($('pgl-msg'), e.message, 'erro'); });
+  });
+  $('pgl-m-guardar').addEventListener('click', function(){
+    var m = { mpesa: $('pgl-m-mpesa').checked, emola: $('pgl-m-emola').checked, cartao: $('pgl-m-cartao').checked };
+    post('/admin-pagamentos-lojas', { metodos: m }).then(function(r){
+      if (r.status !== 'success') { msg($('pgl-msg'), r.message, 'erro'); return; }
+      var n = { mpesa: 'M-Pesa', emola: 'e-Mola', cartao: 'cartão' };
+      msg($('pgl-msg'), 'Guardado. Métodos ligados: ' + r.response.metodos.map(function(x){ return n[x]; }).join(', ') + '. Vale já para os planos; nos sites dos clientes pode demorar até 5 minutos.', 'ok');
+      desenharPagLojas(r.response);
+    }).catch(function(e){ msg($('pgl-msg'), e.message, 'erro'); });
   });
   (function(){ var antes = CARREGAR.pagamentos; CARREGAR.pagamentos = function(x){ carregarPagLojas(); return antes ? antes(x) : undefined; }; })();
 

@@ -364,6 +364,11 @@
   .ps-curto button{flex:0 0 auto;align-self:center;margin-right:16px;min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;}
   @media (max-width:640px){.ps-topo{padding:18px;gap:14px;}.ps-logo{flex-basis:58px;width:58px;height:58px;}.ps-logo img{width:38px;height:38px;}.ps-marca span{font-size:12px;letter-spacing:.1em;}.ps-marca b{font-size:28px;}.ps-selo{display:none;}.ps-corpo{padding:18px;}.ps-botoes a,.ps-botoes button{flex:1 1 100%;}
     .ps-curto{flex-direction:column;}.ps-curto button{align-self:stretch;margin:0 16px 14px;}}
+  /* 1.92.0: aviso de que os pagamentos são só por cartão */
+  .pm-faixa{display:flex;gap:14px;align-items:center;margin:0 0 14px;padding:14px 18px;border-radius:16px;background:var(--card);border:1px solid var(--border);border-left:5px solid #D08700;}
+  .pm-faixa svg{flex:0 0 26px;width:26px;height:26px;color:#D08700;}
+  .pm-faixa b{display:block;font-size:15px;font-weight:800;color:var(--text);}
+  .pm-faixa span{display:block;margin-top:2px;font-size:13.5px;line-height:1.5;color:var(--text-dim);}
   /* 1.89.0: carteira - o que a pessoa vendeu e pode levantar */
   .carteira-faixa{display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;position:relative;overflow:hidden;
     background:radial-gradient(120% 160% at 100% 0%,rgba(180,240,43,.22) 0%,transparent 55%),linear-gradient(135deg,#5A1180 0%,#430960 50%,#22062F 100%);box-shadow:0 18px 40px -24px rgba(67,9,96,.8);transition:transform .15s;}
@@ -827,7 +832,7 @@
     <div id="editar-vista-form">
       <h3>Editar com IA <span id="editar-nome-site"></span></h3>
       <p class="sub">Descreve a alteração que queres. A IA aplica só isso, mantendo o resto do site igual.</p>
-      <textarea id="editar-prompt" maxlength="500" placeholder="Ex: muda a cor do botão principal para verde, e troca o título do topo para &quot;Bem-vindos à nossa loja&quot;"></textarea>
+      <textarea id="editar-prompt" maxlength="4000" placeholder="Ex: muda a cor do botão principal para verde, e troca o título do topo para &quot;Bem-vindos à nossa loja&quot;"></textarea>
       <div class="editar-contagem"><span id="editar-prompt-count">0</span>/500</div>
 
       <label class="editar-imagens-label">Imagens para anexar (opcional)</label>
@@ -1246,6 +1251,13 @@ function carregarAvisoPaySuite(){
       document.getElementById('ps-fechar').addEventListener('click', function(){ visto = true; try { localStorage.setItem('dia_paysuite_visto', '1'); } catch (e) {} desenhar(); });
     }
     desenhar();
+    // 1.92.0: métodos desligados (hoje: só cartão)
+    var mt = d.metodos || [], fx = document.getElementById('pm-faixa');
+    if (mt.length && mt.length < 3) {
+      if (!fx) { fx = document.createElement('div'); fx.id = 'pm-faixa'; fx.className = 'pm-faixa'; fx.setAttribute('role', 'status'); caixa.parentNode.insertBefore(fx, caixa.nextSibling); }
+      var soC = mt.length === 1 && mt[0] === 'cartao';
+      fx.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><div><b>' + (soC ? 'Pagamentos só por cartão' : 'Alguns métodos de pagamento estão temporariamente indisponíveis.') + '</b>' + (soC ? '<span>De momento aceitamos apenas Visa e Mastercard, nos planos da Daniel IA e nas lojas. O M-Pesa e o e-Mola estão temporariamente indisponíveis.</span>' : '') + '</div>';
+    } else if (fx) fx.parentNode.removeChild(fx);
   }).catch(function(){});
 }
 document.addEventListener('DOMContentLoaded', carregarAvisoPaySuite);

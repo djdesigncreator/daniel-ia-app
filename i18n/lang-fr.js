@@ -1,6 +1,11 @@
 /* Daniel IA - dicionário fr (gerado) */
 window.__danielI18nRegistar("fr",
 {
+"De momento só aceitamos pagamentos por cartão Visa ou Mastercard. O M-Pesa e o e-Mola estão temporariamente indisponíveis.": "Pour le moment, nous n'acceptons que les paiements par carte Visa ou Mastercard. M-Pesa et e-Mola sont temporairement indisponibles.",
+"Alguns métodos de pagamento estão temporariamente indisponíveis.": "Certains moyens de paiement sont temporairement indisponibles.",
+"Usamos o teu número só para te contactar sobre o pagamento.": "Nous utilisons votre numéro uniquement pour vous contacter au sujet du paiement.",
+"Pagamentos só por cartão": "Paiements par carte uniquement",
+"De momento aceitamos apenas Visa e Mastercard, nos planos da Daniel IA e nas lojas. O M-Pesa e o e-Mola estão temporariamente indisponíveis.": "Pour le moment, nous n'acceptons que Visa et Mastercard, pour les forfaits Daniel IA et les boutiques. M-Pesa et e-Mola sont temporairement indisponibles.",
 "Parceiro de pagamento": "Partenaire de paiement",
 "Mudança nos pagamentos das lojas": "Changement dans les paiements des boutiques",
 "A Daniel IA é agora parceira da PaySuite. A partir de agora, para receberes pagamentos online nos teus sites precisas de ter a tua própria conta na PaySuite, pessoal ou de empresa.": "Daniel IA est désormais partenaire de PaySuite. À partir de maintenant, pour recevoir des paiements en ligne sur vos sites, vous devez avoir votre propre compte PaySuite, personnel ou professionnel.",

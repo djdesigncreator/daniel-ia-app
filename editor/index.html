@@ -850,7 +850,7 @@
       + '<li>' + IC.blocos + '<span>' + esc(T('Passa o rato por uma secção para a mover, duplicar, apagar ou mudar com a IA.')) + '</span></li>'
       + '</ul></div>'
       + '<div class="ed-cartao"><h3>' + esc(T('Pedir à IA para mudar esta página')) + '</h3><p>' + esc(T('Para mudanças maiores: cores, secções novas, outro estilo.')) + '</p>'
-      + '<div class="ed-campo" style="margin-top:10px"><textarea id="ed-ia-pagina" maxlength="900" placeholder="' + esc(T('Ex: muda as cores para azul e junta uma secção de perguntas frequentes')) + '"></textarea></div>'
+      + '<div class="ed-campo" style="margin-top:10px"><textarea id="ed-ia-pagina" maxlength="4000" placeholder="' + esc(T('Ex: muda as cores para azul e junta uma secção de perguntas frequentes')) + '"></textarea></div>'
       + '<button type="button" class="ed-btn principal" id="ed-ia-pagina-btn" style="margin-top:10px">' + IC.brilho + esc(T('Mudar com a IA')) + '</button><div class="ed-msg" id="ed-ia-pagina-msg" style="margin-top:8px"></div></div>';
     if (paginas.length > 1) {
       html += '<div class="ed-cartao"><h3>' + esc(T('Páginas do site')) + '</h3><p>' + esc(T('O cabeçalho e o rodapé são iguais em todas.')) + '</p><div class="ed-paginas" style="margin-top:10px">'
@@ -967,7 +967,7 @@
     var titulo = sec.matches('header[data-dia]') ? T('Cabeçalho') : (sec.matches('footer[data-dia]') ? T('Rodapé') : T('Secção'));
     var html = cab(IC.blocos, titulo, partilhada ? T('Igual em todas as páginas.') : T('Muda a ordem, duplica, apaga ou pede à IA.'), true)
       + '<div class="ed-cartao"><h3>' + esc(T('Mudar com a IA')) + '</h3><p>' + esc(T('Diz o que queres nesta parte. A IA muda só esta secção e mantém o resto.')) + '</p>'
-      + '<div class="ed-campo" style="margin-top:10px"><textarea id="ed-ia-bloco" maxlength="900" placeholder="' + esc(T('Ex: põe 3 cartões com os nossos serviços e um botão para o WhatsApp')) + '"></textarea></div>'
+      + '<div class="ed-campo" style="margin-top:10px"><textarea id="ed-ia-bloco" maxlength="4000" placeholder="' + esc(T('Ex: põe 3 cartões com os nossos serviços e um botão para o WhatsApp')) + '"></textarea></div>'
       + '<button type="button" class="ed-btn principal" id="ed-ia-bloco-btn" style="margin-top:10px">' + IC.brilho + esc(T('Mudar esta secção')) + '</button><div class="ed-msg" id="ed-ia-bloco-msg" style="margin-top:8px"></div></div>';
     if (fundo) html += '<button type="button" class="ed-btn sec" id="ed-fundo">' + IC.imagem + esc(T('Trocar a imagem de fundo')) + '</button>';
     if (!partilhada) {
