@@ -306,6 +306,50 @@
   .ap-mod-nota a{color:var(--accent-2);font-weight:700;}
   .ap-mod-nota.aviso{background:color-mix(in srgb,var(--ap-aviso) 9%,var(--card));border-color:color-mix(in srgb,var(--ap-aviso) 40%,var(--border));color:var(--text);}
   .ap-mod-nota.aviso b:first-child{color:var(--ap-aviso);}
+  /* ===================== Apps 1.101.0: base de dados externa ===================== */
+  .ap-ext-entrada{display:flex;align-items:center;gap:12px;width:100%;margin-top:16px;padding:14px 16px;border-radius:16px;border:1px dashed color-mix(in srgb,var(--accent-2) 45%,var(--border));background:color-mix(in srgb,var(--accent-2) 5%,var(--card));color:var(--text);text-align:left;cursor:pointer;font:500 13px/1.45 var(--font-body);transition:border-color .15s,background .15s;}
+  .ap-ext-entrada:hover{border-style:solid;background:color-mix(in srgb,var(--accent-2) 9%,var(--card));}
+  .ap-ext-entrada>svg:first-child{flex:0 0 22px;width:22px;height:22px;color:var(--accent-2);}
+  .ap-ext-entrada span{flex:1 1 auto;color:var(--text-dim);}
+  .ap-ext-entrada b{display:block;color:var(--text);font-size:14px;margin-bottom:2px;}
+  .ap-ext-entrada .seta{flex:0 0 16px;width:16px;height:16px;color:var(--accent-2);}
+  .ap-ext-cab{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;}
+  .ap-ext-ic{flex:0 0 44px;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--purple);color:var(--lime-bright);}
+  .ap-ext-ic svg{width:22px;height:22px;}
+  .ap-ext-bloq{padding:14px 16px;border-radius:14px;background:var(--card-alt);border:1px solid var(--border);font-size:13.5px;color:var(--text-dim);}
+  .ap-ext-bloq a{color:var(--accent-2);font-weight:800;margin-left:4px;}
+  .ap-ext-tipos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px;}
+  @media (max-width:720px){.ap-ext-tipos{grid-template-columns:1fr 1fr;}}
+  .ap-ext-tipo{position:relative;display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:13px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font:800 13px/1.25 var(--font-body);}
+  .ap-ext-tipo input{position:absolute;opacity:0;pointer-events:none;}
+  .ap-ext-tipo:has(input:checked){border-color:var(--accent-2);box-shadow:0 0 0 3px var(--accent-glow);}
+  .ap-ext-tipo.off{cursor:not-allowed;color:var(--text-dim);background:var(--card-alt);}
+  .ap-ext-tipo em{font:800 9.5px/1 var(--font-mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);}
+  .ap-ext-ajuda{margin:-4px 0 14px;font-size:13px;color:var(--text-dim);}
+  .ap-ext-ajuda summary{cursor:pointer;font-weight:800;color:var(--accent-2);width:max-content;}
+  .ap-ext-ajuda p{margin:8px 0 0;line-height:1.55;}
+  .ap-ext-ajuda code,.ap-ext-ligada code{font:600 12px var(--font-mono);padding:2px 6px;border-radius:6px;background:var(--card-alt);border:1px solid var(--border);}
+  .ap-ext-res{margin-top:16px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--success) 9%,var(--card));border:1px solid color-mix(in srgb,var(--success) 35%,var(--border));font-size:13.5px;}
+  .ap-ext-res b{color:var(--success);}
+  .ap-ext-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-top:12px;max-height:340px;overflow:auto;padding:2px;}
+  .ap-ext-item{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);cursor:pointer;min-width:0;}
+  .ap-ext-item input{margin-top:3px;accent-color:var(--accent-2);}
+  .ap-ext-item:has(input:checked){border-color:var(--accent-2);}
+  .ap-ext-item span{min-width:0;}
+  .ap-ext-item b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ap-ext-item small{display:block;font-size:11.5px;color:var(--text-dim);margin-top:2px;}
+  .ap-ext-ligada{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .ap-ext-ligada code{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ap-ext-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .ap-ext-tab{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:12px;background:var(--card-alt);border:1px solid var(--border);min-width:0;}
+  .ap-ext-tab svg{width:15px;height:15px;color:var(--accent-2);flex:0 0 15px;}
+  .ap-ext-tab b{font-size:13px;}
+  .ap-ext-tab small{font:600 11px var(--font-mono);color:var(--text-dim);}
+  .ap-ext-dica{font-size:13px;color:var(--text-dim);margin:0 0 14px;line-height:1.5;}
+  .ap-ext-gerar{padding:18px;border-radius:16px;border:1px solid color-mix(in srgb,var(--accent-2) 40%,var(--border));background:color-mix(in srgb,var(--accent-2) 5%,var(--card));margin-bottom:16px;}
+  .ap-ext-gerar h3{font:800 16px var(--font-display);margin:0 0 12px;}
+  .ap-ext-gerar textarea{min-height:110px;}
+  .ap-ext-accoes{display:flex;gap:8px;flex-wrap:wrap;}
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -421,6 +465,7 @@
           <button type="button" class="btn-pri" id="ap-criar-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg><span>Criar a app</span></button>
         </div>
         <div class="ap-msg" id="ap-criar-msg" style="margin-top:10px"></div>
+        <button type="button" class="ap-ext-entrada" id="ap-ext-comecar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/></svg><span><b>Já tens uma base de dados?</b>Liga o teu Supabase ou Postgres e a IA cria a app por cima dos teus dados.</span><svg class="seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </section>
       <section class="ap-cartao" aria-labelledby="ap-lista-tit">
         <h2 id="ap-lista-tit">As tuas apps</h2>
@@ -473,6 +518,11 @@
     </div>
 
     <div class="ap-tab-corpo" data-tab="dados" hidden>
+      <section class="ap-cartao ap-ext" id="ap-ext" aria-labelledby="ap-ext-tit">
+        <div class="ap-ext-cab"><div class="ap-ext-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/></svg></div>
+          <div><h2 id="ap-ext-tit">Base de dados externa</h2><p class="sub" style="margin:0">Liga a base que já tens. As tabelas escolhidas entram na app, com as mesmas regras de quem pode ver e mexer.</p></div></div>
+        <div id="ap-ext-corpo"></div>
+      </section>
       <section class="ap-cartao"><h2>Tabelas da app</h2><p class="sub">A base de dados desta app (só desta app). Os registos são feitos dentro da própria app.</p><div class="ap-tabelas" id="ap-tabelas"></div></section>
     </div>
 
@@ -683,7 +733,8 @@
       $('ap-d-nome').textContent = cfg.nome_publico || info.nome || 'App';
       document.title = ($('ap-d-nome').textContent) + ' · Apps · Daniel IA';
       desenharEstado(estadoAct);
-      desenharDados(); carregarVersoes(); carregarPessoas();
+      desenharDados(); carregarVersoes(); carregarPessoas(); carregarExterna();
+      if (/aba=dados/.test(location.hash)) { var ab = document.querySelector('[data-aba="dados"]'); if (ab) ab.click(); }
       var r = cfg.registo === 'aberto' ? 'aberto' : 'convite';
       Array.prototype.forEach.call(document.querySelectorAll('input[name="ap-registo"]'), function(x){ x.checked = x.value === r; });
       $('ap-def-nome').value = cfg.nome_publico || info.nome || '';
@@ -758,6 +809,98 @@
   }
 
   // dados
+  // ---------- base de dados externa (1.101.0) ----------
+  var ext = { cfg: null, teste: null, ligacao: '', editar: false, armado: 0 };
+  var IC_BD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/></svg>';
+  var TIPOS_EXT = [['postgres', 'Postgres / Supabase', ''], ['mysql', 'MySQL / MariaDB', 'Em breve'], ['rest', 'API REST (JSON)', 'Em breve'], ['sheets', 'Google Sheets / Excel', 'Em breve']];
+  function carregarExterna(){
+    post('/app-externa', { app_id: actual }).then(function(r){ if (r.status !== 'success') return; ext.cfg = r.response.externa; ext.editar = false; ext.teste = null; desenharExterna(); }).catch(function(){});
+  }
+  function desenharExterna(){
+    var c = $('ap-ext-corpo'); if (!c) return;
+    if (!ctx.pode_criar && !ext.cfg) { c.innerHTML = '<div class="ap-ext-bloq">Ligar uma base de dados externa faz parte dos planos pagos. <a href="/planos/">Ver planos</a></div>'; return; }
+    if (ext.cfg && !ext.editar) {
+      var g = ext.cfg;
+      c.innerHTML = '<div class="ap-ext-ligada"><span class="ap-chip ok">Ligada</span><code>' + esc(g.anfitriao) + ' / ' + esc(g.base) + (g.esquema !== 'public' ? ' · ' + esc(g.esquema) : '') + '</code><span class="ap-chip' + (g.modo === 'ler' ? '' : ' mod') + '">' + (g.modo === 'ler' ? 'Só ler' : 'Ler e escrever') + '</span></div>' +
+        '<div class="ap-ext-tabs">' + g.tabelas.map(function(t){ return '<span class="ap-ext-tab">' + IC_BD + '<b>' + esc(t.rotulo) + '</b><small>' + esc(t.nome) + (t.vista ? ' · vista' : (!t.chave ? ' · sem chave' : '')) + '</small></span>'; }).join('') + '</div>' +
+        (estadoAct && estadoAct.versao ? '<p class="ap-ext-dica">Para usar estas tabelas noutros ecrãs, pede em <b>Mudar com IA</b> (ex: "Mostra a lista de clientes da base externa com pesquisa").</p>'
+          : '<div class="ap-ext-gerar"><h3>Agora cria a app por cima destes dados</h3><label class="ap-campo"><span>O que a app deve fazer</span><textarea id="ap-ext-desc" maxlength="6000" data-voz placeholder="Ex: Quero ver os produtos com stock baixo, registar vendas para os clientes que já tenho e um painel com o total do dia."></textarea></label><div id="ap-modelo-ext"></div><div class="ap-rodape"><small>A IA usa as tuas tabelas tal como estão e só cria tabelas novas para o que faltar.</small><button type="button" class="btn-pri" id="ap-ext-gerar"><span>Criar a app</span></button></div><div class="ap-msg" id="ap-ext-gerar-msg"></div></div>') +
+        '<div class="ap-ext-accoes"><button type="button" class="btn-sec btn-peq" id="ap-ext-mudar">Mudar ligação ou tabelas</button><button type="button" class="btn-sec btn-peq btn-perigo" id="ap-ext-desligar">Desligar</button></div><div class="ap-msg" id="ap-ext-msg"></div>';
+      if ($('ap-modelo-ext')) seletorModelo('ap-modelo-ext', 'ext');
+      return;
+    }
+    c.innerHTML = '<div class="ap-ext-tipos" role="radiogroup" aria-label="Tipo de base">' + TIPOS_EXT.map(function(t, i){ return '<label class="ap-ext-tipo' + (t[2] ? ' off' : '') + '"><input type="radio" name="ap-ext-tipo" value="' + t[0] + '"' + (i === 0 ? ' checked' : '') + (t[2] ? ' disabled' : '') + '><span>' + t[1] + '</span>' + (t[2] ? '<em>' + t[2] + '</em>' : '') + '</label>'; }).join('') + '</div>' +
+      '<label class="ap-campo"><span>Endereço de ligação (URI)</span><input id="ap-ext-uri" type="password" autocomplete="off" spellcheck="false" placeholder="postgresql://utilizador:senha@anfitriao:5432/postgres" value="' + esc(ext.ligacao) + '"></label>' +
+      '<details class="ap-ext-ajuda"><summary>Onde encontro isto?</summary><p><b>Supabase:</b> no projecto, carrega em <b>Connect</b> (ou Project Settings → Database) e copia a <b>Connection string</b> em formato URI; troca <code>[YOUR-PASSWORD]</code> pela senha da base. <b>Neon, Railway, Render:</b> copia o "connection string" do painel. A base tem de aceitar ligações de fora.</p><p>O endereço fica guardado cifrado no nosso servidor e nunca aparece na app nem no browser de quem a usa. Se puderes, cria um utilizador só com acesso às tabelas que a app precisa.</p></details>' +
+      '<div class="ap-linha"><label class="ap-campo" style="flex:0 1 200px"><span>Esquema</span><input id="ap-ext-esquema" value="' + esc((ext.teste && ext.teste.esquema) || 'public') + '" maxlength="63"></label><button type="button" class="btn-sec" id="ap-ext-testar" style="min-height:47px">Testar a ligação</button>' + (ext.cfg ? '<button type="button" class="btn-sec" id="ap-ext-cancelar" style="min-height:47px">Cancelar</button>' : '') + '</div>' +
+      '<div class="ap-msg" id="ap-ext-msg" style="margin-top:10px"></div><div id="ap-ext-escolha"></div>';
+    if (ext.teste) desenharEscolha();
+  }
+  function desenharEscolha(){
+    var t = ext.teste, ja = {};
+    ((ext.cfg && ext.cfg.tabelas) || []).forEach(function(x){ ja[x.origem] = 1; });
+    var marcarTodas = !ext.cfg;
+    $('ap-ext-escolha').innerHTML = '<div class="ap-ext-res"><b>Ligação certa.</b> ' + t.tabelas.length + (t.tabelas.length === 1 ? ' tabela' : ' tabelas') + ' em ' + esc(t.anfitriao) + '. Escolhe as que a app vai usar:</div>' +
+      '<div class="ap-ext-lista">' + t.tabelas.map(function(x, i){ var on = (marcarTodas && i < 40) || ja[x.origem]; return '<label class="ap-ext-item"><input type="checkbox" value="' + esc(x.origem) + '"' + (on ? ' checked' : '') + '><span><b>' + esc(x.rotulo) + '</b><small>' + x.campos.length + (x.campos.length === 1 ? ' campo' : ' campos') + (x.vista ? ' · vista (só ler)' : (!x.chave ? ' · sem chave (só listar)' : '')) + '</small></span></label>'; }).join('') + '</div>' +
+      '<div class="ap-opcoes" style="margin-top:14px"><label class="ap-opcao"><input type="radio" name="ap-ext-modo" value="ler_escrever"' + (!ext.cfg || ext.cfg.modo !== 'ler' ? ' checked' : '') + '><div><b>Ler e escrever</b><span>A app lista, cria, muda e apaga - sempre com as regras de quem pode o quê.</span></div></label>' +
+      '<label class="ap-opcao"><input type="radio" name="ap-ext-modo" value="ler"' + (ext.cfg && ext.cfg.modo === 'ler' ? ' checked' : '') + '><div><b>Só ler</b><span>Painéis, listas e relatórios. Nada muda na tua base.</span></div></label></div>' +
+      '<div class="ap-rodape" style="margin-top:14px"><small>Podes mudar as tabelas ou desligar quando quiseres.</small><button type="button" class="btn-pri" id="ap-ext-ligar"><span>Ligar à app</span></button></div>';
+  }
+  $('ap-ext').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'ap-ext-testar') {
+      ext.ligacao = $('ap-ext-uri').value.trim();
+      if (!/^postgres(ql)?:\/\//.test(ext.ligacao)) { msg('ap-ext-msg', 'Cola o endereço completo, a começar por postgresql://', 'erro'); return; }
+      b.disabled = true; msg('ap-ext-msg', 'A ligar à tua base...');
+      post('/app-externa-testar', { app_id: actual, tipo: 'postgres', ligacao: ext.ligacao, esquema: $('ap-ext-esquema').value.trim() }).then(function(r){
+        b.disabled = false;
+        if (r.status !== 'success') { msgErro('ap-ext-msg', r); return; }
+        msg('ap-ext-msg', ''); ext.teste = r.response;
+        if (!ext.teste.tabelas.length) { msg('ap-ext-msg', 'A ligação funciona, mas não há tabelas nesse esquema.', 'erro'); return; }
+        desenharEscolha();
+      }).catch(function(){ b.disabled = false; msg('ap-ext-msg', 'Sem ligação ao servidor.', 'erro'); });
+    }
+    if (b.id === 'ap-ext-ligar') {
+      var tabs = Array.prototype.map.call(document.querySelectorAll('#ap-ext-escolha input[type="checkbox"]:checked'), function(x){ return x.value; });
+      if (!tabs.length) { msg('ap-ext-msg', 'Escolhe pelo menos uma tabela.', 'erro'); return; }
+      if (tabs.length > 40) { msg('ap-ext-msg', 'No máximo 40 tabelas.', 'erro'); return; }
+      var modo = (document.querySelector('input[name="ap-ext-modo"]:checked') || {}).value || 'ler_escrever';
+      b.disabled = true;
+      post('/app-externa-ligar', { app_id: actual, tipo: 'postgres', ligacao: ext.ligacao, esquema: ext.teste.esquema, modo: modo, tabelas: tabs }).then(function(r){
+        b.disabled = false;
+        if (r.status !== 'success') { msgErro('ap-ext-msg', r); return; }
+        ext.cfg = r.response.externa; ext.teste = null; ext.ligacao = ''; ext.editar = false;
+        desenharExterna(); msg('ap-ext-msg', 'Ligada: ' + ext.cfg.tabelas.length + (ext.cfg.tabelas.length === 1 ? ' tabela' : ' tabelas') + ' na app.', 'ok');
+      }).catch(function(){ b.disabled = false; msg('ap-ext-msg', 'Sem ligação ao servidor.', 'erro'); });
+    }
+    if (b.id === 'ap-ext-mudar') { ext.editar = true; ext.teste = null; desenharExterna(); }
+    if (b.id === 'ap-ext-cancelar') { ext.editar = false; ext.teste = null; desenharExterna(); }
+    if (b.id === 'ap-ext-desligar') {
+      if (Date.now() - ext.armado > 4000) { ext.armado = Date.now(); b.textContent = 'Toca outra vez para desligar'; return; }
+      post('/app-externa-desligar', { app_id: actual }).then(function(r){ if (r.status !== 'success') { msgErro('ap-ext-msg', r); return; } ext.cfg = null; desenharExterna(); msg('ap-ext-msg', 'Desligada. Os ecrãs que usavam estas tabelas deixam de as mostrar.', 'ok'); });
+    }
+    if (b.id === 'ap-ext-gerar') {
+      var d = ($('ap-ext-desc').value || '').trim();
+      if (d.length < 20) { msg('ap-ext-gerar-msg', 'Descreve a app com mais detalhe (pelo menos uma frase completa).', 'erro'); return; }
+      b.disabled = true; msg('ap-ext-gerar-msg', 'A começar...');
+      post('/app-gerar', { app_id: actual, descricao: d, modelo: modeloEscolhido('ext') }).then(function(r){
+        b.disabled = false;
+        if (r.status !== 'success') { msgErro('ap-ext-gerar-msg', r); return; }
+        document.querySelector('[data-aba="mudar"]').click(); abrir(actual); window.scrollTo({ top: 0, behavior: 'smooth' });
+      }).catch(function(){ b.disabled = false; msg('ap-ext-gerar-msg', 'Sem ligação ao servidor.', 'erro'); });
+    }
+  });
+  // "Já tens uma base de dados?" no ecrã de criar: cria a app vazia e abre a ligação
+  $('ap-ext-comecar').addEventListener('click', function(){
+    var b = this, n = $('ap-nome').value.trim() || 'App com a minha base de dados';
+    b.disabled = true; msg('ap-criar-msg', 'A preparar a app...');
+    post('/app-criar', { nome: n }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msgErro('ap-criar-msg', r); return; }
+      msg('ap-criar-msg', ''); location.hash = 'app=' + r.response.app_id + '&aba=dados';
+    }).catch(function(){ b.disabled = false; msg('ap-criar-msg', 'Sem ligação ao servidor.', 'erro'); });
+  });
+
   function desenharDados(){
     var t = (info && info.tabelas) || [], rot = {};
     ((info && info.spec && info.spec.tabelas) || []).forEach(function(x){ rot[x.nome] = x.rotulo || x.nome; });
