@@ -815,6 +815,111 @@
     <p id="welcome-sub">A carregar a tua conta...</p>
   </div>
 
+<style id="hub-estilo">
+  /* 1.100.0: "O que queres criar hoje?" - Sites, Lojas online e Aplicativos, lado a lado */
+  .hub{margin:6px 0 34px;}
+  .hub-cab{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-bottom:16px;}
+  .hub-eti{display:inline-flex;align-items:center;gap:8px;font:700 11px/1 var(--font-mono);letter-spacing:.14em;color:var(--accent-2);margin-bottom:9px;}
+  .hub-eti::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(137,200,4,.18);}
+  .hub-cab h2{font-family:var(--font-display);font-size:clamp(22px,2.8vw,28px);letter-spacing:-.02em;line-height:1.1;margin:0;}
+  .hub-cab p{margin:0;color:var(--text-dim);font-size:14px;line-height:1.5;max-width:44ch;}
+  .hub-grelha{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+  @media (max-width:900px){.hub-grelha{grid-template-columns:1fr;}}
+  .hub-cartao{position:relative;display:flex;flex-direction:column;min-width:0;border-radius:22px;border:1px solid var(--border);background:var(--card);color:var(--text);text-decoration:none;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;box-shadow:0 18px 50px -36px rgba(20,6,32,.55);}
+  .hub-cartao:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent-2) 55%,var(--border));box-shadow:0 26px 60px -34px rgba(20,6,32,.65);}
+  .hub-cartao:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;}
+  .hub-ilu{position:relative;height:132px;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(120% 90% at 15% 0%,color-mix(in srgb,var(--purple) 26%,transparent) 0%,transparent 60%),radial-gradient(90% 80% at 100% 100%,rgba(137,200,4,.16) 0%,transparent 60%),var(--card-alt);}
+  .hub-corpo{display:flex;flex-direction:column;gap:9px;padding:18px 20px 20px;flex:1 1 auto;}
+  .hub-tit{display:flex;align-items:center;gap:10px;}
+  .hub-ic{flex:0 0 38px;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--purple);color:var(--lime-bright);}
+  .hub-ic svg{width:19px;height:19px;}
+  .hub-tit b{font:800 18px/1.15 var(--font-display);letter-spacing:-.01em;}
+  .hub-selo{margin-left:auto;flex:0 0 auto;font:800 10px/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:7px;background:var(--lime);color:var(--on-accent);}
+  .hub-selo.bloq{display:inline-flex;align-items:center;gap:5px;background:var(--card-alt);color:var(--text-dim);border:1px solid var(--border);}
+  .hub-selo.bloq svg{width:11px;height:11px;}
+  .hub-desc{color:var(--text-dim);font-size:13.5px;line-height:1.5;}
+  .hub-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .hub-tags i{font:700 11.5px/1 var(--font-body);font-style:normal;padding:5px 9px;border-radius:999px;background:var(--card-alt);border:1px solid var(--border);color:var(--text);}
+  .hub-cta{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:7px;font:800 13.5px var(--font-body);color:var(--accent-2);}
+  .hub-cta svg{width:15px;height:15px;transition:transform .18s;}
+  .hub-cartao:hover .hub-cta svg{transform:translateX(3px);}
+  /* ilustrações (só CSS) */
+  .hub-nav{width:74%;height:96px;border-radius:12px;background:var(--card);border:1px solid var(--border);box-shadow:0 16px 34px -20px rgba(20,6,32,.6);overflow:hidden;transform:translateY(14px);}
+  .hub-nav-barra{display:flex;gap:4px;padding:7px 9px;border-bottom:1px solid var(--border);}
+  .hub-nav-barra i{width:6px;height:6px;border-radius:50%;background:var(--border);}
+  .hub-nav-heroi{margin:9px 10px 7px;height:26px;border-radius:7px;background:linear-gradient(120deg,var(--purple),color-mix(in srgb,var(--purple) 55%,var(--lime)));}
+  .hub-linha{display:block;height:5px;border-radius:9px;background:var(--border);margin:0 10px 5px;}
+  .hub-linha.c{width:46%;} .hub-linha.m{width:64%;}
+  .hub-nav-bot{display:block;width:30%;height:9px;border-radius:9px;background:var(--lime);margin:7px 10px 0;}
+  .hub-loja{display:grid;grid-template-columns:repeat(3,52px);gap:9px;transform:translateY(6px);}
+  .hub-prod{display:block;border-radius:10px;background:var(--card);border:1px solid var(--border);padding:5px;box-shadow:0 12px 26px -18px rgba(20,6,32,.6);}
+  .hub-prod-img{display:block;height:34px;border-radius:6px;background:color-mix(in srgb,var(--purple) 30%,var(--card-alt));}
+  .hub-prod:nth-child(2) .hub-prod-img{background:color-mix(in srgb,var(--lime) 40%,var(--card-alt));}
+  .hub-prod-preco{display:block;height:5px;width:70%;border-radius:9px;background:var(--border);margin-top:5px;}
+  .hub-prod-preco.l{background:var(--lime);width:46%;}
+  .hub-carrinho{position:absolute;top:16px;right:20px;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--lime);color:var(--on-accent);box-shadow:0 10px 22px -10px rgba(137,200,4,.7);}
+  .hub-carrinho svg{width:17px;height:17px;}
+  .hub-carrinho b{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;border-radius:99px;background:var(--purple);color:#fff;font:800 10px/17px var(--font-mono);text-align:center;}
+  .hub-tel{width:70px;height:118px;border-radius:15px;border:2px solid color-mix(in srgb,var(--text) 22%,var(--border));background:var(--card);padding:12px 7px 6px;display:flex;flex-direction:column;gap:5px;transform:translateY(22px);box-shadow:0 16px 34px -18px rgba(20,6,32,.65);}
+  .hub-tel-linha{display:flex;align-items:center;gap:4px;padding:4px;border-radius:6px;background:var(--card-alt);}
+  .hub-tel-linha i{width:9px;height:9px;border-radius:3px;background:var(--purple);flex:0 0 9px;}
+  .hub-tel-linha:nth-child(2) i{background:var(--lime);}
+  .hub-tel-linha span{display:block;height:4px;border-radius:9px;background:var(--border);flex:1 1 auto;}
+  .hub-bd{position:absolute;left:22px;top:22px;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--card);border:1px solid var(--border);color:var(--accent-2);box-shadow:0 10px 22px -14px rgba(20,6,32,.6);}
+  .hub-bd svg{width:20px;height:20px;}
+  .hub-conta{position:absolute;right:22px;bottom:18px;display:flex;}
+  .hub-conta i{width:22px;height:22px;border-radius:50%;border:2px solid var(--card-alt);background:var(--purple);margin-left:-7px;}
+  .hub-conta i:nth-child(2){background:var(--lime);} .hub-conta i:nth-child(3){background:color-mix(in srgb,var(--purple) 50%,var(--lime));}
+  @media (prefers-reduced-motion:reduce){.hub-cartao,.hub-cta svg{transition:none;}.hub-cartao:hover{transform:none;}}
+  /* as tuas apps, no painel */
+  .hub-apps{margin:30px 0 0;}
+  .hub-apps-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+  .hub-apps-cab h2{font-family:var(--font-display);font-size:20px;margin:0;}
+  .hub-apps-cab a{font:800 13px var(--font-body);color:var(--accent-2);text-decoration:none;}
+  .hub-apps-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+  .hub-app{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;border:1px solid var(--border);background:var(--card);text-decoration:none;color:var(--text);min-width:0;transition:border-color .15s;}
+  .hub-app:hover{border-color:color-mix(in srgb,var(--accent-2) 50%,var(--border));}
+  .hub-app .hub-ic{flex-basis:40px;width:40px;height:40px;}
+  .hub-app b{display:block;font:800 14.5px/1.25 var(--font-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hub-app small{display:block;color:var(--text-dim);font-size:12px;margin-top:2px;}
+</style>
+<section class="hub" id="hub" aria-labelledby="hub-tit">
+  <div class="hub-cab">
+    <div><div class="hub-eti">CRIAR COM IA</div><h2 id="hub-tit">O que queres criar hoje?</h2></div>
+    <p>Escolhe o tipo de projecto e descreve a tua ideia. A Daniel IA desenha, escreve e põe no ar.</p>
+  </div>
+  <div class="hub-grelha">
+    <a class="hub-cartao" href="/criar/?tipo=site" id="hub-site">
+      <span class="hub-ilu" aria-hidden="true"><span class="hub-nav"><span class="hub-nav-barra"><i></i><i></i><i></i></span><span class="hub-nav-heroi"></span><span class="hub-linha m"></span><span class="hub-linha c"></span><span class="hub-nav-bot"></span></span></span>
+      <span class="hub-corpo">
+        <span class="hub-tit"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 9h19M6 6.5h.01M8.5 6.5h.01"/></svg></span><b>Criar sites</b></span>
+        <span class="hub-desc">Sites profissionais para apresentar o teu negócio, os teus serviços ou o teu trabalho. Com o teu domínio.</span>
+        <span class="hub-tags"><i>Empresa</i><i>Portefólio</i><i>Blog</i><i>Galeria</i></span>
+        <span class="hub-cta">Criar um site<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </span>
+    </a>
+    <a class="hub-cartao" href="/criar/?tipo=loja" id="hub-loja">
+      <span class="hub-ilu" aria-hidden="true"><span class="hub-loja"><span class="hub-prod"><span class="hub-prod-img"></span><span class="hub-prod-preco"></span><span class="hub-prod-preco l"></span></span><span class="hub-prod"><span class="hub-prod-img"></span><span class="hub-prod-preco"></span><span class="hub-prod-preco l"></span></span><span class="hub-prod"><span class="hub-prod-img"></span><span class="hub-prod-preco"></span><span class="hub-prod-preco l"></span></span></span><span class="hub-carrinho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.5h13l1 12.5h-15z"/><path d="M9 7.5a3 3 0 0 1 6 0"/></svg><b>3</b></span></span>
+      <span class="hub-corpo">
+        <span class="hub-tit"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 7.5h13l1 12.5h-15z"/><path d="M9 7.5a3 3 0 0 1 6 0"/></svg></span><b>Criar lojas online</b></span>
+        <span class="hub-desc">Lojas e plataformas de e-commerce: catálogo, carrinho e pagamentos por M-Pesa, e-Mola e cartão.</span>
+        <span class="hub-tags"><i>Catálogo</i><i>Carrinho</i><i>Pagamentos</i><i>Encomendas</i></span>
+        <span class="hub-cta">Criar uma loja<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </span>
+    </a>
+    <a class="hub-cartao" href="/apps/" id="hub-app">
+      <span class="hub-ilu" aria-hidden="true"><span class="hub-bd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6M4.5 11.5v6c0 1.6 3.4 2.8 7.5 2.8s7.5-1.2 7.5-2.8v-6"/></svg></span><span class="hub-tel"><span class="hub-tel-linha"><i></i><span></span></span><span class="hub-tel-linha"><i></i><span></span></span><span class="hub-tel-linha"><i></i><span></span></span><span class="hub-tel-linha"><i></i><span></span></span></span><span class="hub-conta"><i></i><i></i><i></i></span></span>
+      <span class="hub-corpo">
+        <span class="hub-tit"><span class="hub-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="M17.25 14v6.5M14 17.25h6.5"/></svg></span><b>Criar aplicativos</b><span class="hub-selo" id="hub-app-selo">Novo</span></span>
+        <span class="hub-desc">Aplicativos web e mobile com base de dados, contas e permissões: vendas, stock, escolas, reservas, entregas.</span>
+        <span class="hub-tags"><i>Base de dados</i><i>Contas</i><i>Web e mobile</i></span>
+        <span class="hub-cta" id="hub-app-cta">Criar um aplicativo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </span>
+    </a>
+  </div>
+</section>
+
   <div class="cards">
     <div class="card">
       <div class="label">Plano actual</div>
@@ -849,7 +954,7 @@
   </a>
 
   <div class="sites-header">
-    <h2>Os teus sites</h2>
+    <h2>Os teus sites e lojas</h2>
     <button class="btn-novo btn-criar-site" id="btn-novo-projecto">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       Criar site
@@ -868,6 +973,7 @@
   </div>
 
   <div class="sites-list" id="sites-list"></div>
+  <section class="hub-apps" id="hub-apps" hidden aria-labelledby="hub-apps-tit"><div class="hub-apps-cab"><h2 id="hub-apps-tit">Os teus aplicativos</h2><a href="/apps/">Ver todos</a></div><div class="hub-apps-lista" id="hub-apps-lista"></div></section>
 </div>
 
 <div class="dia-overlay-editar" id="overlay-editar" style="display:none">
@@ -2128,18 +2234,26 @@ btnContactoGuardar.addEventListener('click', function(){
 <script>
 // O KYC aparece só na loja (Gerir loja e no fim de criar uma loja).
 
-// ---- Apps (1.99.2): o botão só aparece a quem pode criar apps ----
+// ---- Aplicativos (1.100.0): o cartão diz se o plano cria apps; as apps aparecem no painel ----
 (function(){
   if (!OWNER) return;
+  var IC_CAD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>';
+  var IC_APP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>';
+  function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function selo(txt, bloq){ var s = document.getElementById('hub-app-selo'); if (!s) return; s.className = 'hub-selo' + (bloq ? ' bloq' : ''); s.innerHTML = (bloq ? IC_CAD : '') + esc(txt); }
   fetch(CONTAINER_URL + '/app-lista', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER }) })
     .then(function(r){ return r.json(); }).then(function(r){
-      if (!r || r.status !== 'success') return;
-      var zona = document.querySelector('.top-actions');
-      if (!zona || document.getElementById('btn-apps')) return;
-      var a = document.createElement('a');
-      a.id = 'btn-apps'; a.href = '/apps/'; a.className = 'btn-admin'; a.title = 'Apps com base de dados (beta)';
-      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Apps</span>';
-      zona.insertBefore(a, zona.firstChild);
+      if (!r || r.status !== 'success') { if (r && r.codigo === 'em_breve') selo('Em breve', true); return; }
+      var x = r.response || {}, lista = x.apps || [];
+      if (x.pode_criar === false) { selo('Planos pagos', true); var c = document.getElementById('hub-app-cta'); if (c) c.firstChild.nodeValue = 'Ver como funciona'; }
+      if (!lista.length) return;
+      var caixa = document.getElementById('hub-apps'), l = document.getElementById('hub-apps-lista');
+      if (!caixa || !l) return;
+      l.innerHTML = lista.slice(0, 6).map(function(a){
+        var est = a.estado === 'a trabalhar' ? (a.modo === 'mudar' ? 'A mudar...' : 'A criar...') : (a.estado === 'erro' ? 'Parou com erro' : (a.url ? 'No ar' + (a.versao_app ? ' · versão ' + a.versao_app : '') : 'Sem código'));
+        return '<a class="hub-app" href="/apps/#app=' + encodeURIComponent(a.id) + '"><span class="hub-ic">' + IC_APP + '</span><span style="min-width:0"><b>' + esc(a.nome) + '</b><small>' + esc(est) + '</small></span></a>';
+      }).join('');
+      caixa.hidden = false;
     }).catch(function(){});
 })();
 // ---- Painel de administração: o botão só aparece a quem é admin ----
