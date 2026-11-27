@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daniel IA</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07030C">
+<script>
+// Endereços antigos (do tempo do Bubble) levam para o sítio novo, com o que vinha depois do "?".
+(function(){
+  var p = location.pathname.toLowerCase().replace(/\/+$/, '');
+  var q = location.search || '', APP = 'https://app.daniel-ia.pro';
+  var mapa = [
+    [/^\/(dashboard|painel)(\/|$)/, APP + '/dashboard/'],
+    [/^\/(reset_pw|reset|password|nova-password)(\/|$)/, APP + '/reset/'],
+    [/^\/(planos|plans|precos)(\/|$)/, APP + '/planos/'],
+    [/^\/(dominios|dominio)(\/|$)/, APP + '/dominios/'],
+    [/^\/(estatisticas)(\/|$)/, APP + '/estatisticas/'],
+    [/^\/(admin)(\/|$)/, APP + '/admin/'],
+    [/^\/(login|entrar|signup|registo|criar-conta|conta)(\/|$)/, APP + '/'],
+    [/^\/(index|version-test|home|inicio)(\/|$)/, '/']
+  ];
+  for (var i = 0; i < mapa.length; i++) if (mapa[i][0].test(p)) { location.replace(mapa[i][1] + q); return; }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#07030C; --card:#110A1B; --roxo:#430960; --lima:#B4F02B; --texto:#F3EEF8; --suave:#A99BB8; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; min-height:100%; background:var(--bg); color:var(--texto); font-family:Manrope,system-ui,sans-serif; }
+  body{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px 16px;
+        background:radial-gradient(60rem 30rem at 50% -10%, rgba(67,9,96,.55), transparent 70%), var(--bg); }
+  .c{ max-width:440px; width:100%; text-align:center; }
+  .n{ font-family:Sora,sans-serif; font-weight:700; font-size:72px; letter-spacing:-.03em; line-height:1;
+      background:linear-gradient(135deg,#fff 20%,var(--lima)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  h1{ font-family:Sora,sans-serif; font-size:22px; margin:18px 0 8px; }
+  p{ color:var(--suave); line-height:1.6; margin:0 0 26px; }
+  .b{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  a.btn{ display:inline-block; padding:12px 20px; border-radius:12px; font-weight:600; text-decoration:none; font-size:15px; }
+  a.p{ background:var(--lima); color:#1A0726; }
+  a.s{ background:var(--card); color:var(--texto); border:1px solid rgba(255,255,255,.1); }
+  a.btn:focus-visible{ outline:2px solid var(--lima); outline-offset:3px; }
+</style>
+</head>
+<body>
+<main class="c">
+  <div class="n" aria-hidden="true">404</div>
+  <h1>Esta página não existe</h1>
+  <p>O endereço pode ter mudado. Volta à página inicial ou entra na tua conta.</p>
+  <div class="b">
+    <a class="btn p" href="/">Página inicial</a>
+    <a class="btn s" href="https://app.daniel-ia.pro/">Entrar na conta</a>
+  </div>
+</main>
+</body>
+</html>

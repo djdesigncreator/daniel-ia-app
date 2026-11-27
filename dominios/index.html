@@ -656,24 +656,15 @@
   deste browser depois de entrar. Se não houver nada guardado, a pessoa
   não está autenticada - manda-a de volta para o login.
 */
-var API_ROOT = 'https://daniel-ia.pro/api/1.1/wf/';
+var API_ROOT = ''; // 1.96.1: sem Bubble
 var CONTAINER_URL = 'https://mc-8oxfde5o71.bunny.run';
 var OWNER = localStorage.getItem('daniel_owner');
 if (!OWNER) {
   window.location.href = '/';
 }
 
-function chamarWorkflow(nome, dados){
-  return fetch(API_ROOT + nome, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'same-origin',
-    body: JSON.stringify(dados || {})
-  }).then(function(res){
-    return res.json().then(function(json){
-      return { ok: res.ok, status: json.status, message: json.message, response: json.response };
-    });
-  });
+function chamarWorkflow(nome, dados){ // 1.96.1: o Bubble já não existe
+  return Promise.resolve({ ok: false, status: 'error', message: 'Indisponível.' });
 }
 
 // ---- Tema claro/escuro ----
