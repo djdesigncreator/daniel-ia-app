@@ -2386,6 +2386,61 @@ btnContactoGuardar.addEventListener('click', function(){
   .pn-eu button{border:1px solid var(--border);background:var(--card);color:var(--text-dim);border-radius:10px;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;}
   .pn-eu button:hover{color:var(--text);border-color:var(--accent-2);}
   .pn-eu button svg{width:16px;height:16px;}
+
+  /* ===== 1.104.2: mais cor (marca roxa) e lista de sites arrumada ===== */
+  /* faixa de boas-vindas com a cor da marca (em todos os tamanhos) */
+  .welcome{position:relative;overflow:hidden;border-radius:24px;padding:26px 28px;margin-bottom:30px;color:#fff;
+    background:radial-gradient(120% 140% at 100% 0%,rgba(180,240,43,.28) 0%,transparent 45%),linear-gradient(120deg,#2A0D3E 0%,#430960 55%,#6B1E94 100%);
+    box-shadow:0 24px 60px -30px rgba(67,9,96,.75);}
+  .welcome::after{content:"";position:absolute;right:-60px;bottom:-90px;width:240px;height:240px;border-radius:50%;border:34px solid rgba(180,240,43,.16);pointer-events:none;}
+  .welcome h1{color:#fff!important;}
+  .welcome p{color:rgba(255,255,255,.78)!important;}
+  @media (max-width:640px){.welcome{padding:20px;border-radius:20px;}}
+  /* barra lateral escura, com a marca */
+  @media (min-width:1180px){
+    body.pn-ok .pn-lat{background:linear-gradient(180deg,#2A0D3E 0%,#1C0829 100%);border-right:0;box-shadow:8px 0 40px -24px rgba(20,6,32,.6);}
+    body.pn-ok .pn-lat .bl-ink{fill:#fff!important;}
+    body.pn-ok .pn-lat .bl-lime{fill:#B4F02B!important;}
+    body.pn-ok .pn-lat .pn-grupo{color:rgba(255,255,255,.42);}
+    body.pn-ok .pn-lat .pn-nav a{color:rgba(255,255,255,.72);}
+    body.pn-ok .pn-lat .pn-nav a:hover{background:rgba(255,255,255,.07);color:#fff;}
+    body.pn-ok .pn-lat .pn-nav a[aria-current="page"]{background:rgba(180,240,43,.14);color:#fff;box-shadow:inset 3px 0 0 #B4F02B;}
+    body.pn-ok .pn-lat .pn-nav a[aria-current="page"] svg{color:#B4F02B;}
+    body.pn-ok .pn-lat .pn-plano{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);}
+    body.pn-ok .pn-lat .pn-plano-topo{color:#fff;} body.pn-ok .pn-lat .pn-plano-topo a{color:#B4F02B;}
+    body.pn-ok .pn-lat .pn-plano small{color:rgba(255,255,255,.6);}
+    body.pn-ok .pn-lat .pn-plano-barra{background:rgba(255,255,255,.12);}
+    body.pn-ok .pn-lat .pn-eu b{color:#fff;} body.pn-ok .pn-lat .pn-eu small{color:rgba(255,255,255,.55);}
+    body.pn-ok .pn-lat .pn-eu i{background:#B4F02B;color:#1C0829;}
+    body.pn-ok .pn-lat .pn-eu button{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.75);}
+    body.pn-ok .pn-lat .pn-eu button:hover{color:#fff;border-color:#B4F02B;}
+  }
+  /* coluna da direita: cartões com um toque de cor */
+  .pn-rail .card{position:relative;overflow:hidden;}
+  .pn-rail .card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#430960,#89C804);}
+  @media (min-width:1380px){
+    body.pn-ok .pn-rail .com-banner{flex-direction:column;align-items:flex-start;gap:12px;padding:18px;}
+    body.pn-ok .pn-rail .com-banner-btn{align-self:stretch;justify-content:center;}
+  }
+  /* lista de sites: cartões com capa, 3 acções à vista e o resto em "Mais" */
+  .pn-site{position:relative;overflow:visible!important;}
+  .pn-site.pn-aberto{z-index:30;}
+  .pn-site-ic{flex:0 0 46px;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font:800 15px var(--font-display,"Sora",sans-serif);color:#fff;letter-spacing:-.02em;box-shadow:0 10px 24px -14px rgba(20,6,32,.7);}
+  .pn-site-ic.t-loja{background:linear-gradient(135deg,#F97316,#C2410C);} .pn-site-ic.t-site{background:linear-gradient(135deg,#6B1E94,#430960);}
+  .pn-site-ic.t-port{background:linear-gradient(135deg,#0EA5E9,#1E3A8A);} .pn-site-ic.t-blog{background:linear-gradient(135deg,#14B8A6,#0F766E);}
+  .pn-site-ic.t-gal{background:linear-gradient(135deg,#EC4899,#9D174D);} .pn-site-ic.t-outro{background:linear-gradient(135deg,#89C804,#4D7C0F);}
+  .pn-site-cab{display:flex;align-items:center;gap:14px;min-width:0;}
+  .pn-site-cab .site-info{min-width:0;flex:1 1 auto;}
+  .pn-mais{position:relative;display:inline-flex;}
+  .pn-mais-btn{display:inline-flex!important;align-items:center;gap:6px;cursor:pointer;}
+  .pn-mais-btn svg{width:15px;height:15px;}
+  .pn-mais-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:40;min-width:220px;display:flex;flex-direction:column;gap:2px;padding:6px;border-radius:14px;background:var(--card);border:1px solid var(--border);box-shadow:0 24px 60px -24px rgba(20,6,32,.55);}
+  .pn-mais-menu[hidden]{display:none;}
+  .pn-mais-menu>*{display:block!important;width:100%;text-align:left!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:10px!important;padding:10px 12px!important;color:var(--text)!important;font-weight:700!important;}
+  .pn-mais-menu>*:hover{background:var(--card-alt)!important;}
+  @media (max-width:640px){.pn-mais-menu{left:0;right:auto;}.pn-mais{grid-column:span 2;}.pn-mais-btn{width:100%;justify-content:center;}}
+  .site-actions .pn-ver{background:var(--grad-accent)!important;color:var(--on-accent)!important;border-color:transparent!important;font-weight:800!important;}
+  .pn-parou{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;font:700 13px var(--font-body,"Manrope",sans-serif);color:var(--text-dim);}
 </style>
 <aside class="pn-lat" id="pn-lat" aria-label="Menu principal">
   <a class="pn-marca" href="/dashboard/" id="pn-marca" aria-label="Daniel IA - painel"></a>
@@ -2463,6 +2518,60 @@ btnContactoGuardar.addEventListener('click', function(){
   }
   copiar();
   if (window.MutationObserver) { var ob = new MutationObserver(copiar); ['card-plano', 'bar-tokens', 'caption-tokens', 'welcome-title'].forEach(function(id){ var el = $(id); if (el) ob.observe(el, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['style'] }); }); }
+})();
+
+// 1.104.2: lista de sites arrumada - capa com as iniciais, 3 acções à vista e o resto em "Mais"; sites presos em "A gerar" oferecem tentar outra vez
+(function(){
+  var MOSTRAR = /btn-gerir-|btn-editar-site|btn-escolher-layout/;
+  var IC_MAIS = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+  function classeTipo(t){ t = String(t || ''); return /commerce|Checkout|Loja/i.test(t) ? 't-loja' : /Portef/i.test(t) ? 't-port' : /Blog/i.test(t) ? 't-blog' : /Galeria/i.test(t) ? 't-gal' : /Landing|Site/i.test(t) ? 't-site' : 't-outro'; }
+  function iniciais(n){ var p = String(n || '?').replace(/[^A-Za-zÀ-ÿ0-9 ]/g, ' ').trim().split(/\s+/); return ((p[0] || '?').charAt(0) + (p[1] ? p[1].charAt(0) : (p[0] || '').charAt(1) || '')).toUpperCase(); }
+  function fecharTodos(){ document.querySelectorAll('.pn-mais-menu').forEach(function(m){ m.hidden = true; }); document.querySelectorAll('.pn-site.pn-aberto').forEach(function(x){ x.classList.remove('pn-aberto'); }); document.querySelectorAll('.pn-mais-btn').forEach(function(x){ x.setAttribute('aria-expanded', 'false'); }); }
+  function arrumar(sites){
+    var lista = document.getElementById('sites-list'); if (!lista) return;
+    var itens = lista.querySelectorAll(':scope > .site-item');
+    Array.prototype.forEach.call(itens, function(el, i){
+      if (el.classList.contains('pn-site')) return;
+      el.classList.add('pn-site');
+      var site = sites[i] || {};
+      var info = el.querySelector('.site-info'), nome = el.querySelector('.site-nome');
+      if (info && nome) {
+        var cab = document.createElement('div'); cab.className = 'pn-site-cab';
+        var ic = document.createElement('span'); ic.className = 'pn-site-ic ' + classeTipo(site.tipo || (el.querySelector('.site-meta .pill:nth-child(2)') || {}).textContent); ic.setAttribute('aria-hidden', 'true'); ic.textContent = iniciais(nome.textContent);
+        info.parentNode.insertBefore(cab, info); cab.appendChild(ic); cab.appendChild(info);
+      }
+      var acoes = el.querySelector('.site-actions');
+      if (acoes) {
+        var filhos = Array.prototype.slice.call(acoes.children), resto = [];
+        // "Ver site" (o link principal) vai sempre à frente
+        var ver = filhos.filter(function(b){ return b.tagName === 'A' && String(b.className).trim() === 'btn-ver' && b.target === '_blank'; })[0];
+        if (ver) { acoes.insertBefore(ver, acoes.firstChild); ver.classList.add('pn-ver'); }
+        filhos.forEach(function(b){ if (b === ver || MOSTRAR.test(b.className || '') || b.tagName === 'SPAN' || /Tentar outra vez/.test(b.textContent)) return; resto.push(b); });
+        if (resto.length > 1) {
+          var mais = document.createElement('div'); mais.className = 'pn-mais';
+          mais.innerHTML = '<button type="button" class="btn-ver pn-mais-btn" aria-expanded="false">' + IC_MAIS + '<span>Mais</span></button><div class="pn-mais-menu" hidden></div>';
+          var menu = mais.querySelector('.pn-mais-menu');
+          resto.forEach(function(b){ menu.appendChild(b); });
+          acoes.appendChild(mais);
+          var bm = mais.querySelector('.pn-mais-btn');
+          bm.addEventListener('click', function(e){ e.stopPropagation(); var ab = menu.hidden; fecharTodos(); menu.hidden = !ab; bm.setAttribute('aria-expanded', ab ? 'true' : 'false'); el.classList.toggle('pn-aberto', ab); });
+          menu.addEventListener('click', function(){ fecharTodos(); });
+        }
+      }
+      // preso em "A gerar" há mais de 2 horas: provavelmente parou
+      var ag = el.querySelector('.a-gerar-texto'), t = Date.parse(site.criado || '');
+      if (ag && t && Date.now() - t > 2 * 3600 * 1000) {
+        ag.outerHTML = '<span class="pn-parou">Parou a meio da criação.<a class="btn-ver" href="/criar/">Tentar outra vez</a></span>';
+        var pill = el.querySelector('.pill.estado-gerando'); if (pill) { pill.textContent = 'Parou'; pill.className = 'pill estado-erro'; }
+      }
+    });
+  }
+  document.addEventListener('click', function(e){ if (!e.target.closest('.pn-mais')) fecharTodos(); });
+  if (typeof window.renderSites === 'function') {
+    var original = window.renderSites;
+    window.renderSites = function(sites){ var r = original.apply(this, arguments); try { arrumar(sites || []); } catch (e) {} return r; };
+  }
+  arrumar([]);
 })();
 </script>
 
