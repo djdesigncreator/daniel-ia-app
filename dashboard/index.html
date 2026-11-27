@@ -873,7 +873,7 @@
   .hub-conta i:nth-child(2){background:var(--lime);} .hub-conta i:nth-child(3){background:color-mix(in srgb,var(--purple) 50%,var(--lime));}
   @media (prefers-reduced-motion:reduce){.hub-cartao,.hub-cta svg{transition:none;}.hub-cartao:hover{transform:none;}}
   /* as tuas apps, no painel */
-  .hub-apps{margin:30px 0 0;}
+  .hub-apps{margin:-8px 0 34px;}
   .hub-apps-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
   .hub-apps-cab h2{font-family:var(--font-display);font-size:20px;margin:0;}
   .hub-apps-cab a{font:800 13px var(--font-body);color:var(--accent-2);text-decoration:none;}
@@ -920,6 +920,7 @@
   </div>
 </section>
 
+  <section class="hub-apps" id="hub-apps" hidden aria-labelledby="hub-apps-tit"><div class="hub-apps-cab"><h2 id="hub-apps-tit">Os teus aplicativos</h2><a href="/apps/">Ver todos</a></div><div class="hub-apps-lista" id="hub-apps-lista"></div></section>
   <div class="cards">
     <div class="card">
       <div class="label">Plano actual</div>
@@ -973,7 +974,6 @@
   </div>
 
   <div class="sites-list" id="sites-list"></div>
-  <section class="hub-apps" id="hub-apps" hidden aria-labelledby="hub-apps-tit"><div class="hub-apps-cab"><h2 id="hub-apps-tit">Os teus aplicativos</h2><a href="/apps/">Ver todos</a></div><div class="hub-apps-lista" id="hub-apps-lista"></div></section>
 </div>
 
 <div class="dia-overlay-editar" id="overlay-editar" style="display:none">
