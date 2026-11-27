@@ -395,6 +395,21 @@
   .vd-chave svg{width:18px;height:18px;flex:0 0 18px;}
   .vd-chave code{font-family:var(--font-mono);font-size:12.5px;padding:2px 6px;border-radius:6px;background:var(--card-alt);}
   .msg{font-size:13px;line-height:1.45;}
+  /* 1.96.0: base de dados (migração para o Supabase) */
+  .bd-cartao{margin-bottom:14px;}
+  #bd-cartao [hidden]{display:none !important;}
+  .bd-nota{margin:0 0 4px;padding:11px 14px;border-radius:12px;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;border:1px solid var(--border);background:var(--card-alt);}
+  .bd-nota.ok{background:rgba(137,200,4,.1);border-color:rgba(137,200,4,.3);}
+  .bd-nota.aviso{background:rgba(208,135,0,.09);border-color:rgba(208,135,0,.45);}
+  .bd-nota ol{margin:6px 0 0;padding-left:20px;}
+  .bd-nota li{margin:3px 0;}
+  .bd-copia{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--card);font-size:13.5px;line-height:1.5;}
+  .bd-barra{height:8px;border-radius:99px;background:var(--card-alt);overflow:hidden;margin-top:8px;}
+  .bd-barra i{display:block;height:100%;background:var(--success);border-radius:99px;transition:width .4s;}
+  #bd-tabela{max-width:100%;overflow-x:auto;}
+  #bd-tabela table.tabela{min-width:0;width:100%;table-layout:auto;}
+  #bd-tabela td,#bd-tabela th{padding-left:8px;padding-right:8px;white-space:normal;overflow-wrap:anywhere;}
+  @media (max-width:640px){.bd-cartao .linha-accoes > button{flex:1 1 100%;}}
   .mt-tudo{margin:0 0 12px;padding:11px 14px;border-radius:12px;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;}
   .mt-tudo.ok{background:rgba(137,200,4,.1);border:1px solid rgba(137,200,4,.3);}
   .mt-tudo.aviso{background:rgba(208,135,0,.09);border:1px solid rgba(208,135,0,.45);}
@@ -1084,6 +1099,15 @@
         <div id="ia-config" class="dim" style="font-size:12.5px;margin:10px 0 12px"></div>
         <div class="tabela-caixa" id="ia-dias" style="border:none"></div>
       </div>
+      <div class="cartao bd-cartao" id="bd-cartao">
+        <h3>Base de dados <span id="bd-pill"></span></h3>
+        <p class="sub">A Daniel IA está a mudar a base de dados do Bubble para o Supabase. Aqui vês qual está a ser usada, comparas os registos dos dois lados e copias tudo do Bubble para o Supabase. Copiar não muda nada para os clientes: o servidor só passa a usar o Supabase quando a variável <code data-no-i18n>BASE_DADOS</code> do Bunny for mudada para <code data-no-i18n>supabase</code>.</p>
+        <div id="bd-estado"></div>
+        <div class="linha-accoes"><button type="button" class="btn-sec" id="bd-contar">Contar registos</button><button type="button" class="btn-pri" id="bd-copiar">Copiar tudo do Bubble para o Supabase</button><button type="button" class="btn-sec" id="bd-novidades" hidden>Trazer o que mudou desde a última cópia</button><span class="msg" id="bd-msg"></span></div>
+        <div class="dim" id="bd-ultima" style="font-size:12.5px;margin-top:6px"></div>
+        <div id="bd-copia"></div>
+        <div class="tabela-caixa" id="bd-tabela" style="border:none;margin-top:12px"></div>
+      </div>
       <div class="cartao ao-cartao" id="ao-cartao">
         <h3>Avisos de pagamento de Angola <span id="ao-pill"></span></h3>
         <p class="sub">O endereço (webhook) que se dá ao parceiro de pagamentos de Angola: a cada pagamento ele avisa a Daniel IA aqui. <b>Por agora este endereço só recebe e guarda os avisos</b>: não marca nada como pago. Serve para vermos exactamente o que o parceiro envia antes de ligar a confirmação automática.</p>
@@ -1447,7 +1471,7 @@
       }).catch(function(e){ msg($('mt-msg'), e.message || 'Sem ligação.', 'erro'); });
     });
   });
-  function carregarSistema(){ carregarMotor(); carregarUsoIA(); carregarSeguranca(false); carregarAngola(); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
+  function carregarSistema(){ carregarMotor(); carregarUsoIA(); carregarSeguranca(false); carregarAngola(); carregarBD(); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
 
   // ======================================================
   // Utilizadores
@@ -2515,6 +2539,68 @@
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(fim).catch(function(){ msg($('ao-msg'), 'Não foi possível copiar. Selecciona o endereço à mão.', 'erro'); });
     else { try { var r = document.createRange(); r.selectNodeContents($('ao-url')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); msg($('ao-msg'), 'Endereço seleccionado: copia com Ctrl+C.', 'ok'); } catch (e) {} }
   });
+
+  // ---- 1.96.0: base de dados (migração do Bubble para o Supabase) ----
+  var bd = { d: null, t: null };
+  var BD_NOMES = { user: 'Contas', site: 'Sites', plan: 'Planos', pacote: 'Recargas', generation: 'Gerações', produto: 'Produtos', avaliacao: 'Avaliações', encomenda: 'Encomendas', assinatura: 'Assinaturas', kyc: 'KYC', levantamento: 'Levantamentos', comunidade: 'Comunidade', agendamento: 'Marcações', dominio: 'Domínios', album: 'Álbuns', media: 'Fotos e vídeos', trabalho: 'Trabalhos', post: 'Artigos' };
+  function bdReg(g, l){ return num(g) + (Number(g) === 1 ? ' registo escrito' : ' registos escritos') + ' de ' + num(l) + (Number(l) === 1 ? ' lido' : ' lidos'); }
+  function bdNum(v){ return v === null || v === undefined ? '—' : (v === 'erro' ? 'erro' : num(v)); }
+  function bdDesenhar(d){
+    bd.d = d;
+    var noSupa = d.em_uso === 'supabase';
+    $('bd-pill').innerHTML = '<span class="pill ' + (noSupa ? 'ok' : 'roxo') + '">Em uso: ' + (noSupa ? 'Supabase' : 'Bubble') + '</span>';
+    var e = '';
+    if (noSupa) e = '<div class="bd-nota ok"><b>O servidor está a usar o Supabase</b> (<span data-no-i18n>' + esc(d.supabase_url) + '</span>). Tudo o que os clientes fazem já fica lá. Logo a seguir à troca, carrega uma vez em "Trazer o que mudou desde a última cópia": traz o que os clientes fizeram no Bubble enquanto o servidor reiniciava. Nunca põe dados antigos por cima dos novos.' + (d.senhas_do_bubble ? ' As passwords antigas são conferidas no Bubble no primeiro login de cada pessoa, por isso o Bubble tem de continuar ligado mais algum tempo.' : '') + '</div>';
+    else if (!d.supabase_configurado) e = '<div class="bd-nota aviso"><b>Falta ligar o Supabase a este servidor.</b><ol><li>No Supabase, projecto daniel-ia: copia o endereço do projecto e a chave secreta do servidor (service role / secret key).</li><li>No Bunny, nas variáveis do daniel-ia-proxy, cria <code data-no-i18n>SUPABASE_URL</code> (o endereço) e <code data-no-i18n>SUPABASE_SERVICE_KEY</code> (a chave). Não as escrevas em conversas.</li><li>Volta aqui e carrega em "Contar registos".</li></ol></div>';
+    else e = '<div class="bd-nota"><b>O Supabase está ligado</b> (<span data-no-i18n>' + esc(d.supabase_url) + '</span>), mas o servidor continua a usar o Bubble.<ol><li>"Copiar tudo do Bubble para o Supabase" e esperar que acabe.</li><li>"Contar registos": os números têm de bater certo.</li><li>Numa hora de pouco movimento: no Bunny, criar <code data-no-i18n>BASE_DADOS</code> = <code data-no-i18n>supabase</code> e fazer Apply Update.</li><li>Voltar aqui e carregar em "Trazer o que mudou desde a última cópia".</li></ol></div>';
+    $('bd-estado').innerHTML = e;
+    var c = d.copia || {}, aCopiar = c.estado === 'a copiar', bt = $('bd-copiar');
+    bt.disabled = aCopiar || noSupa || !d.supabase_configurado; $('bd-contar').disabled = aCopiar;
+    if (!bt.__armado) bt.textContent = aCopiar && c.modo !== 'novidades' ? 'A copiar...' : 'Copiar tudo do Bubble para o Supabase';
+    bt.hidden = noSupa; // depois da troca, "copiar tudo" traria de volta o que foi apagado no Supabase
+    var bn = $('bd-novidades'), ul = d.ultima;
+    bn.hidden = !ul || !d.supabase_configurado; bn.disabled = aCopiar;
+    if (!bn.__armado) bn.textContent = aCopiar && c.modo === 'novidades' ? 'A trazer...' : 'Trazer o que mudou desde a última cópia';
+    if (noSupa && !bn.hidden) bn.className = 'btn-pri'; else bn.className = 'btn-sec';
+    var nv = d.novidades;
+    $('bd-ultima').innerHTML = (ul ? 'Última cópia completa: ' + esc(data(ul.comecou, true)) + ' · ' + bdReg(ul.gravados, ul.lidos) + (ul.falhas ? ' · ' + num(ul.falhas) + ' falharam' : '') + '.' : '')
+      + (nv ? '<br>Última vez que se trouxe o que mudou: ' + esc(data(nv.comecou, true)) + ' · ' + bdReg(nv.gravados, nv.lidos) + '.' : '');
+    var feitos = Object.keys(c.tipos || {}), total = (d.tipos || []).length || 18, h = '';
+    if (aCopiar) h = '<div class="bd-copia">' + (c.modo === 'novidades' ? 'A trazer o que mudou: <b>' : 'A copiar <b>') + esc(BD_NOMES[c.tipo_actual] || c.tipo_actual || '...') + '</b> (' + feitos.length + ' de ' + total + ' tipos).<div class="bd-barra"><i style="width:' + Math.round(feitos.length / total * 100) + '%"></i></div></div>';
+    else if (c.estado === 'copiado' || c.estado === 'erro') {
+      var lidos = 0, grav = 0, falhas = 0, fic = 0, erros = [];
+      feitos.forEach(function(k){ var x = c.tipos[k]; lidos += x.lidos || 0; grav += x.gravados || 0; falhas += x.falhas || 0; fic += x.ficheiros_bubble || 0; (x.erros || []).forEach(function(m){ erros.push(k + ' ' + m); }); });
+      h = '<div class="bd-copia"><span class="msg ' + (c.estado === 'copiado' && !falhas ? 'ok' : 'erro') + '"><b>' + (c.estado === 'copiado' ? (c.modo === 'novidades' ? 'Trazido o que mudou' : 'Cópia terminada') : 'A cópia parou com um erro') + '</b> · ' + esc(data(c.acabou, true)) + '</span><br>'
+        + bdReg(grav, lidos) + (lidos > grav + falhas ? ' (' + num(lidos - grav - falhas) + ' já estavam iguais ou mais recentes no Supabase)' : '') + (falhas ? ' · <b>' + num(falhas) + ' falharam</b>' : '') + '.'
+        + (c.erro ? '<br><span class="dim" data-no-i18n>' + esc(c.erro) + '</span>' : '')
+        + (erros.length ? '<br><span class="dim" data-no-i18n>' + erros.map(esc).join('<br>') + '</span>' : '')
+        + (fic ? '<br><b>Atenção:</b> ' + num(fic) + (fic === 1 ? ' registo aponta' : ' registos apontam') + ' para ficheiros guardados no Bubble. Esses ficheiros deixam de abrir quando o Bubble for desligado.' : '') + '</div>';
+    }
+    $('bd-copia').innerHTML = h;
+    if (d.contagens) {
+      var iguais = d.contagens.filter(function(x){ return x.bubble !== null; }).every(function(x){ return x.bubble === x.supabase; });
+      $('bd-tabela').innerHTML = '<table class="tabela" style="min-width:0"><thead><tr><th>O quê</th><th class="num">No Bubble</th><th class="num">No Supabase</th><th></th></tr></thead><tbody>'
+        + d.contagens.map(function(x){
+            var ig = x.bubble === x.supabase, sem = x.bubble === null;
+            return '<tr><td>' + esc(BD_NOMES[x.tipo] || x.tipo) + '</td><td class="num">' + (sem ? '<span class="dim">não existe</span>' : bdNum(x.bubble)) + '</td><td class="num">' + bdNum(x.supabase) + '</td><td>' + (sem ? '' : (ig ? '<span class="pill ok">igual</span>' : '<span class="pill aviso">diferente</span>')) + '</td></tr>';
+          }).join('') + '</tbody></table>';
+      if (!aCopiar) msg($('bd-msg'), iguais ? 'Os números batem certo nos dois lados.' : (noSupa ? 'Depois da troca é normal o Supabase ter mais registos do que o Bubble.' : 'Há diferenças: falta copiar, ou houve mudanças depois da última cópia.'), iguais ? 'ok' : (noSupa ? '' : 'erro'));
+    }
+    clearTimeout(bd.t);
+    if (aCopiar) bd.t = setTimeout(function(){ if ($('sec-sistema').classList.contains('on')) carregarBD(); }, 1500);
+    else if (bd.aCopiarAntes) { bd.aCopiarAntes = false; carregarBD({ contar: true }); }
+    if (aCopiar) bd.aCopiarAntes = true;
+  }
+  function carregarBD(corpo){
+    return post('/admin-migracao', corpo || {}).then(function(r){
+      if (r.status !== 'success') { msg($('bd-msg'), r.message || 'Não foi possível.', 'erro'); if (bd.d) bdDesenhar(bd.d); return null; }
+      if (!r.response.contagens && bd.d && bd.d.contagens && !(corpo && corpo.copiar)) r.response.contagens = bd.d.contagens;
+      bdDesenhar(r.response); return r.response;
+    }).catch(function(e){ msg($('bd-msg'), /1\.9[0-5]|not found|404/i.test(String(e.message)) ? 'Precisa do servidor 1.96.0 ou acima.' : (e.message || 'Não foi possível ligar ao servidor.'), 'erro'); return null; });
+  }
+  $('bd-contar').addEventListener('click', function(){ $('bd-contar').disabled = true; msg($('bd-msg'), 'A contar nos dois lados...'); carregarBD({ contar: true }); });
+  doisToques($('bd-copiar'), 'Confirmar: copiar agora', function(){ msg($('bd-msg'), 'A começar a cópia...'); carregarBD({ copiar: true }).then(function(d){ if (d) msg($('bd-msg'), ''); }); });
+  doisToques($('bd-novidades'), 'Confirmar: trazer agora', function(){ msg($('bd-msg'), 'A procurar o que mudou no Bubble...'); carregarBD({ copiar: true, modo: 'novidades' }).then(function(d){ if (d) msg($('bd-msg'), ''); }); });
 
   // ---- 1.75.0: Vídeos IA ----
   var VD = { dados: null, escolhidos: [] };
