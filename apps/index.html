@@ -362,6 +362,13 @@
   .ap-end-pre{display:flex!important;align-items:center;padding:0 0 0 14px;margin:0!important;font:600 14px var(--font-mono)!important;color:var(--text-dim);white-space:nowrap;}
   .ap-endereco input{border:0!important;box-shadow:none!important;background:transparent!important;padding-left:2px!important;font-family:var(--font-mono)!important;min-width:0;}
   @media (max-width:520px){.ap-end-pre{font-size:12px!important;padding-left:10px;}}
+  /* ===================== Apps 1.103.0: tipos de app ===================== */
+  .ap-tipos-app{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 14px;}
+  @media (max-width:560px){.ap-tipos-app{grid-template-columns:1fr 1fr;}}
+  .ap-tipo-app{display:flex;align-items:center;gap:8px;min-width:0;padding:10px 11px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:800 12.5px/1.2 var(--font-body);cursor:pointer;text-align:left;transition:border-color .15s,background .15s,box-shadow .15s;}
+  .ap-tipo-app svg{flex:0 0 17px;width:17px;height:17px;color:var(--accent-2);}
+  .ap-tipo-app:hover{border-color:color-mix(in srgb,var(--accent-2) 50%,var(--border));}
+  .ap-tipo-app[aria-checked="true"]{border-color:var(--accent-2);background:color-mix(in srgb,var(--accent-2) 8%,var(--card));box-shadow:0 0 0 3px var(--accent-glow);}
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -464,7 +471,8 @@
       </section>
       <section class="ap-cartao ap-criar" id="ap-criar" aria-labelledby="ap-criar-tit">
         <h2 id="ap-criar-tit">Criar uma app nova</h2>
-        <p class="sub">Quanto mais detalhe deres (o que registas, quem usa, o que queres ver), melhor fica a app.</p>
+        <p class="sub">Escolhe o tipo de app (ou deixa a IA decidir) e descreve-a. Quanto mais detalhe, melhor fica.</p>
+        <div class="ap-tipos-app" id="ap-tipos-app" role="radiogroup" aria-label="Tipo de app"></div>
         <div class="ap-ideias" id="ap-ideias"></div>
         <label class="ap-campo"><span>Nome da app <small>(opcional)</small></span><input id="ap-nome" maxlength="80" placeholder="Ex: Gestão da minha loja"></label>
         <label class="ap-campo"><span>O que a app deve fazer</span>
@@ -683,10 +691,48 @@
   seletorModelo('ap-modelo-mudar', 'mudar');
 
   // ---------- início: lista + criar ----------
-  $('ap-ideias').innerHTML = IDEIAS.map(function(x, i){ return '<button type="button" class="ap-ideia" data-i="' + i + '">' + IC.ideia + esc(x.t) + '</button>'; }).join('');
+  // 1.103.0: tipos de app - não só painéis de gestão
+  var TIPOS_APP = [
+    { id: '', t: 'A IA decide', ic: '<path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/>' },
+    { id: 'gestao', t: 'Gestão do negócio', ic: '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>' },
+    { id: 'clientes', t: 'App para clientes', ic: '<path d="M5.5 7.5h13l1 12.5h-15z"/><path d="M9 7.5a3 3 0 0 1 6 0"/>' },
+    { id: 'jogo', t: 'Quiz e jogos', ic: '<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3M15.5 11.5h.01M18 13.5h.01"/>' },
+    { id: 'comunidade', t: 'Comunidade', ic: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5A6 6 0 0 1 21.5 20"/>' },
+    { id: 'conteudo', t: 'Cursos e conteúdo', ic: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5"/>' },
+    { id: 'marketplace', t: 'Marketplace', ic: '<path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9M3 9h18"/><path d="M9 20v-6h6v6"/>' },
+    { id: 'ferramenta', t: 'Ferramenta', ic: '<rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 7h7M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15h.01"/>' },
+    { id: 'eventos', t: 'Eventos', ic: '<rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>' }
+  ];
+  var IDEIAS_TIPO = {
+    gestao: IDEIAS.slice(0, 3).concat([IDEIAS[4]]),
+    clientes: [{ t: 'Pedidos do restaurante', d: 'Uma app para os clientes do meu restaurante em Maputo: ver o menu com fotos e preços por categoria, fazer o pedido (entrega ou levantar), pagar por M-Pesa ou na entrega e acompanhar o estado (recebido, a preparar, a caminho, entregue). Eu e os funcionários vemos os pedidos novos e mudamos o estado.' },
+      { t: 'Cartão de pontos', d: 'Uma app de fidelização para a minha loja: cada cliente tem um cartão com pontos (1 ponto por cada 100 MT), vê os prémios que pode trocar e o histórico. Os funcionários procuram o cliente pelo telefone e juntam pontos.' },
+      IDEIAS[3]],
+    jogo: [{ t: 'Quiz de futebol', d: 'Um quiz de futebol moçambicano e internacional: ecrã de início com "Jogar", 10 perguntas de escolha múltipla por jogo, 15 segundos por pergunta, pontos por rapidez, resultado final e ranking dos melhores com o nome. Eu, como admin, junto e mudo as perguntas por categoria (Mambas, Moçambola, Mundial).' },
+      { t: 'Quiz da escola', d: 'Um quiz para alunos treinarem para os exames: escolhem a disciplina e a classe, respondem a perguntas com explicação da resposta certa, vêem a pontuação e o ranking da turma. Os professores juntam perguntas.' },
+      { t: 'Adivinha a palavra', d: 'Um jogo de adivinhar palavras em português com pistas, 3 vidas, níveis fácil, médio e difícil, pontuação e ranking semanal.' }],
+    comunidade: [{ t: 'Igreja / associação', d: 'Uma app para a comunidade da nossa igreja: mural com avisos e publicações dos membros (texto e foto), comentários e gostos, agenda de actividades, pedidos de oração e perfil de cada membro. Os líderes podem fixar avisos e apagar publicações.' },
+      { t: 'Grupo de estudantes', d: 'Uma comunidade para estudantes da universidade: perguntas e respostas por cadeira, partilha de apontamentos, votos nas melhores respostas e perfil com os pontos de cada um.' }],
+    conteudo: [{ t: 'Curso de inglês', d: 'Uma app de curso de inglês para iniciantes: módulos com lições (texto, exemplos e áudio por link), exercícios no fim de cada lição, progresso do aluno e certificado no fim. Eu publico as lições.' },
+      { t: 'Livro de receitas', d: 'Uma app de receitas moçambicanas: receitas com foto, ingredientes, passos, tempo e dificuldade; pesquisa, categorias e favoritos.' }],
+    marketplace: [{ t: 'Carros à venda', d: 'Um marketplace de carros em Moçambique: anúncios com fotos, marca, modelo, ano, quilómetros, preço e cidade; pesquisa e filtros; botão para falar com o vendedor no WhatsApp; cada pessoa gere os seus anúncios.' },
+      { t: 'Casas para arrendar', d: 'Uma app de casas e apartamentos para arrendar em Maputo e Matola: anúncios com fotos, bairro, quartos e preço; filtros; contacto pelo WhatsApp; os donos publicam e marcam como arrendado.' }],
+    ferramenta: [{ t: 'Simulador de crédito', d: 'Um simulador de crédito: valor, prazo e taxa de juro; mostra a prestação mensal, o total a pagar e o plano de pagamentos mês a mês; guarda as simulações.' },
+      { t: 'Preços e IVA', d: 'Uma calculadora para comerciantes: custo, margem e IVA (16%) dão o preço de venda; mostra o lucro por unidade e guarda os produtos calculados.' }],
+    eventos: [{ t: 'Conferência', d: 'Uma app para a nossa conferência: programa por dia e sala, oradores com foto, inscrição com nome, email e telefone, bilhete com código e check-in à entrada pelos organizadores.' },
+      { t: 'Festa com bilhetes', d: 'Uma app para vender bilhetes de uma festa: tipos de bilhete (normal e VIP), reserva com pagamento por M-Pesa, lista de convidados e confirmação à porta.' }]
+  };
+  IDEIAS_TIPO[''] = [IDEIAS[0], IDEIAS_TIPO.clientes[0], IDEIAS_TIPO.jogo[0], IDEIAS_TIPO.comunidade[0], IDEIAS_TIPO.marketplace[0], IDEIAS_TIPO.ferramenta[0]];
+  var tipoApp = '';
+  function desenharTipos(){
+    $('ap-tipos-app').innerHTML = TIPOS_APP.map(function(x){ return '<button type="button" class="ap-tipo-app" role="radio" aria-checked="' + (x.id === tipoApp) + '" data-tipo="' + x.id + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + x.ic + '</svg>' + esc(x.t) + '</button>'; }).join('');
+    $('ap-ideias').innerHTML = (IDEIAS_TIPO[tipoApp] || []).map(function(x, i){ return '<button type="button" class="ap-ideia" data-i="' + i + '">' + IC.ideia + esc(x.t) + '</button>'; }).join('');
+  }
+  $('ap-tipos-app').addEventListener('click', function(e){ var b = e.target.closest('[data-tipo]'); if (!b) return; tipoApp = b.getAttribute('data-tipo'); desenharTipos(); });
+  desenharTipos();
   $('ap-ideias').addEventListener('click', function(e){
     var b = e.target.closest('[data-i]'); if (!b) return;
-    var x = IDEIAS[Number(b.getAttribute('data-i'))];
+    var x = (IDEIAS_TIPO[tipoApp] || [])[Number(b.getAttribute('data-i'))]; if (!x) return;
     $('ap-desc').value = x.d; contar(); $('ap-desc').focus();
     if (!$('ap-nome').value) $('ap-nome').placeholder = 'Ex: ' + x.t;
   });
@@ -705,7 +751,7 @@
     if (!apps.length) { l.innerHTML = '<div class="ap-vazio">' + IC.vazio + '<br>Ainda não criaste nenhuma app.<br>' + (ctx.pode_criar ? 'Descreve a primeira ao lado.' : 'Com um plano pago, crias a primeira aqui.') + '</div>'; return; }
     l.innerHTML = apps.map(function(a){
       return '<div class="ap-item"><div class="ap-ic">' + IC.app + '</div><div style="min-width:0"><b>' + esc(a.nome) + '</b><div class="ap-meta">' + chipEstado(a) +
-        (a.versao_app ? '<span class="ap-chip">Versão ' + a.versao_app + '</span>' : '') + (MODELOS_UI[a.modelo] ? '<span class="ap-chip mod">' + MODELOS_UI[a.modelo].curto + '</span>' : '') + '<span class="ap-chip">' + a.tabelas + (a.tabelas === 1 ? ' tabela' : ' tabelas') + '</span>' + (a.ecras ? '<span class="ap-chip">' + a.ecras + ' ecrãs</span>' : '') + '</div></div>' +
+        (a.versao_app ? '<span class="ap-chip">Versão ' + a.versao_app + '</span>' : '') + (MODELOS_UI[a.modelo] ? '<span class="ap-chip mod">' + MODELOS_UI[a.modelo].curto + '</span>' : '') + (a.tipo ? '<span class="ap-chip">' + esc((TIPOS_APP.filter(function(x){ return x.id === a.tipo; })[0] || {}).t || a.tipo) + '</span>' : '') + '<span class="ap-chip">' + a.tabelas + (a.tabelas === 1 ? ' tabela' : ' tabelas') + '</span>' + (a.ecras ? '<span class="ap-chip">' + a.ecras + ' ecrãs</span>' : '') + '</div></div>' +
         '<div class="ap-acoes">' + (a.url ? '<a class="btn-sec btn-peq" href="' + esc(a.url_curta || a.url) + '" target="_blank" rel="noopener">Abrir</a>' : '') + '<button type="button" class="btn-sec btn-peq" data-gerir="' + esc(a.id) + '">Gerir</button></div></div>';
     }).join('');
   }
@@ -728,7 +774,7 @@
     var d = $('ap-desc').value.trim(), n = $('ap-nome').value.trim(), b = this;
     if (d.length < 20) { msg('ap-criar-msg', 'Descreve a app com mais detalhe (pelo menos uma frase completa).', 'erro'); $('ap-desc').focus(); return; }
     b.disabled = true; msg('ap-criar-msg', 'A começar...');
-    post('/app-gerar', { nome: n, descricao: d, modelo: modeloEscolhido('criar') }).then(function(r){
+    post('/app-gerar', { nome: n, descricao: d, modelo: modeloEscolhido('criar'), tipo: tipoApp || undefined }).then(function(r){
       b.disabled = false;
       if (r.status !== 'success') { msgErro('ap-criar-msg', r); return; }
       msg('ap-criar-msg', ''); $('ap-desc').value = ''; $('ap-nome').value = ''; contar();
