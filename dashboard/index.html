@@ -2128,6 +2128,20 @@ btnContactoGuardar.addEventListener('click', function(){
 <script>
 // O KYC aparece só na loja (Gerir loja e no fim de criar uma loja).
 
+// ---- Apps (1.99.2): o botão só aparece a quem pode criar apps ----
+(function(){
+  if (!OWNER) return;
+  fetch(CONTAINER_URL + '/app-lista', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER }) })
+    .then(function(r){ return r.json(); }).then(function(r){
+      if (!r || r.status !== 'success') return;
+      var zona = document.querySelector('.top-actions');
+      if (!zona || document.getElementById('btn-apps')) return;
+      var a = document.createElement('a');
+      a.id = 'btn-apps'; a.href = '/apps/'; a.className = 'btn-admin'; a.title = 'Apps com base de dados (beta)';
+      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Apps</span>';
+      zona.insertBefore(a, zona.firstChild);
+    }).catch(function(){});
+})();
 // ---- Painel de administração: o botão só aparece a quem é admin ----
 (function(){
   var token = '';
