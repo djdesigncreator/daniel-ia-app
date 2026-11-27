@@ -350,6 +350,18 @@
   .ap-ext-gerar h3{font:800 16px var(--font-display);margin:0 0 12px;}
   .ap-ext-gerar textarea{min-height:110px;}
   .ap-ext-accoes{display:flex;gap:8px;flex-wrap:wrap;}
+  /* ===================== Apps 1.102.0: exportar e endereço curto ===================== */
+  .ap-cab-accoes{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .ap-cab-accoes .btn-sec{display:inline-flex;align-items:center;gap:7px;}
+  .ap-cab-accoes .btn-sec svg{width:16px;height:16px;}
+  .ap-versao{grid-template-columns:auto minmax(0,1fr) auto;}
+  .ap-ver-baixar{border:1px solid var(--border);background:var(--card-alt);color:var(--text-dim);border-radius:8px;padding:5px 9px;font:800 11px var(--font-mono);cursor:pointer;height:max-content;}
+  .ap-ver-baixar:hover{color:var(--text);border-color:var(--accent-2);}
+  .ap-endereco{display:flex!important;align-items:stretch;border:1px solid var(--border);border-radius:12px;background:var(--card-alt);overflow:hidden;}
+  .ap-endereco:focus-within{border-color:var(--accent-2);box-shadow:0 0 0 4px var(--accent-glow);}
+  .ap-end-pre{display:flex!important;align-items:center;padding:0 0 0 14px;margin:0!important;font:600 14px var(--font-mono)!important;color:var(--text-dim);white-space:nowrap;}
+  .ap-endereco input{border:0!important;box-shadow:none!important;background:transparent!important;padding-left:2px!important;font-family:var(--font-mono)!important;min-width:0;}
+  @media (max-width:520px){.ap-end-pre{font-size:12px!important;padding-left:10px;}}
 </style>
 <style id="dia-tema-css">
   /* Tema claro com mais contraste (21/10/2026): fundo levemente lilás para os cartões brancos
@@ -484,7 +496,10 @@
         <h1 id="ap-d-nome">App</h1>
         <div class="ap-link" id="ap-d-link-caixa" hidden><code id="ap-d-link"></code><button type="button" class="btn-sec btn-peq" id="ap-d-copiar">Copiar</button></div>
       </div>
+      <div class="ap-cab-accoes">
+      <button type="button" class="btn-sec" id="ap-d-exportar" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></svg><span>Exportar código</span></button>
       <a class="btn-pri" id="ap-d-abrir" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg><span>Abrir a app</span></a>
+      </div>
     </div>
 
     <section class="ap-cartao ap-progresso" id="ap-prog" hidden aria-live="polite">
@@ -550,6 +565,18 @@
         </div>
         <label class="ap-campo" style="margin-top:16px"><span>Nome que aparece na app e nos emails</span><input id="ap-def-nome" maxlength="80"></label>
         <div class="ap-rodape"><span class="ap-msg" id="ap-def-msg"></span><button type="button" class="btn-pri" id="ap-def-guardar">Guardar</button></div>
+      </section>
+      <section class="ap-cartao">
+        <h2>Endereço da app</h2>
+        <p class="sub">O link curto para partilhares com a tua equipa e os teus clientes.</p>
+        <div class="ap-linha"><label class="ap-campo ap-endereco"><span class="sr-only" style="position:absolute;left:-9999px">Endereço</span><span class="ap-end-pre" id="ap-end-pre">apps.daniel-ia.pro/</span><input id="ap-end" maxlength="40" spellcheck="false" autocomplete="off" placeholder="nome-da-app"></label>
+          <button type="button" class="btn-pri" id="ap-end-guardar" style="min-height:47px">Guardar endereço</button></div>
+        <div class="ap-msg" id="ap-end-msg" style="margin-top:10px"></div>
+      </section>
+      <section class="ap-cartao">
+        <h2>Código fonte</h2>
+        <p class="sub">O código é teu. Descarrega um projecto React pronto a correr (npm install e npm run dev) e publica-o onde quiseres. Os dados e as contas continuam na Daniel IA.</p>
+        <button type="button" class="btn-sec" id="ap-def-exportar">Descarregar o código (ZIP)</button>
       </section>
       <section class="ap-cartao ap-perigo">
         <h2>Apagar a app</h2>
@@ -679,7 +706,7 @@
     l.innerHTML = apps.map(function(a){
       return '<div class="ap-item"><div class="ap-ic">' + IC.app + '</div><div style="min-width:0"><b>' + esc(a.nome) + '</b><div class="ap-meta">' + chipEstado(a) +
         (a.versao_app ? '<span class="ap-chip">Versão ' + a.versao_app + '</span>' : '') + (MODELOS_UI[a.modelo] ? '<span class="ap-chip mod">' + MODELOS_UI[a.modelo].curto + '</span>' : '') + '<span class="ap-chip">' + a.tabelas + (a.tabelas === 1 ? ' tabela' : ' tabelas') + '</span>' + (a.ecras ? '<span class="ap-chip">' + a.ecras + ' ecrãs</span>' : '') + '</div></div>' +
-        '<div class="ap-acoes">' + (a.url ? '<a class="btn-sec btn-peq" href="' + esc(a.url) + '" target="_blank" rel="noopener">Abrir</a>' : '') + '<button type="button" class="btn-sec btn-peq" data-gerir="' + esc(a.id) + '">Gerir</button></div></div>';
+        '<div class="ap-acoes">' + (a.url ? '<a class="btn-sec btn-peq" href="' + esc(a.url_curta || a.url) + '" target="_blank" rel="noopener">Abrir</a>' : '') + '<button type="button" class="btn-sec btn-peq" data-gerir="' + esc(a.id) + '">Gerir</button></div></div>';
     }).join('');
   }
   $('ap-lista').addEventListener('click', function(e){ var b = e.target.closest('[data-gerir]'); if (b) irPara(b.getAttribute('data-gerir')); });
@@ -738,13 +765,14 @@
       var r = cfg.registo === 'aberto' ? 'aberto' : 'convite';
       Array.prototype.forEach.call(document.querySelectorAll('input[name="ap-registo"]'), function(x){ x.checked = x.value === r; });
       $('ap-def-nome').value = cfg.nome_publico || info.nome || '';
+      $('ap-end').value = info.endereco || ''; $('ap-end-pre').textContent = (info.dominio || 'apps.daniel-ia.pro') + '/'; msg('ap-end-msg', info.endereco && !info.url_curta ? 'O endereço curto fica activo assim que o domínio das apps estiver ligado. Até lá, a app abre no endereço longo.' : '');
       $('ap-apagar-nome').placeholder = info.nome || '';
     });
   }
   function desenharEstado(e){
-    var url = e.url || '';
+    var url = e.url_curta || e.url || '';
     $('ap-d-versao').textContent = e.versao ? '· VERSÃO ' + e.versao : '';
-    mostrar('ap-d-link-caixa', !!url); mostrar('ap-d-abrir', !!url);
+    mostrar('ap-d-link-caixa', !!url); mostrar('ap-d-abrir', !!url); mostrar('ap-d-exportar', !!e.versao);
     if (url) { $('ap-d-link').textContent = url; $('ap-d-abrir').href = url; }
     var trab = e.estado === 'a trabalhar';
     mostrar('ap-prog', trab);
@@ -804,7 +832,7 @@
   function carregarVersoes(){
     post('/app-versoes', { app_id: actual }).then(function(r){
       var v = (r.response && r.response.versoes) || [];
-      $('ap-versoes').innerHTML = v.length ? v.map(function(x){ return '<div class="ap-versao"><b>v' + x.versao + '</b><div>' + esc(x.pedido || '') + '<span>' + (x.modo === 'criar' ? 'Criada' : 'Mudada') + ' a ' + esc(quando(x.quando)) + (MODELOS_UI[x.modelo] ? ' · ' + MODELOS_UI[x.modelo].curto : '') + (x.descontados ? ' · ' + milhares(x.descontados) + ' tokens' : '') + '</span></div></div>'; }).join('') : '<div class="ap-vazio" style="padding:20px">Ainda não há versões.</div>';
+      $('ap-versoes').innerHTML = v.length ? v.map(function(x){ return '<div class="ap-versao"><b>v' + x.versao + '</b><div>' + esc(x.pedido || '') + '<span>' + (x.modo === 'criar' ? 'Criada' : 'Mudada') + ' a ' + esc(quando(x.quando)) + (MODELOS_UI[x.modelo] ? ' · ' + MODELOS_UI[x.modelo].curto : '') + (x.descontados ? ' · ' + milhares(x.descontados) + ' tokens' : '') + '</span></div><button type="button" class="ap-ver-baixar" data-exportar="' + x.versao + '" title="Descarregar o código desta versão">ZIP</button></div>'; }).join('') : '<div class="ap-vazio" style="padding:20px">Ainda não há versões.</div>';
     });
   }
 
@@ -949,6 +977,38 @@
   });
 
   // definições
+  // ---------- exportar o código e o endereço curto (1.102.0) ----------
+  function exportar(versao, b){
+    var texto = b.innerHTML; b.disabled = true; b.textContent = 'A preparar o ZIP...';
+    fetch(CONTAINER_URL + '/app-exportar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ owner: OWNER, app_id: actual, versao: versao || undefined }) })
+      .then(function(r){
+        if ((r.headers.get('content-type') || '').indexOf('zip') < 0) return r.json().then(function(j){ throw new Error((j && j.message) || 'Não foi possível exportar.'); });
+        return r.blob().then(function(bl){
+          var a = document.createElement('a'); a.href = URL.createObjectURL(bl);
+          a.download = ((info && info.endereco) || 'app') + '-v' + (versao || (estadoAct && estadoAct.versao) || 1) + '.zip';
+          document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+        });
+      })
+      .catch(function(er){ $('ap-d-erro').textContent = er.message || 'Não foi possível exportar.'; mostrar('ap-d-erro', true); })
+      .then(function(){ b.disabled = false; b.innerHTML = texto; });
+  }
+  $('ap-d-exportar').addEventListener('click', function(){ exportar(0, this); });
+  $('ap-def-exportar').addEventListener('click', function(){ exportar(0, this); });
+  $('ap-versoes').addEventListener('click', function(e){ var b = e.target.closest('[data-exportar]'); if (b) exportar(Number(b.getAttribute('data-exportar')), b); });
+  $('ap-end').addEventListener('input', function(){ var v = this.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9-]+/g, '-').replace(/^-+/, ''); if (v !== this.value) this.value = v; });
+  $('ap-end-guardar').addEventListener('click', function(){
+    var v = $('ap-end').value.trim().replace(/-+$/, ''), b = this;
+    if (!/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/.test(v)) { msg('ap-end-msg', 'Usa 3 a 40 letras minúsculas, números e hífens.', 'erro'); return; }
+    b.disabled = true; msg('ap-end-msg', 'A guardar...');
+    post('/app-endereco', { app_id: actual, endereco: v }).then(function(r){
+      b.disabled = false;
+      if (r.status !== 'success') { msgErro('ap-end-msg', r); return; }
+      info.endereco = r.response.endereco; $('ap-end').value = r.response.endereco;
+      msg('ap-end-msg', r.response.url_curta ? 'Guardado: ' + r.response.url_curta : 'Guardado. Fica activo assim que o domínio das apps estiver ligado.', 'ok');
+      if (r.response.url_curta) { estadoAct.url_curta = r.response.url_curta; desenharEstado(estadoAct); }
+    }).catch(function(){ b.disabled = false; msg('ap-end-msg', 'Sem ligação ao servidor.', 'erro'); });
+  });
+
   $('ap-def-guardar').addEventListener('click', function(){
     var r = document.querySelector('input[name="ap-registo"]:checked'), b = this;
     b.disabled = true;
