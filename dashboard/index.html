@@ -2318,5 +2318,153 @@ btnContactoGuardar.addEventListener('click', function(){
 <script src="/suporte/cookies.js?v=1" data-rodape="1" defer></script>
 <script src="/suporte/promo.js?v=1" data-onde="dashboard" defer></script>
 <script src="/suporte/voz.js?v=1" defer></script>
+<style id="pn-estilo">
+  /* 1.104.1: painel do computador mais profissional - barra lateral, título no topo e coluna de resumo à direita.
+     No telemóvel fica tudo como antes (a barra lateral só aparece a partir de 1180 px). */
+  .pn-lat{display:none;}
+  .pn-conteudo,.pn-rail{display:contents;}
+  .main{display:flex;flex-direction:column;}
+  .main>.welcome,.pn-conteudo>.welcome{order:1;}
+  #hub{order:2;} #hub-apps{order:3;}
+  .pn-rail>.cards{order:4;} .pn-rail>#resumo-est{order:5;} .pn-rail>.com-banner{order:6;}
+  .pn-conteudo>.sites-header,.pn-conteudo>#ps-caixa,.pn-conteudo>.sites-loading,.pn-conteudo>.sites-empty,.pn-conteudo>.sites-list,.pn-conteudo>*{order:7;}
+  .pn-conteudo>.welcome{order:1;} .pn-conteudo>#hub{order:2;} .pn-conteudo>#hub-apps{order:3;}
+  .pn-titulo{display:none;}
+  @media (min-width:1180px){
+    body.pn-ok .pn-lat{display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;width:264px;z-index:600;padding:22px 16px 18px;
+      background:color-mix(in srgb,var(--card) 92%,transparent);border-right:1px solid var(--border);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow-y:auto;}
+    body.pn-ok .topbar{margin-left:264px;padding:14px 32px;}
+    body.pn-ok .topbar .brand{display:none;}
+    body.pn-ok .pn-titulo{display:flex;flex-direction:column;gap:2px;}
+    body.pn-ok .main{margin-left:264px;max-width:none;padding:30px 32px 80px;}
+    body.pn-ok .welcome h1{font-size:28px;letter-spacing:-.02em;}
+    body.pn-ok .dck-rodape{margin-left:264px;}
+  }
+  @media (min-width:1380px){
+    body.pn-ok .main{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px;align-items:start;max-width:1500px;}
+    body.pn-ok .pn-conteudo{display:block;min-width:0;}
+    body.pn-ok .pn-rail{position:sticky;top:96px;display:flex;flex-direction:column;gap:16px;}
+    body.pn-ok .pn-rail>.cards{display:grid;grid-template-columns:1fr;gap:16px;margin:0;}
+    body.pn-ok .pn-rail>#resumo-est,body.pn-ok .pn-rail>.com-banner{margin:0;}
+    body.pn-ok .pn-rail .resumo-est-kpis{grid-template-columns:1fr 1fr!important;}
+    body.pn-ok .pn-rail .com-banner{flex-wrap:wrap;}
+  }
+  .pn-titulo b{font:800 17px/1.15 var(--font-display,"Sora",sans-serif);letter-spacing:-.01em;color:var(--text);}
+  .pn-titulo span{font:600 12px/1.2 var(--font-body,"Manrope",sans-serif);color:var(--text-dim);}
+  .pn-marca{display:flex;align-items:center;padding:4px 10px 18px;}
+  .pn-marca svg{height:28px;width:auto;overflow:visible;}
+  .pn-criar{position:relative;margin:0 4px 18px;}
+  .pn-criar>button{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 14px;cursor:pointer;
+    font:800 14px var(--font-body,"Manrope",sans-serif);background:var(--grad-accent);color:var(--on-accent);box-shadow:0 10px 24px -10px var(--accent-glow);}
+  .pn-criar>button svg{width:16px;height:16px;}
+  .pn-criar-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:0 20px 50px -20px rgba(20,6,32,.5);}
+  .pn-criar-menu[hidden]{display:none;}
+  .pn-criar-menu a{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;text-decoration:none;color:var(--text);font:700 13.5px var(--font-body,"Manrope",sans-serif);}
+  .pn-criar-menu a:hover{background:var(--card-alt);}
+  .pn-criar-menu a span{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--purple);color:var(--lime-bright);flex:0 0 30px;}
+  .pn-criar-menu a span svg{width:15px;height:15px;}
+  .pn-grupo{font:700 10.5px/1 var(--font-mono,"JetBrains Mono",monospace);letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);padding:14px 12px 8px;}
+  .pn-nav{display:flex;flex-direction:column;gap:2px;}
+  .pn-nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;text-decoration:none;color:var(--text-dim);font:700 14px var(--font-body,"Manrope",sans-serif);transition:background .15s,color .15s;}
+  .pn-nav a svg{width:18px;height:18px;flex:0 0 18px;}
+  .pn-nav a:hover{background:var(--card-alt);color:var(--text);}
+  .pn-nav a[aria-current="page"]{background:color-mix(in srgb,var(--accent-2) 12%,transparent);color:var(--text);}
+  .pn-nav a[aria-current="page"] svg{color:var(--accent-2);}
+  .pn-nav a em{margin-left:auto;font:800 9.5px/1 var(--font-mono,monospace);font-style:normal;letter-spacing:.06em;padding:4px 6px;border-radius:6px;background:var(--lime);color:var(--on-accent);}
+  .pn-pe{margin-top:auto;padding-top:16px;display:flex;flex-direction:column;gap:12px;}
+  .pn-plano{padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--card-alt);}
+  .pn-plano-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;font:800 13px var(--font-body,"Manrope",sans-serif);color:var(--text);}
+  .pn-plano-topo a{font:800 12px var(--font-body,"Manrope",sans-serif);color:var(--accent-2);text-decoration:none;}
+  .pn-plano-barra{height:6px;border-radius:99px;background:var(--border);overflow:hidden;margin:10px 0 6px;}
+  .pn-plano-barra i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad-accent);transition:width .4s;}
+  .pn-plano small{display:block;font:600 11.5px var(--font-body,"Manrope",sans-serif);color:var(--text-dim);}
+  .pn-eu{display:flex;align-items:center;gap:10px;padding:6px 4px;}
+  .pn-eu i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:800 14px var(--font-display,"Sora",sans-serif);font-style:normal;background:var(--purple);color:var(--lime-bright);flex:0 0 38px;}
+  .pn-eu b{display:block;font:800 13.5px var(--font-body,"Manrope",sans-serif);color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pn-eu span{min-width:0;flex:1 1 auto;}
+  .pn-eu small{display:block;font:600 11.5px var(--font-body,"Manrope",sans-serif);color:var(--text-dim);}
+  .pn-eu button{border:1px solid var(--border);background:var(--card);color:var(--text-dim);border-radius:10px;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;}
+  .pn-eu button:hover{color:var(--text);border-color:var(--accent-2);}
+  .pn-eu button svg{width:16px;height:16px;}
+</style>
+<aside class="pn-lat" id="pn-lat" aria-label="Menu principal">
+  <a class="pn-marca" href="/dashboard/" id="pn-marca" aria-label="Daniel IA - painel"></a>
+  <div class="pn-criar">
+    <button type="button" id="pn-criar-btn" aria-expanded="false" aria-controls="pn-criar-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Criar novo</button>
+    <div class="pn-criar-menu" id="pn-criar-menu" hidden>
+      <a href="/criar/?tipo=site"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 9h19"/></svg></span>Site</a>
+      <a href="/criar/?tipo=loja"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.5h13l1 12.5h-15z"/><path d="M9 7.5a3 3 0 0 1 6 0"/></svg></span>Loja online</a>
+      <a href="/apps/"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="M17.25 14v6.5M14 17.25h6.5"/></svg></span>Aplicativo</a>
+    </div>
+  </div>
+  <nav class="pn-nav" aria-label="Navegação">
+    <a href="/dashboard/" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>Painel</a>
+    <a href="#sites" id="pn-ir-sites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M2.5 9h19M6 6.5h.01M8.5 6.5h.01"/></svg>Sites e lojas</a>
+    <a href="/apps/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><path d="M17.25 14v6.5M14 17.25h6.5"/></svg>Aplicativos<em>NOVO</em></a>
+  </nav>
+  <div class="pn-grupo">Gerir</div>
+  <nav class="pn-nav" aria-label="Gerir">
+    <a href="/estatisticas/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Estatísticas</a>
+    <a href="/dominios/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Domínios</a>
+    <a href="/carteira/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="14" rx="3"/><path d="M2.5 10h19M16.5 15h2"/></svg>Carteira</a>
+  </nav>
+  <div class="pn-grupo">Conta</div>
+  <nav class="pn-nav" aria-label="Conta">
+    <a href="/planos/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 16.9 6.1 20l1.2-6.5L2.5 8.9 9.1 8z"/></svg>Planos e tokens</a>
+    <a href="/comunidade/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5A6 6 0 0 1 21.5 20"/></svg>Comunidade</a>
+  </nav>
+  <div class="pn-pe">
+    <div class="pn-plano">
+      <div class="pn-plano-topo"><span id="pn-plano">Plano</span><a href="/planos/">Mudar</a></div>
+      <div class="pn-plano-barra"><i id="pn-plano-barra"></i></div>
+      <small id="pn-plano-tokens">Tokens de IA deste mês</small>
+    </div>
+    <div class="pn-eu"><i id="pn-eu-ini">·</i><span><b id="pn-eu-nome">A tua conta</b><small>Conta Daniel IA</small></span>
+      <button type="button" id="pn-sair" title="Sair" aria-label="Sair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></svg></button></div>
+  </div>
+</aside>
+<script id="pn-script">
+// 1.104.1: painel do computador - barra lateral, título e coluna de resumo (no telemóvel não muda nada)
+(function(){
+  var main = document.querySelector('.main'); if (!main || document.getElementById('pn-conteudo')) return;
+  var $ = function(id){ return document.getElementById(id); };
+  // as peças do resumo vão para a coluna da direita; o resto fica na coluna principal
+  var rail = document.createElement('aside'); rail.className = 'pn-rail'; rail.id = 'pn-rail'; rail.setAttribute('aria-label', 'Resumo da conta');
+  var conteudo = document.createElement('div'); conteudo.className = 'pn-conteudo'; conteudo.id = 'pn-conteudo';
+  var paraRail = [main.querySelector(':scope > .cards'), $('resumo-est'), main.querySelector(':scope > .com-banner')].filter(Boolean);
+  Array.prototype.slice.call(main.children).forEach(function(el){ if (paraRail.indexOf(el) < 0) conteudo.appendChild(el); });
+  paraRail.forEach(function(el){ rail.appendChild(el); });
+  main.appendChild(conteudo); main.appendChild(rail);
+  var sh = document.querySelector('.sites-header'); if (sh) sh.id = sh.id || 'sites';
+  // título e data no topo (computador)
+  var topo = document.querySelector('.topbar');
+  if (topo && !document.querySelector('.pn-titulo')) {
+    var t = document.createElement('div'); t.className = 'pn-titulo';
+    var hoje = new Date(); var data = '';
+    try { data = hoje.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' }); } catch (e) {}
+    t.innerHTML = '<b>Painel</b><span></span>'; t.querySelector('span').textContent = data.charAt(0).toUpperCase() + data.slice(1);
+    topo.insertBefore(t, topo.firstChild);
+  }
+  var marca = document.querySelector('.topbar .brand svg'); if (marca) $('pn-marca').appendChild(marca.cloneNode(true));
+  document.body.classList.add('pn-ok');
+  // criar novo
+  var bc = $('pn-criar-btn'), menu = $('pn-criar-menu');
+  bc.addEventListener('click', function(e){ e.stopPropagation(); var ab = menu.hidden; menu.hidden = !ab; bc.setAttribute('aria-expanded', ab ? 'true' : 'false'); });
+  document.addEventListener('click', function(e){ if (!menu.hidden && !e.target.closest('.pn-criar')) { menu.hidden = true; bc.setAttribute('aria-expanded', 'false'); } });
+  $('pn-ir-sites').addEventListener('click', function(e){ var a = $('sites'); if (a) { e.preventDefault(); a.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
+  $('pn-sair').addEventListener('click', function(){ var s = $('btn-sair'); if (s) s.click(); });
+  // plano, tokens e nome: copiados dos cartões que o painel já preenche
+  function copiar(){
+    var pl = $('card-plano'), bt = $('bar-tokens'), cap = $('caption-tokens'), wt = $('welcome-title');
+    if (pl && pl.textContent.trim() && pl.textContent.trim() !== '—') $('pn-plano').textContent = 'Plano ' + pl.textContent.trim();
+    if (bt) { $('pn-plano-barra').style.width = bt.style.width || '0'; if (bt.style.background) $('pn-plano-barra').style.background = bt.style.background; }
+    if (cap && cap.textContent.trim()) $('pn-plano-tokens').textContent = cap.textContent.trim();
+    if (wt) { var n = wt.textContent.replace(/^Bem-vind[oa],?\s*/i, '').trim(); if (n) { $('pn-eu-nome').textContent = n; $('pn-eu-ini').textContent = n.split(/\s+/).map(function(x){ return x.charAt(0); }).join('').slice(0, 2).toUpperCase(); } }
+  }
+  copiar();
+  if (window.MutationObserver) { var ob = new MutationObserver(copiar); ['card-plano', 'bar-tokens', 'caption-tokens', 'welcome-title'].forEach(function(id){ var el = $(id); if (el) ob.observe(el, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['style'] }); }); }
+})();
+</script>
+
 </body>
 </html>
