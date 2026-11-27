@@ -1295,7 +1295,7 @@ function carregarAvisoPaySuite(){
     }
     desenhar();
     // 1.92.0: métodos desligados (hoje: só cartão)
-    var mt = d.metodos || [], fx = document.getElementById('pm-faixa');
+    var mt = d.metodos_planos || d.metodos || [], fx = document.getElementById('pm-faixa'); // 1.95.0: a faixa fala dos pagamentos à Daniel IA (assinaturas)
     if (mt.length && mt.length < 3) {
       if (!fx) { fx = document.createElement('div'); fx.id = 'pm-faixa'; fx.className = 'pm-faixa'; fx.setAttribute('role', 'status'); caixa.parentNode.insertBefore(fx, caixa.nextSibling); }
       var soC = mt.length === 1 && mt[0] === 'cartao';

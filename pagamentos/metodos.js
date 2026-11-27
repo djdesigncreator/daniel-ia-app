@@ -1,5 +1,5 @@
 /*
-  Daniel IA - métodos de pagamento ligados (1.92.0)
+  Daniel IA - métodos de pagamento ligados (1.92.0; 1.95.0: lista das assinaturas)
   -------------------------------------------------
   Carregado nas páginas onde se paga (planos, domínios, recargas). Pergunta ao
   servidor que métodos estão ligados, tira da página os desligados, escolhe
@@ -42,7 +42,8 @@
   }
   function ir(M){ if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ aplicar(M); }); else aplicar(M); }
   fetch(API + '/pagamentos-lojas').then(function(r){ return r.json(); }).then(function(r){
-    var M = r && r.response && r.response.metodos;
+    // 1.95.0: estas páginas são das assinaturas da Daniel IA (planos, recargas, domínios), que têm a sua própria lista
+    var M = r && r.response && (r.response.metodos_planos || r.response.metodos);
     if (!M || !M.length || M.length >= 3) return;
     ir(M);
   }).catch(function(){});

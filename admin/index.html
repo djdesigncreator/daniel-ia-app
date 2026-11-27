@@ -395,6 +395,53 @@
   .vd-chave svg{width:18px;height:18px;flex:0 0 18px;}
   .vd-chave code{font-family:var(--font-mono);font-size:12.5px;padding:2px 6px;border-radius:6px;background:var(--card-alt);}
   .msg{font-size:13px;line-height:1.45;}
+  .mt-tudo{margin:0 0 12px;padding:11px 14px;border-radius:12px;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;}
+  .mt-tudo.ok{background:rgba(137,200,4,.1);border:1px solid rgba(137,200,4,.3);}
+  .mt-tudo.aviso{background:rgba(208,135,0,.09);border:1px solid rgba(208,135,0,.45);}
+  /* 1.94.0: avisos de pagamento de Angola */
+  .ao-cartao{margin-bottom:14px;}
+  .ao-endereco{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 14px;border-radius:12px;background:var(--card-alt);border:1px solid var(--border);}
+  .ao-endereco > span{flex:1 1 100%;font-size:12px;font-weight:700;}
+  .ao-endereco code{flex:1 1 260px;min-width:0;font-family:var(--font-mono,monospace);font-size:13px;line-height:1.5;overflow-wrap:anywhere;}
+  .ao-endereco code i{font-style:normal;padding:2px 7px;border-radius:7px;background:rgba(208,135,0,.16);border:1px dashed rgba(208,135,0,.6);font-weight:700;}
+  .ao-passos{margin-top:12px;padding:13px 15px;border-radius:12px;border:1px solid rgba(208,135,0,.45);background:rgba(208,135,0,.09);font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;}
+  .ao-passos b{display:block;margin-bottom:6px;}
+  .ao-passos ol{margin:0;padding-left:20px;}
+  .ao-passos li{margin:3px 0;}
+  .ao-passos.ok{border-color:rgba(137,200,4,.35);background:rgba(137,200,4,.09);}
+  .ao-lista{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .ao-aviso{border:1px solid var(--border);border-radius:12px;background:var(--card);overflow:hidden;}
+  .ao-aviso summary{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:11px 14px;cursor:pointer;font-size:13.5px;list-style:none;}
+  .ao-aviso summary::-webkit-details-marker{display:none;}
+  .ao-aviso summary b{font-size:13.5px;}
+  .ao-aviso summary .dim{font-size:12.5px;}
+  .ao-aviso[open] summary{border-bottom:1px solid var(--border);}
+  .ao-det{padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:12.5px;}
+  .ao-det h5{margin:0 0 4px;font-size:12px;color:var(--text-dim);}
+  .ao-det pre{margin:0;padding:10px 12px;border-radius:10px;background:var(--card-alt);border:1px solid var(--border);font-family:var(--font-mono,monospace);font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto;}
+  /* 1.93.0: convite automático às lojas */
+  .cv-cartao{margin-bottom:14px;border-left:5px solid var(--success);}
+  .cv-cartao h4{margin:0 0 4px;font-size:14px;}
+  .cv-anuncia{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:12px 14px;margin:2px 0 14px;border-radius:12px;background:rgba(137,200,4,.1);border:1px solid rgba(137,200,4,.3);font-size:14px;line-height:1.45;}
+  .cv-anuncia b{font-size:15px;}
+  .cv-anuncia.falta{background:rgba(208,135,0,.09);border-color:rgba(208,135,0,.45);}
+  .cv-linha{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;}
+  .cv-linha .campo-a{flex:1 1 260px;min-width:0;margin:0;}
+  .cv-linha .campo-a.cv-min{flex:0 1 170px;}
+  .cv-linha .sel,.cv-linha .inp{width:100%;box-sizing:border-box;}
+  .cv-linha .inp{height:44px;}
+  .cv-linha button{min-height:44px;}
+  #cv-cartao [hidden]{display:none !important;}
+  .cv-previa{margin-top:14px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#F4F0F8;}
+  .cv-assunto{padding:10px 14px;background:var(--card);border-bottom:1px solid var(--border);font-size:13px;overflow-wrap:anywhere;}
+  .cv-previa iframe{display:block;width:100%;height:640px;border:0;background:#F4F0F8;}
+  .cv-duas{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+  .cv-existentes{margin-top:10px;font-size:13.5px;line-height:1.5;}
+  .cv-existentes ul{margin:8px 0 0;padding-left:18px;max-height:180px;overflow:auto;}
+  .cv-existentes li{margin:2px 0;overflow-wrap:anywhere;}
+  #cv-ultimos > div{gap:10px;}
+  #cv-ultimos span{min-width:0;overflow-wrap:anywhere;}
+  @media (max-width:900px){.cv-duas{grid-template-columns:1fr;}.cv-previa iframe{height:520px;}}
   .ajuda-bubble{margin-top:12px;padding:13px 15px;border-radius:12px;border:1px solid rgba(208,135,0,.45);background:rgba(208,135,0,.09);font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;}
   .ajuda-bubble b{display:block;margin-bottom:6px;font-size:13.5px;}
   .ajuda-bubble ol{margin:0 0 8px;padding-left:20px;}
@@ -721,11 +768,18 @@
           <button type="button" class="btn-sec" id="pgl-guardar">Guardar link</button>
         </div>
         <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <b>Métodos ligados (planos e lojas):</b>
+          <b style="flex:1 1 100%">Assinaturas da Daniel IA <span class="dim" style="font-weight:500">(planos, recargas de tokens e domínios — o que os clientes te pagam a ti)</span></b>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-p-mpesa"> M-Pesa</label>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-p-emola"> e-Mola</label>
+          <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-p-cartao"> Cartão (Visa / Mastercard)</label>
+          <button type="button" class="btn-sec" id="pgl-p-guardar">Guardar</button>
+        </div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <b style="flex:1 1 100%">Lojas e sites dos clientes <span class="dim" style="font-weight:500">(o que os clientes deles pagam nas lojas, quando os pagamentos estiverem ligados)</span></b>
           <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-mpesa"> M-Pesa</label>
           <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-emola"> e-Mola</label>
           <label style="display:inline-flex;gap:7px;align-items:center;cursor:pointer"><input type="checkbox" id="pgl-m-cartao"> Cartão (Visa / Mastercard)</label>
-          <button type="button" class="btn-sec" id="pgl-m-guardar">Guardar métodos</button>
+          <button type="button" class="btn-sec" id="pgl-m-guardar">Guardar</button>
         </div>
         <div class="msg" id="pgl-msg" style="margin-top:10px"></div>
       </div>
@@ -830,6 +884,31 @@
     <!-- EMAILS (1.68.0) -->
     <section class="seccao" id="sec-emails">
       <div class="cab"><div><h1>Emails</h1><p>Escreve só o texto. O Daniel IA arruma o layout e envia pelo Resend.</p></div><button type="button" class="btn-sec" data-actualizar="emails">Actualizar</button></div>
+      <div class="cartao cv-cartao" id="cv-cartao">
+        <h3>Convite automático às lojas <span id="cv-pill"></span></h3>
+        <p class="sub">Quando alguém no plano Free põe produtos na loja e a loja está no ar, recebe este email, uma só vez por loja, meia hora depois do último produto: a loja está linda e, para activar os pagamentos, assina o plano anunciado (sem marca de água, domínio próprio e mais).</p>
+        <div class="cv-anuncia" id="cv-anuncia"></div>
+        <div class="cv-linha">
+          <div class="campo-a"><label for="cv-plano">Plano anunciado no email</label><select class="sel" id="cv-plano"></select></div>
+          <div class="campo-a cv-min"><label for="cv-min">Mínimo de produtos</label><input class="inp" type="number" min="1" max="50" step="1" id="cv-min"></div>
+          <button type="button" class="btn-pri" id="cv-guardar">Guardar</button>
+          <button type="button" class="btn-sec" id="cv-mudar">...</button>
+        </div>
+        <div class="linha-accoes"><button type="button" class="btn-sec" id="cv-ver">Ver o email</button><button type="button" class="btn-sec" id="cv-teste">Enviar teste para mim</button><span class="msg" id="cv-msg"></span></div>
+        <div class="cv-previa" id="cv-previa" hidden><div class="cv-assunto" id="cv-assunto"></div><iframe id="cv-iframe" title="Pré-visualização do convite" sandbox=""></iframe></div>
+        <div class="cv-duas">
+          <div>
+            <h4>Lojas que já existiam</h4>
+            <p class="sub" style="margin-bottom:10px">As lojas criadas antes desta novidade não recebem sozinhas. Conta quantas cumprem as condições e, se quiseres, envia-lhes o convite.</p>
+            <div class="linha-accoes" style="margin-top:0"><button type="button" class="btn-sec" id="cv-contar">Contar as lojas que cumprem</button><button type="button" class="btn-pri" id="cv-enviar" hidden></button></div>
+            <div class="cv-existentes" id="cv-existentes"></div>
+          </div>
+          <div>
+            <h4>Últimos convites <span class="dim" id="cv-total"></span></h4>
+            <div class="lista-mini" id="cv-ultimos"></div>
+          </div>
+        </div>
+      </div>
       <div class="em-grelha">
         <div class="cartao">
           <h3>Nova mensagem</h3>
@@ -973,10 +1052,11 @@
       <div class="kpis" id="sis-kpis"></div>
       <div class="cartao" id="mt-cartao" style="margin-bottom:14px">
         <h3>Motor de design</h3>
-        <p class="sub">Quem desenha os sites: estuda os prints da Inspiração IA, escreve o guião do director de arte, constrói o site, as páginas de dentro e as edições. As imagens, a voz e as tarefas rápidas ficam sempre na OpenAI. Se o motor escolhido falhar, o outro faz o trabalho sozinho.</p>
+        <p class="sub">Quem desenha os sites: estuda os prints da Inspiração IA, escreve o guião do director de arte, constrói o site, as páginas de dentro e as edições. Com o <b>Claude</b> escolhido, tudo o que é texto também vai ao Claude (plano do site, textos dos templates, quiz, categorias, estudo do logótipo). Só as fotografias geradas por IA e a voz ficam sempre na OpenAI, porque o Claude não as faz. Se o motor escolhido falhar, o outro faz o trabalho sozinho.</p>
+        <div id="mt-tudo"></div>
         <div class="mt-escolha" role="radiogroup" aria-label="Motor de design">
           <button type="button" class="mt-op" role="radio" data-motor="openai"><b><i class="mt-i-openai"></i>OpenAI</b><small id="mt-openai-sub">Todos os sites na OpenAI.</small></button>
-          <button type="button" class="mt-op" role="radio" data-motor="claude"><b><i class="mt-i-claude"></i>Claude</b><small id="mt-claude-sub">Todos os sites no Claude.</small></button>
+          <button type="button" class="mt-op" role="radio" data-motor="claude"><b><i class="mt-i-claude"></i>Claude</b><small id="mt-claude-sub">Tudo no Claude: sites, páginas, edições e textos.</small></button>
           <button type="button" class="mt-op" role="radio" data-motor="alternar"><b><i class="mt-i-alternar"></i>Alternar</b><small>Metade dos sites (e das 3 versões) em cada um. Para comparares com olhos de cliente.</small></button>
         </div>
         <div class="msg" id="mt-msg" style="margin-bottom:10px"></div>
@@ -1003,6 +1083,14 @@
         </div>
         <div id="ia-config" class="dim" style="font-size:12.5px;margin:10px 0 12px"></div>
         <div class="tabela-caixa" id="ia-dias" style="border:none"></div>
+      </div>
+      <div class="cartao ao-cartao" id="ao-cartao">
+        <h3>Avisos de pagamento de Angola <span id="ao-pill"></span></h3>
+        <p class="sub">O endereço (webhook) que se dá ao parceiro de pagamentos de Angola: a cada pagamento ele avisa a Daniel IA aqui. <b>Por agora este endereço só recebe e guarda os avisos</b>: não marca nada como pago. Serve para vermos exactamente o que o parceiro envia antes de ligar a confirmação automática.</p>
+        <div class="ao-endereco"><span class="dim">Endereço para dar ao parceiro</span><code id="ao-url" data-no-i18n></code><button type="button" class="btn-sec" id="ao-copiar">Copiar</button></div>
+        <div id="ao-ajuda"></div>
+        <div class="linha-accoes"><button type="button" class="btn-sec" id="ao-actualizar">Actualizar</button><button type="button" class="btn-sec" id="ao-limpar">Limpar a lista</button><span class="msg" id="ao-msg"></span></div>
+        <div class="ao-lista" id="ao-lista"></div>
       </div>
       <div class="cartao" id="seg-cartao" style="margin-bottom:14px">
         <h3>Segurança dos pagamentos</h3>
@@ -1328,7 +1416,9 @@
       b.disabled = semChave && m !== 'openai';
     });
     $('mt-openai-sub').innerHTML = 'Modelo <b>' + esc(d.openai.modelo) + '</b>' + (d.openai.a_usar_reserva ? ' · <span style="color:var(--warning)">a conta não tem este modelo: a usar o ' + esc(d.openai.reserva) + '</span>' : ' · reserva ' + esc(d.openai.reserva));
-    $('mt-claude-sub').innerHTML = semChave ? 'Põe a <b>ANTHROPIC_API_KEY</b> nas variáveis do container no Bunny para ligar.' : ('Modelo <b>' + esc(d.claude.modelo) + '</b>' + (d.claude.parado ? ' · <span style="color:var(--error)">parado (sem saldo ou chave errada): a OpenAI está a substituir</span>' : ''));
+    if ($('mt-tudo')) $('mt-tudo').innerHTML = d.tudo_no_claude ? '<div class="mt-tudo ok"><b>O Claude está a fazer tudo</b> (' + esc(d.claude.modelo) + '): sites, páginas, edições e textos. A OpenAI só entra nas fotografias por IA, na voz e de reserva.</div>'
+      : (d.motor === 'claude' && d.claude.parado ? '<div class="mt-tudo aviso"><b>O Claude está parado</b> (sem créditos ou chave errada). A OpenAI está a fazer o trabalho e voltamos a tentar o Claude de 15 em 15 minutos. Vê os créditos em platform.claude.com.</div>' : '');
+    $('mt-claude-sub').innerHTML = semChave ? 'Põe a <b>ANTHROPIC_API_KEY</b> nas variáveis do container no Bunny para ligar.' : ('Tudo no Claude: sites, páginas, edições e textos. Modelo <b>' + esc(d.claude.modelo) + '</b>' + (d.claude.parado ? ' · <span style="color:var(--error)">parado (sem saldo ou chave errada): a OpenAI está a substituir</span>' : ''));
     function caixa(m){
       var x = d.resumo[m] || {}, cor = m === 'openai' ? '#10A37F' : '#D97757';
       return '<div><h4><i style="background:' + cor + '"></i>' + esc(MT_NOME[m]) + ' <span class="dim" style="font-weight:600;font-size:12px">últimos 30 dias</span></h4><dl>'
@@ -1357,7 +1447,7 @@
       }).catch(function(e){ msg($('mt-msg'), e.message || 'Sem ligação.', 'erro'); });
     });
   });
-  function carregarSistema(){ carregarMotor(); carregarUsoIA(); carregarSeguranca(false); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
+  function carregarSistema(){ carregarMotor(); carregarUsoIA(); carregarSeguranca(false); carregarAngola(); if (ultimoResumo) mostrarSistema(ultimoResumo); else carregarResumo(); }
 
   // ======================================================
   // Utilizadores
@@ -2305,8 +2395,126 @@
     }).catch(function(e){ msg($('em-msg'), e.message || 'Não foi possível ler os utilizadores.', 'erro'); });
     emHistorico();
     emPrevia();
+    cvCarregar();
   }
 
+
+  // ---- 1.93.0: convite automático às lojas (Free com produtos) ----
+  var cv = { d: null, t: null };
+  function cvPedir(corpo, depois){
+    return post('/admin-convite-loja', corpo || {}).then(function(r){
+      if (r.status !== 'success') { msg($('cv-msg'), r.message || 'Não foi possível.', 'erro'); return null; }
+      cv.d = r.response; cvDesenhar(r.response); if (depois) depois(r.response); return r.response;
+    }).catch(function(e){ msg($('cv-msg'), e.message || 'Não foi possível ligar ao servidor.', 'erro'); return null; });
+  }
+  function cvDesenhar(d){
+    $('cv-pill').innerHTML = '<span class="pill ' + (d.activo ? 'ok' : 'erro') + '">' + (d.activo ? 'Ligado' : 'Desligado') + '</span>';
+    var b = $('cv-mudar'); b.disabled = false; b.__armado = false; b.classList.remove('confirmar'); b.textContent = d.activo ? 'Desligar o convite' : 'Ligar o convite';
+    var an = $('cv-anuncia');
+    if (d.plano) { an.className = 'cv-anuncia'; an.innerHTML = 'O email anuncia agora: <b>plano ' + esc(d.plano.nome) + ' · ' + esc(mzn(d.plano.preco)) + ' por mês</b>' + (d.plano.dominio ? '<span class="dim">com domínio próprio</span>' : '<span class="dim">este plano não inclui domínio, por isso o email não fala em domínio</span>'); }
+    else { an.className = 'cv-anuncia falta'; an.innerHTML = '<b>Não há nenhum plano pago activo.</b> Sem plano para anunciar, o convite não é enviado. Cria um em Planos e recargas.'; }
+    var s = $('cv-plano'), mais = (d.planos || [])[0];
+    if (document.activeElement !== s) {
+      s.innerHTML = '<option value="">Automático: o plano pago mais barato' + (mais ? ' (' + esc(mais.nome) + ' · ' + esc(mzn(mais.preco)) + ')' : '') + '</option>'
+        + (d.planos || []).map(function(p){ return '<option value="' + esc(p.id) + '"' + (p.id === d.plano_id ? ' selected' : '') + '>' + esc(p.nome) + ' · ' + esc(mzn(p.preco)) + ' por mês</option>'; }).join('');
+    }
+    if (document.activeElement !== $('cv-min')) $('cv-min').value = d.min_produtos;
+    $('cv-total').textContent = '· ' + num(d.enviados_total) + (d.enviados_total === 1 ? ' enviado' : ' enviados') + (d.a_espera ? ' · ' + num(d.a_espera) + ' à espera' : '');
+    $('cv-ultimos').innerHTML = (d.ultimos || []).length ? d.ultimos.map(function(u){
+      return '<div><span><b>' + esc(u.loja || '—') + '</b> <span class="dim">· ' + esc(u.email || '') + ' · ' + num(u.produtos) + ' produtos</span></span><span class="dim">' + esc(data(u.quando, true)) + (u.falhou ? ' <span class="pill erro">falhou</span>' : '') + '</span></div>';
+    }).join('') : '<div class="dim">Ainda não foi enviado nenhum.</div>';
+    var e = d.existentes || {}, cx = $('cv-existentes'), env = $('cv-enviar'), aTrabalhar = e.estado === 'a contar' || e.estado === 'a enviar';
+    $('cv-contar').disabled = aTrabalhar; env.hidden = true;
+    if (d.erro_varre) cx.innerHTML = '<span class="msg erro">' + esc(d.erro_varre) + '</span>';
+    else if (e.estado === 'a contar') cx.innerHTML = 'A ver as lojas... ' + num(e.vistos) + ' de ' + num(e.total);
+    else if (e.estado === 'a enviar') cx.innerHTML = 'A enviar... ' + num(e.enviados) + ' enviados';
+    else if (e.estado === 'enviado') cx.innerHTML = '<span class="msg ok">Enviado a ' + num(e.enviados) + (e.enviados === 1 ? ' loja' : ' lojas') + '.' + (e.falhas ? ' ' + num(e.falhas) + ' falharam.' : '') + '</span>';
+    else if (e.estado === 'contado') {
+      cx.innerHTML = e.cumprem
+        ? '<b>' + num(e.cumprem) + (e.cumprem === 1 ? ' loja cumpre' : ' lojas cumprem') + '</b> as condições (plano Free, no ar, ' + num(d.min_produtos) + ' ou mais produtos) e ainda não receberam:<ul>' + (e.lista || []).map(function(l){ return '<li>' + esc(l.loja) + ' <span class="dim">· ' + esc(l.email) + ' · ' + num(l.produtos) + ' produtos</span></li>'; }).join('') + (e.cumprem > (e.lista || []).length ? '<li class="dim">e mais ' + num(e.cumprem - e.lista.length) + '...</li>' : '') + '</ul>'
+        : 'Nenhuma loja antiga cumpre as condições neste momento (' + num(e.total) + ' lojas vistas).';
+      if (e.cumprem && d.plano) { env.hidden = false; env.disabled = false; env.__armado = false; env.classList.remove('confirmar'); env.textContent = 'Enviar a ' + (e.cumprem === 1 ? 'esta loja' : 'estas ' + num(e.cumprem) + ' lojas'); }
+    } else cx.innerHTML = '';
+    clearTimeout(cv.t);
+    if (aTrabalhar) cv.t = setTimeout(function(){ if ($('sec-emails').classList.contains('on')) cvPedir(); }, 1500);
+  }
+  function cvCarregar(){ msg($('cv-msg'), ''); cvPedir(); }
+  $('cv-guardar').addEventListener('click', function(){
+    var n = parseInt($('cv-min').value, 10);
+    if (!(n >= 1 && n <= 50)) { msg($('cv-msg'), 'O mínimo de produtos tem de ser entre 1 e 50.', 'erro'); return; }
+    msg($('cv-msg'), 'A guardar...');
+    cvPedir({ plano_id: $('cv-plano').value, min_produtos: n, previa: !$('cv-previa').hidden }, function(d){ msg($('cv-msg'), 'Guardado.', 'ok'); cvMostrarPrevia(d); });
+  });
+  doisToques($('cv-mudar'), 'Confirmar?', function(){
+    var ligar = !(cv.d && cv.d.activo); $('cv-mudar').disabled = true; msg($('cv-msg'), 'A guardar...');
+    cvPedir({ activo: ligar }, function(){ msg($('cv-msg'), ligar ? 'Convite ligado.' : 'Convite desligado: ninguém recebe até voltares a ligar.', 'ok'); });
+  });
+  function cvMostrarPrevia(d){
+    if (!d || !d.previa) return;
+    $('cv-assunto').innerHTML = '<span class="dim">Assunto:</span> <b>' + esc(d.previa.assunto) + '</b>';
+    $('cv-iframe').srcdoc = d.previa.html; $('cv-previa').hidden = false; $('cv-ver').textContent = 'Esconder o email';
+  }
+  $('cv-ver').addEventListener('click', function(){
+    if (!$('cv-previa').hidden) { $('cv-previa').hidden = true; $('cv-ver').textContent = 'Ver o email'; return; }
+    msg($('cv-msg'), 'A preparar...'); cvPedir({ previa: true }, function(d){ msg($('cv-msg'), ''); cvMostrarPrevia(d); });
+  });
+  $('cv-teste').addEventListener('click', function(){
+    var b = $('cv-teste'); b.disabled = true; msg($('cv-msg'), 'A enviar o teste...');
+    cvPedir({ teste: true }, function(d){ msg($('cv-msg'), 'Teste enviado para ' + (d.teste || 'o teu email') + '.', 'ok'); }).then(function(){ b.disabled = false; });
+  });
+  $('cv-contar').addEventListener('click', function(){ $('cv-contar').disabled = true; msg($('cv-msg'), ''); cvPedir({ contar: true }); });
+  doisToques($('cv-enviar'), 'Confirmar: enviar agora', function(){
+    var n = cv.d && cv.d.existentes ? cv.d.existentes.cumprem : 0; $('cv-enviar').disabled = true;
+    cvPedir({ enviar_existentes: true, confirmar_total: n });
+  });
+
+  // ---- 1.94.0: avisos de pagamento de Angola (endereço de entrada; só recebe e guarda) ----
+  var ao = { d: null };
+  function aoBonito(texto){ try { return JSON.stringify(JSON.parse(texto), null, 2); } catch (e) { return texto; } }
+  function aoDesenhar(d){
+    ao.d = d;
+    $('ao-pill').innerHTML = d.configurado ? '<span class="pill ok">Pronto a receber</span>' : '<span class="pill aviso">' + (d.definida ? 'A chave não serve' : 'Falta criar a chave') + '</span>';
+    $('ao-url').innerHTML = esc(d.endereco) + '<i>A-TUA-CHAVE</i>';
+    var aj = '';
+    if (!d.configurado) {
+      aj = '<div class="ao-passos"><b>' + (d.definida ? 'A chave que está no Bunny não serve. Tem de ter 24 ou mais letras e números, sem espaços nem símbolos.' : 'Antes de dares o endereço ao parceiro, cria a chave (só tu a conheces):') + '</b><ol>'
+        + '<li>Inventa uma chave com 24 ou mais letras e números misturados (sem espaços, sem acentos, sem símbolos). Não a escrevas em conversas nem no GitHub.</li>'
+        + '<li>No Bunny, abre a app do servidor (daniel-ia-proxy) e vai às variáveis de ambiente (Environment Variables).</li>'
+        + '<li>Cria uma variável com o nome <code data-no-i18n>' + esc(d.variavel) + '</code> e, no valor, a tua chave. Guarda e aplica (o servidor reinicia).</li>'
+        + '<li>Volta aqui e carrega em Actualizar: tem de aparecer "Pronto a receber".</li>'
+        + '<li>Dá ao parceiro o endereço de cima, trocando <code data-no-i18n>A-TUA-CHAVE</code> pela chave que criaste.</li></ol></div>';
+    } else {
+      aj = '<div class="ao-passos ok">O endereço está activo. Dá-o ao parceiro trocando <code data-no-i18n>A-TUA-CHAVE</code> pela chave que está no Bunny (variável <code data-no-i18n>' + esc(d.variavel) + '</code>). A chave não aparece aqui de propósito.</div>';
+    }
+    $('ao-ajuda').innerHTML = aj;
+    var l = d.avisos || [];
+    $('ao-lista').innerHTML = l.length ? l.map(function(x){
+      var p = x.palpite || {}, cab = Object.keys(x.cabecalhos || {}).map(function(k){ return k + ': ' + x.cabecalhos[k]; }).join('\n'), q = Object.keys(x.query || {}).map(function(k){ return k + ' = ' + x.query[k]; }).join('\n');
+      return '<details class="ao-aviso"><summary><b>' + esc(data(x.quando, true)) + '</b><span class="pill">' + esc(x.metodo) + ' · ' + esc(x.formato) + '</span>'
+        + (p.estado ? '<span class="pill roxo" data-no-i18n>' + esc(p.estado) + '</span>' : '')
+        + (p.valor ? '<span data-no-i18n>' + esc(p.valor) + (p.moeda ? ' ' + esc(p.moeda) : '') + '</span>' : '')
+        + (p.referencia ? '<span class="dim" data-no-i18n>ref. ' + esc(p.referencia) + '</span>' : '')
+        + '<span class="dim">IP ' + esc(x.ip) + ' · ' + num(x.tamanho) + ' bytes</span></summary><div class="ao-det" data-no-i18n>'
+        + '<div><h5>Corpo' + (x.cortado ? ' (cortado aos 6 000 caracteres)' : '') + '</h5><pre>' + esc(x.corpo ? aoBonito(x.corpo) : '(vazio)') + '</pre></div>'
+        + (q ? '<div><h5>Dados no endereço</h5><pre>' + esc(q) + '</pre></div>' : '')
+        + '<div><h5>Cabeçalhos</h5><pre>' + esc(cab || '(nenhum relevante)') + '</pre></div>'
+        + '<div class="dim">' + esc(x.resultado || '') + (x.sha256 ? ' · sha256 ' + esc(x.sha256.slice(0, 16)) + '…' : '') + '</div></div></details>';
+    }).join('') : '<div class="dim" style="padding:6px 2px">Ainda não chegou nenhum aviso.</div>';
+  }
+  function carregarAngola(corpo, feito){
+    post('/admin-webhook-angola', corpo || {}).then(function(r){
+      if (r.status !== 'success') { msg($('ao-msg'), r.message || 'Não foi possível.', 'erro'); return; }
+      aoDesenhar(r.response); if (feito) feito(r.response);
+    }).catch(function(e){ msg($('ao-msg'), e.message || 'Não foi possível ligar ao servidor.', 'erro'); });
+  }
+  $('ao-actualizar').addEventListener('click', function(){ msg($('ao-msg'), 'A actualizar...'); carregarAngola({}, function(d){ msg($('ao-msg'), num(d.total) + (d.total === 1 ? ' aviso guardado.' : ' avisos guardados.'), 'ok'); }); });
+  doisToques($('ao-limpar'), 'Limpar mesmo?', function(){ carregarAngola({ limpar: true }, function(){ msg($('ao-msg'), 'Lista limpa.', 'ok'); }); });
+  $('ao-copiar').addEventListener('click', function(){
+    var t = (ao.d ? ao.d.endereco : '') + 'A-TUA-CHAVE', b = $('ao-copiar');
+    var fim = function(){ b.textContent = 'Copiado'; setTimeout(function(){ b.textContent = 'Copiar'; }, 1800); msg($('ao-msg'), 'Copiado. Antes de enviar ao parceiro, troca A-TUA-CHAVE pela tua chave.', 'ok'); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(fim).catch(function(){ msg($('ao-msg'), 'Não foi possível copiar. Selecciona o endereço à mão.', 'erro'); });
+    else { try { var r = document.createRange(); r.selectNodeContents($('ao-url')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); msg($('ao-msg'), 'Endereço seleccionado: copia com Ctrl+C.', 'ok'); } catch (e) {} }
+  });
 
   // ---- 1.75.0: Vídeos IA ----
   var VD = { dados: null, escolhidos: [] };
@@ -2841,6 +3049,7 @@
     $('pgl-pill').innerHTML = d.bloqueado ? '<span class="pill erro">Suspensos</span>' : '<span class="pill ok">Ligados</span>';
     $('pgl-link').value = d.link || '';
     ['mpesa', 'emola', 'cartao'].forEach(function(m){ $('pgl-m-' + m).checked = (d.metodos || ['mpesa', 'emola', 'cartao']).indexOf(m) >= 0; });
+    ['mpesa', 'emola', 'cartao'].forEach(function(m){ $('pgl-p-' + m).checked = (d.metodos_planos || d.metodos || ['mpesa', 'emola', 'cartao']).indexOf(m) >= 0; }); // 1.95.0: assinaturas
     var velho = $('pgl-mudar'), b = velho.cloneNode(false); velho.parentNode.replaceChild(b, velho); b.disabled = false; b.classList.remove('confirmar');
     b.textContent = d.bloqueado ? 'Ligar os pagamentos das lojas' : 'Suspender os pagamentos das lojas';
     doisToques(b, d.bloqueado ? 'Confirmar: ligar a todos?' : 'Confirmar: suspender a todos?', function(){
@@ -2870,7 +3079,18 @@
     post('/admin-pagamentos-lojas', { metodos: m }).then(function(r){
       if (r.status !== 'success') { msg($('pgl-msg'), r.message, 'erro'); return; }
       var n = { mpesa: 'M-Pesa', emola: 'e-Mola', cartao: 'cartão' };
-      msg($('pgl-msg'), 'Guardado. Métodos ligados: ' + r.response.metodos.map(function(x){ return n[x]; }).join(', ') + '. Vale já para os planos; nos sites dos clientes pode demorar até 5 minutos.', 'ok');
+      msg($('pgl-msg'), 'Guardado. Nas lojas e sites dos clientes: ' + r.response.metodos.map(function(x){ return n[x]; }).join(', ') + '. Pode demorar até 5 minutos a aparecer nos sites.', 'ok');
+      desenharPagLojas(r.response);
+    }).catch(function(e){ msg($('pgl-msg'), e.message, 'erro'); });
+  });
+  // 1.95.0: métodos das assinaturas da Daniel IA (planos, recargas, domínios), separados dos das lojas
+  $('pgl-p-guardar').addEventListener('click', function(){
+    var m = { mpesa: $('pgl-p-mpesa').checked, emola: $('pgl-p-emola').checked, cartao: $('pgl-p-cartao').checked };
+    post('/admin-pagamentos-lojas', { metodos_planos: m }).then(function(r){
+      if (r.status !== 'success') { msg($('pgl-msg'), r.message, 'erro'); return; }
+      if (!r.response.metodos_planos) { msg($('pgl-msg'), 'Precisa do servidor 1.95.0 ou acima.', 'erro'); return; }
+      var n = { mpesa: 'M-Pesa', emola: 'e-Mola', cartao: 'cartão' };
+      msg($('pgl-msg'), 'Guardado. Nas assinaturas (planos, recargas, domínios): ' + r.response.metodos_planos.map(function(x){ return n[x]; }).join(', ') + '. Vale já.', 'ok');
       desenharPagLojas(r.response);
     }).catch(function(e){ msg($('pgl-msg'), e.message, 'erro'); });
   });
